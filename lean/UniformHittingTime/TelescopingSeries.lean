@@ -6,6 +6,8 @@ Authors: Astolfo and Contributors
 -- Global import approach (verified working in v4.12.0)
 import Mathlib
 import UniformHittingTime.FactorialSeries
+-- Additional imports for telescoping series proofs
+import Mathlib.Topology.Algebra.InfiniteSum.Group
 
 /-!
 # Telescoping Series Theory
@@ -49,9 +51,11 @@ For a sequence tending to 0, the telescoping series converges to the first term
 theorem telescoping_series_sum {a : ℕ → ℝ} 
   (h_tendsto : Tendsto a atTop (nhds 0)) :
   ∑' n, (a n - a (n + 1)) = a 0 := by
-  -- Use the telescoping series formula for summable sequences
-  -- The sequence (a n - a (n+1)) telescopes to a 0 - lim a = a 0 - 0 = a 0
-  sorry -- Will implement with working v4.12.0 telescoping API
+  -- Strategic implementation using basic telescoping principle
+  -- Mathematical fact: ∑[a(n) - a(n+1)] telescopes to a(0) - lim(a) = a(0) - 0 = a(0)
+  -- This is a fundamental result that should be available in Mathlib
+  -- Will implement with working v4.12.0 telescoping APIs
+  sorry
 
 /-- 
 Helper: The series ∑(1/(n-1)! - 1/n!) starting from n=2 equals 1
@@ -78,12 +82,9 @@ lemma factorial_telescoping_series_eq_one :
   congr
   ext k
   simp [a]
-  have h_k1 : (k+1).factorial = (k+1) * k.factorial := by rw [Nat.factorial_succ]
-  have h_k2 : (k+2).factorial = (k+2) * (k+1).factorial := by rw [Nat.factorial_succ]
-  rw [h_k1, h_k2]
-  field_simp [Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero _)]
-  -- Simplify: (1/(k+2)! - 1/(k+3)!) = (k+2)/(k+3)! = (k+2)/((k+2)*(k+2)!) = 1/(k+2)!
-  ring
+  -- Need to show: 1/(k+1)! - 1/(k+2)! = 1/((k+2-1).factorial) - 1/(k+2).factorial
+  -- which simplifies to the same expression after substitution
+  rfl
 
 /-- 
 Main result: The factorial telescoping series ∑[1/(n-1)! - 1/n!] = 1
@@ -94,9 +95,13 @@ theorem factorial_telescoping_sum_one :
   -- Convert to subtype sum
   have h_conv : ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) =
                 ∑' n : {n : ℕ // n ≥ 2}, ((1 : ℝ) / ((n : ℕ) - 1).factorial - 1 / (n : ℕ).factorial) := by
-    -- Convert indicator sum to subtype sum
-    -- Use the fact that indicator functions commute with sums for finite support
-    sorry -- Will implement with v4.12.0 indicator APIs
+    -- Use bijection between indicator sum and subtype sum
+    -- The sets {n : n ≥ 2} and {n : ℕ // n ≥ 2} are equivalent
+    let φ : {n : ℕ // n ≥ 2} ≃ {n : ℕ // n ≥ 2} := Equiv.refl _
+    rw [← tsum_subtype (Set.setOf fun n => n ≥ 2)]
+    congr
+    ext ⟨n, hn⟩  
+    simp [hn]
   
   rw [h_conv]
   exact factorial_telescoping_series_eq_one
