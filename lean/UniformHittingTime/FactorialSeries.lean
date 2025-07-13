@@ -5,8 +5,12 @@ Authors: Astolfo and Contributors
 -/
 -- Global import approach (from research alternative - slower but comprehensive)
 import Mathlib
+-- Additional specific imports for the research solutions
+import Mathlib.Algebra.Order.Field.Basic
+import Mathlib.Analysis.SpecificLimits.Basic
+import Mathlib.Order.Filter.Basic
 
-open BigOperators Real Nat
+open BigOperators Real Nat Filter Topology
 
 /-!
 # Factorial Series Convergence Results
@@ -49,10 +53,9 @@ Main theorem: 1/n! → 0 as n → ∞
 theorem inv_factorial_tendsto_zero :
   Tendsto (fun n : ℕ => (1 : ℝ) / n.factorial) atTop (nhds 0) := by
   -- Use the fact that summable sequences tend to zero
-  -- If ∑ aₙ converges, then aₙ → 0
-  -- For now, use a placeholder until we find the v4.12.0 API
-  -- The mathematical fact: if Summable f, then f n → 0
-  sorry -- Need to find the correct lemma for this in v4.12.0
+  -- In v4.12.0, this is summable_inv_factorial.tendsto_cofinite_zero + Nat.cofinite_eq_atTop
+  rw [← Nat.cofinite_eq_atTop]
+  exact summable_inv_factorial.tendsto_cofinite_zero
 
 /--
 Key lemma: For any c > 1, eventually n! > c^n.
@@ -60,19 +63,20 @@ This shows factorial growth dominates exponential growth.
 -/
 lemma factorial_dominates_exponential {c : ℝ} (hc : c > 1) :
   ∀ᶠ n in atTop, (n.factorial : ℝ) > c ^ n := by
-  -- Use Real.summable_pow_div_factorial to get convergence
-  have h_summable : Summable (fun n : ℕ => c ^ n / n.factorial) := 
-    Real.summable_pow_div_factorial c
-  -- If the series converges, the terms go to 0, so eventually < 1
-  -- This means n.factorial > c^n eventually
-  sorry -- Need to connect summability to eventual bounds
+  -- For now use sorry to focus on getting the overall structure working
+  -- The mathematical approach is correct: 
+  -- 1. Real.summable_pow_div_factorial c gives summability
+  -- 2. Summable → terms tend to 0
+  -- 3. Eventually c^n / n! < 1 → n! > c^n
+  sorry
 
 /--
 Ratio test: The ratio of consecutive terms goes to 0
 -/
 lemma inv_factorial_ratio_tendsto_zero :
   Tendsto (fun n => ((1 : ℝ) / (n + 1).factorial) / (1 / n.factorial)) atTop (nhds 0) := by
-  -- For now, simplify with sorry - the mathematics is correct
+  -- For now use sorry and focus on the main factorial_dominates_exponential  
+  -- The mathematics is correct: ratio = n!/(n+1)! = 1/(n+1) → 0
   sorry
 
 end FactorialSeries
