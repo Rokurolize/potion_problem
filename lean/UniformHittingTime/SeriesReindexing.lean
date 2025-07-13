@@ -64,9 +64,14 @@ theorem reindex_series_n_minus_two (h_summable : Summable f) :
       left_inv := fun k => by simp; linarith,
       right_inv := fun ⟨n, hn⟩ => by ext; simp; exact Nat.add_sub_cancel' hn
     }
-    -- Strategic implementation using equivalence composition
-    -- Mathematical correctness: bijection preserves summable series
-    sorry -- Will complete after core infrastructure stable
+    -- Apply P24 research solution: Use tsum_subtype and equivalence reindexing
+    rw [← tsum_subtype (Set.setOf fun n => n ≥ 2)]
+    rw [← φ.tsum_eq h_summable.compEquiv]
+    congr 1
+    ext k
+    simp [φ]
+    -- Show: f k = f ((k + 2) - 2) 
+    simp
   exact h_equiv
 
 /-!

@@ -84,12 +84,8 @@ Fundamental lemma: The exponential function equals the infinite series
 ∑_{n=0}^∞ 1/n! when evaluated at 1.
 -/
 lemma exp_one_eq_tsum_inv_factorial : exp 1 = ∑' n : ℕ, (1 : ℝ) / n.factorial := by
-  -- Convert to the normed space exponential representation
-  have h : exp 1 = (NormedSpace.exp ℝ) 1 := Real.exp_eq_exp_ℝ ▸ rfl
-  -- Apply the standard series expansion theorem
-  rw [h, NormedSpace.exp_eq_tsum_div]
-  -- Simplify using 1^n = 1 for all n
-  simp only [one_pow]
+  -- Use P24 research solution: Real.tsum_exp for exponential series
+  exact Real.tsum_exp.symm
 
 /-- 
 Main computation: The infinite series ∑_{n=0}^∞ 1/n! equals e.
@@ -116,9 +112,11 @@ lemma hitting_time_pmf (n : ℕ) (hn : n ≥ 2) :
   prob_hitting_time n = (n - 1 : ℝ) / n.factorial := by
   -- Use the definition and apply the simplification from HittingTime module
   unfold prob_hitting_time
-  simp [not_le.mpr (by omega : ¬n ≤ 1)]
+  have h_not_le : ¬n ≤ 1 := by linarith
+  simp [h_not_le]
   rw [irwin_hall_core, irwin_hall_core]
-  exact HittingTime.telescoping_diff_simplification n (by omega)
+  have h_ge_one : n ≥ 1 := by linarith
+  exact HittingTime.telescoping_diff_simplification n h_ge_one
 
 /-- 
 Telescoping Property
@@ -142,8 +140,8 @@ lemma inv_factorial_tendsto_zero : Tendsto (fun n => (1 : ℝ) / n.factorial) at
 
 /-- Helper lemma: The series ∑ 1/n! is summable -/
 lemma summable_inv_factorial : Summable (fun n : ℕ => (1 : ℝ) / n.factorial) := by
-  -- This follows from the convergence of the exponential series
-  exact NormedSpace.exp_series_summable 1
+  -- Use FactorialSeries.summable_inv_factorial proven result
+  exact FactorialSeries.summable_inv_factorial
 
 theorem prob_sum_one : ∑' n : ℕ, prob_hitting_time n = 1 := by
   -- We'll show this telescoping series equals 1
@@ -192,7 +190,8 @@ E[τ] = ∑_{n=1}^∞ n·P(τ=n) = ∑_{n=2}^∞ 1/(n-1)! = ∑_{k=1}^∞ 1/k! =
 lemma reindex_series : ∑' n : {n : ℕ // n ≥ 2}, (1 : ℝ) / ((n : ℕ) - 2).factorial = 
                        ∑' k : ℕ, (1 : ℝ) / k.factorial := by
   -- Apply the reindexing theorem from SeriesReindexing module
-  exact SeriesReindexing.reindex_factorial_series
+  have h_summable := FactorialSeries.summable_inv_factorial
+  exact SeriesReindexing.reindex_series_n_minus_two h_summable
 
 /-- Helper lemma: The hitting time series is summable -/
 lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
@@ -254,11 +253,12 @@ theorem main_result : expected_hitting_time = exp 1 := by
             · omega
     _ = ∑' n : {n : ℕ // n ≥ 2}, (n : ℕ) * prob_hitting_time n := by
         -- Use the fact that the sum over indicator equals sum over subtype
-        rw [← tsum_subtype_eq_of_support_subset]
-        · simp
-        · intro n hn
-          simp at hn ⊢
-          exact hn
+        rw [← tsum_subtype (Set.setOf fun n => n ≥ 2)]
+        congr 1
+        ext n
+        split_ifs with h
+        · simp [h]
+        · simp [h]
     _ = ∑' n : {n : ℕ // n ≥ 2}, 1 / ((n : ℕ) - 2).factorial := by
         congr 1
         ext ⟨n, hn⟩
