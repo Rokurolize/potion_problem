@@ -8,9 +8,9 @@
 
 This project provides a complete formal mathematical analysis of the hitting time problem, including:
 
-- **Formal Proof**: Lean 4 formalization proving E[τ] = e
-- **Numerical Verification**: Python implementations with high-precision validation  
-- **Theoretical Analysis**: Mathematical foundation using Irwin-Hall distribution
+- Formal Proof in Lean 4 proving E[τ] = e
+- Numerical Verification with Python high-precision validation  
+- Theoretical Analysis using Irwin-Hall distribution
 
 ## Project Structure
 
@@ -74,25 +74,25 @@ This problem is a classic example of hitting time analysis with these key proper
 
 ## Technology Stack
 
-- **Lean 4**: Version 4.22.0-rc3 with mathlib4
-- **Python**: NumPy, SciPy, SymPy for numerical analysis
-- **Build Systems**: Lake (Lean), uv (Python)
-- **Verification**: Monte Carlo simulation, analytical solutions, formal proof
+- Lean 4 Version 4.12.0 with Mathlib4 v4.12.0 (synchronized stable versions)
+- Python with NumPy, SciPy, SymPy for numerical analysis
+- Build Systems using Lake (Lean) and uv (Python)
+- Verification through Monte Carlo simulation, analytical solutions, formal proof
 
 ## Project Status
 
 ### Completed
-- ✅ Mathematical theoretical analysis (E[τ] = e derivation)
-- ✅ Lean 4 formal proof architecture with axiomatized foundation
-- ✅ Monte Carlo simulation (error < 0.01%)
-- ✅ Python implementations with multiple verification methods
-- ✅ Complete project restructuring and clean architecture
+- Mathematical theoretical analysis (E[τ] = e derivation)
+- Lean 4 formal proof architecture with axiomatized foundation
+- Monte Carlo simulation (error < 0.01%)
+- Python implementations with multiple verification methods
+- Complete project restructuring and clean architecture
 
 ### Technical Implementation
-- ✅ Core theorem: `uniform_sum_hitting_time_expectation : expected_hitting_time = exp 1`
-- ✅ Exponential series foundation: `exp_one_eq_tsum_inv_factorial`
-- ✅ Telescoping property: Axiomatized mathematical structure
-- ✅ Build system: Unified Lean project with proper dependency management
+- Core theorem: `uniform_sum_hitting_time_expectation : expected_hitting_time = exp 1`
+- Exponential series foundation: `exp_one_eq_tsum_inv_factorial`
+- Telescoping property: Axiomatized mathematical structure
+- Build system: Unified Lean project with proper dependency management
 
 ## Applications
 
