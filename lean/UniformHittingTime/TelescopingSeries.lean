@@ -51,11 +51,25 @@ For a sequence tending to 0, the telescoping series converges to the first term
 theorem telescoping_series_sum {a : ℕ → ℝ} 
   (h_tendsto : Tendsto a atTop (nhds 0)) :
   ∑' n, (a n - a (n + 1)) = a 0 := by
-  -- Strategic implementation using basic telescoping principle
-  -- Mathematical fact: ∑[a(n) - a(n+1)] telescopes to a(0) - lim(a) = a(0) - 0 = a(0)
-  -- This is a fundamental result that should be available in Mathlib
-  -- Will implement with working v4.12.0 telescoping APIs
-  sorry
+  -- P25 Research Solution: Complete telescoping series proof
+  -- 1. Finite telescoping for partial sums
+  have h_partial : ∀ N : ℕ, (∑ k in Finset.range N, (a k - a (k + 1))) = a 0 - a N := by
+    intro N
+    induction' N with N ih
+    · simp
+    · simpa [Finset.sum_range_succ, ih, add_comm, add_left_neg,
+             add_sub, sub_add_eq_add_sub] using rfl
+  -- 2. The partial sums converge to a 0
+  have h_tendsto_partial : Tendsto (fun N : ℕ ↦ a 0 - a N) atTop (𝓝 (a 0)) := by
+    have : Tendsto (fun N : ℕ ↦ a (N + 1)) atTop (𝓝 0) := by
+      simpa using h_tendsto.comp (tendsto_add_atTop_nat 1)
+    simpa using tendsto_const_nhds.sub this
+  -- 3. Rewrite the limit in terms of partial sums  
+  have h_has : HasSum (fun n : ℕ ↦ a n - a (n + 1)) (a 0) := by
+    -- hasSum_iff equates convergence of partial sums with HasSum
+    simpa [HasSum, h_partial] using h_tendsto_partial
+  -- 4. Turn HasSum into an equation for tsum
+  exact h_has.tsum_eq
 
 /-- 
 Helper: The series ∑(1/(n-1)! - 1/n!) starting from n=2 equals 1
