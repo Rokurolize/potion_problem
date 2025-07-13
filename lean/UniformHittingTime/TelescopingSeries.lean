@@ -3,11 +3,8 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Order.Filter.AtTopBot
-import Mathlib.Analysis.Normed.Group.InfiniteSum
-import Mathlib.Data.Nat.Basic
-import Mathlib.Tactic
+-- Global import approach (verified working in v4.12.0)
+import Mathlib
 import UniformHittingTime.FactorialSeries
 
 /-!
