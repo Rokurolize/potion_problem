@@ -1,6 +1,6 @@
 /-
 Copyright (c) 2025 Mathematical Development Team. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
+Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
 

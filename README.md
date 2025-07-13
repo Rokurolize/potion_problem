@@ -108,7 +108,7 @@ This project demonstrates the power of formal mathematics in establishing beauti
 
 ## License
 
-Released under Apache 2.0 license. See formal proof headers for attribution.
+Released under MIT License. See LICENSE file for details.
 
 ---
 
