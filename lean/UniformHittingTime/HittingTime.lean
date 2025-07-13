@@ -7,6 +7,7 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.Factorial.Basic
 import Mathlib.Tactic
 import UniformHittingTime.IrwinHall
+import UniformHittingTime.TelescopingSeries
 
 /-!
 # Hitting Time Probability Mass Function
@@ -64,9 +65,11 @@ theorem hitting_time_pmf_formula (n : ℕ) (hn : n ≥ 2) :
   (if n ≤ 1 then 0 else (1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 
   (n - 1 : ℝ) / n.factorial := by
   -- Since n ≥ 2, the if condition is false
-  simp [not_le.mpr (by omega : ¬n ≤ 1)]
-  -- Apply the simplification lemma
-  exact telescoping_diff_simplification n (by omega)
+  have h_not_le : ¬n ≤ 1 := by linarith
+  simp [h_not_le]
+  -- Apply the simplification lemma  
+  have h_ge_one : n ≥ 1 := by linarith
+  exact telescoping_diff_simplification n h_ge_one
 
 /-- 
 For n = 0 or n = 1, P(τ = n) = 0
@@ -86,15 +89,18 @@ theorem hitting_time_telescoping_property (n : ℕ) (hn : n ≥ 2) :
   -- We have n · (n-1) / n! = (n-1) / (n-1)!
   have h1 : n.factorial = n * (n - 1).factorial := by
     cases' n with n
-    · omega
+    · -- Case n = 0 contradicts hn : n ≥ 2
+      exfalso; linarith
     · simp [Nat.factorial_succ]
   rw [h1]
   ring_nf
   -- Now we have (n-1) / (n-1)! = 1 / (n-2)!
   have h2 : (n - 1).factorial = (n - 1) * (n - 2).factorial := by
-    have : n - 1 ≥ 1 := by omega
+    have h_ge : n - 1 ≥ 1 := by linarith
     cases' h : n - 1 with m
-    · omega
+    · -- Case n - 1 = 0, contradicts h_ge
+      rw [h] at h_ge
+      exfalso; norm_num at h_ge
     · simp [Nat.factorial_succ]
   rw [h2]
   field_simp
@@ -106,7 +112,15 @@ Verification: The hitting time PMF sums to 1
 theorem hitting_time_pmf_sum_one :
   ∑' n : ℕ, (if n ≤ 1 then 0 else (1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 1 := by
   -- This is a telescoping series that equals 1/1! - lim(1/n!) = 1 - 0 = 1
-  -- The proof uses the telescoping series machinery
-  sorry
+  -- Use our TelescopingSeries.factorial_telescoping_sum_one result
+  -- The series ∑(n≥2) [1/(n-1)! - 1/n!] = 1 by telescoping
+  convert TelescopingSeries.factorial_telescoping_sum_one using 1
+  ext n
+  -- Match the indicator condition: n ≤ 1 vs n ≥ 2  
+  by_cases h : n ≤ 1
+  · simp [h, Nat.not_le.mpr (by linarith : ¬2 ≤ n)]
+  · simp [h]
+    rw [Nat.not_le] at h
+    simp [Nat.le_iff_lt_or_eq.mpr (Or.inl h)]
 
 end HittingTime
