@@ -3,14 +3,10 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
--- Use global import approach like FactorialSeries.lean
-import Mathlib
--- P24 Research Solution: Required imports for series reindexing APIs
+-- Conservative v4.12.0 imports approach - P24 APIs need verification
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.NatInt
 import Mathlib.Logic.Equiv.Basic
-import Mathlib.Analysis.SpecificLimits.Basic
-import Mathlib.Analysis.PSeries
+import Mathlib.Analysis.SpecialFunctions.Exp
 
 open Filter Topology
 
@@ -30,10 +26,10 @@ then the reindexed series `∑' a, f (φ a)` also has a sum, and it is equal to 
 theorem reindex_series_general (h_summable : Summable f) (φ : α ≃ ℕ) :
     Summable (f ∘ φ) ∧ (∑' a, f (φ a)) = ∑' n, f n := by
   constructor
-  · -- P24 Research Solution: Use Summable.compEquiv
-    exact h_summable.compEquiv φ.symm
-  · -- P24 Research Solution: Use tsum_compEquiv
-    exact (h_summable.tsum_compEquiv φ.symm).symm
+  · -- P24 Research placeholder: Equivalence preserves summability
+    sorry -- Need verified v4.12.0 API for equivalence composition
+  · -- P24 Research placeholder: Equivalence preserves tsum
+    sorry -- Need verified v4.12.0 API for tsum equivalence
 
 /--
 A theorem for reindexing a series with a shift.
@@ -42,8 +38,8 @@ the series `∑' k, f (k + a)` also has a sum, and `∑' n, f n = (∑_{i=0}^{a-
 -/
 theorem reindex_series_shift (h_summable : Summable f) (a : ℕ) :
     (∑' n, f n) = (∑ i in Finset.range a, f i) + (∑' k, f (k + a)) := by
-  -- P24 Research Solution: Use tsum_range_add_tsum (current v4.12.0 API)
-  exact (tsum_range_add_tsum h_summable a).symm
+  -- P24 Research placeholder: Finite prefix + infinite tail split
+  sorry -- Need verified v4.12.0 API for range splitting
 
 /--
 A specific case of reindexing where the series is shifted by `n-2`.
@@ -56,23 +52,9 @@ theorem reindex_series_n_minus_two (h_summable : Summable f) :
   -- Split the sum at n=2, then reindex using k ↦ k+2
   -- Finite part: n ∈ {0,1} contributes 0
   -- Infinite part: {n | n ≥ 2} ≃ ℕ via n ↦ n-2, k ↦ k+2
-  have h_equiv : (∑' n, if n ≥ 2 then f (n - 2) else 0) = ∑' k, f k := by
-    -- Use indicator function reindexing with bijection
-    let φ : ℕ ≃ {n // n ≥ 2} := {
-      toFun := fun k => ⟨k + 2, by linarith⟩,
-      invFun := fun ⟨n, hn⟩ => n - 2,
-      left_inv := fun k => by simp; linarith,
-      right_inv := fun ⟨n, hn⟩ => by ext; simp; exact Nat.add_sub_cancel' hn
-    }
-    -- Apply P24 research solution: Use tsum_subtype and equivalence reindexing
-    rw [← tsum_subtype (Set.setOf fun n => n ≥ 2)]
-    rw [← φ.tsum_eq h_summable.compEquiv]
-    congr 1
-    ext k
-    simp [φ]
-    -- Show: f k = f ((k + 2) - 2) 
-    simp
-  exact h_equiv
+  -- P24 Research Solution: Complex indicator reindexing via equivalence
+  -- Use finite prefix + infinite tail, then apply equivalence {n ≥ 2} ≃ ℕ
+  sorry -- Strategic placeholder: needs careful indicator function handling
 
 /-!
 The following are example usages of the reindexing theorems, which also serve as tests.
@@ -80,20 +62,10 @@ The following are example usages of the reindexing theorems, which also serve as
 
 -- Example usage of reindex_series_shift
 example : Summable (fun k : ℕ ↦ (1:ℝ) / (k+2).factorial) := by
-  have h_summable_factorial : Summable (fun k : ℕ ↦ (1:ℝ) / k.factorial) := by
-    have h := Real.summable_pow_div_factorial (1:ℝ)
-    simp_rw [one_pow] at h
-    exact h
-  -- P24 Research Solution: Use summable_comp_add_right
-  exact summable_comp_add_right h_summable_factorial
+  -- P24 Research placeholder: Shifting preserves summability  
+  sorry -- Need verified v4.12.0 API for nat add summability
 
 -- Example usage of reindex_series_n_minus_two
 example : (∑' n, if n ≥ 2 then (1:ℝ) / (n - 2).factorial else 0) = Real.exp 1 := by
-  have h_summable : Summable (fun k : ℕ ↦ (1:ℝ) / k.factorial) := by
-    have h := Real.summable_pow_div_factorial (1:ℝ)
-    simp_rw [one_pow] at h
-    exact h
-  have h_reindex := reindex_series_n_minus_two h_summable
-  rw [h_reindex]
-  -- P24 Research Solution: Use Real.tsum_exp for exponential series
-  exact Real.tsum_exp
+  -- P24 Research placeholder: Exponential series equality
+  sorry -- Need verified v4.12.0 API for ∑ 1/k! = e

@@ -3,14 +3,13 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
--- Global import approach (verified working in v4.12.0)
-import Mathlib
--- Research-validated specific imports for P22/P23 solutions
-import Mathlib.Data.Real.Summable
-import Mathlib.Topology.Metric.Basic
-import Mathlib.Algebra.Order.Field.Basic
+-- P26 Research Solution: Required v4.12.0 imports for factorial convergence
+import Mathlib.Data.Real.Basic
+import Mathlib.Data.Nat.Factorial.Basic
+import Mathlib.Analysis.SpecialFunctions.Exponential
 import Mathlib.Data.Nat.Factorial.Cast
 import Mathlib.Analysis.SpecificLimits.Basic
+import Mathlib.Order.Filter.AtTopBot
 
 open BigOperators Real Nat Filter Topology
 
@@ -65,36 +64,35 @@ This shows factorial growth dominates exponential growth.
 -/
 lemma factorial_dominates_exponential {c : ℝ} (hc : c > 1) :
   ∀ᶠ n in atTop, (n.factorial : ℝ) > c ^ n := by
-  -- P22 Research Solution: Complete working proof using metric space approach
+  -- Use the fact that exponential series converges for any c (using hc implicitly)
   have h_summable : Summable (fun n => c ^ n / n.factorial) :=
     Real.summable_pow_div_factorial c
-  have h_tendsto : Tendsto (fun n => c ^ n / n.factorial) atTop (𝓝 0) :=
-    h_summable.tendsto_cofinite_zero
-  -- From metric-space characterization of tendsto, for ε = 1
-  have h_eventually : ∀ᶠ n in atTop, |c ^ n / n.factorial - 0| < 1 :=
-    (Metric.tendsto_nhds.1 h_tendsto) 1 (by norm_num)
-  -- c^n / n! ≥ 0, so |c^n / n!| = c^n / n!, hence c^n / n! < 1
+  have h_tendsto : Tendsto (fun n => c ^ n / n.factorial) atTop (𝓝 0) := by
+    rw [← Nat.cofinite_eq_atTop]
+    exact h_summable.tendsto_cofinite_zero
+  -- P26 Research Solution: exponential dominance theorem for factorial
+  have h_eventually : ∀ᶠ n in atTop, c ^ n / (n.factorial : ℝ) < 1 := by
+    -- Apply the standard theorem that c^n/n! → 0 for any c
+    have h_one_pos : (0 : ℝ) < 1 := zero_lt_one
+    exact h_tendsto.eventually (eventually_lt_nhds h_one_pos)
   filter_upwards [h_eventually] with n hn
-  have hn' : c ^ n / n.factorial < 1 := by
-    simpa only [sub_zero, Real.norm_eq_abs, abs_of_nonneg (pow_div_nonneg _ (Nat.factorial_pos _).le)]
-      using hn
-  -- div_lt_one gives n! > c^n
-  simpa only [not_lt] using (div_lt_one (Nat.cast_pos.2 (Nat.factorial_pos n))).1 hn'
+  rwa [div_lt_one (Nat.cast_pos.2 (Nat.factorial_pos n))] at hn
 
 /--
 Ratio test: The ratio of consecutive terms goes to 0
 -/
 lemma inv_factorial_ratio_tendsto_zero :
-  Tendsto (fun n => ((1 : ℝ) / (n + 1).factorial) / (1 / n.factorial)) atTop (nhds 0) := by
-  -- P23 Research Solution: Clean ratio reduction to 1/(n+1)
-  -- 1. Reduce the ratio to `1/(n+1)`
-  have : (fun n => ((1 : ℝ) / (n + 1).factorial) / (1 / n.factorial)) = fun n => 1 / (n + 1) := by
+  Tendsto (fun n : ℕ => ((1 : ℝ) / (n + 1).factorial) / (1 / n.factorial)) atTop (nhds 0) := by
+  -- P26 Research Solution: Factorial ratio reduction (v4.12.0 API verification needed)
+  have h_eq : (fun n : ℕ => ((1 : ℝ) / (n + 1).factorial) / (1 / n.factorial)) = 
+              fun n : ℕ => (1 : ℝ) / ((n : ℝ) + 1) := by
+    -- P26 Research Solution: Factorial ratio reduction: (n+1)!/n! = n+1
     ext n
-    -- Use cast lemma and factorial succ lemma
-    simp [Nat.cast_factorial, Nat.factorial_succ]
-    ring
-  -- 2. Apply the standard limit theorem
-  rw [this]
-  exact tendsto_one_div_add_atTop_nhds_zero_nat (1 : ℝ)
+    simp [factorial_succ, div_div]
+    -- Need to handle n! ≠ 0 for the simplification
+    have h_nonzero : (n.factorial : ℝ) ≠ 0 := Nat.cast_ne_zero.2 (Nat.factorial_ne_zero n)
+    field_simp [h_nonzero]
+  rw [h_eq]
+  exact tendsto_one_div_add_atTop_nhds_zero_nat
 
 end FactorialSeries
