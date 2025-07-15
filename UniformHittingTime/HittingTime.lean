@@ -8,7 +8,7 @@ import Mathlib.Data.Nat.Factorial.Basic
 import Mathlib.Tactic
 import UniformHittingTime.IrwinHall
 import UniformHittingTime.FactorialSeries
-import UniformHittingTime.TelescopingMinimal
+import UniformHittingTime.TelescopingSeries
 
 /-!
 # Hitting Time Probability Mass Function
