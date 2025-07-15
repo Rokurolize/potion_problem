@@ -58,7 +58,7 @@ But we want E[τ] = e. The resolution is that we need to account for all contrib
 
 namespace UniformSumHittingTime
 
-open Real
+open Real NormedSpace
 
 /-- 
 The probability that the sum of n uniform [0,1) random variables
@@ -85,10 +85,12 @@ Fundamental lemma: The exponential function equals the infinite series
 ∑_{n=0}^∞ 1/n! when evaluated at 1.
 -/
 lemma exp_one_eq_tsum_inv_factorial : exp 1 = ∑' n : ℕ, (1 : ℝ) / n.factorial := by
-  -- Mathematical justification: exp(1) = ∑_{n=0}^∞ 1/n! (fundamental exponential series)
-  -- Strategic sorry: Real.tsum_exp API mismatch in v4.12.0
-  -- TODO: Find correct v4.12.0 API for exponential series equality
-  sorry
+  -- Mathematical justification: exp(1) = ∑_{n=0}^∞ 1/n! (fundamental exponential series)  
+  -- First convert Real.exp to NormedSpace.exp ℝ using Real.exp_eq_exp_ℝ
+  rw [Real.exp_eq_exp_ℝ]
+  -- Now use the NormedSpace exponential series theorem
+  rw [exp_eq_tsum_div]
+  simp [one_pow, one_div]
 
 /-- 
 Main computation: The infinite series ∑_{n=0}^∞ 1/n! equals e.

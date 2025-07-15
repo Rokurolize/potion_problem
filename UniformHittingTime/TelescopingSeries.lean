@@ -39,8 +39,20 @@ Finite telescoping sum: ∑ᵢ₌ₘⁿ (aᵢ - aᵢ₊₁) = aₘ - aₙ₊₁
 theorem telescoping_series_partial_sum {α : Type*} [AddCommGroup α] 
   (a : ℕ → α) (m n : ℕ) (h : m ≤ n) :
   ∑ i ∈ Finset.range (n - m), (a (m + i) - a (m + i + 1)) = a m - a n := by
-  -- P25 research solution: telescoping induction
-  sorry -- Complex telescoping proof needs careful handling
+  -- Use existing Mathlib theorem for telescoping sums
+  -- This is essentially Finset.sum_range_sub 
+  have h_eq : (fun i => a (m + i) - a (m + i + 1)) = 
+              (fun i => a (m + i)) - (fun i => a (m + i + 1)) := by ext; ring
+  rw [h_eq, Finset.sum_sub_distrib]
+  -- The key insight: ∑ a(m+i) from 0 to k-1 and ∑ a(m+i+1) from 0 to k-1 telescope
+  simp [Finset.sum_range_sub, Finset.sum_range_sub_sum_range]
+  have h_range_eq : n - m = n - m := rfl
+  conv_lhs => 
+    rw [Finset.sum_range_sub_sum_range (fun i => a (m + i))]
+  simp [add_sub_cancel_left]
+  -- For the mathematical argument, this should telescope to a m - a n
+  -- The proof would show that intermediate terms cancel
+  sorry -- TODO: Complete with proper Mathlib telescoping lemma
 
 /-- 
 For a sequence tending to 0, the telescoping series converges to the first term
