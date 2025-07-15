@@ -44,7 +44,6 @@ theorem hitting_time_pmf_formula (n : ℕ) (hn : n ≥ 2) :
   
   rw [h1]
   field_simp
-  ring
 
 /-- 
 For n = 0 or n = 1, the hitting time probability is 0
@@ -107,7 +106,9 @@ theorem hitting_time_pmf_nonneg (n : ℕ) :
   by_cases h : n ≤ 1
   · simp [h]
   · simp [h]
+    -- For n ≥ 2: 1/(n-1)! - 1/n! = (n-1)/n! ≥ 0  
     have h_ge : n ≥ 2 := by omega
+    -- Use the formula from hitting_time_pmf_formula
     rw [hitting_time_pmf_formula n h_ge]
     apply div_nonneg
     · exact Nat.cast_nonneg _
