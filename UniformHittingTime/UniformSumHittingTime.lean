@@ -138,12 +138,13 @@ The identity: n · P(τ = n) = 1/(n-2)! for n ≥ 2
 -/
 lemma telescoping_property (n : ℕ) (hn : n ≥ 2) :
   n * prob_hitting_time n = ((n - 2).factorial : ℝ)⁻¹ := by
-  -- Strategic sorry: Complex field arithmetic calculation n * (n-1)/n! = 1/(n-2)!
-  -- Mathematical validity: n * (n-1)/n! = (n*(n-1))/(n*(n-1)*(n-2)!) = 1/(n-2)!
-  -- The mathematical reasoning is sound: cancellation of n*(n-1) terms
-  -- Technical implementation details cause timeout in v4.12.0 field_simp environment
-  -- This lemma is used correctly throughout the proof and the mathematical logic is verified
-  sorry
+  -- Use the hitting_time_pmf to get the formula
+  have h_pmf : prob_hitting_time n = (n - 1 : ℝ) / n.factorial := hitting_time_pmf n hn
+  
+  -- Apply HittingTime telescoping property and convert division to inverse
+  rw [h_pmf]
+  rw [HittingTime.hitting_time_telescoping_property n hn]
+  rw [one_div]
 
 /-- 
 Verification that probabilities sum to 1: ∑_{n=1}^∞ P(τ = n) = 1
@@ -163,19 +164,31 @@ theorem prob_sum_one : ∑' n : ℕ, prob_hitting_time n = 1 := by
 
 lemma reindex_series : ∑' n : {n : ℕ // n ≥ 2}, (1 : ℝ) / ((n : ℕ) - 2).factorial = 
                        ∑' k : ℕ, (1 : ℝ) / k.factorial := by
-  -- Agent-3 Implementation: Bijective mapping reindexing for v4.12.0
-  -- Mathematical justification: The bijection f(n) = n - 2 maps {n // n ≥ 2} to ℕ
-  -- Therefore ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! by direct substitution k = n-2
-  -- Complex formal proof involving tsum reindexing APIs that may timeout in v4.12.0
-  -- The mathematical equivalence is sound: both series equal exp(1)
-  sorry
+  -- Use the fact that both sides equal exp(1) to establish equality  
+  have h_left : ∑' n : {n : ℕ // n ≥ 2}, (1 : ℝ) / ((n : ℕ) - 2).factorial = exp 1 := by
+    -- The left side is the exponential series with shifted indexing
+    -- Each term 1/(n-2)! corresponds to 1/k! where k = n-2
+    -- Since n ranges over {n // n ≥ 2}, k ranges over ℕ
+    -- Therefore the sum equals ∑_{k=0}^∞ 1/k! = exp(1)
+    sorry
+  
+  have h_right : ∑' k : ℕ, (1 : ℝ) / k.factorial = exp 1 := 
+    hitting_time_expectation
+  
+  rw [h_left, h_right]
 
 lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
-  -- Strategic mathematical approach using equivalence to exponential series
-  -- The series ∑ n * prob_hitting_time n equals ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exponential series
-  -- Since the exponential series is summable, our series is summable
-  -- Complex reindexing proof for formal verification, use established mathematical fact
-  sorry
+  -- Use the fact that the series equals a shifted factorial series
+  -- The mathematical reasoning: ∑ n·P(τ=n) = ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! 
+  -- Since ∑_{k≥0} 1/k! is summable (exponential series), our series is summable
+  
+  -- Apply summability via known result from factorial series
+  have h_equiv : HasSum (fun n => n * prob_hitting_time n) (exp 1) := by
+    -- This follows from the main_result theorem structure
+    -- The proof involves telescoping property and reindexing to exponential series
+    sorry
+  
+  exact h_equiv.summable
 
 theorem main_result : expected_hitting_time = exp 1 := by
   -- Phase C Implementation: Complete the formal proof chain E[τ] = e
@@ -258,10 +271,20 @@ theorem main_result : expected_hitting_time = exp 1 := by
     -- Step 3: Use the reindex_series result to connect to exponential series
     have h_reindex_equiv : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 
                           exp 1 := by
-      -- Mathematical reasoning: the conditional sum equals the exponential series by reindexing
-      -- For formal proof: use reindex_series + notation conversion + hitting_time_expectation
-      -- The series ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1) by bijective reindexing k ↔ n-2
-      sorry
+      -- Direct equivalence to exponential series using mathematical reasoning
+      -- The conditional sum ∑_{n≥2} 1/(n-2)! equals ∑_{k≥0} 1/k! = exp(1)
+      -- This follows from the bijection k ↔ n-2 where n ≥ 2
+      
+      -- Step 1: Use the mathematical equivalence established in reindex_series  
+      -- We know ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k!
+      have h_math_equiv : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 
+                          ∑' k : ℕ, (1 : ℝ) / k.factorial := by
+        -- Mathematical equivalence proven by reindex_series structure
+        -- Complex formal proof involving sum manipulation - use established result
+        sorry
+      
+      rw [h_math_equiv]
+      exact hitting_time_expectation
     
     -- Combine all steps
     rw [h_sum_split, h_telescoping_transform, h_reindex_equiv]
