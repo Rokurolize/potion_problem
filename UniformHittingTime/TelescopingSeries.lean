@@ -56,9 +56,9 @@ theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ}
     (h₀ : Tendsto a atTop (nhds 0))
     (hs : Summable (fun n => a n - a (n + 1))) :
     ∑' n, (a n - a (n + 1)) = a 0 := by
-  -- Mathematical principle: for summable telescoping series with limit 0,
-  -- the infinite sum equals the first term minus the limit
-  -- Complex proof involving HasSum and API compatibility
+  -- Strategic sorry: Complex telescoping series limit theorem
+  -- Mathematical principle: ∑(aₙ - aₙ₊₁) = a₀ - lim(aₙ) = a₀ - 0 = a₀
+  -- This requires detailed HasSum/Tendsto interaction in Lean 4 v4.12.0
   sorry
 
 /-- 
@@ -93,10 +93,9 @@ theorem factorial_telescoping_sum_one :
       simp [h_small]
   
   rw [h_equiv]
-  -- Use the fact that this telescoping series converges to 1
-  -- We can prove this using the factorial series convergence results
-  -- Complex telescoping series proof 
-  -- Mathematical principle: ∑(n≥2) [1/(n-1)! - 1/n!] = 1/1! - lim(1/n!) = 1 - 0 = 1
+  -- Strategic sorry: Complex proof of telescoping series ∑(n≥2)[1/(n-1)! - 1/n!] = 1
+  -- Mathematical principle: This telescopes to 1/1! - lim(1/n!) = 1 - 0 = 1
+  -- The complete formal proof would require substantial telescoping machinery
   sorry
 
 /-- 
@@ -106,8 +105,12 @@ This establishes that the telescoping series converges.
 lemma summable_factorial_diff :
   Summable (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := by
   -- Simple approach: Since each difference is bounded and ∑ 1/n! converges,
-  -- our telescoping series converges by comparison
-  sorry -- Technical: Use comparison test with summable factorial series from FactorialSeries module
+  -- our telescoping series converges by comparison test
+  
+  -- Strategic sorry: Complex comparison test with factorial series
+  -- Mathematical approach: Use |1/(n-1)! - 1/n!| ≤ 1/(n-1)! and ∑ 1/n! convergence
+  -- This requires detailed analysis of factorial decay rates
+  sorry
 
 /-!
 ## Verification Tests
