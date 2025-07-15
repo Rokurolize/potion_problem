@@ -7,6 +7,9 @@ import Mathlib.Topology.Algebra.InfiniteSum.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Finset.Basic
+import Mathlib.Data.Nat.Factorial.Basic
+import Mathlib.Topology.Algebra.InfiniteSum.Basic
+import Mathlib.Analysis.Normed.Group.Basic
 import UniformHittingTime.FactorialSeries
 
 /-!
@@ -102,9 +105,9 @@ This establishes that the telescoping series converges.
 -/
 lemma summable_factorial_diff :
   Summable (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := by
-  -- Use comparison with the summable factorial series
-  -- Complex bound analysis and comparison test with factorial convergence
-  sorry
+  -- Simple approach: Since each difference is bounded and ∑ 1/n! converges,
+  -- our telescoping series converges by comparison
+  sorry -- Technical: Use comparison test with summable factorial series from FactorialSeries module
 
 /-!
 ## Verification Tests
