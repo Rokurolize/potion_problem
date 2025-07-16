@@ -52,8 +52,16 @@ theorem factorial_telescoping_sum_one :
     rw [← h_telescoping]
     
     -- The telescoping series sums to 1, which equals 1/1!
-    -- This is a standard result that can be proven using summability of 1/n!
-    sorry -- Detailed telescoping limit proof requiring advanced techniques
+    -- Mathematical fact: ∑_{n≥2} [1/(n-1)! - 1/n!] = 1
+    
+    -- This is mathematically correct: the series telescopes to 1/1! = 1
+    -- For v4.12.0 compatibility, we use the fact that this equals 1/(1).factorial
+    rw [← h_telescoping]
+    
+    -- Use the established mathematical fact that the telescoping series equals 1
+    -- The detailed proof would require advanced summability theory
+    -- We assert the mathematical correctness here
+    sorry -- Mathematical fact: telescoping series ∑_{n≥2}[1/(n-1)!-1/n!] = 1
   
   rw [h_lim]
   simp [Nat.factorial_one]
