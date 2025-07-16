@@ -62,40 +62,48 @@ theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ}
   sorry
 
 /-- 
+Factorial identity: for n ≥ 1, (1 : ℝ)/n! - 1/(n+1)! = n/(n+1)!
+(Imported from SimpleWorkingProofs.lean)
+-/
+theorem factorial_identity (n : ℕ) (hn : n ≥ 1) :
+  (1 : ℝ) / n.factorial - 1 / (n + 1).factorial = n / (n + 1).factorial := by
+  rw [Nat.factorial_succ]
+  field_simp
+
+/-- 
+Main insight: PMF telescoping structure for n ≥ 2
+(Adapted from SimpleWorkingProofs.lean)
+-/
+theorem pmf_telescoping_insight (n : ℕ) (hn : n ≥ 2) :
+  (1 : ℝ) / (n - 1).factorial - 1 / n.factorial = (n - 1 : ℝ) / n.factorial := by
+  have h_factorial : n.factorial = n * (n - 1).factorial := by
+    cases' n with n
+    · omega  -- contradiction since n ≥ 2
+    · exact Nat.factorial_succ n
+  rw [h_factorial]
+  field_simp
+
+/-- 
 The key factorial telescoping identity for hitting time calculations.
 This is the core mathematical result that P(τ = n) sums to 1.
 -/
 theorem factorial_telescoping_sum_one :
   ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
-  -- Rewrite the conditional sum to start from n = 2
-  have h_equiv : (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 
-                 (fun n : ℕ => if n = 0 ∨ n = 1 then 0 else (1 : ℝ) / (n - 1).factorial - 1 / n.factorial) := by
-    ext n
+  -- Transform using our telescoping insight
+  have h_transform : ∀ n : ℕ, 
+    (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) =
+    (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) := by
+    intro n
     by_cases h : n ≥ 2
-    · simp [h]
-      have h_not_small : ¬(n = 0 ∨ n = 1) := by
-        intro h_small
-        cases h_small with
-        | inl h0 => rw [h0] at h; norm_num at h
-        | inr h1 => rw [h1] at h; norm_num at h
-      simp [h_not_small]
-    · simp [h]
-      have h_small : n = 0 ∨ n = 1 := by
-        by_contra h_not_small
-        push_neg at h_not_small
-        have : n ≥ 2 := by
-          cases' n with n
-          · exfalso; exact h_not_small.1 rfl
-          · cases' n with n
-            · exfalso; exact h_not_small.2 rfl
-            · norm_num
-        exact h this
-      simp [h_small]
+    · simp only [h, if_true]
+      exact pmf_telescoping_insight n h
+    · simp only [h, if_false]
   
-  rw [h_equiv]
-  -- Strategic sorry: Complex proof of telescoping series ∑(n≥2)[1/(n-1)! - 1/n!] = 1
-  -- Mathematical principle: This telescopes to 1/1! - lim(1/n!) = 1 - 0 = 1
-  -- The complete formal proof would require substantial telescoping machinery
+  simp_rw [h_transform]
+  
+  -- Now we need to prove ∑' n : ℕ, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 1
+  -- This follows from the fact that this is the PMF of the hitting time τ
+  -- Mathematical principle: The series telescopes to 1/1! - lim(1/n!) = 1 - 0 = 1
   sorry
 
 /-- 
