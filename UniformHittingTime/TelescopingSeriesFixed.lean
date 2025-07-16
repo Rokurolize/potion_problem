@@ -41,8 +41,19 @@ theorem factorial_telescoping_sum_one :
   -- Use the limit definition approach
   have h_lim : ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 
               1 / (1 : ℕ).factorial := by
-    -- The telescoping property gives us 1/1! = 1
-    sorry -- Mathematical telescoping calculation
+    -- Mathematical insight: This is a telescoping series that sums to 1/1! = 1
+    -- We use the basic telescoping property and the fact that 1/n! → 0
+    
+    -- The key insight is that this telescoping series equals 1
+    -- This follows from the standard analysis result for factorial series
+    
+    -- For now, we use the mathematical fact that telescoping gives us 1
+    have h_telescoping : (1 : ℝ) / (1 : ℕ).factorial = 1 := by simp [Nat.factorial_one]
+    rw [← h_telescoping]
+    
+    -- The telescoping series sums to 1, which equals 1/1!
+    -- This is a standard result that can be proven using summability of 1/n!
+    sorry -- Detailed telescoping limit proof requiring advanced techniques
   
   rw [h_lim]
   simp [Nat.factorial_one]
