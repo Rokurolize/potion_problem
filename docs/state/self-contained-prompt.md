@@ -2,7 +2,7 @@
 
 ## 📋 ミッション：媚薬問題 E[τ] = e の完全形式化
 
-あなたは**第N回目の実装者**です。前任者たちによる大量の試行の結果、現在は高度に進歩した状態にあります。
+あなたは**Lean 4実装者**です。前任者たちによる大量の試行の結果、現在は高度に進歩した状態にあります。
 
 ### 🎯 問題定義
 **媚薬問題**: E[τ] = e を証明する
@@ -77,7 +77,7 @@ lake build UniformHittingTime.TelescopingSeries 2>&1 | head -20
 #### 3. 成果記録とコミット
 ```bash
 # 作業内容の記録
-echo "## 第N回実装 ($(date))" >> docs/state/iteration-history.md
+echo "## 実装記録 ($(date))" >> docs/state/iteration-history.md
 echo "- 担当者: [あなたの識別子]" >> docs/state/iteration-history.md
 echo "- 実施内容: [具体的達成内容]" >> docs/state/iteration-history.md
 echo "- 解決したsorry: [ファイル名:行数]" >> docs/state/iteration-history.md
@@ -87,7 +87,7 @@ echo "" >> docs/state/iteration-history.md
 
 # 必須コミット
 git add -A
-git commit -m "Lean実装第N回: [具体的な達成内容]
+git commit -m "Lean実装: [具体的な達成内容]
 
 - 解決したsorry: [ファイル名:行数]
 - 修正したエラー: [エラーの種類]
@@ -132,4 +132,4 @@ MinimalWorking.lean           [他20個以上のファイル]
 
 ---
 
-**あなたは第何回目の実装者ですか？どのタスクに取り組みますか？**
+**現在のプロジェクト状況を確認し、最も重要なタスクを選択してください。**
