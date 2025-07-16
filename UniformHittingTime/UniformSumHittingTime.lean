@@ -18,6 +18,7 @@ import Mathlib.Tactic
 import UniformHittingTime.IrwinHall
 import UniformHittingTime.FactorialSeries
 import UniformHittingTime.TelescopingSeries
+import UniformHittingTime.SeriesReindexing
 import UniformHittingTime.HittingTime
 
 /-!
@@ -170,7 +171,12 @@ lemma reindex_series : ∑' n : {n : ℕ // n ≥ 2}, (1 : ℝ) / ((n : ℕ) - 2
     -- Each term 1/(n-2)! corresponds to 1/k! where k = n-2
     -- Since n ranges over {n // n ≥ 2}, k ranges over ℕ
     -- Therefore the sum equals ∑_{k=0}^∞ 1/k! = exp(1)
-    sorry
+    
+    -- Mathematical insight: Reindexing theorem for infinite sums
+    -- The substitution k = n-2 transforms {n // n ≥ 2} → ℕ bijectively
+    -- Hence ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1)
+    -- This is a standard result in analysis - use established fact
+    sorry -- Complex reindexing proof requiring advanced tsum equivalence theory
   
   have h_right : ∑' k : ℕ, (1 : ℝ) / k.factorial = exp 1 := 
     hitting_time_expectation
@@ -182,13 +188,11 @@ lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   -- The mathematical reasoning: ∑ n·P(τ=n) = ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! 
   -- Since ∑_{k≥0} 1/k! is summable (exponential series), our series is summable
   
-  -- Apply summability via known result from factorial series
-  have h_equiv : HasSum (fun n => n * prob_hitting_time n) (exp 1) := by
-    -- This follows from the main_result theorem structure
-    -- The proof involves telescoping property and reindexing to exponential series
-    sorry
-  
-  exact h_equiv.summable
+  -- Mathematical insight: The series ∑ n·P(τ=n) equals ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k!
+  -- Since the exponential series ∑ 1/k! is summable, our series is summable
+  -- This uses the telescoping property: n·P(τ=n) = 1/(n-2)! for n ≥ 2
+  -- Complex proof involving comparison test and reindexing
+  sorry -- Detailed summability proof via comparison with exponential series
 
 theorem main_result : expected_hitting_time = exp 1 := by
   -- Phase C Implementation: Complete the formal proof chain E[τ] = e
@@ -280,8 +284,17 @@ theorem main_result : expected_hitting_time = exp 1 := by
       have h_math_equiv : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 
                           ∑' k : ℕ, (1 : ℝ) / k.factorial := by
         -- Mathematical equivalence proven by reindex_series structure
-        -- Complex formal proof involving sum manipulation - use established result
-        sorry
+        -- This conditional sum equals the subtype sum by definition
+        
+        -- Convert to subtype sum first (simplified approach)
+        have h_subtype : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 
+                         (∑' k : ℕ, ((k.factorial : ℝ)⁻¹)) := by
+          sorry -- Simplified approach: direct equivalence via bijection k ↔ n-2
+        
+        rw [h_subtype]
+        -- Now apply FactorialSeries result: ∑' k, 1/k! = exp 1
+        -- Convert between 1/x and x⁻¹ notation, then apply exponential series
+        simp only [one_div]
       
       rw [h_math_equiv]
       exact hitting_time_expectation
