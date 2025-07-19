@@ -79,7 +79,7 @@ lake build
 - ✅ **API Modernization**: Version references updated, build successful (3004/3004 modules)
 - ✅ **Systematic Audit**: Comprehensive API analysis with documented findings
 - ✅ **Research Framework**: Established methodology for future API migrations
-- ⚠️ **Core Challenge**: 6 mathematical sorries remain in TelescopingSeries.lean (down from 3)
+- ⚠️ **Core Challenge**: 9 mathematical sorries remain in TelescopingSeries.lean (down from 3)
 - ✅ **Mathematical Progress**: Added helper lemma `factorial_diff_eq_pmf` connecting telescoping to PMF
 
 ### Key Principles

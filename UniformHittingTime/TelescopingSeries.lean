@@ -8,7 +8,6 @@ import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Nat.Factorial.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
 import Mathlib.Analysis.Normed.Group.Basic
 import UniformHittingTime.FactorialSeries
 
@@ -145,13 +144,15 @@ lemma summable_exp_tail : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k
   have h_full : Summable (fun k : ℕ => (1 : ℝ) / k.factorial) := 
     FactorialSeries.summable_inv_factorial
   
-  -- The tail series (removing k=0) is also summable
   -- Mathematical fact: Removing finitely many terms from a summable series preserves summability
-  -- The conditional series ∑(k≥1) 1/k! is summable because it's a subset of terms from
-  -- the convergent exponential series ∑(k≥0) 1/k!
-  -- Mathematical principle: Removing the k=0 term preserves summability
-  -- Technical implementation: This is a standard result but requires careful API usage
-  sorry  -- Technical: tail of exponential series is summable
+  -- We're removing only the k=0 term, so the tail starting from k=1 remains summable
+  
+  -- Use the general principle: if a series is summable, then the series with finitely many
+  -- terms removed is also summable. This is because convergence depends on the tail behavior.
+  
+  -- For now, we accept this as a technical lemma that follows from the general theory
+  -- of summable series in mathlib4
+  sorry  -- Technical: removing finite terms from summable series
 
 /--
 Helper lemma: For the reindexing argument, establish that our conditional series
@@ -186,7 +187,55 @@ lemma telescoping_partial_sum_explicit (N : ℕ) (hN : N ≥ 2) :
   -- Mathematical insight: The finite sum telescopes due to cancellation of middle terms
   -- Sum from n=2 to N-1 of [1/(n-1)! - 1/n!] = 1/1! - 1/(N-1)! = 1 - 1/(N-1)!
   -- This follows from the telescoping structure where each +1/k! cancels with the next -1/k!
-  sorry -- Technical: finite telescoping sum calculation
+  
+  -- Mathematical fact: The finite telescoping sum equals first term minus last term
+  -- Sum from n=2 to N-1 of [1/(n-1)! - 1/n!] 
+  -- = [1/1! - 1/2!] + [1/2! - 1/3!] + ... + [1/(N-2)! - 1/(N-1)!]
+  -- = 1/1! - 1/(N-1)! (all middle terms cancel)
+  -- = 1 - 1/(N-1)!
+  
+  -- This is a standard result for telescoping series but requires careful handling
+  -- of the index sets and the finite sum structure in Lean
+  sorry -- Technical: finite telescoping sum with index shift
+
+/--
+Mathematical insight: The factorial difference bound for comparison test.
+Shows that the absolute value of the telescoping difference is bounded by 1/(n-1)!.
+-/
+lemma factorial_diff_abs_bound (n : ℕ) (hn : n ≥ 2) :
+  |((1 : ℝ) / (n - 1).factorial - 1 / n.factorial)| ≤ 1 / (n - 1).factorial := by
+  -- Since both terms are positive and 1/(n-1)! > 1/n!, the difference is positive
+  have h_pos : (0 : ℝ) < 1 / (n - 1).factorial - 1 / n.factorial := by
+    rw [sub_pos]
+    -- We want to show: 1/n! < 1/(n-1)!
+    -- This is equivalent to: (n-1)! < n!
+    have h_ineq : (n - 1).factorial < n.factorial := by
+      have h_eq : n.factorial = n * (n - 1).factorial := by
+        cases' n with n
+        · omega  -- contradiction since n ≥ 2
+        · exact Nat.factorial_succ n
+      rw [h_eq]
+      -- Now we need (n-1)! < n * (n-1)!
+      -- This is true when n > 1, which follows from n ≥ 2
+      have h_n_pos : 1 < n := by omega
+      have h_pos_factorial : 0 < (n - 1).factorial := Nat.factorial_pos (n - 1)
+      rw [Nat.lt_mul_iff_one_lt_left h_pos_factorial]
+      exact h_n_pos
+    -- Apply the fact that 1/a < 1/b when b < a (for positive a,b)
+    rw [div_lt_div_iff₀]
+    · simp [one_mul]
+      exact Nat.cast_lt.2 h_ineq
+    · exact Nat.cast_pos.2 (Nat.factorial_pos n)
+    · exact Nat.cast_pos.2 (Nat.factorial_pos (n - 1))
+  
+  -- Therefore |difference| = difference
+  rw [abs_of_pos h_pos]
+  
+  -- Now we need to show: 1/(n-1)! - 1/n! ≤ 1/(n-1)!
+  -- This is equivalent to: -1/n! ≤ 0, which is true
+  have h_factorial_pos : (0 : ℝ) < n.factorial := Nat.cast_pos.2 (Nat.factorial_pos n)
+  simp only [sub_le_self_iff]
+  exact div_nonneg zero_le_one (le_of_lt h_factorial_pos)
 
 /--
 Helper lemma: The partial sums of the PMF series approach 1.
@@ -411,7 +460,32 @@ lemma summable_factorial_diff :
     
     -- This is a standard result in analysis: bijective reindexing preserves summability
     -- The map n ↦ n-1 restricted to n ≥ 2 gives a bijection to k ≥ 1
-    sorry -- Technical: bijective reindexing of summable series preserves summability
+    
+    -- The series ∑(n≥2) 1/(n-1)! is summable because it's a shifted version of
+    -- the tail of the exponential series ∑(k≥1) 1/k!
+    
+    -- We can relate our series to the exponential series using a simple approach:
+    -- The full exponential series ∑ 1/n! is summable
+    have h_full : Summable (fun n : ℕ => (1 : ℝ) / n.factorial) := 
+      FactorialSeries.summable_inv_factorial
+    
+    -- Extract a finite part (n = 0) and the tail is still summable
+    have h_tail_from_1 : Summable (fun n : ℕ => if n ≥ 1 then (1 : ℝ) / n.factorial else 0) := by
+      -- This is summable_exp_tail which we've already defined
+      exact summable_exp_tail
+    
+    -- Now our series ∑(n≥2) 1/(n-1)! has the same summability as ∑(k≥1) 1/k!
+    -- because when n ≥ 2, the term 1/(n-1)! with n-1 ≥ 1 corresponds to the terms in the tail
+    
+    -- We'll use the fact that our series is bounded term-by-term by a convergent series
+    -- Specifically, for n ≥ 2, we have 1/(n-1)! which appears in the tail exponential series
+    
+    -- Apply the general principle: if we can bound our series by a summable series, it's summable
+    -- Our series has terms: 0, 0, 1/1!, 1/2!, 1/3!, ...
+    -- The tail exponential has: 0, 1/1!, 1/2!, 1/3!, ...
+    -- So our series is dominated by a shift of the tail exponential series
+    
+    sorry -- Technical: relate shifted indices to tail exponential series
 
 /-- 
 The key factorial telescoping identity for hitting time calculations.
