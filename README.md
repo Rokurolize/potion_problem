@@ -1,73 +1,102 @@
-# 媚薬問題（Potion Problem）- 形式証明の試み
+# The Aphrodisiac Problem - Formal Proof Attempt
 
-**問題**: 女騎士が媚薬を飲む回数の期待値は？（連続一様分布の和が初めて1を超えるまでの試行回数）
+## Problem Statement
 
-**数学的答え**: E[τ] = e ≈ 2.718281828（ネイピア数）
+**Original (Japanese)**: 
+> 女騎士「私に何を飲ませた！」  
+> オーク「飲む前の感度をn倍とした時に、感度をn+m倍(m:[0,1)、毎回の摂取ごとに独立して判定される)まで引き上げる薬だ。通常時の感度を1倍として、お前の感度が2倍になるまでこれを飲ませる」  
+> 女騎士「私が媚薬を飲む回数の期待値はどれくらいになるんだ……？」
 
-## ⚠️ 重要な注意事項
+**Mathematical Translation**: Starting from sensitivity level 1, each dose increases sensitivity by a uniform random amount m ∈ [0,1). What is the expected number of doses until sensitivity reaches 2?
 
-**本プロジェクトは未完成です。** 形式証明には3つの`sorry`（証明未完了）が残っており、完全な証明には至っていません。
+**Answer**: E[τ] = e ≈ 2.718281828 (Euler's number)
 
-## 未完成の証明構造
+## ⚠️ Important Notice
+
+**This project is incomplete.** The formal proof contains 3 `sorry` (unfinished proofs) and does not constitute a complete verification.
+
+## Incomplete Proof Structure
 
 ```
-主定理: E[τ] = e
-    ├── 依存: TelescopingSeries.factorial_telescoping_sum_one
-    │   └── sorry (L107) - 証明未完了
-    ├── 依存: TelescopingSeries.telescoping_series_sum_v4_12_0
-    │   └── sorry (L62) - 証明未完了
-    └── 依存: TelescopingSeries.summable_factorial_diff
-        └── sorry (L121) - 証明未完了
+Main Theorem: E[τ] = e
+    ├── Depends on: TelescopingSeries.factorial_telescoping_sum_one
+    │   └── sorry (L107) - proof incomplete
+    ├── Depends on: TelescopingSeries.telescoping_series_sum_v4_12_0
+    │   └── sorry (L62) - proof incomplete
+    └── Depends on: TelescopingSeries.summable_factorial_diff
+        └── sorry (L121) - proof incomplete
 ```
 
-## プロジェクト概要
+## Mathematical Formulation
 
-このプロジェクトは、媚薬問題の期待値E[τ] = eを形式的に証明しようとする**試み**です：
+### Stochastic Process
+- Initial state: S₀ = 1
+- Update rule: Sₙ₊₁ = Sₙ + mₙ where mₙ ~ Uniform[0,1)
+- Stopping time: τ = min{n ∈ ℕ : Sₙ ≥ 2}
+- Objective: Find E[τ]
 
-- **Lean 4での形式証明** - 部分的に実装、sorryを含む
-- **Pythonによる数値検証** - 完全に動作、高精度検証済み
-- **理論的解析** - Irwin-Hall分布を用いた数学的証明
+### Key Results
+- This is equivalent to finding when the sum of uniform[0,1) variables first exceeds 1
+- P(τ = n) = (n-1)/n! for n ≥ 2
+- E[τ] = ∑_{n=2}^∞ n·P(τ=n) = ∑_{n=2}^∞ 1/(n-1)! = e
 
-## ビルドとテスト
+### Connection to Irwin-Hall Distribution
+The sum of n uniform[0,1) random variables follows the Irwin-Hall distribution, with:
+- P(S_n < 1) = 1/n!
+- This leads directly to the telescoping series that sums to e
 
-### Lean 4（v4.21.0）
+## Project Overview
+
+This project attempts to formally prove E[τ] = e using:
+
+- **Lean 4 Formal Proof** - Partially implemented with sorries
+- **Python Numerical Verification** - Fully working, high-precision validation
+- **Theoretical Analysis** - Complete mathematical derivation
+
+## Build and Test
+
+### Lean 4 (v4.21.0)
 ```bash
 lake build
 ```
-注意: ビルドは成功しますが、証明は未完成です。
+Note: Build succeeds but proof is incomplete.
 
-### Python解析
+### Python Analysis
 ```bash
 uv sync
 uv run python test_all.py
 ```
 
-## 技術的詳細
+## Technical Details
 
-### 完成部分
-- 基本的な定理の枠組み
-- Irwin-Hall分布の性質（P(S_n < 1) = 1/n!）
-- 階乗級数の収束性
-- Python数値シミュレーション（誤差 < 0.01%）
+### Completed Components
+- Basic theorem framework
+- Irwin-Hall distribution properties (P(S_n < 1) = 1/n!)
+- Factorial series convergence
+- Python numerical simulation (error < 0.01%)
 
-### 未完成部分（sorry使用箇所）
-1. **telescoping_series_sum_v4_12_0** - 無限級数の極限定理
-2. **factorial_telescoping_sum_one** - 階乗telescoping級数の和=1の証明
-3. **summable_factorial_diff** - 階乗差分級数の収束性証明
+### Incomplete Components (sorry locations)
+1. **telescoping_series_sum_v4_12_0** - Infinite series limit theorem
+2. **factorial_telescoping_sum_one** - Factorial telescoping series sum = 1
+3. **summable_factorial_diff** - Factorial difference series convergence
 
-## 数学的背景
+## Origin and Context
 
-証明の核心：
-- P(τ = n) = (n-1)/n! for n ≥ 2
-- E[τ] = ∑_{n=2}^∞ n·P(τ=n) = ∑_{n=2}^∞ 1/(n-1)! = e
+**Author**: suamax (@suamax_scp)  
+**Date**: July 9, 2025  
+**Source**: https://x.com/suamax_scp/status/1942902598203322849
 
-この美しい結果は数学的には正しいですが、Lean 4での完全な形式証明には至っていません。
+While the problem uses a colorful fantasy narrative, it represents a sophisticated probability problem with connections to:
+- Renewal theory
+- Order statistics  
+- Stopping times in stochastic processes
+- The fundamental constant e
 
-## ライセンス
+## License
 
-MIT License - 詳細はLICENSEファイルを参照してください。
+MIT License - See LICENSE file for details.
 
 ---
 
-**開発チーム**: Astolfo & Contributors  
-**プロジェクトステータス**: 形式証明の試み（未完成）
+**Development Team**: Astolfo & Contributors  
+**Project Status**: Formal proof attempt (incomplete)

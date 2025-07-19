@@ -1,109 +1,108 @@
-# CLAUDE.md - 媚薬問題 Lean 4 形式化プロジェクト
+# CLAUDE.md - Aphrodisiac Problem Lean 4 Formalization Project
 
-## 🚀 次の反復を実行する方法
+## 🚀 Quick Iteration Execution
 
-**マスターが「次の反復を実行。」と指示した場合、以下を実行:**
+**When requested to "execute next iteration", follow these steps:**
 
-### 1. 即座実行コマンド
-Taskツールを使用し、以下のプロンプトを実行:
+### 1. Immediate Execution Command
+Use the Task tool with the following prompt:
 
-### 2. 実行用プロンプト
+### 2. Execution Prompt
 
-**単純明快な実行方法:**
+**Simple execution method:**
 ```
-`/home/ubuntu/workbench/projects/potion_problem/docs/state/self-contained-prompt.md`ファイルを読み込み、その指示に従って実行してください。
+Read `/home/ubuntu/workbench/projects/potion_problem/docs/state/self-contained-prompt.md` and follow its instructions.
 ```
 
-### 3. 技術的実行方法
+### 3. Technical Execution Method
 
-**Taskツールの使用方法:**
-1. Taskツールを呼び出し、description に "Execute Lean 4 implementation task"
-2. prompt パラメータに以下を入力:
-   `Execute the self-contained prompt from /home/ubuntu/workbench/projects/potion_problem/docs/state/self-contained-prompt.md by reading the file and following its instructions.`
+**Task tool usage:**
+1. Call Task tool with description: "Execute Lean 4 implementation task"
+2. Use prompt parameter: `Execute the self-contained prompt from /home/ubuntu/workbench/projects/potion_problem/docs/state/self-contained-prompt.md by reading the file and following its instructions.`
 
-**動作確認済み**: Taskツールはファイルを直接読み込み、指示に従って実行できます。
+**Verified**: Task tool can directly read files and execute instructions.
 
 ---
 
-## 📋 プロジェクト概要
+## 📋 Project Overview
 
-### 問題の出典
+### Problem Source
 
-**作者**: suamax (@suamax_scp)  
-**投稿日**: 2025年7月9日  
+**Author**: suamax (@suamax_scp)  
+**Date**: July 9, 2025  
 **URL**: https://x.com/suamax_scp/status/1942902598203322849
 
-**原文**:
+**Original (Japanese)**:
 ```
 女騎士「私に何を飲ませた！」
 オーク「飲む前の感度をn倍とした時に、感度をn+m倍(m:[0,1)、毎回の摂取ごとに独立して判定される)まで引き上げる薬だ。通常時の感度を1倍として、お前の感度が2倍になるまでこれを飲ませる」
 女騎士「私が媚薬を飲む回数の期待値はどれくらいになるんだ……？」
 ```
 
-### 数学的背景
+### Mathematical Background
 
-**証明の核心構造:**
-1. **基本恒等式**: ∑_{n=0}^∞ 1/n! = e
-2. **確率質量関数**: P(τ = n) = (n-1)/n! for n ≥ 2
-3. **期待値計算**: E[τ] = ∑_{n=1}^∞ n · P(τ = n) = e
+**Core Proof Structure:**
+1. **Basic Identity**: ∑_{n=0}^∞ 1/n! = e
+2. **Probability Mass Function**: P(τ = n) = (n-1)/n! for n ≥ 2
+3. **Expected Value Calculation**: E[τ] = ∑_{n=1}^∞ n · P(τ = n) = e
 
-**形式化の課題:**
-- **API制約**: mathlib4 v4.12.0での無限級数操作の制限
-- **型システム**: 確率論の厳密な型付け
-- **性能制約**: 複雑な証明でのタイムアウト回避
+**Formalization Challenges:**
+- **API Constraints**: Infinite series operations in mathlib4 v4.12.0
+- **Type System**: Rigorous typing for probability theory
+- **Performance**: Avoiding timeouts in complex proofs
 
-### 重要な原則
+### Key Principles
 
-**開発哲学:**
-- **小さく確実に**: 1回の実装で1つの具体的改善
-- **数学的正しさ最優先**: ビルド成功より数学的妥当性
-- **継続可能性**: 長期的な開発に耐える設計
+**Development Philosophy:**
+- **Small and Certain**: One concrete improvement per implementation
+- **Mathematical Correctness First**: Mathematical validity over build success
+- **Sustainability**: Design for long-term development
 
-**品質保証:**
-- **Git記録必須**: 全ての変更をコミットで追跡
-- **ビルド検証**: 変更後は必ずビルド状態を確認
-- **記録の正確性**: 報告と実際の変更の一致を保証
+**Quality Assurance:**
+- **Git Recording Required**: Track all changes with commits
+- **Build Verification**: Always verify build status after changes
+- **Accuracy of Records**: Ensure reports match actual changes
 
-### 継続的改善システム
+### Continuous Improvement System
 
-- **時間軸ジャンプ対応**: 非線形な時間軸でも現状把握可能
-- **Git Diff評価**: 「言うだけならタダ」問題の完全回避
-- **累積学習**: 成功/失敗パターンの蓄積と活用
+- **Timeline Jump Support**: Handle non-linear timelines for status understanding
+- **Git Diff Evaluation**: Complete avoidance of "talk is cheap" problem
+- **Cumulative Learning**: Accumulation and utilization of success/failure patterns
 
-### 重要な文書
+### Important Documents
 
-**状態管理システム:**
-- `docs/state/current-state.md` - 現在の正確な状況
-- `docs/state/iteration-history.md` - 累積試行記録
-- `docs/state/self-contained-prompt.md` - 自己完結実装プロンプト
-- `docs/state/session-restoration.md` - セッション復元手順
+**State Management System:**
+- `docs/state/current-state.md` - Current accurate status
+- `docs/state/iteration-history.md` - Cumulative trial records
+- `docs/state/self-contained-prompt.md` - Self-contained implementation prompt
+- `docs/state/session-restoration.md` - Session restoration procedures
 
-**論文とドキュメント:**
-- `2025-07-15-02-00-00-aphrodisiac-problem-MIT-thesis.md` - MIT水準の数学論文
-- `docs/problem-statement-japanese.md` - 日本語原文
-- `docs/problem-statement-context.md` - 英語圏向け解釈
-
----
-
-## 📝 システム設計の教訓と改善記録
-
-### 修正済み問題: 二重記述の完全除去
-
-**発見した根本的設計ミス**:
-- **問題**: 同一プロンプトをCLAUDE.mdとdocs/state/self-contained-prompt.mdに二重記述
-- **原因**: Taskツールの実際の動作を確認せずに推測で設計
-- **発見**: Taskツールはファイルを直接読み込み、指示に従って実行可能と確認済み
-
-**エビデンスベースの改善**:
-1. **実際の動作テスト実施** - Taskツールでファイル読み込みテスト完了
-2. **実行テスト完了** - self-contained-prompt.mdからの直接実行動作確認済み
-3. **重複コード削除** - CLAUDE.mdから長大なプロンプトを完全除去
-
-**今後の防止策**:
-- ツールAPIの実際の動作を必ずテストしてから設計する
-- 推測に基づいたシステム設計を禁止
-- 「凗長性」を理由とした重複作業の回避
+**Papers and Documentation:**
+- `2025-07-15-02-00-00-aphrodisiac-problem-MIT-thesis.md` - MIT-level mathematical paper
+- `docs/problem-statement-japanese.md` - Original Japanese text
+- `docs/problem-statement-context.md` - English interpretation
 
 ---
 
-**注記**: このプロジェクトは数学の絶対性と形式検証の厳密性を組み合わせた、真の数学的価値を追求する取り組みです。マスターが「次の反復を実行。」と指示した場合、このファイルの最初のセクションの手順に従って即座に実行してください。
+## 📝 System Design Lessons and Improvement Records
+
+### Fixed Issue: Complete Removal of Duplicate Descriptions
+
+**Discovered Root Design Flaw:**
+- **Problem**: Same prompt duplicated in CLAUDE.md and docs/state/self-contained-prompt.md
+- **Cause**: Designed based on speculation without testing actual Task tool behavior
+- **Discovery**: Confirmed Task tool can directly read files and execute instructions
+
+**Evidence-Based Improvements:**
+1. **Actual Behavior Test Completed** - Task tool file reading test completed
+2. **Execution Test Completed** - Direct execution from self-contained-prompt.md confirmed
+3. **Duplicate Code Removed** - Long prompt completely removed from CLAUDE.md
+
+**Future Prevention Measures:**
+- Always test actual tool API behavior before designing
+- Prohibit system design based on speculation
+- Avoid duplicate work justified by "redundancy"
+
+---
+
+**Note**: This project pursues true mathematical value by combining mathematical absoluteness with formal verification rigor. When the master instructs "execute next iteration", immediately follow the procedure in the first section of this file.
