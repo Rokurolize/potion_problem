@@ -559,7 +559,7 @@ lemma summable_factorial_diff :
   -- The dominating series ∑(k≥1) 1/k! is summable as tail of exponential series
   
   apply Summable.of_nonneg_of_le (f := fun n => if n ≥ 2 then (n - 1 : ℝ) / ↑(n.factorial) else 0)
-                                 (g := fun n => if n ≥ 2 then (1 : ℝ) / ↑((n - 1).factorial) else 0)
+                                 (g := fun n => if n ≥ 2 then (1 : ℝ) / ↑(Nat.factorial (n - 1)) else 0)
   
   -- Non-negativity condition
   · intro n
