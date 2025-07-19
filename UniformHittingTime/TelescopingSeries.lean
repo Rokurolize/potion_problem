@@ -637,10 +637,32 @@ lemma summable_factorial_diff :
     -- Now we need to relate our series to this tail series
     -- The mathematical fact: ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! by the substitution k = n-1
     
-    -- For now, we leave this as a technical lemma about reindexing
-    -- The proof would involve showing that the map n ↦ n-1 (restricted to n≥2)
-    -- gives a bijection with k≥1, and that reindexing preserves summability
-    sorry -- Technical: reindexing preserves summability for positive series
+    -- Mathematical foundation: Use comparison with the tail exponential series
+    -- The series ∑(n≥2) 1/(n-1)! has the same terms as ∑(k≥1) 1/k!
+    -- Since each term 1/(n-1)! for n ≥ 2 equals 1/k! for some k ≥ 1,
+    -- our series is dominated by the tail exponential series
+    
+    apply Summable.of_nonneg_of_le
+    · intro n
+      by_cases h : n ≥ 2
+      · -- For n ≥ 2, 1/(n-1)! ≥ 0 since factorial is positive
+        exact div_nonneg zero_le_one (Nat.cast_nonneg _)
+      · simp [h]
+    · intro n  
+      by_cases h : n ≥ 2
+      · -- For n ≥ 2, we have 1/(n-1)! ≤ 1/(n-1)! (reflexivity)
+        rfl
+      · -- For n < 2, both sides are 0
+        simp [h]
+    · -- The dominating series: we need something summable that bounds our series
+      -- Mathematical insight: our series is exactly ∑(n≥2) 1/(n-1)!
+      -- This equals ∑(k≥1) 1/k! under the substitution k = n-1
+      -- Since ∑(k≥1) 1/k! is summable (proven as summable_exp_tail),
+      -- our series is also summable
+      
+      -- For now, we use a mathematical argument about the equivalence
+      -- The technical proof would use Function.Summable.comp_injective
+      sorry -- Technical: summability of ∑(n≥2) 1/(n-1)! via reindexing
 
 /-- 
 The key factorial telescoping identity for hitting time calculations.
