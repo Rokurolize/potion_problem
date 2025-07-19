@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /home/ubuntu/workbench/projects/potion_problem/.claude/hooks/auto_iteration_continuation.py"
+          }
+        ]
+      }
+    ]
+  }
+}
