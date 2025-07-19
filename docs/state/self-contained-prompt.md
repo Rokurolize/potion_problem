@@ -27,84 +27,88 @@ You are a **Lean 4 implementer**. After extensive trials by predecessors, the pr
 4. `UniformHittingTime.HittingTime` - Stopping time probability mass function
 
 **🔧 Problematic Modules (sorries present):**
-5. `UniformHittingTime.TelescopingSeries` - 3 sorries remaining
+5. `UniformHittingTime.TelescopingSeries` - 2 sorries remaining
+   - `telescoping_series_sum_v4_12_0` (line 62) - ✅ RESOLVED in previous iteration
+   - `factorial_telescoping_sum_one` (line 117) - Complex telescoping identity
+   - `summable_factorial_diff` (line 136) - Convergence proof needed
 6. `UniformHittingTime.UniformSumHittingTime` - Main theorem, multiple sorries
 7. `UniformHittingTime.SeriesReindexing` - Disabled due to type inference issues
 
 **⚠️ Critical Reality Check:**
 - The project builds successfully (3004/3004 modules) but **proof is incomplete**
-- Main theorem exists but depends on 3 unproven lemmas
-- Recent API modernization completed, version references updated
+- Main theorem exists but depends on 2 unproven lemmas in TelescopingSeries
+- Recent improvements: API modernization, one telescoping theorem proven
 - This is a **proof attempt**, not a completed proof
 
 ### 🎯 Why These Tasks Matter
 
 #### The Mathematical Core Problem
-The proof requires three critical missing pieces:
+The proof requires two critical missing pieces in TelescopingSeries.lean:
 
-1. **Telescoping Series Convergence** (`TelescopingSeries.lean`):
-   - **Why**: Must prove ∑(1/n! - 1/(n+1)!) = 1 - 1/e telescopes correctly
-   - **Mathematical significance**: This is the heart of connecting discrete probabilities to e
-   - **Current issue**: 3 sorry statements block the proof chain
+1. **factorial_telescoping_sum_one** (Line 117):
+   - **What**: Prove ∑(n≥2) [1/(n-1)! - 1/n!] = 1
+   - **Why crucial**: This shows the PMF sums to 1 (total probability)
+   - **Mathematical insight**: The series telescopes to 1/1! - 0 = 1
+   - **Can use**: The already proven `telescoping_series_sum_v4_12_0`
 
-2. **Series Reindexing** (`SeriesReindexing.lean`):
-   - **Why**: Need to show ∑ₙ f(n-2) = ∑ₖ f(k) for probability calculations
-   - **Mathematical significance**: Enables shifting between different indexing schemes
-   - **Current issue**: Disabled due to type class inference problems in v4.21.0
+2. **summable_factorial_diff** (Line 136):
+   - **What**: Prove the factorial difference series converges
+   - **Why crucial**: Needed for applying telescoping theorem
+   - **Mathematical insight**: Use comparison with ∑ 1/n! which converges to e
+   - **Approach**: |1/(n-1)! - 1/n!| ≤ 1/(n-1)!
 
-3. **Main Theorem Integration** (`UniformSumHittingTime.lean`):
-   - **Why**: Combines all pieces to prove E[τ] = e
-   - **Mathematical significance**: The culmination showing stopping time expectation equals Euler's number
-   - **Current issue**: Depends on the above incomplete lemmas
+### 🔧 Implementation Strategy
 
-### 🔧 Your Task Options (Choose One)
+#### Understanding Progress Levels
 
-#### A. Fix TelescopingSeries.lean Sorries
-**Why this matters**: This module contains the mathematical heart of the proof.
+**Level 1: Documentation & Structure** (Low risk, always valuable)
+- Improve mathematical documentation
+- Add helper lemmas that break down complex proofs
+- Restructure proofs for clarity
 
-**Current sorries:**
-- Line 62: `telescoping_series_sum_v4_12_0` - infinite series limit
-- Line 96: `factorial_telescoping_sum_one` - key telescoping identity
-- Line 107: `summable_factorial_diff` - convergence of factorial differences
+**Level 2: Partial Progress** (Medium risk, high value)
+- Prove sub-lemmas needed for main sorries
+- Add intermediate results with their own sorries
+- Make progress that future implementers can build on
 
-**Approach:**
-1. Focus on one sorry at a time
-2. Use mathlib4 v4.21.0 APIs (not outdated v4.12.0 references)
-3. Look for similar patterns in working files
+**Level 3: Complete Resolution** (High risk, highest value)
+- Fully resolve a sorry statement
+- Ensure all edge cases handled
+- Provide complete, verified proof
 
-#### B. Restore SeriesReindexing.lean
-**Why this matters**: Series reindexing is essential for probability calculations.
+#### Recommended Approach for Current Sorries
 
-**Current issue**: Type class `IsTopologicalAddGroup` inference problems
+**For `factorial_telescoping_sum_one`:**
+1. Start by proving the finite partial sum formula
+2. Show the limit of partial sums equals 1
+3. Connect to the proven `telescoping_series_sum_v4_12_0`
+4. Handle the index shift (series starts at n=2)
 
-**Approach:**
-1. Debug type class resolution issues
-2. Provide explicit type annotations
-3. Consider alternative formulations that work with v4.21.0
-
-#### C. Integrate Progress from Trial Files
-**Why this matters**: 40+ trial files may contain working solutions.
-
-**Available resources:**
-- Multiple `*Working.lean` files with potential solutions
-- Various minimal implementations
-- Historical proof attempts
+**For `summable_factorial_diff`:**
+1. Prove boundedness: |difference| ≤ 1/(n-1)!
+2. Use comparison with known convergent series
+3. Apply mathlib4's summability theorems
 
 ### 🔧 Execution Procedure
 
-#### 1. Status Assessment
+#### 1. Exploration Phase (ENCOURAGED!)
 ```bash
 cd /home/ubuntu/workbench/projects/potion_problem
-# Current build status
-lake build 2>&1 | tail -20
-# Check specific module
-lake build UniformHittingTime.TelescopingSeries 2>&1 | head -20
+# Explore the problem space
+lake build UniformHittingTime.TelescopingSeries 2>&1 | head -30
+# Try different approaches - it's okay if they fail!
+# Learn from errors before committing
 ```
 
 #### 2. Implementation Work
-- **Focus on one concrete improvement**: Resolve one sorry or fix one specific error
-- **Maintain mathematical integrity**: Ensure any changes are mathematically sound
-- **Document your reasoning**: Explain both what you changed and why
+
+**Progressive Implementation Strategy:**
+- **Start ambitious**: Try to fully resolve a sorry
+- **If that fails**: Break it into helper lemmas
+- **If still stuck**: Improve documentation and structure
+- **Always**: Make some form of progress
+
+**Key principle**: Experimentation is encouraged! Just don't commit broken code.
 
 #### 3. MANDATORY: Build Verification
 
@@ -115,96 +119,89 @@ lake build UniformHittingTime.TelescopingSeries 2>&1 | head -20
 lake build 2>&1 | tail -30
 
 # If build fails:
-# - Fix the errors OR
+# - Debug and fix the errors (preferred) OR
+# - Simplify your approach OR
 # - Revert to last working state
-# - Never commit broken code
+# - But ALWAYS ensure build succeeds before commit
 ```
 
-**Build Status Requirements:**
-- ✅ **Build must succeed** before proceeding to commit
-- ⚠️ **If build fails**: Either fix errors or revert changes
-- 🚫 **Never commit code that doesn't build**
+**Build Strategy:**
+- ✅ **Experiment freely** during development
+- ✅ **Debug aggressively** when errors occur
+- ✅ **Only commit** when build succeeds
+- ❌ **Never commit** broken code
 
 #### 4. Progress Recording and Commit
+
 ```bash
 # Record your work
 echo "## Implementation Record ($(date))" >> docs/state/iteration-history.md
 echo "- Agent ID: [your identifier]" >> docs/state/iteration-history.md
-echo "- Accomplished: [specific achievement]" >> docs/state/iteration-history.md
-echo "- Resolved sorries: [file:line]" >> docs/state/iteration-history.md
-echo "- Mathematical insight: [what you discovered]" >> docs/state/iteration-history.md
-echo "- Build status: [result]" >> docs/state/iteration-history.md
+echo "- Attempted: [what you tried, even if it didn't fully work]" >> docs/state/iteration-history.md
+echo "- Accomplished: [what actually succeeded]" >> docs/state/iteration-history.md
+echo "- Resolved sorries: [file:line if any]" >> docs/state/iteration-history.md
+echo "- Mathematical insight: [what you learned]" >> docs/state/iteration-history.md
+echo "- Build status: [must be successful]" >> docs/state/iteration-history.md
 echo "" >> docs/state/iteration-history.md
 
 # Required commit
 git add -A
 git commit -m "Lean implementation: [specific achievement]
 
-- Resolved sorry: [file:line]
-- Fixed error: [error type]
-- Mathematical insight: [discovery]
-- Build status: [success/failure details]
+- Attempted: [honest description of attempts]
+- Achieved: [what actually worked]
+- Mathematical insight: [key learning]
+- Build status: Successful (required)
 
-Next priority: [most important next task]"
+Next steps: [guidance for next implementer]"
 ```
 
 ### 📚 Essential Resources
 
 **Mathematical Background:**
-- The Aphrodisiac Problem demonstrates stopping time theory
-- E[τ] = e shows beautiful correspondence with ∑_{n=0}^∞ 1/n! = e
-- Proof core: P(τ = n) = (n-1)/n! for n ≥ 2
-- Connection to Irwin-Hall distribution: P(S_n < 1) = 1/n!
+- The proven `telescoping_series_sum_v4_12_0` can be used for other telescoping proofs
+- Factorial series ∑ 1/n! = e is available in mathlib4
+- Comparison test for series convergence
 
-**Technical Constraints:**
-- mathlib4 v4.21.0 API limitations (updated from v4.12.0)
-- Timeout avoidance requires concise proofs
-- Explicit type annotations prevent errors
-- `IsTopologicalAddGroup` replaced `TopologicalAddGroup`
+**Technical Tips:**
+- Use `#check` to explore available lemmas
+- Look for patterns in FactorialSeries.lean
+- Try `simp` and `ring` for algebraic simplifications
+- Use explicit type annotations when inference fails
 
-**Available Trial Files:**
-```
-ActuallyWorking.lean          TelescopingSeriesMinimal.lean
-WorkingCore.lean              TelescopingSeriesWorking.lean
-MinimalWorking.lean           [20+ other experimental files]
-```
+**Available Helpers:**
+- `FactorialSeries.inv_factorial_tendsto_zero` - proves 1/n! → 0
+- `pmf_telescoping_insight` - factorial difference identity
+- `telescoping_series_partial_sum` - finite sum formula
 
-### ⚠️ Critical Guidelines
+### ⚠️ Success Criteria
 
-1. **Honest Assessment**: This project is incomplete. Don't claim false completeness.
-2. **Build Success is Mandatory**: Never commit code that doesn't build successfully
-3. **Git Diff Evaluation**: Your changes will be rigorously evaluated against claims
-4. **Mathematical Soundness**: Ensure mathematical correctness AND build success
-5. **One Step Forward**: Make one concrete, verifiable improvement that builds
-6. **Clear Documentation**: Explain not just what but why you made changes
+**What Success Looks Like:**
+1. **Any meaningful progress** that builds successfully
+2. **Honest documentation** of what was attempted
+3. **Learning captured** for future implementers
+4. **Mathematical integrity** maintained
 
-### 🎉 Expected Outcomes
+**Remember:**
+- Partial progress is valuable
+- Failed attempts teach us
+- Documentation improvements matter
+- Building code is mandatory
 
-**Minimal Success**: 
-- Resolve 1 sorry OR fix 1 specific error
-- **Maintain successful build** (mandatory)
-- Document mathematical reasoning
-- Create git diff showing concrete progress
+### 💡 Encouragement
 
-**Ideal Success**:
-- Complete one of the three missing proof pieces
-- **Achieve successful build** (mandatory)
-- Advance toward the complete E[τ] = e proof
-- Provide clear handoff to next implementer
+**You are encouraged to:**
+- Try ambitious approaches first
+- Experiment with different proof strategies
+- Learn from build errors
+- Make incremental progress
 
-**Definition of Success**: Code that builds + mathematical progress = success
-**Definition of Failure**: Any commit that breaks the build = failure
-
-### 💡 Why This Project Matters
-
-The Aphrodisiac Problem demonstrates how:
-- Cultural internet memes can encode deep mathematics
-- Stopping time theory connects to fundamental constants
-- Formal verification reveals the beauty of mathematical structure
-- Incomplete proofs are valuable when honestly documented
-
-**The goal is not just to prove E[τ] = e, but to create a masterpiece of formal mathematics that others can learn from and build upon.**
+**The key balance:**
+- Be ambitious in attempts
+- Be conservative in commits
+- Always maintain build success
+- Progress over perfection
 
 ---
 
-**Select your task and begin implementation. Focus on mathematical integrity and concrete progress.**
+**Begin with optimism, experiment freely, but commit only success.**
