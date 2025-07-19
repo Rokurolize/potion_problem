@@ -106,7 +106,26 @@ lake build UniformHittingTime.TelescopingSeries 2>&1 | head -20
 - **Maintain mathematical integrity**: Ensure any changes are mathematically sound
 - **Document your reasoning**: Explain both what you changed and why
 
-#### 3. Progress Recording and Commit
+#### 3. MANDATORY: Build Verification
+
+**⚠️ CRITICAL: You MUST verify build success before ANY commit**
+
+```bash
+# After making changes, ALWAYS verify:
+lake build 2>&1 | tail -30
+
+# If build fails:
+# - Fix the errors OR
+# - Revert to last working state
+# - Never commit broken code
+```
+
+**Build Status Requirements:**
+- ✅ **Build must succeed** before proceeding to commit
+- ⚠️ **If build fails**: Either fix errors or revert changes
+- 🚫 **Never commit code that doesn't build**
+
+#### 4. Progress Recording and Commit
 ```bash
 # Record your work
 echo "## Implementation Record ($(date))" >> docs/state/iteration-history.md
@@ -153,23 +172,28 @@ MinimalWorking.lean           [20+ other experimental files]
 ### ⚠️ Critical Guidelines
 
 1. **Honest Assessment**: This project is incomplete. Don't claim false completeness.
-2. **Git Diff Evaluation**: Your changes will be rigorously evaluated against claims
-3. **Mathematical Soundness First**: Correctness over build success
-4. **One Step Forward**: Make one concrete, verifiable improvement
-5. **Clear Documentation**: Explain not just what but why you made changes
+2. **Build Success is Mandatory**: Never commit code that doesn't build successfully
+3. **Git Diff Evaluation**: Your changes will be rigorously evaluated against claims
+4. **Mathematical Soundness**: Ensure mathematical correctness AND build success
+5. **One Step Forward**: Make one concrete, verifiable improvement that builds
+6. **Clear Documentation**: Explain not just what but why you made changes
 
 ### 🎉 Expected Outcomes
 
 **Minimal Success**: 
 - Resolve 1 sorry OR fix 1 specific error
+- **Maintain successful build** (mandatory)
 - Document mathematical reasoning
-- Provide clear handoff to next implementer
 - Create git diff showing concrete progress
 
 **Ideal Success**:
 - Complete one of the three missing proof pieces
-- Maintain build success
+- **Achieve successful build** (mandatory)
 - Advance toward the complete E[τ] = e proof
+- Provide clear handoff to next implementer
+
+**Definition of Success**: Code that builds + mathematical progress = success
+**Definition of Failure**: Any commit that breaks the build = failure
 
 ### 💡 Why This Project Matters
 
