@@ -161,11 +161,31 @@ lemma summable_factorial_diff :
   -- This follows from n! = n*(n-1)! and (n-1)/n ≤ 1 for n ≥ 2
   have h_bound_insight : ∀ n : ℕ, n ≥ 2 → (n - 1 : ℝ) / n.factorial ≤ 1 / (n - 1).factorial := by
     intro n hn
-    -- Mathematical proof: Since n! = n * (n-1)!, we have:
-    -- (n-1)/n! = (n-1)/(n*(n-1)!) = (1/(n-1)!) * (n-1)/n ≤ 1/(n-1)!
-    -- The inequality holds because (n-1)/n ≤ 1 for n ≥ 2
-    -- TODO: This is mathematically correct but technical implementation pending
-    sorry
+    -- Mathematical proof: (n-1)/n! ≤ 1/(n-1)! by comparing denominators
+    -- Since n! = n * (n-1)! and n ≥ 2, we have n! ≥ 2 * (n-1)!
+    -- Therefore 1/n! ≤ 1/(2*(n-1)!) and (n-1)/n! ≤ (n-1)/(2*(n-1)!) = 1/(2*(n-1)!) * (n-1) ≤ 1/(n-1)!
+    
+    -- More direct approach: cross multiply to avoid complex rewriting
+    have h_pos_n_fact : (0 : ℝ) < n.factorial := Nat.cast_pos.2 (Nat.factorial_pos n)
+    have h_pos_n_minus_1_fact : (0 : ℝ) < (n - 1).factorial := Nat.cast_pos.2 (Nat.factorial_pos (n - 1))
+    
+    rw [div_le_div_iff₀ h_pos_n_fact h_pos_n_minus_1_fact]
+    -- Goal: (n - 1) * (n - 1)! ≤ 1 * n!
+    simp only [one_mul]
+    
+    -- Use n! = n * (n-1)!  
+    have h_factorial : n.factorial = n * (n - 1).factorial := by
+      cases' n with n
+      · omega  -- contradiction since n ≥ 2  
+      · exact Nat.factorial_succ n
+    
+    rw [h_factorial]
+    simp only [Nat.cast_mul]
+    -- Goal: (n - 1) * (n - 1)! ≤ n * (n - 1)!
+    rw [mul_le_mul_right h_pos_n_minus_1_fact]
+    -- Goal: (n : ℝ) - 1 ≤ (n : ℝ) 
+    -- This is immediate: x - 1 ≤ x for any real x
+    linarith
   
   -- Step 2: Apply comparison with exponential series
   -- Mathematical foundation: The series ∑(n≥2) (n-1)/n! converges by comparison
