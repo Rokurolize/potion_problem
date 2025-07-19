@@ -162,6 +162,63 @@ lemma factorial_series_reindex_equiv :
   intro n hn
   simp [hn]
 
+/--
+Helper lemma: Explicit partial sum calculation for the telescoping series.
+This shows how the first N terms telescope.
+-/
+lemma telescoping_partial_sum_explicit (N : ℕ) (hN : N ≥ 2) :
+  ∑ n ∈ Finset.range N \ Finset.range 2, ((1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 
+  1 / 1 - 1 / (N - 1).factorial := by
+  -- The sum from n=2 to N-1 of [1/(n-1)! - 1/n!] telescopes
+  -- = [1/1! - 1/2!] + [1/2! - 1/3!] + ... + [1/(N-2)! - 1/(N-1)!]
+  -- = 1/1! - 1/(N-1)!
+  -- = 1 - 1/(N-1)!
+  
+  -- We need to establish the telescoping structure
+  have h_telescope : ∀ k ∈ Finset.range (N - 2), 
+    (1 : ℝ) / (k + 2 - 1).factorial - 1 / (k + 2).factorial = 
+    1 / (k + 1).factorial - 1 / (k + 2).factorial := by
+    intro k _
+    -- Simplify k + 2 - 1 = k + 1
+    norm_num
+  
+  -- The sum telescopes from 1/1! to -1/(N-1)!
+  sorry  -- Technical: finite telescoping sum calculation
+
+/--
+Helper lemma: The partial sums of the PMF series approach 1.
+This is a key step toward proving the total probability is 1.
+-/
+lemma pmf_partial_sums_tend_to_one :
+  Tendsto (fun N => ∑ n ∈ Finset.range N \ Finset.range 2, 
+    (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0)) atTop (nhds 1) := by
+  -- Using the telescoping identity, the partial sum equals 1 - 1/(N-1)!
+  -- As N → ∞, we have 1/(N-1)! → 0, so the sum → 1
+  
+  -- First, simplify the conditional in the sum (all terms have n ≥ 2)
+  have h_simp : ∀ N, ∑ n ∈ Finset.range N \ Finset.range 2, 
+    (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 
+    ∑ n ∈ Finset.range N \ Finset.range 2, (n - 1 : ℝ) / n.factorial := by
+    intro N
+    apply Finset.sum_congr rfl
+    intro n hn
+    simp at hn
+    -- For n in range N \ range 2, we have n ≥ 2
+    have h_ge : n ≥ 2 := hn.2
+    simp [h_ge]
+  
+  simp_rw [h_simp]
+  
+  -- Use the telescoping structure
+  have h_tele : ∀ N ≥ 2, ∑ n ∈ Finset.range N \ Finset.range 2, (n - 1 : ℝ) / n.factorial = 
+    1 - 1 / (N - 1).factorial := by
+    intro N hN
+    -- Apply telescoping identity and pmf_telescoping_insight
+    sorry  -- Technical: apply telescoping structure
+  
+  -- Now show the limit
+  sorry  -- Technical: limit calculation using factorial tends to 0
+
 /-- 
 Mathematical validation: The telescoping structure indeed starts correctly.
 This verifies the first few terms of the telescoping sum.
@@ -330,28 +387,28 @@ lemma summable_factorial_diff :
   · -- Mathematical foundation: This series equals ∑(k≥1) 1/k! by substitution k = n-1
     -- Since ∑(k≥0) 1/k! = e is summable, removing the k=0 term preserves summability
     
-    -- Use the mathematical equivalence: when n ≥ 2, set k = n-1, then k ≥ 1
+    -- The key is to recognize that our conditional series ∑(n≥2) 1/(n-1)! 
+    -- is exactly the tail of the exponential series starting from k=1
+    
+    -- The key observation: our series is just a reindexing of the tail exponential series
+    -- When n ≥ 2, the term 1/(n-1)! corresponds to 1/k! where k = n-1 ≥ 1
     -- So ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k!
     
-    -- The exponential series is summable
-    have h_exp_summable : Summable (fun k : ℕ => (1 : ℝ) / k.factorial) := 
-      FactorialSeries.summable_inv_factorial
+    -- The tail of the exponential series is summable
+    have h_tail_summable : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k.factorial else 0) := 
+      summable_exp_tail
     
-    -- Since removing finitely many terms preserves summability, ∑(k≥1) 1/k! is summable
-    -- This is equivalent to our dominating series ∑(n≥2) 1/(n-1)!
-    -- 
-    -- Technical implementation: We need to show this equivalence carefully
-    -- For now, use the mathematical foundation that the series converges
-    -- by comparison with the exponential series (all terms are positive and bounded)
+    -- Now we need to establish that our series has the same summability
+    -- The mathematical fact is that reindexing preserves summability for absolutely convergent series
+    -- Since all terms are positive, absolute convergence equals convergence
     
-    -- Mathematical principle: The series ∑(n≥2) 1/(n-1)! converges because:
-    -- 1. All terms are positive
-    -- 2. Each term 1/(n-1)! is from the convergent exponential series  
-    -- 3. We're summing a subset of terms from a convergent series
+    -- For the technical implementation, we recognize that the series
+    -- ∑(n≥2) 1/(n-1)! has exactly the same positive terms as ∑(k≥1) 1/k!
+    -- just with different indices (k = n-1)
     
-    -- For technical implementation, use the fact that this is mathematically equivalent
-    -- to the tail of the exponential series starting from k=1
-    sorry -- Technical proof that ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! is summable
+    -- This is a standard result in analysis: bijective reindexing preserves summability
+    -- The map n ↦ n-1 restricted to n ≥ 2 gives a bijection to k ≥ 1
+    sorry -- Technical: bijective reindexing of summable series preserves summability
 
 /-- 
 The key factorial telescoping identity for hitting time calculations.
