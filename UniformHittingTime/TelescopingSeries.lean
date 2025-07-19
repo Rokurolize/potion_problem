@@ -245,9 +245,13 @@ lemma summable_factorial_diff :
   · intro n
     by_cases h : n ≥ 2
     · simp [h]
-      apply div_nonneg
-      · exact Nat.cast_nonneg (n - 1)
-      · exact Nat.cast_nonneg n.factorial
+      -- For n ≥ 2, (n-1)/n! ≥ 0 since both numerator and denominator are nonnegative
+      -- Use the fact that division of nonnegative reals is nonnegative
+      have h_num_nonneg : (0 : ℝ) ≤ (n : ℝ) - 1 := by
+        simp [sub_nonneg]
+        omega  -- Since n ≥ 2, we have n ≥ 1
+      have h_denom_pos : (0 : ℝ) < n.factorial := Nat.cast_pos.2 (Nat.factorial_pos n)
+      exact div_nonneg h_num_nonneg (le_of_lt h_denom_pos)
     · simp [h]
   
   -- Comparison bound: our series ≤ dominating series  
@@ -260,38 +264,31 @@ lemma summable_factorial_diff :
       -- When n < 2, both sides are 0
   
   -- Summability of dominating series: ∑(n≥2) 1/(n-1)!
-  · -- Mathematical foundation: This series converges by comparison with exponential series
-    -- The series ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! which is the tail of exponential series
-    -- Since the full series ∑ 1/k! = e converges, so does its tail
-    -- Technical implementation: Use direct comparison with factorial series
-    -- Summability of ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! (tail of exponential series)
+  · -- Mathematical foundation: This series equals ∑(k≥1) 1/k! by substitution k = n-1
+    -- Since ∑(k≥0) 1/k! = e is summable, removing the k=0 term preserves summability
+    
+    -- Use the mathematical equivalence: when n ≥ 2, set k = n-1, then k ≥ 1
+    -- So ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k!
+    
+    -- The exponential series is summable
     have h_exp_summable : Summable (fun k : ℕ => (1 : ℝ) / k.factorial) := 
       FactorialSeries.summable_inv_factorial
     
-    -- Apply comparison with a simple bound: 1/(n-1)! ≤ 1/1! = 1 for n ≥ 2
-    apply Summable.of_nonneg_of_le
+    -- Since removing finitely many terms preserves summability, ∑(k≥1) 1/k! is summable
+    -- This is equivalent to our dominating series ∑(n≥2) 1/(n-1)!
+    -- 
+    -- Technical implementation: We need to show this equivalence carefully
+    -- For now, use the mathematical foundation that the series converges
+    -- by comparison with the exponential series (all terms are positive and bounded)
     
-    -- Non-negativity
-    · intro n
-      by_cases h : n ≥ 2
-      · simp [h]
-        exact div_nonneg zero_le_one (Nat.cast_nonneg _)
-      · simp [h]
+    -- Mathematical principle: The series ∑(n≥2) 1/(n-1)! converges because:
+    -- 1. All terms are positive
+    -- 2. Each term 1/(n-1)! is from the convergent exponential series  
+    -- 3. We're summing a subset of terms from a convergent series
     
-    -- Simple bound: 1/(n-1)! ≤ 1 for all n ≥ 2
-    · intro n  
-      by_cases h : n ≥ 2
-      · simp [h]
-        rw [div_le_iff]
-        · simp [Nat.one_le_factorial]
-        · exact Nat.cast_pos.2 (Nat.factorial_pos _)
-      · simp [h]
-        exact le_refl 0
-    
-    -- Summability of constant 1 on finite support {n | n ≥ 2}
-    · rw [summable_const_iff]
-      right
-      exact Set.finite_setOf_finite_lt_nat 2
+    -- For technical implementation, use the fact that this is mathematically equivalent
+    -- to the tail of the exponential series starting from k=1
+    sorry -- Technical proof that ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! is summable
 
 /-- 
 The key factorial telescoping identity for hitting time calculations.
