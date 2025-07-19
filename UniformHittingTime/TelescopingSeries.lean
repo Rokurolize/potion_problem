@@ -228,11 +228,70 @@ lemma summable_factorial_diff :
   -- The dominating series ∑(k≥1) 1/k! is summable as tail of exponential series
   -- Technical implementation requires careful API usage for conditional series
   
-  -- For now, provide the mathematical foundation and defer technical implementation
-  -- The comparison test principle is mathematically sound: 
-  -- |f(n)| ≤ g(n) and ∑g(n) convergent implies ∑f(n) convergent
-  -- All mathematical components are established and verified
-  sorry
+  -- Apply comparison test with the proven bound h_bound_insight
+  -- We have: (n-1)/n! ≤ 1/(n-1)! for n ≥ 2
+  -- The dominating series ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! is summable
+  
+  -- Use a simpler approach: direct comparison with exponential series tail
+  -- The key insight is that the series ∑(n≥2) (n-1)/n! is comparable to ∑(n≥2) 1/(n-1)!
+  
+  -- Transform our series using the identity (n-1)/n! = 1/(n-1)! - 1/n!
+  -- This means |(n-1)/n!| = |1/(n-1)! - 1/n!| ≤ 1/(n-1)! (since both terms are positive)
+  
+  -- Apply comparison test: Summable.of_nonneg_of_le
+  apply Summable.of_nonneg_of_le
+  
+  -- Non-negativity condition
+  · intro n
+    by_cases h : n ≥ 2
+    · simp [h]
+      apply div_nonneg
+      · exact Nat.cast_nonneg (n - 1)
+      · exact Nat.cast_nonneg n.factorial
+    · simp [h]
+  
+  -- Comparison bound: our series ≤ dominating series  
+  · intro n
+    by_cases h : n ≥ 2
+    · simp [h]
+      -- Apply our proven bound: (n-1)/n! ≤ 1/(n-1)! for n ≥ 2
+      exact h_bound_insight n h
+    · simp [h]
+      -- When n < 2, both sides are 0
+  
+  -- Summability of dominating series: ∑(n≥2) 1/(n-1)!
+  · -- Mathematical foundation: This series converges by comparison with exponential series
+    -- The series ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! which is the tail of exponential series
+    -- Since the full series ∑ 1/k! = e converges, so does its tail
+    -- Technical implementation: Use direct comparison with factorial series
+    -- Summability of ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! (tail of exponential series)
+    have h_exp_summable : Summable (fun k : ℕ => (1 : ℝ) / k.factorial) := 
+      FactorialSeries.summable_inv_factorial
+    
+    -- Apply comparison with a simple bound: 1/(n-1)! ≤ 1/1! = 1 for n ≥ 2
+    apply Summable.of_nonneg_of_le
+    
+    -- Non-negativity
+    · intro n
+      by_cases h : n ≥ 2
+      · simp [h]
+        exact div_nonneg zero_le_one (Nat.cast_nonneg _)
+      · simp [h]
+    
+    -- Simple bound: 1/(n-1)! ≤ 1 for all n ≥ 2
+    · intro n  
+      by_cases h : n ≥ 2
+      · simp [h]
+        rw [div_le_iff]
+        · simp [Nat.one_le_factorial]
+        · exact Nat.cast_pos.2 (Nat.factorial_pos _)
+      · simp [h]
+        exact le_refl 0
+    
+    -- Summability of constant 1 on finite support {n | n ≥ 2}
+    · rw [summable_const_iff]
+      right
+      exact Set.finite_setOf_finite_lt_nat 2
 
 /-- 
 The key factorial telescoping identity for hitting time calculations.
@@ -309,11 +368,9 @@ theorem factorial_telescoping_sum_one :
     -- This is a telescoping series with summable terms
     -- Each term (1/(k+1)! - 1/(k+2)!) is from a telescoping factorial series
     -- Since 1/n! → 0 and the series telescopes, it's summable
-    have h_factorial_summable : Summable (fun n : ℕ => (1 : ℝ) / n.factorial) := 
-      FactorialSeries.summable_inv_factorial
-    -- The shifted difference series is summable since it telescopes to a convergent limit
-    -- Use simpler approach: telescoping difference of summable series is summable
-    -- The key insight is that this telescopes and converges to a finite limit
+    -- Mathematical foundation: The telescoping difference series is summable
+    -- because it converges to a finite limit (the terms approach 0)
+    -- Technical implementation: Use comparison with factorial series
     sorry -- Technical telescoping summability proof
     
   -- Apply the core telescoping theorem
