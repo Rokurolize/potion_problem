@@ -269,7 +269,38 @@ lemma pmf_partial_sums_tend_to_one :
     sorry  -- Technical: apply telescoping structure
   
   -- Now show the limit
-  sorry  -- Technical: limit calculation using factorial tends to 0
+  -- We have: partial sum = 1 - 1/(N-1)! for N ≥ 2  
+  -- As N → ∞, we have 1/(N-1)! → 0, so 1 - 1/(N-1)! → 1 - 0 = 1
+  
+  -- Use the telescoping identity to convert to limit of 1 - 1/(N-1)!
+  have h_eventually_ge : ∀ᶠ N in atTop, N ≥ 2 := Filter.eventually_atTop.mpr ⟨2, fun n hn => hn⟩
+  
+  rw [Filter.tendsto_congr']
+  · -- Show the limit of 1 - 1/(N-1)! is 1
+    have h_factorial_zero : Tendsto (fun N : ℕ => (1 : ℝ) / (N - 1).factorial) atTop (nhds 0) := by
+      -- This follows from FactorialSeries.inv_factorial_tendsto_zero by shifting indices  
+      have h_shift : Tendsto (fun N : ℕ => N - 1) atTop atTop := by
+        rw [tendsto_atTop_atTop]
+        intro b
+        use b + 1
+        intro a ha
+        omega
+      -- Compose the functions: 1/(N-1)! = (1/k!) ∘ (N ↦ N-1)
+      have h_comp : (fun N : ℕ => (1 : ℝ) / (N - 1).factorial) = 
+                    (fun k : ℕ => (1 : ℝ) / k.factorial) ∘ (fun N => N - 1) := by
+        ext N; simp [Function.comp]
+      rw [h_comp]
+      exact Filter.Tendsto.comp FactorialSeries.inv_factorial_tendsto_zero h_shift
+    
+    -- Therefore 1 - 1/(N-1)! → 1 - 0 = 1
+    have h_limit : Tendsto (fun N : ℕ => (1 : ℝ) - 1 / (N - 1).factorial) atTop (nhds (1 - 0)) := 
+      Tendsto.sub tendsto_const_nhds h_factorial_zero
+    simpa using h_limit
+  
+  · -- Show the functions are eventually equal using h_tele
+    filter_upwards [h_eventually_ge] with N hN
+    rw [h_tele N hN]
+    simp [one_mul]
 
 /-- 
 Mathematical validation: The telescoping structure indeed starts correctly.
