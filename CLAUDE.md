@@ -24,6 +24,28 @@ Read `/home/ubuntu/workbench/projects/potion_problem/docs/state/self-contained-p
 
 **Verified**: Task tool can directly read files and execute instructions.
 
+### 4. MANDATORY: Post-Execution Verification
+
+**After Task agent completes, ALWAYS verify actual results:**
+
+```bash
+# Check what actually changed
+git status
+git log --oneline -3
+git diff HEAD~1
+
+# Verify build status
+lake build
+```
+
+**Critical Rule**: Never trust subagent reports without verification. Check:
+- ✅ Actual commits made
+- ✅ Files actually changed
+- ✅ Build status confirmed
+- ✅ Mathematical progress validated
+
+**Documentation**: Update iteration-history.md with verified results only.
+
 ---
 
 ## 📋 Project Overview

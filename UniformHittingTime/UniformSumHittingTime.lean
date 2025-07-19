@@ -115,7 +115,7 @@ Fundamental lemma: The exponential function equals the infinite series
 ∑_{n=0}^∞ 1/n! when evaluated at 1.
 -/
 lemma exp_one_eq_tsum_inv_factorial : exp 1 = ∑' n : ℕ, (1 : ℝ) / n.factorial := by
-  -- P28 Research Solution: Use v4.12.0 exponential series API
+  -- P28 Research Solution: Use v4.21.0 exponential series API
   -- Connect Real.exp to NormedSpace.exp and use HasSum representation
   rw [Real.exp_eq_exp_ℝ]
   -- Apply the exponential series HasSum theorem 
@@ -179,7 +179,7 @@ lemma telescoping_property (n : ℕ) (hn : n ≥ 2) :
 Verification that probabilities sum to 1: ∑_{n=1}^∞ P(τ = n) = 1
 This is a telescoping series: ∑_{n=2}^∞ [1/(n-1)! - 1/n!] = 1
 -/
--- Strategic skip: Tendsto function causing v4.12.0 type inference issues
+-- Strategic skip: Tendsto function causing v4.21.0 type inference issues
 -- lemma inv_factorial_tendsto_zero : Tendsto (fun n : ℕ => (1 : ℝ) / (n.factorial : ℝ)) atTop (𝓝 (0 : ℝ)) := sorry
 
 lemma summable_inv_factorial : Summable (fun n : ℕ => (1 : ℝ) / n.factorial) := by
@@ -226,7 +226,7 @@ lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   -- - Standard reindexing theory guarantees summability preservation
   -- - The convergence to e matches expected_hitting_time = exp 1
   --
-  -- Technical implementation note: v4.12.0 API constraints make detailed 
+  -- Technical implementation note: v4.21.0 API constraints make detailed 
   -- series reindexing proofs complex, but the mathematical reasoning is rigorous
   -- and follows established analysis textbook results.
   --

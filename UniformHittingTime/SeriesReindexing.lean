@@ -3,7 +3,7 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
--- Conservative v4.12.0 imports approach - P24 APIs need verification
+-- Conservative v4.21.0 imports approach - P24 APIs need verification
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
 import Mathlib.Logic.Equiv.Basic
 import Mathlib.Analysis.SpecialFunctions.Exp
@@ -27,9 +27,9 @@ theorem reindex_series_general (h_summable : Summable f) (φ : α ≃ ℕ) :
     Summable (f ∘ φ) ∧ (∑' a, f (φ a)) = ∑' n, f n := by
   constructor
   · -- P24 Research placeholder: Equivalence preserves summability
-    sorry -- Need verified v4.12.0 API for equivalence composition
+    sorry -- Need verified v4.21.0 API for equivalence composition
   · -- P24 Research placeholder: Equivalence preserves tsum
-    sorry -- Need verified v4.12.0 API for tsum equivalence
+    sorry -- Need verified v4.21.0 API for tsum equivalence
 
 /--
 A theorem for reindexing a series with a shift.
@@ -39,7 +39,7 @@ the series `∑' k, f (k + a)` also has a sum, and `∑' n, f n = (∑_{i=0}^{a-
 theorem reindex_series_shift (h_summable : Summable f) (a : ℕ) :
     (∑' n, f n) = (∑ i in Finset.range a, f i) + (∑' k, f (k + a)) := by
   -- P24 Research placeholder: Finite prefix + infinite tail split
-  sorry -- Need verified v4.12.0 API for range splitting
+  sorry -- Need verified v4.21.0 API for range splitting
 
 /--
 A specific case of reindexing where the series is shifted by `n-2`.
@@ -63,9 +63,9 @@ The following are example usages of the reindexing theorems, which also serve as
 -- Example usage of reindex_series_shift
 example : Summable (fun k : ℕ ↦ (1:ℝ) / (k+2).factorial) := by
   -- P24 Research placeholder: Shifting preserves summability  
-  sorry -- Need verified v4.12.0 API for nat add summability
+  sorry -- Need verified v4.21.0 API for nat add summability
 
 -- Example usage of reindex_series_n_minus_two
 example : (∑' n, if n ≥ 2 then (1:ℝ) / (n - 2).factorial else 0) = Real.exp 1 := by
   -- P24 Research placeholder: Exponential series equality
-  sorry -- Need verified v4.12.0 API for ∑ 1/k! = e
+  sorry -- Need verified v4.21.0 API for ∑ 1/k! = e

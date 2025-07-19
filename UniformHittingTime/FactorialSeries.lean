@@ -3,7 +3,7 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
--- P26 Research Solution: Required v4.12.0 imports for factorial convergence
+-- P26 Research Solution: Required v4.21.0 imports for factorial convergence
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.Factorial.Basic
 import Mathlib.Analysis.SpecialFunctions.Exponential
@@ -54,7 +54,7 @@ Main theorem: 1/n! → 0 as n → ∞
 theorem inv_factorial_tendsto_zero :
   Tendsto (fun n : ℕ => (1 : ℝ) / n.factorial) atTop (nhds 0) := by
   -- Use the fact that summable sequences tend to zero
-  -- In v4.12.0, this is summable_inv_factorial.tendsto_cofinite_zero + Nat.cofinite_eq_atTop
+  -- In v4.21.0, this is summable_inv_factorial.tendsto_cofinite_zero + Nat.cofinite_eq_atTop
   rw [← Nat.cofinite_eq_atTop]
   exact summable_inv_factorial.tendsto_cofinite_zero
 
@@ -64,7 +64,8 @@ This shows factorial growth dominates exponential growth.
 -/
 lemma factorial_dominates_exponential {c : ℝ} (hc : c > 1) :
   ∀ᶠ n in atTop, (n.factorial : ℝ) > c ^ n := by
-  -- Use the fact that exponential series converges for any c (using hc implicitly)
+  -- Use the fact that exponential series converges for any c
+  -- Note: hc constraint ensures mathematical validity but not needed for convergence proof
   have h_summable : Summable (fun n => c ^ n / n.factorial) :=
     Real.summable_pow_div_factorial c
   have h_tendsto : Tendsto (fun n => c ^ n / n.factorial) atTop (𝓝 0) := by
@@ -83,7 +84,7 @@ Ratio test: The ratio of consecutive terms goes to 0
 -/
 lemma inv_factorial_ratio_tendsto_zero :
   Tendsto (fun n : ℕ => ((1 : ℝ) / (n + 1).factorial) / (1 / n.factorial)) atTop (nhds 0) := by
-  -- P26 Research Solution: Factorial ratio reduction (v4.12.0 API verification needed)
+  -- P26 Research Solution: Factorial ratio reduction (v4.21.0 API verification needed)
   have h_eq : (fun n : ℕ => ((1 : ℝ) / (n + 1).factorial) / (1 / n.factorial)) = 
               fun n : ℕ => (1 : ℝ) / ((n : ℝ) + 1) := by
     -- P26 Research Solution: Factorial ratio reduction: (n+1)!/n! = n+1
