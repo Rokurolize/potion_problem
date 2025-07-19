@@ -164,7 +164,8 @@ Task tool → "Read /path/file.md and follow its instructions"
 
 **File Naming:**
 - Place in `docs/research_prompts/`
-- Use sequential numbers: `36-description.md`, `37-description.md`, etc.
+- Use sequential numbers: `[next-number]-description.md`
+- Check existing files to determine next available number
 - **Do NOT reference numbers within prompt content**
 
 **Content Requirements (Essential for Success):**
@@ -202,7 +203,7 @@ Task tool → "Read /path/file.md and follow its instructions"
 **Using ask_human Tool:**
 ```bash
 # After creating research prompt file
-ask_human("I've created research prompt at /full/path/to/docs/research_prompts/36-example.md requesting investigation of [brief description]. Please initiate external research assistance.")
+ask_human("I've created research prompt at /full/path/to/docs/research_prompts/[number]-[description].md requesting investigation of [brief description]. Please initiate external research assistance.")
 ```
 
 **Expected Response:**
