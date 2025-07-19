@@ -211,30 +211,57 @@ This is the core mathematical result that P(τ = n) sums to 1.
 -/
 theorem factorial_telescoping_sum_one :
   ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
-  -- Mathematical insight: This series telescopes to give 1/1! - lim_{n→∞} 1/n! = 1 - 0 = 1
-  -- 
-  -- The proof strategy:
-  -- 1. The series ∑(n≥2) [1/(n-1)! - 1/n!] represents the telescoping sum:
-  --    = [1/1! - 1/2!] + [1/2! - 1/3!] + [1/3! - 1/4!] + ...
-  --    = 1/1! - lim_{N→∞} 1/N! = 1 - 0 = 1
-  --
-  -- 2. Apply telescoping_series_sum_v4_12_0 with a(k) = 1/k!:
-  --    - We have proven 1/k! → 0 (from FactorialSeries.inv_factorial_tendsto_zero)
-  --    - We have proven summability (from summable_factorial_diff)
-  --    - Starting index adjustment: the series effectively starts from a₁ = 1/1!
-  --
-  -- 3. The conditional structure can be transformed to match standard telescoping form
-  --    but requires careful handling of the index shift and zero terms
-  --
-  -- Mathematical foundation: This represents the core probability identity ∑ P(τ = n) = 1
-  -- where τ is the uniform sum hitting time, establishing total probability conservation
-  --
-  -- Implementation note: The technical proof requires combining several established lemmas:
-  -- - telescoping_series_sum_v4_12_0 (core telescoping theorem, proven)
-  -- - inv_factorial_tendsto_zero (convergence to 0, from FactorialSeries)
-  -- - summable_factorial_diff (series convergence, above)
-  -- - Proper handling of conditional series and index transformations
-  sorry
+  -- Mathematical approach: Transform the conditional series to standard telescoping form
+  -- Key insight: ∑(n≥2) [1/(n-1)! - 1/n!] = ∑_{k≥1} [1/k! - 1/(k+1)!] by substitution k = n-1
+  
+  -- Step 1: Transform to standard telescoping form by index substitution
+  have h_reindex : ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 
+                   ∑' k : ℕ, (if k ≥ 1 then (1 : ℝ) / k.factorial - 1 / (k + 1).factorial else 0) := by
+    -- This requires careful index manipulation: when n ≥ 2, set k = n-1, so k ≥ 1
+    -- The series ∑(n≥2) f(n-1, n) becomes ∑(k≥1) f(k, k+1)
+    sorry -- Index transformation proof
+    
+  rw [h_reindex]
+  
+  -- Step 2: Apply the proven telescoping theorem with a(k) = 1/k!
+  have h_tendsto : Tendsto (fun k : ℕ => (1 : ℝ) / k.factorial) atTop (nhds 0) := 
+    FactorialSeries.inv_factorial_tendsto_zero
+    
+  have h_summable : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k.factorial - 1 / (k + 1).factorial else 0) := by
+    -- This follows from the summability of the factorial difference series
+    -- But we need to prove it matches our conditional form
+    sorry -- Summability proof for conditional telescoping series
+  
+  -- Step 3: Apply telescoping_series_sum_v4_12_0 after handling the conditional structure
+  -- The challenge is that our series starts from k=1, not k=0, and has conditional form
+  -- We need: ∑_{k≥1} [1/k! - 1/(k+1)!] = 1/1! = 1
+  
+  have h_telescoping_form : ∑' k : ℕ, (if k ≥ 1 then (1 : ℝ) / k.factorial - 1 / (k + 1).factorial else 0) = 
+                           ∑' k : ℕ, ((fun j => (1 : ℝ) / (j + 1).factorial) k - (fun j => (1 : ℝ) / (j + 1).factorial) (k + 1)) := by
+    -- Transform to match telescoping_series_sum_v4_12_0 format
+    -- This requires handling the index shift and conditional structure
+    sorry -- Format transformation proof
+    
+  rw [h_telescoping_form]
+  
+  -- Now apply telescoping_series_sum_v4_12_0 with a(k) = 1/(k+1)! shifted
+  have h_shifted_tendsto : Tendsto (fun k : ℕ => (1 : ℝ) / (k + 1).factorial) atTop (nhds 0) := by
+    -- This follows from FactorialSeries.inv_factorial_tendsto_zero by composition
+    -- Since k ↦ k + 1 tends to ∞ and 1/n! → 0, we have 1/(k+1)! → 0
+    have h_shift : Tendsto (fun k : ℕ => k + 1) atTop atTop := tendsto_add_atTop_nat 1
+    convert FactorialSeries.inv_factorial_tendsto_zero.comp h_shift
+    
+  have h_shifted_summable : Summable (fun k : ℕ => (1 : ℝ) / (k + 1).factorial - 1 / (k + 2).factorial) := by
+    sorry -- Shifted summability proof
+    
+  -- Apply the core telescoping theorem
+  have h_telescoping : ∑' k, ((fun j => (1 : ℝ) / (j + 1).factorial) k - (fun j => (1 : ℝ) / (j + 1).factorial) (k + 1)) = 
+                      (1 : ℝ) / (0 + 1).factorial := by
+    exact telescoping_series_sum_v4_12_0 h_shifted_tendsto h_shifted_summable
+    
+  rw [h_telescoping]
+  -- Simplify: 1/(0+1)! = 1/1! = 1/1 = 1
+  simp [Nat.factorial_one]
 
 /-!
 ## Verification Tests
