@@ -18,7 +18,7 @@ import Mathlib.Tactic
 import UniformHittingTime.IrwinHall
 import UniformHittingTime.FactorialSeries
 import UniformHittingTime.TelescopingSeries
-import UniformHittingTime.SeriesReindexing
+-- import UniformHittingTime.SeriesReindexing -- Disabled due to type inference issues
 import UniformHittingTime.HittingTime
 import UniformHittingTime.TelescopingSeriesFixed
 

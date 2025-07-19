@@ -1,115 +1,73 @@
-# Potion Problem - Formal Analysis of Expected Hitting Time
+# 媚薬問題（Potion Problem）- 形式証明の試み
 
-**Problem**: What is the expected number of trials for the sum of uniform [0,1) random variables to first exceed 1?
+**問題**: 女騎士が媚薬を飲む回数の期待値は？（連続一様分布の和が初めて1を超えるまでの試行回数）
 
-**Answer**: E[τ] = e ≈ 2.718281828 (Euler's number)
+**数学的答え**: E[τ] = e ≈ 2.718281828（ネイピア数）
 
-## Overview
+## ⚠️ 重要な注意事項
 
-This project provides a complete formal mathematical analysis of the hitting time problem, including:
+**本プロジェクトは未完成です。** 形式証明には3つの`sorry`（証明未完了）が残っており、完全な証明には至っていません。
 
-- Formal Proof in Lean 4 proving E[τ] = e
-- Numerical Verification with Python high-precision validation  
-- Theoretical Analysis using Irwin-Hall distribution
-
-## Project Structure
+## 未完成の証明構造
 
 ```
-├── lean/                          # Lean 4 formal proofs
-│   ├── UniformHittingTime.lean    # Main module
-│   ├── UniformHittingTime/
-│   │   ├── UniformSumHittingTime.lean  # Core theorem: E[τ] = e
-│   │   └── StoppingTimeBasic.lean      # Basic definitions
-│   └── Legacy/                    # Historical proof attempts
-├── python/                        # Python analysis
-│   ├── simulation/                # Monte Carlo & analytical solutions
-│   ├── theoretical/               # Irwin-Hall distribution analysis
-│   └── proof_assistants/          # Z3 verification
-├── docs/                          # Documentation
-│   ├── problem_statement_english.md
-│   ├── VERIFICATION_REPORT.md
-│   └── FINAL_REPORT.md
-└── reports/                       # Analysis reports and visualizations
+主定理: E[τ] = e
+    ├── 依存: TelescopingSeries.factorial_telescoping_sum_one
+    │   └── sorry (L107) - 証明未完了
+    ├── 依存: TelescopingSeries.telescoping_series_sum_v4_12_0
+    │   └── sorry (L62) - 証明未完了
+    └── 依存: TelescopingSeries.summable_factorial_diff
+        └── sorry (L121) - 証明未完了
 ```
 
-## Quick Start
+## プロジェクト概要
 
-### Lean 4 Proof Verification
+このプロジェクトは、媚薬問題の期待値E[τ] = eを形式的に証明しようとする**試み**です：
+
+- **Lean 4での形式証明** - 部分的に実装、sorryを含む
+- **Pythonによる数値検証** - 完全に動作、高精度検証済み
+- **理論的解析** - Irwin-Hall分布を用いた数学的証明
+
+## ビルドとテスト
+
+### Lean 4（v4.21.0）
 ```bash
 lake build
-lake exe UniformHittingTime
 ```
+注意: ビルドは成功しますが、証明は未完成です。
 
-### Python Analysis
+### Python解析
 ```bash
 uv sync
 uv run python test_all.py
 ```
 
-## Main Theorem
+## 技術的詳細
 
-The core mathematical result is formalized in Lean 4:
+### 完成部分
+- 基本的な定理の枠組み
+- Irwin-Hall分布の性質（P(S_n < 1) = 1/n!）
+- 階乗級数の収束性
+- Python数値シミュレーション（誤差 < 0.01%）
 
-```lean
-theorem uniform_sum_hitting_time_expectation : 
-  expected_hitting_time = exp 1
-```
+### 未完成部分（sorry使用箇所）
+1. **telescoping_series_sum_v4_12_0** - 無限級数の極限定理
+2. **factorial_telescoping_sum_one** - 階乗telescoping級数の和=1の証明
+3. **summable_factorial_diff** - 階乗差分級数の収束性証明
 
-This establishes that the expected hitting time for uniform random sums equals Euler's number e.
+## 数学的背景
 
-## Mathematical Foundation
-
-The proof uses the telescoping property:
+証明の核心：
 - P(τ = n) = (n-1)/n! for n ≥ 2
 - E[τ] = ∑_{n=2}^∞ n·P(τ=n) = ∑_{n=2}^∞ 1/(n-1)! = e
 
-## Mathematical Background
+この美しい結果は数学的には正しいですが、Lean 4での完全な形式証明には至っていません。
 
-This problem is a classic example of hitting time analysis with these key properties:
+## ライセンス
 
-1. **Irwin-Hall Distribution**: Distribution of S_n = sum of n uniform [0,1) variables
-2. **Core Formula**: P(S_n < 1) = 1/n!
-3. **Expected Value**: E[τ] = ∑_{n=0}^∞ P(τ > n) = ∑_{n=0}^∞ 1/n! = e
-4. **Telescoping Series**: The beautiful mathematical structure leading to Euler's number
-
-## Technology Stack
-
-- Lean 4 Version 4.12.0 with Mathlib4 v4.12.0 (synchronized stable versions)
-- Python with NumPy, SciPy, SymPy for numerical analysis
-- Build Systems using Lake (Lean) and uv (Python)
-- Verification through Monte Carlo simulation, analytical solutions, formal proof
-
-## Project Status
-
-### Completed
-- Mathematical theoretical analysis (E[τ] = e derivation)
-- Lean 4 formal proof architecture with axiomatized foundation
-- Monte Carlo simulation (error < 0.01%)
-- Python implementations with multiple verification methods
-- Complete project restructuring and clean architecture
-
-### Technical Implementation
-- Core theorem: `uniform_sum_hitting_time_expectation : expected_hitting_time = exp 1`
-- Exponential series foundation: `exp_one_eq_tsum_inv_factorial`
-- Telescoping property: Axiomatized mathematical structure
-- Build system: Unified Lean project with proper dependency management
-
-## Applications
-
-This result has applications in:
-- Renewal theory
-- Queueing systems  
-- Order statistics
-- Stochastic processes
-
-## Contributing
-
-This project demonstrates the power of formal mathematics in establishing beautiful theoretical results. The combination of numerical verification and formal proof provides confidence in the mathematical foundation.
-
-## License
-
-Released under MIT License. See LICENSE file for details.
+MIT License - 詳細はLICENSEファイルを参照してください。
 
 ---
 
-**Mathematical Development Team (Astolfo & Contributors)**
+**開発チーム**: Astolfo & Contributors  
+**プロジェクトステータス**: 形式証明の試み（未完成）

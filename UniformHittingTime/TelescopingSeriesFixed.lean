@@ -5,7 +5,7 @@ Authors: Astolfo and Contributors
 -/
 -- v4.12.0 compatible imports for telescoping series
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Set.Basic

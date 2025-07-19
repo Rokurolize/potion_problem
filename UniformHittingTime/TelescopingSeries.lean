@@ -4,7 +4,7 @@ Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Nat.Factorial.Basic

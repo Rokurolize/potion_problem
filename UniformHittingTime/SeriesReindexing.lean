@@ -14,7 +14,7 @@ open Filter Topology
 This file contains theorems for reindexing series.
 -/
 
-variable {G : Type*} [AddCommGroup G] [TopologicalSpace G] [T2Space G] [TopologicalAddGroup G]
+variable {G : Type*} [AddCommGroup G] [TopologicalSpace G] [T2Space G] [IsTopologicalAddGroup G]
 variable {f : ℕ → G}
 variable {α : Type*} -- for reindex_series_general
 
