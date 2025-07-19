@@ -119,6 +119,121 @@ lake build
 
 ---
 
+## 🔀 Delegation Workflow: Internal vs External Research
+
+### **Two-Pathway Delegation System**
+
+**Understanding when and how to delegate is critical for project success.** The project uses two distinct delegation pathways:
+
+#### **Pathway 1: Internal Task Tool (Subagents)**
+
+**When to Use:**
+- Implementation tasks with existing project context
+- File reading, editing, building within the environment
+- Lean 4 implementation work where files can be directly accessed
+- API fixes, code modifications, testing
+
+**How to Use:**
+```bash
+# Task tool can read files directly and execute instructions
+Task tool → "Read /path/file.md and follow its instructions"
+```
+
+**Capabilities:**
+- ✅ Direct file system access
+- ✅ Can execute commands (lake build, git, etc.)
+- ✅ Access to project environment and context
+- ✅ Can make commits and track changes
+
+#### **Pathway 2: External Research AIs** 
+
+**When to Use:**
+- Advanced troubleshooting beyond internal expertise
+- Complex research requiring specialized knowledge
+- Investigation of problems that need external perspective
+- When internal agents lack necessary domain expertise
+
+**How to Use:**
+1. **Create research prompt** in `docs/research_prompts/` with sequential number
+2. **Include complete context** (external AI cannot scan directories)
+3. **Use ask_human tool** to initiate external research
+
+**Critical Requirements for External Research:**
+
+### **Research Prompt Creation Protocol**
+
+**File Naming:**
+- Place in `docs/research_prompts/`
+- Use sequential numbers: `36-description.md`, `37-description.md`, etc.
+- **Do NOT reference numbers within prompt content**
+
+**Content Requirements (Essential for Success):**
+```markdown
+# Research Prompt [Number]: [Descriptive Title]
+
+## Problem Context
+[Complete background - external AI has no file access]
+
+## Specific Issue
+[Exact error messages, code snippets, version information]
+
+## Development Environment
+- Lean 4 version: v4.21.0
+- mathlib4 version: v4.21.0  
+- Operating system: [specify]
+- Tool versions: [lake, etc.]
+
+## Exact Code Causing Issues
+```lean
+[Complete problematic code snippets - not just references]
+```
+
+## What Has Been Tried
+[Previous attempts, what worked, what didn't]
+
+## Specific Questions
+[Precise questions for the research AI to answer]
+```
+
+**Think Advanced AI Troubleshooting:** Structure prompts like sophisticated Stack Overflow questions with complete context, minimal reproducible examples, and specific environment details.
+
+### **External Research Initiation**
+
+**Using ask_human Tool:**
+```bash
+# After creating research prompt file
+ask_human("I've created research prompt at /full/path/to/docs/research_prompts/36-example.md requesting investigation of [brief description]. Please initiate external research assistance.")
+```
+
+**Expected Response:**
+- ask_human tool returns full path where research findings will be placed
+- Research results integrated back into project workflow
+
+### **Decision Matrix: Internal vs External**
+
+| Task Type | Use Internal Task Tool | Use External Research |
+|-----------|----------------------|---------------------|
+| File reading/editing | ✅ | ❌ |
+| Lean 4 implementation | ✅ | ❌ |
+| Build troubleshooting | ✅ | ❌ |
+| API research (known patterns) | ✅ | ❌ |
+| Complex domain research | ❌ | ✅ |
+| Unknown error investigation | ❌ | ✅ |
+| Community best practices | ❌ | ✅ |
+| Advanced optimization | ❌ | ✅ |
+
+### **Integration Workflow**
+
+**Complete Research Cycle:**
+1. **Identify need** for external research
+2. **Create comprehensive prompt** with full context  
+3. **Use ask_human tool** to initiate research
+4. **Receive research findings** at specified path
+5. **Integrate findings** into project using internal tools
+6. **Document integration** in project files
+
+---
+
 ## 📝 System Design Lessons and Improvement Records
 
 ### Fixed Issue: Complete Removal of Duplicate Descriptions
