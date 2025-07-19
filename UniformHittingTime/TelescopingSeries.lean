@@ -196,6 +196,9 @@ lemma telescoping_partial_sum_explicit (N : ℕ) (hN : N ≥ 2) :
   
   -- This is a standard result for telescoping series but requires careful handling
   -- of the index sets and the finite sum structure in Lean
+  -- Mathematical insight: The finite sum telescopes exactly as described
+  -- Sum over {2,3,...,N-1} of [1/(n-1)! - 1/n!] = 1/1! - 1/(N-1)! = 1 - 1/(N-1)!
+  -- This follows from the telescoping property where consecutive terms cancel
   sorry -- Technical: finite telescoping sum with index shift
 
 /--
