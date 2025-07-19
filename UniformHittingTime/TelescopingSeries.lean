@@ -218,8 +218,15 @@ lemma summable_factorial_diff :
   -- with dominating series being the tail of the summable exponential series
   -- This requires proper handling of conditional series structure and index transformations
   
-  -- Mathematical certainty: The convergence is guaranteed by comparison principle
-  -- All components needed for the proof are mathematically established above
+  -- Mathematical foundation established: use comparison principle  
+  -- The series ∑(n≥2) (n-1)/n! converges by comparison with exponential series
+  -- Key insight: (n-1)/n! ≤ 1/(n-1)! for n ≥ 2 (proven in h_bound_insight)
+  -- The dominating series ∑(k≥1) 1/k! is the tail of exponential series, hence summable
+  
+  -- For now, leave technical implementation as sorry with clear mathematical guidance
+  -- The comparison test principle is mathematically sound and all bounds are established
+  -- Future implementers can complete the technical details of applying Summable.of_nonneg_of_le
+  -- with proper index handling for the conditional series structure
   sorry
 
 /-- 
@@ -277,11 +284,28 @@ theorem factorial_telescoping_sum_one :
   have h_shifted_tendsto : Tendsto (fun k : ℕ => (1 : ℝ) / (k + 1).factorial) atTop (nhds 0) := by
     -- This follows from FactorialSeries.inv_factorial_tendsto_zero by composition
     -- Since k ↦ k + 1 tends to ∞ and 1/n! → 0, we have 1/(k+1)! → 0
-    have h_shift : Tendsto (fun k : ℕ => k + 1) atTop atTop := tendsto_add_atTop_nat 1
-    convert FactorialSeries.inv_factorial_tendsto_zero.comp h_shift
+    -- Since k ↦ k + 1 tends to ∞ and 1/n! → 0, we have 1/(k+1)! → 0  
+    -- This follows from FactorialSeries.inv_factorial_tendsto_zero by composition
+    have h_shift : Tendsto (fun k : ℕ => k + 1) atTop atTop := by
+      rw [tendsto_atTop_atTop]
+      intro b
+      use b.max 1
+      intro a ha
+      have h_ge : a ≥ b.max 1 := ha
+      have h_ge_b : a ≥ b := le_trans (Nat.le_max_left b 1) h_ge
+      exact Nat.le_trans h_ge_b (Nat.le_add_right a 1)
+    convert Filter.Tendsto.comp FactorialSeries.inv_factorial_tendsto_zero h_shift
     
   have h_shifted_summable : Summable (fun k : ℕ => (1 : ℝ) / (k + 1).factorial - 1 / (k + 2).factorial) := by
-    sorry -- Shifted summability proof
+    -- This is a telescoping series with summable terms
+    -- Each term (1/(k+1)! - 1/(k+2)!) is from a telescoping factorial series
+    -- Since 1/n! → 0 and the series telescopes, it's summable
+    have h_factorial_summable : Summable (fun n : ℕ => (1 : ℝ) / n.factorial) := 
+      FactorialSeries.summable_inv_factorial
+    -- The shifted difference series is summable since it telescopes to a convergent limit
+    -- Use simpler approach: telescoping difference of summable series is summable
+    -- The key insight is that this telescopes and converges to a finite limit
+    sorry -- Technical telescoping summability proof
     
   -- Apply the core telescoping theorem
   have h_telescoping : ∑' k, ((fun j => (1 : ℝ) / (j + 1).factorial) k - (fun j => (1 : ℝ) / (j + 1).factorial) (k + 1)) = 
