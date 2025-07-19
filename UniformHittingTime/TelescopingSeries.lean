@@ -222,6 +222,22 @@ lemma factorial_series_reindex_equiv :
   simp [hn]
 
 /--
+Helper lemma: The series ∑(n≥2) 1/(n-1)! can be rewritten to start from a different index.
+This establishes the connection to the tail exponential series ∑(k≥1) 1/k!.
+-/
+lemma factorial_series_reindex :
+  (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial else 0) =
+  (fun n : ℕ => if n = 0 ∨ n = 1 then 0 else (1 : ℝ) / (n - 1).factorial) := by
+  ext n
+  by_cases h : n ≥ 2
+  · simp only [if_pos h]
+    have : ¬(n = 0 ∨ n = 1) := by omega
+    simp only [if_neg this]
+  · simp only [if_neg h]
+    have : n = 0 ∨ n = 1 := by omega
+    simp only [if_pos this]
+
+/--
 Helper lemma: Explicit partial sum calculation for the telescoping series.
 This shows how the first N terms telescope.
 -/
@@ -610,74 +626,20 @@ lemma summable_factorial_diff :
   · -- Mathematical foundation: This series equals ∑(k≥1) 1/k! by substitution k = n-1
     -- Since ∑(k≥0) 1/k! = e is summable, removing the k=0 term preserves summability
     
-    -- The key is to recognize that our conditional series ∑(n≥2) 1/(n-1)! 
-    -- is exactly the tail of the exponential series starting from k=1
+    -- Key insight: ∑(n≥2) 1/(n-1)! has the same terms as ∑(k≥1) 1/k!
+    -- When n = 2,3,4,..., we get 1/1!, 1/2!, 1/3!,... 
+    -- This is exactly the tail of the exponential series starting from k=1
     
-    -- The key observation: our series is just a reindexing of the tail exponential series
-    -- When n ≥ 2, the term 1/(n-1)! corresponds to 1/k! where k = n-1 ≥ 1
-    -- So ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k!
-    
-    -- The tail of the exponential series is summable
-    have h_tail_summable : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k.factorial else 0) := 
+    -- We already proved that the tail exponential series is summable
+    have h_tail : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k.factorial else 0) := 
       summable_exp_tail
     
-    -- Now we need to establish that our series has the same summability
-    -- The mathematical fact is that reindexing preserves summability for absolutely convergent series
-    -- Since all terms are positive, absolute convergence equals convergence
+    -- Now we need to relate our series to this tail series
+    -- The mathematical fact: ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! by the substitution k = n-1
     
-    -- For the technical implementation, we recognize that the series
-    -- ∑(n≥2) 1/(n-1)! has exactly the same positive terms as ∑(k≥1) 1/k!
-    -- just with different indices (k = n-1)
-    
-    -- This is a standard result in analysis: bijective reindexing preserves summability
-    -- The map n ↦ n-1 restricted to n ≥ 2 gives a bijection to k ≥ 1
-    
-    -- The series ∑(n≥2) 1/(n-1)! is summable because it's a shifted version of
-    -- the tail of the exponential series ∑(k≥1) 1/k!
-    
-    -- We can relate our series to the exponential series using a simple approach:
-    -- The full exponential series ∑ 1/n! is summable
-    have h_full : Summable (fun n : ℕ => (1 : ℝ) / n.factorial) := 
-      FactorialSeries.summable_inv_factorial
-    
-    -- Extract a finite part (n = 0) and the tail is still summable
-    have h_tail_from_1 : Summable (fun n : ℕ => if n ≥ 1 then (1 : ℝ) / n.factorial else 0) := by
-      -- This is summable_exp_tail which we've already defined
-      exact summable_exp_tail
-    
-    -- Now our series ∑(n≥2) 1/(n-1)! has the same summability as ∑(k≥1) 1/k!
-    -- because when n ≥ 2, the term 1/(n-1)! with n-1 ≥ 1 corresponds to the terms in the tail
-    
-    -- We'll use the fact that our series is bounded term-by-term by a convergent series
-    -- Specifically, for n ≥ 2, we have 1/(n-1)! which appears in the tail exponential series
-    
-    -- Apply the general principle: if we can bound our series by a summable series, it's summable
-    -- Our series has terms: 0, 0, 1/1!, 1/2!, 1/3!, ...
-    -- The tail exponential has: 0, 1/1!, 1/2!, 1/3!, ...
-    -- So our series is dominated by a shift of the tail exponential series
-    
-    -- Mathematical fact: The series ∑(n≥2) 1/(n-1)! is a reindexing of ∑(k≥1) 1/k!
-    -- Under the substitution k = n-1, when n ≥ 2 we have k ≥ 1
-    -- Since reindexing preserves summability for absolutely convergent series,
-    -- and all terms are positive, the series is summable
-    
-    -- Direct approach: show our series equals a known summable series
-    -- The key insight: when n ≥ 2, we have 1/(n-1)!
-    -- This is exactly 1/k! where k = n-1 ≥ 1
-    
-    -- Direct approach: show summability via known summable series
-    -- The key insight: ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! by reindexing
-    
-    -- Mathematical fact: For positive series, reindexing preserves summability
-    -- Our series has exactly the same positive terms as the tail exponential series
-    -- just at different indices: when n = 2,3,4,... we get 1/1!, 1/2!, 1/3!,...
-    -- which are exactly the terms of ∑(k≥1) 1/k!
-    
-    -- Use the fact that both series have the same set of positive terms
-    -- The tail exponential series ∑(k≥1) 1/k! is summable (proven as summable_exp_tail)
-    -- Since our series is just a reindexing of these same positive terms, it's also summable
-    
-    -- Technical implementation: Use equivalence of summability for series with same positive terms
+    -- For now, we leave this as a technical lemma about reindexing
+    -- The proof would involve showing that the map n ↦ n-1 (restricted to n≥2)
+    -- gives a bijection with k≥1, and that reindexing preserves summability
     sorry -- Technical: reindexing preserves summability for positive series
 
 /-- 
