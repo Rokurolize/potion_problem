@@ -334,6 +334,27 @@ lemma pmf_telescoping_examples :
   simp [Nat.factorial]
   norm_num
 
+-- /--
+-- Helper lemma: For the conditional series starting at n=2, we can compute partial sums explicitly.
+-- This helps verify our telescoping approach is correct.
+-- -/
+-- lemma pmf_partial_sum_first_terms :
+--   ∑ n ∈ ({2, 3} : Finset ℕ), (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 5 / 6 := by
+--   -- P(τ = 2) + P(τ = 3) = 1/2 + 1/3 = 3/6 + 2/6 = 5/6
+--   sorry
+
+-- /--
+-- Mathematical verification: The telescoping sum of the first few terms.
+-- Shows that ∑_{n=2}^3 [1/(n-1)! - 1/n!] = 1 - 1/3! = 1 - 1/6 = 5/6
+-- -/
+-- lemma telescoping_partial_sum_n_3 :
+--   ∑ n ∈ Finset.range 4 \ Finset.range 2, ((1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 5 / 6 := by
+--   -- The set is {2, 3}
+--   -- Sum = [1/1! - 1/2!] + [1/2! - 1/3!]
+--   -- = 1 - 1/2 + 1/2 - 1/6
+--   -- = 1 - 1/6 = 5/6
+--   sorry
+
 /--
 Key mathematical insight: Why the sum equals 1.
 The telescoping series ∑_{n≥2} [1/(n-1)! - 1/n!] telescopes to:
