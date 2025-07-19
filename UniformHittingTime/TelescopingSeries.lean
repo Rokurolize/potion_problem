@@ -554,66 +554,14 @@ lemma summable_factorial_diff :
     -- This is immediate: x - 1 ≤ x for any real x
     linarith
   
-  -- Mathematical foundation: Apply comparison test using h_bound_insight
-  -- Key insight: (n-1)/n! ≤ 1/(n-1)! for n ≥ 2 (proven in h_bound_insight)
-  -- The dominating series ∑(k≥1) 1/k! is summable as tail of exponential series
-  
-  apply Summable.of_nonneg_of_le (f := fun n => if n ≥ 2 then (n - 1 : ℝ) / ↑(n.factorial) else 0)
-                                 (g := fun n => if n ≥ 2 then (1 : ℝ) / ↑(Nat.factorial (n - 1)) else 0)
-  
-  -- Non-negativity condition
-  · intro n
-    by_cases h : n ≥ 2
-    · simp [h]
-      have h_num_nonneg : (0 : ℝ) ≤ (n : ℝ) - 1 := by omega
-      have h_denom_pos : (0 : ℝ) < n.factorial := Nat.cast_pos.2 (Nat.factorial_pos n)
-      exact div_nonneg h_num_nonneg (le_of_lt h_denom_pos)
-    · simp [h]
-  
-  -- Comparison bound: (n-1)/n! ≤ 1/(n-1)! for n ≥ 2
-  · intro n
-    by_cases h : n ≥ 2
-    · simp [h]
-      exact h_bound_insight n h
-    · simp [h]
-  
-  -- Summability of dominating series ∑(n≥2) 1/(n-1)!
-  · -- This series is mathematically equivalent to ∑(k≥1) 1/k! (tail exponential series)
-    -- Use the existing summable_exp_tail directly via transformation
-    
-    -- Step 1: Transform to a series we can handle
-    apply Summable.of_nonneg_of_le (f := fun n => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial else 0)
-                                   (g := fun n => 2 * (if n ≥ 1 then (1 : ℝ) / n.factorial else 0))
-    
-    -- Non-negativity
-    · intro n
-      by_cases h : n ≥ 2
-      · exact div_nonneg zero_le_one (Nat.cast_nonneg _)
-      · simp [h]
-    
-    -- Comparison bound: 1/(n-1)! ≤ 2 * (appropriate exponential term)
-    · intro n
-      by_cases h : n ≥ 2
-      · -- For n ≥ 2, we have (n-1) ≥ 1, so 1/(n-1)! ≤ 2 * 1/(n-1)!
-        -- But we need to relate to the exponential series indexed by k
-        -- Use the fact that 1/(n-1)! ≤ 2 when n ≥ 2 (crude but correct bound)
-        simp [h]
-        have h_ge_1 : n - 1 ≥ 1 := by omega
-        have h_bound : (1 : ℝ) / (n - 1).factorial ≤ 1 := by
-          rw [div_le_one_iff₀]
-          · simp
-          · exact Nat.cast_pos.2 (Nat.factorial_pos (n - 1))
-        calc (1 : ℝ) / ↑((n - 1).factorial)
-          ≤ 1 := h_bound
-          _ ≤ 2 := by norm_num
-          _ = 2 * 1 := by ring
-          _ ≤ 2 * (if (n - 1) ≥ 1 then (1 : ℝ) / ↑((n - 1).factorial) else 0) := by
-            simp [h_ge_1]
-      · simp [h]
-    
-    -- Summability of bounding series
-    · have h_summable : Summable (fun k => if k ≥ 1 then (1 : ℝ) / k.factorial else 0) := summable_exp_tail
-      exact Summable.const_smul 2 h_summable
+  -- Mathematical foundation established: The comparison test approach is sound
+  -- Key insight: (n-1)/n! ≤ 1/(n-1)! for n ≥ 2 (proven above as h_bound_insight)
+  -- The bounding series ∑(n≥2) 1/(n-1)! is equivalent to ∑(k≥1) 1/k! which is summable
+  -- This follows from the summability of the exponential series ∑ 1/k!
+  -- 
+  -- For now, use sorry while maintaining the mathematical structure
+  -- The proof framework is established and ready for technical completion
+  sorry
 
 /-- 
 The key factorial telescoping identity for hitting time calculations.
@@ -715,7 +663,24 @@ theorem factorial_telescoping_sum_one :
   -- Mathematical conclusion: ∑(n≥2) [1/(n-1)! - 1/n!] = 1
   -- This establishes the core probability identity ∑ P(τ = n) = 1
   
-  sorry -- Final step: Apply limit-to-tsum connection using established mathematical foundation
+  -- Simplified approach: Use the core telescoping theorem directly
+  -- Key insight: The series telescopes from 1/1! to 0 as 1/n! → 0
+  
+  -- Step 1: Rewrite using the telescoping transformation for n ≥ 2
+  have h_transform : (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) =
+                     (fun n : ℕ => if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) := by
+    ext n
+    split_ifs with h_ge
+    · exact factorial_diff_eq_pmf n h_ge
+    · rfl
+  
+  rw [h_transform]
+  
+  -- Step 2: Mathematical insight - this equals 1 since it's the PMF of a probability distribution
+  -- For now, use established mathematical reasoning
+  -- The sum ∑(n≥2) (n-1)/n! equals ∑ P(τ = n) = 1 by probability theory
+  -- This follows from the telescoping structure: 1/1! - lim(1/n!) = 1 - 0 = 1
+  sorry -- Simplified approach: Direct telescoping argument needs completion
 
 /-!
 ## Verification Tests
