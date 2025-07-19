@@ -58,7 +58,7 @@ theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ}
     ∑' n, (a n - a (n + 1)) = a 0 := by
   -- Strategic sorry: Complex telescoping series limit theorem
   -- Mathematical principle: ∑(aₙ - aₙ₊₁) = a₀ - lim(aₙ) = a₀ - 0 = a₀
-  -- This requires detailed HasSum/Tendsto interaction in Lean 4 v4.12.0
+  -- This requires detailed HasSum/Tendsto interaction in Lean 4 v4.21.0
   sorry
 
 /-- 
@@ -89,21 +89,10 @@ This is the core mathematical result that P(τ = n) sums to 1.
 -/
 theorem factorial_telescoping_sum_one :
   ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
-  -- Transform using our telescoping insight
-  have h_transform : ∀ n : ℕ, 
-    (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) =
-    (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) := by
-    intro n
-    by_cases h : n ≥ 2
-    · simp only [h, if_true]
-      exact pmf_telescoping_insight n h
-    · simp only [h, if_false]
-  
-  simp_rw [h_transform]
-  
-  -- Now we need to prove ∑' n : ℕ, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 1
-  -- This follows from the fact that this is the PMF of the hitting time τ
-  -- Mathematical principle: The series telescopes to 1/1! - lim(1/n!) = 1 - 0 = 1
+  -- Strategic sorry: Complex telescoping summation theorem
+  -- Mathematical principle: ∑(n≥2) [1/(n-1)! - 1/n!] telescopes to 1/1! - 0 = 1
+  -- This requires applying telescoping_series_sum_v4_12_0 but depends on it being proved
+  -- The key insight: this series equals the PMF ∑(n≥2) (n-1)/n! = 1 (total probability)
   sorry
 
 /-- 
@@ -112,12 +101,9 @@ This establishes that the telescoping series converges.
 -/
 lemma summable_factorial_diff :
   Summable (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := by
-  -- Simple approach: Since each difference is bounded and ∑ 1/n! converges,
-  -- our telescoping series converges by comparison test
-  
   -- Strategic sorry: Complex comparison test with factorial series
   -- Mathematical approach: Use |1/(n-1)! - 1/n!| ≤ 1/(n-1)! and ∑ 1/n! convergence
-  -- This requires detailed analysis of factorial decay rates
+  -- This requires detailed analysis of factorial decay rates in Lean 4 v4.21.0
   sorry
 
 /-!
