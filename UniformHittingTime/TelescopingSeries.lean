@@ -654,15 +654,10 @@ lemma summable_factorial_diff :
         rfl
       · -- For n < 2, both sides are 0
         simp [h]
-    · -- The dominating series: we need something summable that bounds our series
-      -- Mathematical insight: our series is exactly ∑(n≥2) 1/(n-1)!
-      -- This equals ∑(k≥1) 1/k! under the substitution k = n-1
-      -- Since ∑(k≥1) 1/k! is summable (proven as summable_exp_tail),
-      -- our series is also summable
-      
-      -- For now, we use a mathematical argument about the equivalence
-      -- The technical proof would use Function.Summable.comp_injective
-      sorry -- Technical: summability of ∑(n≥2) 1/(n-1)! via reindexing
+    · -- Mathematical foundation: ∑(n≥2) 1/(n-1)! is equivalent to ∑(k≥1) 1/k! 
+      -- which is summable (proven in summable_exp_tail)
+      -- Technical implementation requires careful API usage for reindexing
+      sorry -- Advanced: Apply summable_exp_tail via Function.Summable.comp_injective
 
 /-- 
 The key factorial telescoping identity for hitting time calculations.
