@@ -217,9 +217,6 @@ lemma telescoping_partial_sum_explicit (N : ℕ) (hN : N ≥ 2) :
   -- = 1/1! - 1/(N-1)!
   -- = 1 - 1/(N-1)!
   
-  -- Direct computation using the known telescoping pattern
-  -- Each adjacent pair cancels, leaving only first and last terms
-  
   -- Convert to standard interval notation
   have h_set_eq : Finset.range N \ Finset.range 2 = Finset.Ico 2 N := by
     ext n
@@ -228,15 +225,68 @@ lemma telescoping_partial_sum_explicit (N : ℕ) (hN : N ≥ 2) :
   
   rw [h_set_eq]
   
-  -- Mathematical insight: This is a standard telescoping sum
-  -- We know that ∑_{i=a}^{b-1} (f(i) - f(i+1)) = f(a) - f(b)
-  -- Here f(i) = 1/i! and we sum from i=1 to i=N-2 (after index shift)
+  -- The sum telescopes directly
+  -- We have ∑_{n=2}^{N-1} [1/(n-1)! - 1/n!]
+  -- = [1/1! - 1/2!] + [1/2! - 1/3!] + ... + [1/(N-2)! - 1/(N-1)!]
+  -- Each adjacent term cancels: -1/2! + 1/2! = 0, -1/3! + 1/3! = 0, etc.
+  -- Leaving only 1/1! from the first term and -1/(N-1)! from the last term
   
-  -- The sum telescopes to 1/1! - 1/(N-1)! = 1 - 1/(N-1)!
-  simp [Nat.factorial_one]
-  
-  -- Technical implementation of finite telescoping sum
-  sorry -- Finite telescoping sum computation
+  -- We'll prove this by induction on N
+  induction N, hN using Nat.le_induction with
+  | base =>
+    -- Base case: N = 2
+    -- Finset.Ico 2 2 is empty, so the sum is 0
+    -- And 1/1 - 1/(2-1)! = 1 - 1/1! = 1 - 1 = 0
+    rw [Finset.Ico_eq_empty_of_le (le_refl 2)]
+    simp [Finset.sum_empty]
+    
+  | succ n hn ih =>
+    -- Inductive step: assume true for n, prove for n+1
+    -- We have n ≥ 2 and need to prove for n+1
+    
+    -- Split the sum: Ico 2 (n+1) = Ico 2 n ∪ {n}
+    have h_split : Finset.Ico 2 (n + 1) = Finset.Ico 2 n ∪ {n} := by
+      ext k
+      simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]
+      constructor
+      · intro ⟨h1, h2⟩
+        by_cases hk : k = n
+        · right; exact hk
+        · left; constructor; exact h1; omega
+      · intro h
+        cases h with
+        | inl h => 
+          obtain ⟨h1, h2⟩ := h
+          constructor; exact h1; omega
+        | inr h =>
+          rw [h]
+          constructor; omega; omega
+          
+    -- Show disjointness
+    have h_disj : Disjoint (Finset.Ico 2 n) {n} := by
+      rw [Finset.disjoint_iff_ne]
+      intros a ha b hb
+      simp [Finset.mem_Ico] at ha
+      simp [Finset.mem_singleton] at hb
+      rw [hb]
+      omega
+      
+    -- Apply sum_union
+    rw [h_split, Finset.sum_union h_disj]
+    
+    -- Use inductive hypothesis  
+    -- First we need to show the required hypothesis for ih
+    have h_hyp : Finset.range n \ Finset.range 2 = Finset.Ico 2 n := by
+      ext k
+      simp [Finset.mem_sdiff, Finset.mem_range, Finset.mem_Ico]
+      omega
+    rw [ih h_hyp]
+    
+    -- Simplify the singleton sum
+    simp [Finset.sum_singleton]
+    
+    -- Now we need to show: (1 - 1/(n-1)!) + (1/(n-1)! - 1/n!) = 1 - 1/n!
+    -- This is just algebra: the -1/(n-1)! and +1/(n-1)! cancel
 
 /--
 Mathematical insight: The factorial difference bound for comparison test.
