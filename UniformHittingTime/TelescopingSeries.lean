@@ -147,7 +147,10 @@ lemma summable_exp_tail : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k
   
   -- The tail series (removing k=0) is also summable
   -- Mathematical fact: Removing finitely many terms from a summable series preserves summability
-  -- Technical implementation requires careful API usage
+  -- The conditional series ∑(k≥1) 1/k! is summable because it's a subset of terms from
+  -- the convergent exponential series ∑(k≥0) 1/k!
+  -- Mathematical principle: Removing the k=0 term preserves summability
+  -- Technical implementation: This is a standard result but requires careful API usage
   sorry  -- Technical: tail of exponential series is summable
 
 /--
@@ -376,6 +379,10 @@ theorem factorial_telescoping_sum_one :
                    ∑' k : ℕ, (if k ≥ 1 then (1 : ℝ) / k.factorial - 1 / (k + 1).factorial else 0) := by
     -- This requires careful index manipulation: when n ≥ 2, set k = n-1, so k ≥ 1
     -- The series ∑(n≥2) f(n-1, n) becomes ∑(k≥1) f(k, k+1)
+    -- Mathematical insight: The transformation n ≥ 2 ↔ k = n-1 ≥ 1 gives a bijection
+    -- Under this mapping: 1/(n-1)! - 1/n! becomes 1/k! - 1/(k+1)!
+    -- This is a standard index reindexing for infinite series
+    -- Technical implementation requires careful API usage for conditional summations
     sorry -- Index transformation proof
     
   rw [h_reindex]
