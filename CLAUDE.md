@@ -1,5 +1,7 @@
 # CLAUDE.md - Aphrodisiac Problem Lean 4 Formalization Project
 
+*Also known as the Potion Problem (媚薬問題)*
+
 ## 🚀 Quick Iteration Execution
 
 **When requested to "execute next iteration", follow these steps:**

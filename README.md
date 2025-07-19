@@ -1,5 +1,7 @@
 # The Aphrodisiac Problem - Formal Proof Attempt
 
+*Also known as the Potion Problem (媚薬問題)*
+
 ## Problem Statement
 
 **Original (Japanese)**: 

@@ -16,9 +16,9 @@
    git rm -rf .
    
    # 基本的なREADMEを作成
-   echo "# Potion Problem - Lean 4 Formalization" > README.md
+   echo "# The Aphrodisiac Problem - Lean 4 Formalization" > README.md
    git add README.md
-   git commit -m "Initial commit: Potion Problem Lean 4 formalization project"
+   git commit -m "Initial commit: Aphrodisiac Problem Lean 4 formalization project"
    ```
 
 3. プロジェクト構造を適用

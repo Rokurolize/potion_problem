@@ -1,4 +1,4 @@
-# v4.21.0 Clean Integration Instructions
+# The Aphrodisiac Problem - v4.21.0 Clean Integration Instructions
 
 ## Goal
 Merge v4.21.0 upgrade changes to main branch with clean commit history, removing problematic commit messages.

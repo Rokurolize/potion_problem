@@ -1,4 +1,4 @@
-# CLAUDE.md - Potion Problem Formal Proof Project
+# CLAUDE.md - The Aphrodisiac Problem Formal Proof Project (Outdated)
 
 ## プロジェクトの起源と目標
 

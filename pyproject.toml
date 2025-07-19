@@ -1,7 +1,7 @@
 [project]
 name = "potion-problem"
 version = "0.1.0"
-description = "女騎士の媚薬問題の形式的証明プロジェクト"
+description = "The Aphrodisiac Problem (媚薬問題) - Formal proof project for E[τ] = e"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
