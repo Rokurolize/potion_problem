@@ -340,4 +340,15 @@ Verify that the telescoping difference formula works for factorial terms
 example : (1 : ℝ) / 1 - 1 / 2 = (1 : ℝ) / 2 := by
   norm_num
 
+/-- 
+Mathematical verification: Key comparison bound for n=3.
+This verifies that (n-1)/n! ≤ 1/(n-1)! holds for specific values.
+-/
+lemma comparison_bound_n_3 : (2 : ℝ) / 6 ≤ (1 : ℝ) / 2 := by norm_num
+
+/-- 
+Mathematical verification: Key comparison bound for n=4.
+-/
+lemma comparison_bound_n_4 : (3 : ℝ) / 24 ≤ (1 : ℝ) / 6 := by norm_num
+
 end TelescopingSeries
