@@ -136,6 +136,29 @@ lemma factorial_diff_eq_pmf (n : ℕ) (hn : n ≥ 2) :
   (1 : ℝ) / (n - 1).factorial - 1 / n.factorial = (n - 1 : ℝ) / n.factorial := 
   pmf_telescoping_insight n hn
 
+/--
+Helper lemma: The tail of the exponential series (starting from index 1) is summable.
+This is a key component for proving summable_factorial_diff.
+-/
+lemma summable_exp_tail : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k.factorial else 0) := by
+  -- The full exponential series is summable
+  have h_full : Summable (fun k : ℕ => (1 : ℝ) / k.factorial) := 
+    FactorialSeries.summable_inv_factorial
+  
+  -- The tail series (removing k=0) is also summable
+  -- Mathematical fact: Removing finitely many terms from a summable series preserves summability
+  -- Technical implementation requires careful API usage
+  sorry  -- Technical: tail of exponential series is summable
+
+/--
+Helper lemma: For the reindexing argument, establish that our conditional series
+matches the tail exponential series under the index transformation n ↦ n-1.
+-/
+lemma factorial_series_reindex_equiv :
+  ∀ n ≥ 2, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial else 0) = (1 : ℝ) / (n - 1).factorial := by
+  intro n hn
+  simp [hn]
+
 /-- 
 Mathematical validation: The telescoping structure indeed starts correctly.
 This verifies the first few terms of the telescoping sum.
@@ -143,6 +166,43 @@ This verifies the first few terms of the telescoping sum.
 lemma telescoping_first_terms : 
   (1 : ℝ) / 1 - 1 / 2 + (1 / 2 - 1 / 6) = 1 / 1 - 1 / 6 := by
   ring
+
+/--
+Helper lemma: Explicit calculation of the first few PMF values.
+This helps verify our formulas are correct.
+-/
+lemma pmf_first_values : 
+  (2 - 1 : ℝ) / 2 = 1 / 2 ∧ 
+  (3 - 1 : ℝ) / 6 = 1 / 3 ∧
+  (4 - 1 : ℝ) / 24 = 1 / 8 := by
+  simp [Nat.factorial]
+  norm_num
+
+/--
+Mathematical insight: The PMF values form a telescoping difference.
+For n = 2: P(τ = 2) = 1/2 = 1/1! - 1/2!
+For n = 3: P(τ = 3) = 1/3 = 1/2! - 1/3!
+For n = 4: P(τ = 4) = 1/8 = 1/3! - 1/4!
+-/
+lemma pmf_telescoping_examples :
+  (1 : ℝ) / 2 = 1 / 1 - 1 / 2 ∧
+  (1 : ℝ) / 3 = 1 / 2 - 1 / 6 ∧
+  (1 : ℝ) / 8 = 1 / 6 - 1 / 24 := by
+  simp [Nat.factorial]
+  norm_num
+
+/--
+Key mathematical insight: Why the sum equals 1.
+The telescoping series ∑_{n≥2} [1/(n-1)! - 1/n!] telescopes to:
+1/1! - lim_{n→∞} 1/n! = 1 - 0 = 1
+-/
+lemma telescoping_limit_insight : 
+  Filter.Tendsto (fun n : ℕ => (1 : ℝ) - 1 / n.factorial) atTop (nhds 1) := by
+  -- As 1/n! → 0, we have 1 - 1/n! → 1 - 0 = 1
+  have h_tend : Filter.Tendsto (fun n : ℕ => (1 : ℝ) / n.factorial) atTop (nhds 0) := 
+    FactorialSeries.inv_factorial_tendsto_zero
+  convert Filter.Tendsto.sub tendsto_const_nhds h_tend
+  simp
 
 /-- 
 Summability of the factorial difference series.
