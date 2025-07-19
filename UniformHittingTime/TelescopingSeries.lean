@@ -162,8 +162,39 @@ lemma summable_exp_tail : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k
   
   -- The full series minus its first term is summable
   -- This follows from the general principle that removing finitely many terms preserves summability
-  -- For now, we accept this as a technical result
-  sorry  -- Technical: removing finite terms from summable series
+  
+  -- We'll show this series is summable by expressing it as a modification of the full series
+  -- The key insight: our series is the full series with the k=0 term set to 0
+  
+  -- Mathematical fact: For a summable series, changing finitely many terms preserves summability
+  -- Since we're only changing the k=0 term (from 1/0! = 1 to 0), the series remains summable
+  
+  -- Approach: Show the series differs from the exponential series by a single term
+  have h_diff : ∀ k, |((if k = 0 then 0 else (1 : ℝ) / k.factorial) - (1 : ℝ) / k.factorial)| ≤ 
+                     if k = 0 then 1 else 0 := by
+    intro k
+    by_cases hk : k = 0
+    · simp [hk, abs_sub_comm, Nat.factorial_zero]
+    · simp [hk]
+  
+  -- The series of differences is summable (it's essentially just the single value 1 at k=0)
+  have h_diff_summable : Summable (fun k => if k = 0 then (1 : ℝ) else 0) := by
+    -- This is a series with only one non-zero term
+    -- Mathematical fact: A series with finitely many non-zero terms is always summable
+    -- In this case, only the k=0 term is non-zero (equals 1), all others are 0
+    -- Therefore the series converges to the finite sum 1
+    sorry -- Technical: finite support implies summability
+  
+  -- Apply the fact that summability is preserved when adding summable series
+  have h_rewrite : (fun k => if k = 0 then 0 else (1 : ℝ) / k.factorial) = 
+                   (fun k => (1 : ℝ) / k.factorial) - (fun k => if k = 0 then 1 else 0) := by
+    ext k
+    by_cases hk : k = 0
+    · simp [hk, Nat.factorial_zero]
+    · simp [hk]
+  
+  rw [h_rewrite]
+  exact Summable.sub h_full h_diff_summable
 
 /--
 Helper lemma: For the reindexing argument, establish that our conditional series
@@ -186,39 +217,26 @@ lemma telescoping_partial_sum_explicit (N : ℕ) (hN : N ≥ 2) :
   -- = 1/1! - 1/(N-1)!
   -- = 1 - 1/(N-1)!
   
-  -- Mathematical insight: We can use a bijection to shift indices
-  -- When n ranges from 2 to N-1, let k = n-1, so k ranges from 1 to N-2
-  -- Then 1/(n-1)! - 1/n! becomes 1/k! - 1/(k+1)!
+  -- Direct computation using the known telescoping pattern
+  -- Each adjacent pair cancels, leaving only first and last terms
   
-  -- First, we establish the bijection between the index sets
-  have h_bij : ∃ f : ℕ → ℕ, Function.Bijective f ∧ 
-    (∀ k, k ∈ Finset.Ico 1 (N - 1) → f k ∈ Finset.range N \ Finset.range 2) ∧
-    (∀ k, k ∈ Finset.Ico 1 (N - 1) → 
-      (1 : ℝ) / (f k - 1).factorial - 1 / (f k).factorial = 1 / k.factorial - 1 / (k + 1).factorial) := by
-    -- Define f(k) = k + 1 for k ∈ [1, N-2]
-    use fun k => k + 1
-    constructor
-    · -- f is bijective (on the appropriate domains)
-      sorry -- Technical: bijection proof
-    constructor
-    · -- f maps to the correct set
-      intro k hk
-      simp [Finset.mem_Ico, Finset.mem_sdiff, Finset.mem_range] at hk ⊢
-      omega
-    · -- The function values match
-      intro k hk
-      -- When f(k) = k + 1, we have f(k) - 1 = k
-      simp
+  -- Convert to standard interval notation
+  have h_set_eq : Finset.range N \ Finset.range 2 = Finset.Ico 2 N := by
+    ext n
+    simp [Finset.mem_sdiff, Finset.mem_range, Finset.mem_Ico]
+    omega
   
-  -- Apply the bijection to rewrite the sum
-  -- The sum over n ∈ [2, N-1] with terms 1/(n-1)! - 1/n!
-  -- equals the sum over k ∈ [1, N-2] with terms 1/k! - 1/(k+1)!
+  rw [h_set_eq]
   
-  -- We'll show this equals 1/1! - 1/(N-1)! using the telescoping property
-  -- Mathematical fact: The sum telescopes because middle terms cancel
+  -- Mathematical insight: This is a standard telescoping sum
+  -- We know that ∑_{i=a}^{b-1} (f(i) - f(i+1)) = f(a) - f(b)
+  -- Here f(i) = 1/i! and we sum from i=1 to i=N-2 (after index shift)
   
-  -- For now, accept this as requiring careful index manipulation
-  sorry -- Technical: finite telescoping sum with index shift
+  -- The sum telescopes to 1/1! - 1/(N-1)! = 1 - 1/(N-1)!
+  simp [Nat.factorial_one]
+  
+  -- Technical implementation of finite telescoping sum
+  sorry -- Finite telescoping sum computation
 
 /--
 Mathematical insight: The factorial difference bound for comparison test.
@@ -572,7 +590,11 @@ lemma summable_factorial_diff :
     -- The tail exponential has: 0, 1/1!, 1/2!, 1/3!, ...
     -- So our series is dominated by a shift of the tail exponential series
     
-    sorry -- Technical: relate shifted indices to tail exponential series
+    -- Mathematical fact: The series ∑(n≥2) 1/(n-1)! is a reindexing of ∑(k≥1) 1/k!
+    -- Under the substitution k = n-1, when n ≥ 2 we have k ≥ 1
+    -- Since reindexing preserves summability for absolutely convergent series,
+    -- and all terms are positive, the series is summable
+    sorry -- Technical: reindexing preserves summability for positive series
 
 /-- 
 The key factorial telescoping identity for hitting time calculations.
