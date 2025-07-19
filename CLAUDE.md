@@ -71,9 +71,15 @@ lake build
 3. **Expected Value Calculation**: E[τ] = ∑_{n=1}^∞ n · P(τ = n) = e
 
 **Formalization Challenges:**
-- **API Constraints**: Infinite series operations in mathlib4 v4.12.0
+- **API Evolution**: Successfully migrated from mathlib4 v4.12.0 to v4.21.0
 - **Type System**: Rigorous typing for probability theory
 - **Performance**: Avoiding timeouts in complex proofs
+
+**Recent Progress (July 2025):**
+- ✅ **API Modernization**: Version references updated, build successful (3004/3004 modules)
+- ✅ **Systematic Audit**: Comprehensive API analysis with documented findings
+- ✅ **Research Framework**: Established methodology for future API migrations
+- ⚠️ **Core Challenge**: 3 mathematical sorries remain in TelescopingSeries.lean
 
 ### Key Principles
 
@@ -105,6 +111,11 @@ lake build
 - `2025-07-15-02-00-00-aphrodisiac-problem-MIT-thesis.md` - MIT-level mathematical paper
 - `docs/problem-statement-japanese.md` - Original Japanese text
 - `docs/problem-statement-context.md` - English interpretation
+
+**API Modernization Framework:**
+- `docs/research_prompts/35-lean4-v4.21.0-api-migration-validation.md` - Systematic API research framework
+- `docs/api-analysis/2025-07-19-15-40-11-obvious-improvements-audit.md` - Completed API audit findings
+- `docs/research_response/P36-*.md` - Community best practices research
 
 ---
 

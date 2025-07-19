@@ -22,11 +22,11 @@
 ```
 Main Theorem: E[τ] = e
     ├── Depends on: TelescopingSeries.factorial_telescoping_sum_one
-    │   └── sorry (L107) - proof incomplete
+    │   └── sorry (L96) - proof incomplete
     ├── Depends on: TelescopingSeries.telescoping_series_sum_v4_12_0
     │   └── sorry (L62) - proof incomplete
     └── Depends on: TelescopingSeries.summable_factorial_diff
-        └── sorry (L121) - proof incomplete
+        └── sorry (L107) - proof incomplete
 ```
 
 ## Mathematical Formulation
@@ -61,7 +61,8 @@ This project attempts to formally prove E[τ] = e using:
 ```bash
 lake build
 ```
-Note: Build succeeds but proof is incomplete.
+**Status**: ✅ Build succeeds (3004/3004 modules) but proof incomplete (3 sorries remaining).
+**Recent**: API modernization completed, version references updated to v4.21.0.
 
 ### Python Analysis
 ```bash
@@ -78,9 +79,9 @@ uv run python test_all.py
 - Python numerical simulation (error < 0.01%)
 
 ### Incomplete Components (sorry locations)
-1. **telescoping_series_sum_v4_12_0** - Infinite series limit theorem
-2. **factorial_telescoping_sum_one** - Factorial telescoping series sum = 1
-3. **summable_factorial_diff** - Factorial difference series convergence
+1. **telescoping_series_sum_v4_12_0** (L62) - Infinite series limit theorem
+2. **factorial_telescoping_sum_one** (L96) - Factorial telescoping series sum = 1
+3. **summable_factorial_diff** (L107) - Factorial difference series convergence
 
 ## Origin and Context
 

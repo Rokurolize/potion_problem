@@ -18,7 +18,7 @@ You are a **Lean 4 implementer**. After extensive trials by predecessors, the pr
 **Working Environment:**
 - Directory: `/home/ubuntu/workbench/projects/potion_problem/`
 - Branch: main
-- Lean 4 v4.21.0 + mathlib4 v4.21.0 (upgraded from v4.15.0)
+- Lean 4 v4.21.0 + mathlib4 v4.21.0 (upgraded from v4.12.0)
 
 **✅ Fully Working Modules (sorry: 0):**
 1. `UniformHittingTime.FactorialSeries` - Factorial series convergence proofs
@@ -32,8 +32,9 @@ You are a **Lean 4 implementer**. After extensive trials by predecessors, the pr
 7. `UniformHittingTime.SeriesReindexing` - Disabled due to type inference issues
 
 **⚠️ Critical Reality Check:**
-- The project builds successfully but **proof is incomplete**
-- Main theorem exists but depends on unproven lemmas
+- The project builds successfully (3004/3004 modules) but **proof is incomplete**
+- Main theorem exists but depends on 3 unproven lemmas
+- Recent API modernization completed, version references updated
 - This is a **proof attempt**, not a completed proof
 
 ### 🎯 Why These Tasks Matter
@@ -63,8 +64,8 @@ The proof requires three critical missing pieces:
 
 **Current sorries:**
 - Line 62: `telescoping_series_sum_v4_12_0` - infinite series limit
-- Line 107: `factorial_telescoping_sum_one` - key telescoping identity
-- Line 121: `summable_factorial_diff` - convergence of factorial differences
+- Line 96: `factorial_telescoping_sum_one` - key telescoping identity
+- Line 107: `summable_factorial_diff` - convergence of factorial differences
 
 **Approach:**
 1. Focus on one sorry at a time
