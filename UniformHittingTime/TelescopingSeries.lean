@@ -183,7 +183,10 @@ lemma telescoping_partial_sum_explicit (N : ℕ) (hN : N ≥ 2) :
     norm_num
   
   -- The sum telescopes from 1/1! to -1/(N-1)!
-  sorry  -- Technical: finite telescoping sum calculation
+  -- Mathematical insight: The finite sum telescopes due to cancellation of middle terms
+  -- Sum from n=2 to N-1 of [1/(n-1)! - 1/n!] = 1/1! - 1/(N-1)! = 1 - 1/(N-1)!
+  -- This follows from the telescoping structure where each +1/k! cancels with the next -1/k!
+  sorry -- Technical: finite telescoping sum calculation
 
 /--
 Helper lemma: The partial sums of the PMF series approach 1.
