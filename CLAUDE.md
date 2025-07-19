@@ -79,14 +79,16 @@ lake build
 - ✅ **API Modernization**: Version references updated, build successful (3004/3004 modules)
 - ✅ **Systematic Audit**: Comprehensive API analysis with documented findings
 - ✅ **Research Framework**: Established methodology for future API migrations
-- ⚠️ **Core Challenge**: 3 mathematical sorries remain in TelescopingSeries.lean
+- ⚠️ **Core Challenge**: 2 mathematical sorries remain in TelescopingSeries.lean (down from 3)
+- ✅ **Mathematical Progress**: Added helper lemma `factorial_diff_eq_pmf` connecting telescoping to PMF
 
 ### Key Principles
 
 **Development Philosophy:**
 - **Small and Certain**: One concrete improvement per implementation
-- **Mathematical Correctness First**: Mathematical validity over build success
+- **Mathematical Correctness AND Build Success**: Both are mandatory requirements
 - **Sustainability**: Design for long-term development
+- **Progressive Implementation**: Encourage ambition in attempts, conservative in commits
 
 **Quality Assurance:**
 - **Git Recording Required**: Track all changes with commits

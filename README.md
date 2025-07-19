@@ -15,18 +15,18 @@
 
 ## ⚠️ Important Notice
 
-**This project is incomplete.** The formal proof contains 3 `sorry` (unfinished proofs) and does not constitute a complete verification.
+**This project is incomplete.** The formal proof contains 2 remaining `sorry` (unfinished proofs) and does not constitute a complete verification.
 
 ## Incomplete Proof Structure
 
 ```
 Main Theorem: E[τ] = e
     ├── Depends on: TelescopingSeries.factorial_telescoping_sum_one
-    │   └── sorry (L96) - proof incomplete
+    │   └── sorry (L163) - proof incomplete
     ├── Depends on: TelescopingSeries.telescoping_series_sum_v4_12_0
-    │   └── sorry (L62) - proof incomplete
+    │   └── ✅ RESOLVED - proven in recent iterations
     └── Depends on: TelescopingSeries.summable_factorial_diff
-        └── sorry (L107) - proof incomplete
+        └── sorry (L122) - proof incomplete
 ```
 
 ## Mathematical Formulation
@@ -61,8 +61,8 @@ This project attempts to formally prove E[τ] = e using:
 ```bash
 lake build
 ```
-**Status**: ✅ Build succeeds (3004/3004 modules) but proof incomplete (3 sorries remaining).
-**Recent**: API modernization completed, version references updated to v4.21.0.
+**Status**: ✅ Build succeeds (3004/3004 modules) but proof incomplete (2 sorries remaining).
+**Recent**: API modernization completed, one telescoping theorem proven, helper lemma added.
 
 ### Python Analysis
 ```bash
@@ -79,9 +79,14 @@ uv run python test_all.py
 - Python numerical simulation (error < 0.01%)
 
 ### Incomplete Components (sorry locations)
-1. **telescoping_series_sum_v4_12_0** (L62) - Infinite series limit theorem
-2. **factorial_telescoping_sum_one** (L96) - Factorial telescoping series sum = 1
-3. **summable_factorial_diff** (L107) - Factorial difference series convergence
+1. **telescoping_series_sum_v4_12_0** (L62) - ✅ RESOLVED in recent iterations
+2. **factorial_telescoping_sum_one** (L163) - Factorial telescoping series sum = 1
+3. **summable_factorial_diff** (L122) - Factorial difference series convergence
+
+### Recent Progress
+- ✅ **Helper Lemma Added**: `factorial_diff_eq_pmf` connecting telescoping differences to PMF
+- ✅ **Proven Theorem**: `telescoping_series_sum_v4_12_0` provides foundation for remaining work
+- ✅ **Structural Improvements**: Enhanced documentation and dependency ordering
 
 ## Origin and Context
 
