@@ -1,135 +1,185 @@
-# 自己完結型 Lean 4 実装プロンプト
+# Self-Contained Lean 4 Implementation Prompt
 
-## 📋 ミッション：媚薬問題 E[τ] = e の完全形式化
+## 📋 Mission: Complete Formalization of E[τ] = e for the Aphrodisiac Problem
 
-あなたは**Lean 4実装者**です。前任者たちによる大量の試行の結果、現在は高度に進歩した状態にあります。
+You are a **Lean 4 implementer**. After extensive trials by predecessors, the project is in an advanced but incomplete state.
 
-### 🎯 問題定義
-**媚薬問題**: E[τ] = e を証明する
+### 🎯 Problem Definition
+
+**The Aphrodisiac Problem**: Prove E[τ] = e
 - τ = min{n ≥ 1 : ∑ᵢ₌₁ⁿ Uᵢ ≥ 1}
-- Uᵢ ~ Uniform[0,1) (独立同分布)
-- 証明: E[τ] = e ≈ 2.718281828
+- Uᵢ ~ Uniform[0,1) (independent and identically distributed)
+- Goal: Prove E[τ] = e ≈ 2.718281828
 
-### 📊 現在の正確な状況 (2025年7月15日時点)
+**Why this matters**: This connects fundamental probability theory (stopping times) to the most important mathematical constant (e). The beauty lies in how uniform random variables naturally lead to Euler's number through the Irwin-Hall distribution.
 
-**作業環境:**
-- ディレクトリ: `/home/ubuntu/workbench/projects/potion_problem/`
-- ブランチ: refactoring-safety
-- Lean 4 v4.12.0 + Mathlib4 v4.12.0
+### 📊 Current Accurate Status (July 2025)
 
-**✅ 完全動作モジュール (sorry: 0):**
-1. `UniformHittingTime.FactorialSeries` - 階乗級数の収束証明
-2. `UniformHittingTime.IrwinHall` - Irwin-Hall分布の性質
-3. `UniformHittingTime.StoppingTimeBasic` - 停止時刻の基本定義
-4. `UniformHittingTime.HittingTime` - 停止時刻の確率質量関数
+**Working Environment:**
+- Directory: `/home/ubuntu/workbench/projects/potion_problem/`
+- Branch: main
+- Lean 4 v4.21.0 + mathlib4 v4.21.0 (upgraded from v4.15.0)
 
-**🔧 部分動作モジュール:**
-5. `UniformHittingTime.SeriesReindexing` - ビルド成功, sorry: 6
+**✅ Fully Working Modules (sorry: 0):**
+1. `UniformHittingTime.FactorialSeries` - Factorial series convergence proofs
+2. `UniformHittingTime.IrwinHall` - Irwin-Hall distribution properties
+3. `UniformHittingTime.StoppingTimeBasic` - Basic stopping time definitions
+4. `UniformHittingTime.HittingTime` - Stopping time probability mass function
 
-**❌ 問題のあるモジュール:**
-6. `UniformHittingTime.TelescopingSeries` - 複数エラー, sorry: 1
-7. `UniformHittingTime.UniformSumHittingTime` - メイン定理, sorry: 5
+**🔧 Problematic Modules (sorries present):**
+5. `UniformHittingTime.TelescopingSeries` - 3 sorries remaining
+6. `UniformHittingTime.UniformSumHittingTime` - Main theorem, multiple sorries
+7. `UniformHittingTime.SeriesReindexing` - Disabled due to type inference issues
 
-**📁 利用可能リソース:**
-- 26個の試行ファイル (ActuallyWorking.lean, MinimalWorking.lean等)
-- 30個以上のレポートファイル
-- 過去の成功例と失敗パターン
+**⚠️ Critical Reality Check:**
+- The project builds successfully but **proof is incomplete**
+- Main theorem exists but depends on unproven lemmas
+- This is a **proof attempt**, not a completed proof
 
-### 🎯 あなたの今回タスク (以下から1つ選択)
+### 🎯 Why These Tasks Matter
 
-#### A. TelescopingSeries.lean 修復
-**現在のエラー:**
-- `Nat.strong_induction_on₂` 未定義
-- 型の不一致多数  
-- タイムアウトエラー
+#### The Mathematical Core Problem
+The proof requires three critical missing pieces:
 
-**アプローチ:**
-1. API v4.12.0 互換性の修正
-2. 型エラーの段階的解決
-3. 試行ファイル (TelescopingSeriesWorking.lean等) からの学習
+1. **Telescoping Series Convergence** (`TelescopingSeries.lean`):
+   - **Why**: Must prove ∑(1/n! - 1/(n+1)!) = 1 - 1/e telescopes correctly
+   - **Mathematical significance**: This is the heart of connecting discrete probabilities to e
+   - **Current issue**: 3 sorry statements block the proof chain
 
-#### B. UniformSumHittingTime.lean 完成
-**残り sorry: 5**
-- メイン定理 E[τ] = e の最終証明
-- 各sorry の具体的解決
+2. **Series Reindexing** (`SeriesReindexing.lean`):
+   - **Why**: Need to show ∑ₙ f(n-2) = ∑ₖ f(k) for probability calculations
+   - **Mathematical significance**: Enables shifting between different indexing schemes
+   - **Current issue**: Disabled due to type class inference problems in v4.21.0
 
-#### C. 試行ファイルの統合
-**目的:** 最も進んだ試行ファイルから成果を本流に統合
-- sorry数0のファイルから学習
-- 動作する証明の特定と統合
+3. **Main Theorem Integration** (`UniformSumHittingTime.lean`):
+   - **Why**: Combines all pieces to prove E[τ] = e
+   - **Mathematical significance**: The culmination showing stopping time expectation equals Euler's number
+   - **Current issue**: Depends on the above incomplete lemmas
 
-### 🔧 実行手順
+### 🔧 Your Task Options (Choose One)
 
-#### 1. 現状確認
+#### A. Fix TelescopingSeries.lean Sorries
+**Why this matters**: This module contains the mathematical heart of the proof.
+
+**Current sorries:**
+- Line 62: `telescoping_series_sum_v4_12_0` - infinite series limit
+- Line 107: `factorial_telescoping_sum_one` - key telescoping identity
+- Line 121: `summable_factorial_diff` - convergence of factorial differences
+
+**Approach:**
+1. Focus on one sorry at a time
+2. Use mathlib4 v4.21.0 APIs (not outdated v4.12.0 references)
+3. Look for similar patterns in working files
+
+#### B. Restore SeriesReindexing.lean
+**Why this matters**: Series reindexing is essential for probability calculations.
+
+**Current issue**: Type class `IsTopologicalAddGroup` inference problems
+
+**Approach:**
+1. Debug type class resolution issues
+2. Provide explicit type annotations
+3. Consider alternative formulations that work with v4.21.0
+
+#### C. Integrate Progress from Trial Files
+**Why this matters**: 40+ trial files may contain working solutions.
+
+**Available resources:**
+- Multiple `*Working.lean` files with potential solutions
+- Various minimal implementations
+- Historical proof attempts
+
+### 🔧 Execution Procedure
+
+#### 1. Status Assessment
 ```bash
 cd /home/ubuntu/workbench/projects/potion_problem
-# 最新状態の確認
-cat docs/state/current-state.md
-# ビルド状態確認
+# Current build status
+lake build 2>&1 | tail -20
+# Check specific module
 lake build UniformHittingTime.TelescopingSeries 2>&1 | head -20
 ```
 
-#### 2. 作業実行
-- 選択したタスクに集中
-- 小さく確実な前進を心がける
-- ビルド成功を維持しながら改善
+#### 2. Implementation Work
+- **Focus on one concrete improvement**: Resolve one sorry or fix one specific error
+- **Maintain mathematical integrity**: Ensure any changes are mathematically sound
+- **Document your reasoning**: Explain both what you changed and why
 
-#### 3. 成果記録とコミット
+#### 3. Progress Recording and Commit
 ```bash
-# 作業内容の記録
-echo "## 実装記録 ($(date))" >> docs/state/iteration-history.md
-echo "- 担当者: [あなたの識別子]" >> docs/state/iteration-history.md
-echo "- 実施内容: [具体的達成内容]" >> docs/state/iteration-history.md
-echo "- 解決したsorry: [ファイル名:行数]" >> docs/state/iteration-history.md
-echo "- 数学的洞察: [発見事実]" >> docs/state/iteration-history.md
-echo "- ビルド状態: [結果]" >> docs/state/iteration-history.md
+# Record your work
+echo "## Implementation Record ($(date))" >> docs/state/iteration-history.md
+echo "- Agent ID: [your identifier]" >> docs/state/iteration-history.md
+echo "- Accomplished: [specific achievement]" >> docs/state/iteration-history.md
+echo "- Resolved sorries: [file:line]" >> docs/state/iteration-history.md
+echo "- Mathematical insight: [what you discovered]" >> docs/state/iteration-history.md
+echo "- Build status: [result]" >> docs/state/iteration-history.md
 echo "" >> docs/state/iteration-history.md
 
-# 必須コミット
+# Required commit
 git add -A
-git commit -m "Lean実装: [具体的な達成内容]
+git commit -m "Lean implementation: [specific achievement]
 
-- 解決したsorry: [ファイル名:行数]
-- 修正したエラー: [エラーの種類]
-- 新たな洞察: [発見した数学的構造]
-- ビルド状態: [成功/失敗の詳細]
+- Resolved sorry: [file:line]
+- Fixed error: [error type]
+- Mathematical insight: [discovery]
+- Build status: [success/failure details]
 
-次回優先: [最重要な次のタスク]"
+Next priority: [most important next task]"
 ```
 
-### 📚 重要なリソース
+### 📚 Essential Resources
 
-**数学的背景:**
-- 媚薬問題は停止時刻理論の教育的例題
-- E[τ] = e は ∑_{n=0}^∞ 1/n! = e との美しい対応
-- 証明の核心: P(τ = n) = (n-1)/n! for n ≥ 2
+**Mathematical Background:**
+- The Aphrodisiac Problem demonstrates stopping time theory
+- E[τ] = e shows beautiful correspondence with ∑_{n=0}^∞ 1/n! = e
+- Proof core: P(τ = n) = (n-1)/n! for n ≥ 2
+- Connection to Irwin-Hall distribution: P(S_n < 1) = 1/n!
 
-**技術的制約:**
-- mathlib4 v4.12.0 の API制限を認識
-- タイムアウト回避のため簡潔な証明を優先
-- 型の明示的注釈でエラー回避
+**Technical Constraints:**
+- mathlib4 v4.21.0 API limitations (updated from v4.12.0)
+- Timeout avoidance requires concise proofs
+- Explicit type annotations prevent errors
+- `IsTopologicalAddGroup` replaced `TopologicalAddGroup`
 
-**利用可能な試行ファイル:**
+**Available Trial Files:**
 ```
 ActuallyWorking.lean          TelescopingSeriesMinimal.lean
 WorkingCore.lean              TelescopingSeriesWorking.lean
-MinimalWorking.lean           [他20個以上のファイル]
+MinimalWorking.lean           [20+ other experimental files]
 ```
 
-### ⚠️ 重要な注意
+### ⚠️ Critical Guidelines
 
-1. **時間軸ジャンプ対応**: あなたが思っている試行回数より実際は進んでいる可能性
-2. **Git Diff 評価**: あなたの変更は厳密に評価される
-3. **成果の必須記録**: 「改善した」主張と実際の変更の一致が必要
-4. **数学的正しさ最優先**: ビルド成功より数学的妥当性を重視
+1. **Honest Assessment**: This project is incomplete. Don't claim false completeness.
+2. **Git Diff Evaluation**: Your changes will be rigorously evaluated against claims
+3. **Mathematical Soundness First**: Correctness over build success
+4. **One Step Forward**: Make one concrete, verifiable improvement
+5. **Clear Documentation**: Explain not just what but why you made changes
 
-### 🎉 期待される成果
+### 🎉 Expected Outcomes
 
-- 1個のsorryの解決 OR 1個のエラーの修正
-- 数学的洞察の記録
-- 次回実装者への明確な引き継ぎ
-- git diffで確認可能な具体的前進
+**Minimal Success**: 
+- Resolve 1 sorry OR fix 1 specific error
+- Document mathematical reasoning
+- Provide clear handoff to next implementer
+- Create git diff showing concrete progress
+
+**Ideal Success**:
+- Complete one of the three missing proof pieces
+- Maintain build success
+- Advance toward the complete E[τ] = e proof
+
+### 💡 Why This Project Matters
+
+The Aphrodisiac Problem demonstrates how:
+- Cultural internet memes can encode deep mathematics
+- Stopping time theory connects to fundamental constants
+- Formal verification reveals the beauty of mathematical structure
+- Incomplete proofs are valuable when honestly documented
+
+**The goal is not just to prove E[τ] = e, but to create a masterpiece of formal mathematics that others can learn from and build upon.**
 
 ---
 
-**現在のプロジェクト状況を確認し、最も重要なタスクを選択してください。**
+**Select your task and begin implementation. Focus on mathematical integrity and concrete progress.**
