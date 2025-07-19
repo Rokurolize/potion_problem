@@ -56,10 +56,33 @@ theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ}
     (h₀ : Tendsto a atTop (nhds 0))
     (hs : Summable (fun n => a n - a (n + 1))) :
     ∑' n, (a n - a (n + 1)) = a 0 := by
-  -- Strategic sorry: Complex telescoping series limit theorem
-  -- Mathematical principle: ∑(aₙ - aₙ₊₁) = a₀ - lim(aₙ) = a₀ - 0 = a₀
-  -- This requires detailed HasSum/Tendsto interaction in Lean 4 v4.21.0
-  sorry
+  -- Use the fact that partial sums telescope to a 0 - a N
+  have h_partial : ∀ N : ℕ, ∑ n ∈ Finset.range N, (a n - a (n + 1)) = a 0 - a N := by
+    intro N
+    exact telescoping_series_partial_sum a N
+  
+  -- The summability gives us a HasSum relation
+  obtain ⟨S, hS⟩ := hs
+  
+  -- We know tsum equals S when HasSum holds
+  have h_tsum : ∑' n, (a n - a (n + 1)) = S := hS.tsum_eq
+  rw [h_tsum]
+  
+  -- By definition of HasSum, the partial sums converge to S
+  have h_conv : Tendsto (fun N => ∑ n ∈ Finset.range N, (a n - a (n + 1))) atTop (nhds S) := by
+    exact HasSum.tendsto_sum_nat hS
+  
+  -- But we know the partial sums equal a 0 - a N
+  simp_rw [h_partial] at h_conv
+  
+  -- So we have: Tendsto (fun N => a 0 - a N) atTop (nhds S)
+  -- Since a N → 0, we have a 0 - a N → a 0 - 0 = a 0
+  have h_lim : Tendsto (fun N => a 0 - a N) atTop (nhds (a 0)) := by
+    conv => rhs; rw [← sub_zero (a 0)]
+    exact Tendsto.sub tendsto_const_nhds h₀
+  
+  -- By uniqueness of limits, S = a 0
+  exact tendsto_nhds_unique h_conv h_lim
 
 /-- 
 Factorial identity: for n ≥ 1, (1 : ℝ)/n! - 1/(n+1)! = n/(n+1)!
@@ -89,11 +112,54 @@ This is the core mathematical result that P(τ = n) sums to 1.
 -/
 theorem factorial_telescoping_sum_one :
   ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
-  -- Strategic sorry: Complex telescoping summation theorem
-  -- Mathematical principle: ∑(n≥2) [1/(n-1)! - 1/n!] telescopes to 1/1! - 0 = 1
-  -- This requires applying telescoping_series_sum_v4_12_0 but depends on it being proved
-  -- The key insight: this series equals the PMF ∑(n≥2) (n-1)/n! = 1 (total probability)
-  sorry
+  -- We'll apply the telescoping theorem we proved earlier
+  -- Define the sequence a(n) = 1/n!
+  let a : ℕ → ℝ := fun n => 1 / n.factorial
+  
+  -- We need to show that our series equals ∑' n, (a n - a (n + 1)) with an offset
+  -- First, let's reindex the series to start from 0
+  have h_reindex : ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) =
+                   ∑' n : ℕ, (if n ≥ 1 then a (n - 1) - a n else 0) := by
+    congr 1
+    ext n
+    split_ifs with h1 h2
+    · -- Case n ≥ 2 and n ≥ 1
+      simp only [a]
+    · -- Case n ≥ 2 but not n ≥ 1 (impossible)
+      omega
+    · -- Case n < 2 but n ≥ 1, so n = 1
+      have : n = 1 := by omega
+      subst this
+      simp [a]
+    · -- Case n < 2 and n < 1, so n = 0
+      rfl
+  
+  rw [h_reindex]
+  
+  -- Now split off the n = 0 term
+  have h_split : ∑' n : ℕ, (if n ≥ 1 then a (n - 1) - a n else 0) = 
+                 0 + ∑' n : ℕ, (if n ≥ 1 then a (n - 1) - a n else 0) := by simp
+  rw [h_split]
+  
+  -- The sum starting from n = 1 is a shifted telescoping series
+  have h_shift : ∑' n : ℕ, (if n ≥ 1 then a (n - 1) - a n else 0) = 
+                 ∑' k : ℕ, (a k - a (k + 1)) := by
+    -- This requires reindexing n → n - 1
+    sorry -- Reindexing argument
+  
+  rw [h_shift]
+  
+  -- Apply our telescoping theorem
+  have h_telescope : ∑' k : ℕ, (a k - a (k + 1)) = a 0 := by
+    apply telescoping_series_sum_v4_12_0
+    · -- Show a n → 0
+      exact FactorialSeries.inv_factorial_tendsto_zero
+    · -- Show summability
+      -- This follows from summable_factorial_diff with reindexing
+      sorry -- Summability of a k - a (k+1)
+  
+  rw [h_telescope]
+  simp [a]
 
 /-- 
 Summability of the factorial difference series.
@@ -101,10 +167,37 @@ This establishes that the telescoping series converges.
 -/
 lemma summable_factorial_diff :
   Summable (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := by
-  -- Strategic sorry: Complex comparison test with factorial series
-  -- Mathematical approach: Use |1/(n-1)! - 1/n!| ≤ 1/(n-1)! and ∑ 1/n! convergence
-  -- This requires detailed analysis of factorial decay rates in Lean 4 v4.21.0
-  sorry
+  -- Strategic approach: The series telescopes, so we'll use that fact directly
+  -- For now, we prove summability using the fact that this is a telescoping series
+  -- where the partial sums converge
+  
+  -- The partial sums telescope
+  have h_partial : ∀ N ≥ 2, ∑ n ∈ Finset.range N, 
+    (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 
+    1 / 1 - 1 / (N - 1).factorial := by
+    intro N hN
+    -- This follows from the telescoping property
+    -- ∑_{n=2}^{N-1} [1/(n-1)! - 1/n!] = 1/1! - 1/(N-1)!
+    sorry -- Telescoping sum calculation
+  
+  -- The limit exists since 1/n! → 0
+  have h_lim : Tendsto (fun N => 1 / 1 - 1 / (N - 1).factorial) atTop (nhds 1) := by
+    have h_eq : ∀ N, 1 / 1 - 1 / (N - 1).factorial = 1 - 1 / (N - 1).factorial := by
+      intro N
+      simp
+    simp_rw [h_eq]
+    conv => rhs; rw [← sub_zero (1 : ℝ)]
+    apply Tendsto.sub tendsto_const_nhds
+    -- We need to show 1/(N-1)! → 0
+    have : Tendsto (fun N => (1 : ℝ) / (N - 1).factorial) atTop (nhds 0) := by
+      -- This follows from the fact that 1/n! → 0
+      sorry -- Limit of 1/n! is 0
+    exact this
+  
+  -- Apply summability from convergent partial sums
+  -- For now we use the sorry to establish summability
+  -- The mathematical fact is that telescoping series with convergent partial sums are summable
+  sorry -- Summability follows from convergent telescoping partial sums
 
 /-!
 ## Verification Tests
@@ -115,7 +208,7 @@ Simple examples to verify our theorems work correctly.
 /-- 
 Verify basic telescoping for a simple sequence
 -/
-example : (2 : ℝ) - 5 = ∑ i ∈ Finset.range 3, (-1 : ℝ) := by
+example : (2 : ℝ) - 5 = ∑ _ ∈ Finset.range 3, (-1 : ℝ) := by
   simp [Finset.sum_const, Finset.card_range]
   norm_num
 
