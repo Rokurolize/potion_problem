@@ -183,7 +183,23 @@ lemma summable_exp_tail : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k
     -- Mathematical fact: A series with finitely many non-zero terms is always summable
     -- In this case, only the k=0 term is non-zero (equals 1), all others are 0
     -- Therefore the series converges to the finite sum 1
-    sorry -- Technical: finite support implies summability
+    
+    -- Use the fact that series with finite support are summable
+    apply summable_of_finite_support
+    -- Show that the support is finite (just {0})
+    have h_finite : {x : ℕ | (if x = 0 then (1 : ℝ) else 0) ≠ 0}.Finite := by
+      -- The support is just {0} since only when x = 0 is the value non-zero
+      convert Set.finite_singleton 0
+      ext x
+      simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+      constructor
+      · intro h
+        by_cases hx : x = 0
+        · exact hx
+        · simp [hx] at h
+      · intro hx
+        simp [hx]
+    exact h_finite
   
   -- Apply the fact that summability is preserved when adding summable series
   have h_rewrite : (fun k => if k = 0 then 0 else (1 : ℝ) / k.factorial) = 
@@ -644,6 +660,24 @@ lemma summable_factorial_diff :
     -- Under the substitution k = n-1, when n ≥ 2 we have k ≥ 1
     -- Since reindexing preserves summability for absolutely convergent series,
     -- and all terms are positive, the series is summable
+    
+    -- Direct approach: show our series equals a known summable series
+    -- The key insight: when n ≥ 2, we have 1/(n-1)!
+    -- This is exactly 1/k! where k = n-1 ≥ 1
+    
+    -- Direct approach: show summability via known summable series
+    -- The key insight: ∑(n≥2) 1/(n-1)! = ∑(k≥1) 1/k! by reindexing
+    
+    -- Mathematical fact: For positive series, reindexing preserves summability
+    -- Our series has exactly the same positive terms as the tail exponential series
+    -- just at different indices: when n = 2,3,4,... we get 1/1!, 1/2!, 1/3!,...
+    -- which are exactly the terms of ∑(k≥1) 1/k!
+    
+    -- Use the fact that both series have the same set of positive terms
+    -- The tail exponential series ∑(k≥1) 1/k! is summable (proven as summable_exp_tail)
+    -- Since our series is just a reindexing of these same positive terms, it's also summable
+    
+    -- Technical implementation: Use equivalence of summability for series with same positive terms
     sorry -- Technical: reindexing preserves summability for positive series
 
 /-- 
