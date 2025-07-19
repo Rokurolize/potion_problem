@@ -147,11 +147,22 @@ lemma summable_exp_tail : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k
   -- Mathematical fact: Removing finitely many terms from a summable series preserves summability
   -- We're removing only the k=0 term, so the tail starting from k=1 remains summable
   
-  -- Use the general principle: if a series is summable, then the series with finitely many
-  -- terms removed is also summable. This is because convergence depends on the tail behavior.
+  -- Use the characterization: a series is summable iff its tail starting from any index is summable
+  -- Our series equals the tail of the exponential series starting from index 1
   
-  -- For now, we accept this as a technical lemma that follows from the general theory
-  -- of summable series in mathlib4
+  -- We can express our conditional series as a shifted version of the full series
+  have h_eq : ∀ k, (if k ≥ 1 then (1 : ℝ) / k.factorial else 0) = 
+    if k = 0 then 0 else (1 : ℝ) / k.factorial := by
+    intro k
+    by_cases h : k = 0
+    · simp [h]
+    · simp [h, Nat.one_le_iff_ne_zero.2 h]
+  
+  simp only [h_eq]
+  
+  -- The full series minus its first term is summable
+  -- This follows from the general principle that removing finitely many terms preserves summability
+  -- For now, we accept this as a technical result
   sorry  -- Technical: removing finite terms from summable series
 
 /--
@@ -175,30 +186,38 @@ lemma telescoping_partial_sum_explicit (N : ℕ) (hN : N ≥ 2) :
   -- = 1/1! - 1/(N-1)!
   -- = 1 - 1/(N-1)!
   
-  -- We need to establish the telescoping structure
-  have h_telescope : ∀ k ∈ Finset.range (N - 2), 
-    (1 : ℝ) / (k + 2 - 1).factorial - 1 / (k + 2).factorial = 
-    1 / (k + 1).factorial - 1 / (k + 2).factorial := by
-    intro k _
-    -- Simplify k + 2 - 1 = k + 1
-    norm_num
+  -- Mathematical insight: We can use a bijection to shift indices
+  -- When n ranges from 2 to N-1, let k = n-1, so k ranges from 1 to N-2
+  -- Then 1/(n-1)! - 1/n! becomes 1/k! - 1/(k+1)!
   
-  -- The sum telescopes from 1/1! to -1/(N-1)!
-  -- Mathematical insight: The finite sum telescopes due to cancellation of middle terms
-  -- Sum from n=2 to N-1 of [1/(n-1)! - 1/n!] = 1/1! - 1/(N-1)! = 1 - 1/(N-1)!
-  -- This follows from the telescoping structure where each +1/k! cancels with the next -1/k!
+  -- First, we establish the bijection between the index sets
+  have h_bij : ∃ f : ℕ → ℕ, Function.Bijective f ∧ 
+    (∀ k, k ∈ Finset.Ico 1 (N - 1) → f k ∈ Finset.range N \ Finset.range 2) ∧
+    (∀ k, k ∈ Finset.Ico 1 (N - 1) → 
+      (1 : ℝ) / (f k - 1).factorial - 1 / (f k).factorial = 1 / k.factorial - 1 / (k + 1).factorial) := by
+    -- Define f(k) = k + 1 for k ∈ [1, N-2]
+    use fun k => k + 1
+    constructor
+    · -- f is bijective (on the appropriate domains)
+      sorry -- Technical: bijection proof
+    constructor
+    · -- f maps to the correct set
+      intro k hk
+      simp [Finset.mem_Ico, Finset.mem_sdiff, Finset.mem_range] at hk ⊢
+      omega
+    · -- The function values match
+      intro k hk
+      -- When f(k) = k + 1, we have f(k) - 1 = k
+      simp
   
-  -- Mathematical fact: The finite telescoping sum equals first term minus last term
-  -- Sum from n=2 to N-1 of [1/(n-1)! - 1/n!] 
-  -- = [1/1! - 1/2!] + [1/2! - 1/3!] + ... + [1/(N-2)! - 1/(N-1)!]
-  -- = 1/1! - 1/(N-1)! (all middle terms cancel)
-  -- = 1 - 1/(N-1)!
+  -- Apply the bijection to rewrite the sum
+  -- The sum over n ∈ [2, N-1] with terms 1/(n-1)! - 1/n!
+  -- equals the sum over k ∈ [1, N-2] with terms 1/k! - 1/(k+1)!
   
-  -- This is a standard result for telescoping series but requires careful handling
-  -- of the index sets and the finite sum structure in Lean
-  -- Mathematical insight: The finite sum telescopes exactly as described
-  -- Sum over {2,3,...,N-1} of [1/(n-1)! - 1/n!] = 1/1! - 1/(N-1)! = 1 - 1/(N-1)!
-  -- This follows from the telescoping property where consecutive terms cancel
+  -- We'll show this equals 1/1! - 1/(N-1)! using the telescoping property
+  -- Mathematical fact: The sum telescopes because middle terms cancel
+  
+  -- For now, accept this as requiring careful index manipulation
   sorry -- Technical: finite telescoping sum with index shift
 
 /--
@@ -269,7 +288,20 @@ lemma pmf_partial_sums_tend_to_one :
     1 - 1 / (N - 1).factorial := by
     intro N hN
     -- Apply telescoping identity and pmf_telescoping_insight
-    sorry  -- Technical: apply telescoping structure
+    -- We know that (n-1)/n! = 1/(n-1)! - 1/n! from pmf_telescoping_insight
+    have h_rewrite : ∑ n ∈ Finset.range N \ Finset.range 2, (n - 1 : ℝ) / n.factorial =
+      ∑ n ∈ Finset.range N \ Finset.range 2, ((1 : ℝ) / (n - 1).factorial - 1 / n.factorial) := by
+      apply Finset.sum_congr rfl
+      intro n hn
+      simp at hn
+      -- For n ≥ 2, we have (n-1)/n! = 1/(n-1)! - 1/n!
+      exact (factorial_diff_eq_pmf n hn.2).symm
+    
+    rw [h_rewrite]
+    -- Now apply the telescoping_partial_sum_explicit lemma
+    rw [telescoping_partial_sum_explicit N hN]
+    -- Simplify 1/1 = 1
+    simp [Nat.factorial_one]
   
   -- Now show the limit
   -- We have: partial sum = 1 - 1/(N-1)! for N ≥ 2  
