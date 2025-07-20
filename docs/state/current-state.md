@@ -48,8 +48,8 @@ UniformHittingTime/
 
 **進捗状況:**
 - TelescopingSeries.lean: 2 sorries remaining 
-  - `summable_factorial_diff` (line 519): 数学的証明完了、mathlib4 API接続が必要
-  - `factorial_telescoping_sum_one` (line 718): 数学的証明完了、HasSum構築APIが必要
+  - `summable_factorial_diff` (line 540): 数学的証明完了、mathlib4 API接続が必要
+  - `factorial_telescoping_sum_one` (line 700): 数学的証明完了、HasSum構築APIが必要
 
 **📊 Sorry数統計:**
 - 4モジュールがsorry数0 (完全な証明)
