@@ -405,9 +405,8 @@ theorem main_result : expected_hitting_time = exp 1 := by
               -- We'll use the bijection n = k + 2 for n ≥ 2, k ∈ ℕ
               -- This maps {n : n ≥ 2} bijectively to ℕ
               
-              -- Convert to standard notation first
-              conv_lhs => enter [2, n]; rw [← one_div]
-              conv_rhs => enter [2, k]; rw [← one_div]
+              -- Convert inverse notation to division notation
+              simp only [inv_eq_one_div]
               
               -- Both sides equal exp(1), so they're equal
               have lhs_eq : (∑' n : ℕ, if n ≥ 2 then 1 / ((n - 2).factorial : ℝ) else 0) = exp 1 := by
