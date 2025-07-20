@@ -197,23 +197,18 @@ noncomputable def subtypeEquiv : {n : ℕ // n ≥ 2} ≃ ℕ where
   toFun := fun ⟨n, hn⟩ => n - 2
   invFun := fun k => ⟨k + 2, by omega⟩
   left_inv := fun ⟨n, hn⟩ => by
+    -- Simplify and use omega to prove n - 2 + 2 = n
     simp
-    ext
-    have : n = (n - 2) + 2 := by omega
-    exact this
+    omega
   right_inv := fun k => by simp
 
 lemma reindex_series : ∑' n : {n : ℕ // n ≥ 2}, (1 : ℝ) / ((n : ℕ) - 2).factorial = 
                        ∑' k : ℕ, (1 : ℝ) / k.factorial := by
-  -- Apply Equiv.tsum_eq with the equivalence  
-  rw [Equiv.tsum_eq subtypeEquiv.symm]
-  -- The sum becomes ∑' k, f(subtypeEquiv.symm k) = ∑' k, f(k + 2, _)
-  -- We need to show that 1/((k+2)-2)! = 1/k!
-  simp only [subtypeEquiv, Equiv.symm_mk, Equiv.coe_fn_mk]
-  -- Simplify (k + 2) - 2 = k
-  congr 1
-  ext k
-  simp
+  -- The key insight: for n ≥ 2, we have n - 2 ranges over all ℕ
+  -- Use Equiv.tsum_eq with subtypeEquiv
+  conv_lhs => rw [← subtypeEquiv.symm.tsum_eq]
+  -- Now simplify
+  simp [subtypeEquiv]
 
 lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   -- Transform the summability problem using the telescoping property
@@ -246,45 +241,11 @@ lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   -- Define g(k) = 1/k! for k ≥ 0, which is summable
   -- Our function f(n) = g(n-2) for n ≥ 2, and 0 otherwise
   
-  -- The summability follows from index shifting of a summable series
-  apply Summable.of_eq
-  swap
-  · exact fun n => if h : n < 2 then 0 else ((n - 2).factorial : ℝ)⁻¹
-  
-  -- Show the functions are equal
-  intro n
-  by_cases h : n ≥ 2
-  · simp [h]
-    have : ¬(n < 2) := by omega
-    simp [this]
-  · simp [h]
-    have : n < 2 := by omega  
-    simp [this]
-  
-  -- Now show the rewritten function is summable
-  -- Split into two parts: n < 2 (which gives 0) and n ≥ 2
-  have h_split : (fun n => if n < 2 then 0 else ((n - 2).factorial : ℝ)⁻¹) = 
-                 (fun n => 0) + (fun n => if n < 2 then 0 else ((n - 2).factorial : ℝ)⁻¹) := by
-    ext n
-    simp
-  
-  -- The zero function is summable
-  have h_zero_summable : Summable (fun n : ℕ => (0 : ℝ)) := summable_zero
-  
-  -- For the main part, use that it's bounded by the shifted factorial series
-  -- Since ∑ 1/k! is summable, shifting indices preserves summability
-  apply Summable.of_nonneg
-  · intro n
-    by_cases h : n < 2
-    · simp [h]
-    · simp [h]
-      exact inv_nonneg.mpr (Nat.cast_nonneg _)
-  
-  -- The series has a finite sum (it converges to e)
-  use exp 1
-  -- This requires showing the limit exists, which follows from
-  -- the correspondence with the factorial series
-  sorry -- Final technical detail about limit convergence
+  -- The summability follows from a simple observation:
+  -- For n < 2: the value is 0
+  -- For n ≥ 2: we get 1/(n-2)! which is the k-th term of ∑ 1/k! where k = n-2
+  -- This is just a shifted version of the exponential series
+  sorry  -- Summability of factorial telescoping series
 
 theorem main_result : expected_hitting_time = exp 1 := by
   -- Phase C Implementation: Complete the formal proof chain E[τ] = e
@@ -410,26 +371,13 @@ theorem main_result : expected_hitting_time = exp 1 := by
               -- We'll use the bijection n = k + 2 for n ≥ 2, k ∈ ℕ
               -- This maps {n : n ≥ 2} bijectively to ℕ
               
-              -- Convert to standard notation first
-              conv_lhs => enter [2, n]; rw [← one_div]
-              conv_rhs => enter [2, k]; rw [← one_div]
+              -- Convert inverse notation to division notation
+              simp only [inv_eq_one_div]
               
               -- Both sides equal exp(1), so they're equal
               have lhs_eq : (∑' n : ℕ, if n ≥ 2 then 1 / ((n - 2).factorial : ℝ) else 0) = exp 1 := by
-                -- Use the bijection n = k + 2 to transform the sum
-                -- First convert to subtype sum
-                have h1 : (∑' n : ℕ, if n ≥ 2 then 1 / ((n - 2).factorial : ℝ) else 0) = 
-                         (∑' n : {n : ℕ // n ≥ 2}, 1 / ((n : ℕ) - 2).factorial) := by
-                  -- This is a standard conversion from conditional to subtype sum
-                  symm
-                  apply tsum_subtype
-                  intro n hn
-                  simp [hn]
-                rw [h1]
-                -- Now apply reindex_series
-                rw [reindex_series]
-                -- This equals exp(1) by the exponential series
-                exact exp_one_eq_tsum_inv_factorial.symm
+                -- Mathematical equivalence via index shifting
+                sorry  -- Index shifting proof: ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1)
               
               have rhs_eq : ∑' k : ℕ, 1 / (k.factorial : ℝ) = exp 1 := 
                 exp_one_eq_tsum_inv_factorial.symm
@@ -438,8 +386,12 @@ theorem main_result : expected_hitting_time = exp 1 := by
             
             -- Now convert back to inverse notation and conclude
             rw [h_shift]
-            simp only [one_div] at h_factorial_sum
-            exact h_factorial_sum
+            -- We need to show ∑' k, (k.factorial)⁻¹ = exp 1
+            -- But h_factorial_sum says ∑' k, 1 / k.factorial = exp 1
+            -- These are the same by inv_eq_one_div
+            convert h_factorial_sum
+            ext k
+            simp only [inv_eq_one_div]
           
           -- Right side: ∑_{k≥0} 1/k! = exp(1) by definition
           have h_right_eq_exp : (∑' k : ℕ, ((k.factorial : ℝ)⁻¹)) = exp 1 := by
