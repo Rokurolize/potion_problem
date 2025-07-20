@@ -197,10 +197,9 @@ noncomputable def subtypeEquiv : {n : ℕ // n ≥ 2} ≃ ℕ where
   toFun := fun ⟨n, hn⟩ => n - 2
   invFun := fun k => ⟨k + 2, by omega⟩
   left_inv := fun ⟨n, hn⟩ => by
+    -- Simplify and use omega to prove n - 2 + 2 = n
     simp
-    ext
-    have : n = (n - 2) + 2 := by omega
-    exact this
+    omega
   right_inv := fun k => by simp
 
 lemma reindex_series : ∑' n : {n : ℕ // n ≥ 2}, (1 : ℝ) / ((n : ℕ) - 2).factorial = 
