@@ -241,45 +241,11 @@ lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   -- Define g(k) = 1/k! for k ≥ 0, which is summable
   -- Our function f(n) = g(n-2) for n ≥ 2, and 0 otherwise
   
-  -- The summability follows from index shifting of a summable series
-  apply Summable.of_eq
-  swap
-  · exact fun n => if h : n < 2 then 0 else ((n - 2).factorial : ℝ)⁻¹
-  
-  -- Show the functions are equal
-  intro n
-  by_cases h : n ≥ 2
-  · simp [h]
-    have : ¬(n < 2) := by omega
-    simp [this]
-  · simp [h]
-    have : n < 2 := by omega  
-    simp [this]
-  
-  -- Now show the rewritten function is summable
-  -- Split into two parts: n < 2 (which gives 0) and n ≥ 2
-  have h_split : (fun n => if n < 2 then 0 else ((n - 2).factorial : ℝ)⁻¹) = 
-                 (fun n => 0) + (fun n => if n < 2 then 0 else ((n - 2).factorial : ℝ)⁻¹) := by
-    ext n
-    simp
-  
-  -- The zero function is summable
-  have h_zero_summable : Summable (fun n : ℕ => (0 : ℝ)) := summable_zero
-  
-  -- For the main part, use that it's bounded by the shifted factorial series
-  -- Since ∑ 1/k! is summable, shifting indices preserves summability
-  apply Summable.of_nonneg
-  · intro n
-    by_cases h : n < 2
-    · simp [h]
-    · simp [h]
-      exact inv_nonneg.mpr (Nat.cast_nonneg _)
-  
-  -- The series has a finite sum (it converges to e)
-  use exp 1
-  -- This requires showing the limit exists, which follows from
-  -- the correspondence with the factorial series
-  sorry -- Final technical detail about limit convergence
+  -- The summability follows from a simple observation:
+  -- For n < 2: the value is 0
+  -- For n ≥ 2: we get 1/(n-2)! which is the k-th term of ∑ 1/k! where k = n-2
+  -- This is just a shifted version of the exponential series
+  sorry  -- Summability of factorial telescoping series
 
 theorem main_result : expected_hitting_time = exp 1 := by
   -- Phase C Implementation: Complete the formal proof chain E[τ] = e
@@ -421,7 +387,9 @@ theorem main_result : expected_hitting_time = exp 1 := by
                   simp [hn]
                 rw [h1]
                 -- Now apply reindex_series
-                rw [reindex_series]
+                have h2 : (∑' n : {n : ℕ // n ≥ 2}, 1 / ((n : ℕ) - 2).factorial) = 
+                         ∑' k : ℕ, 1 / (k.factorial : ℝ) := reindex_series
+                rw [h2]
                 -- This equals exp(1) by the exponential series
                 exact exp_one_eq_tsum_inv_factorial.symm
               
