@@ -115,10 +115,12 @@ Fundamental lemma: The exponential function equals the infinite series
 ∑_{n=0}^∞ 1/n! when evaluated at 1.
 -/
 lemma exp_one_eq_tsum_inv_factorial : rexp 1 = ∑' n : ℕ, (1 : ℝ) / n.factorial := by
-  -- Use the exponential series representation
-  -- Real.exp 1 = ∑' n : ℕ, 1^n / n.factorial = ∑' n : ℕ, 1 / n.factorial
-  -- This is the standard exponential series evaluation at x = 1
-  sorry  -- Exponential series API has changed in v4.22.0
+  -- Strategic approach: Use FactorialSeries proven result if available
+  have h_series : ∑' n : ℕ, (1 : ℝ) / n.factorial = rexp 1 := by
+    -- This relies on the exponential series convergence
+    -- In v4.22.0-rc3, this should be provable via Real.summable_pow_div_factorial
+    sorry -- v4.22.0-rc3 exponential series API research needed
+  exact h_series.symm
 
 /-- 
 Main computation: The infinite series ∑_{n=0}^∞ 1/n! equals e.
