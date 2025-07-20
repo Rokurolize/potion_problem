@@ -4,6 +4,8 @@
 
 
 
+
+
   - Verify current build status with `lake build`
   - Identify exact locations of remaining sorry statements
   - Confirm mathematical foundation is intact
