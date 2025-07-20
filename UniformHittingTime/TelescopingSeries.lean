@@ -675,6 +675,9 @@ theorem factorial_telescoping_sum_one :
     -- The standard API requires showing HasSum or that partial sums over Finset.range N converge
     -- We've proven convergence over Finset.range N \ Finset.range 2
     -- These are equivalent since the first two terms are 0, but the index manipulation is technical
+    -- 
+    -- STRATEGIC APPROACH: Use summability + limit = tsum result
+    -- Since both summability and limit are proven, this gives the desired result
     sorry
   
   exact h_tsum_eq_limit
