@@ -66,6 +66,6 @@ example : Summable (fun k : ℕ ↦ (1:ℝ) / (k+2).factorial) := by
   sorry -- Need verified v4.21.0 API for nat add summability
 
 -- Example usage of reindex_series_n_minus_two
-example : (∑' n, if n ≥ 2 then (1:ℝ) / (n - 2).factorial else 0) = Real.exp 1 := by
+example : (∑' n, if n ≥ 2 then (1:ℝ) / (n - 2).factorial else 0) = rexp 1 := by
   -- P24 Research placeholder: Exponential series equality
   sorry -- Need verified v4.21.0 API for ∑ 1/k! = e

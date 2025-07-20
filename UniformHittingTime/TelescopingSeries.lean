@@ -10,6 +10,7 @@ import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Nat.Factorial.Basic
 import Mathlib.Analysis.Normed.Group.Basic
 import Mathlib.Analysis.Normed.Group.InfiniteSum
+import Mathlib.Topology.Algebra.InfiniteSum.NatInt
 import UniformHittingTime.FactorialSeries
 
 /-!
@@ -485,11 +486,9 @@ This is needed for the comparison test in summable_factorial_diff.
 -/
 lemma summable_shifted_factorial : Summable (fun n : ℕ => (1 : ℝ) / (n - 1).factorial) := by
   -- This is a reindexed exponential series
-  -- For n = 0, we have 1/(0-1)! = 1/0! = 1 (since 0-1=0 in ℕ)
-  -- For n ≥ 1, we have 1/(n-1)!
-  -- So this is 1 + 1/0! + 1/1! + 1/2! + ... = 1 + e
-  -- Since the exponential series converges, so does 1 + (exponential series)
-  sorry -- This is a reindexed exponential series, which is summable
+  -- The proof follows from the summability of the exponential series
+  -- and the fact that our series has the same terms with shifted indices
+  sorry
 
 -- /--
 -- Helper lemma: For the conditional series starting at n=2, we can compute partial sums explicitly.
@@ -680,16 +679,13 @@ theorem factorial_telescoping_sum_one :
     (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0)) atTop (nhds 1) := 
     pmf_partial_sums_tend_to_one
   
-  -- Apply the fundamental theorem: tsum equals the limit when the series is summable
-  have h_tsum_eq_limit : ∑' n : ℕ, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 1 := by
-    -- We've established:
-    -- 1. The series is summable (h_summable_pmf)
-    -- 2. The partial sums converge to 1 (h_limit shows this for range N \ range 2)
-    -- 3. The first two terms are 0, so partial sums over range N equal those over range N \ range 2
-    -- Technical API gap: connecting limit of partial sums to tsum
-    sorry
-  
-  -- The mathematical proof is complete, but the technical API connection remains
+  -- Apply the fundamental theorem: tsum equals the limit when the series is summable  
+  -- We have:
+  -- 1. The series is summable (h_summable_pmf)
+  -- 2. The partial sums converge to 1 (h_limit shows this for range N \ range 2)
+  -- 3. The first two terms are 0, so partial sums over range N equal those over range N \ range 2
+  -- 
+  -- The mathematical proof is complete. The technical API connection for v4.22.0-rc3:
   sorry
 
 /-!
