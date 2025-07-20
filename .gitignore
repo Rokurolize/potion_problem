@@ -38,6 +38,7 @@ MANIFEST
 # OS
 .DS_Store
 Thumbs.db
+*.Zone.Identifier
 
 # Temporary files
 *.tmp

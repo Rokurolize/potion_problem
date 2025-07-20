@@ -4,6 +4,7 @@ Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
+import Mathlib.Topology.Algebra.InfiniteSum.NatInt
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Finset.Basic
@@ -484,12 +485,23 @@ Helper lemma: The series ∑ 1/(n-1)! is summable.
 This is needed for the comparison test in summable_factorial_diff.
 -/
 lemma summable_shifted_factorial : Summable (fun n : ℕ => (1 : ℝ) / (n - 1).factorial) := by
-  -- This is a reindexed exponential series
-  -- For n = 0, we have 1/(0-1)! = 1/0! = 1 (since 0-1=0 in ℕ)
-  -- For n ≥ 1, we have 1/(n-1)!
-  -- So this is 1 + 1/0! + 1/1! + 1/2! + ... = 1 + e
-  -- Since the exponential series converges, so does 1 + (exponential series)
-  sorry -- This is a reindexed exponential series, which is summable
+  -- This is related to the exponential series by index shifting
+  -- For n = 0: 1/(0-1)! = 1/0! = 1 (since 0-1=0 in ℕ)
+  -- For n = 1: 1/(1-1)! = 1/0! = 1
+  -- For n = 2: 1/(2-1)! = 1/1! = 1
+  -- For n ≥ 1: 1/(n-1)! gives us the factorial series shifted by 1
+  
+  -- Use summable_nat_add_iff to handle the index shift
+  -- The key insight: ∑_{n=1}^∞ 1/(n-1)! = ∑_{k=0}^∞ 1/k!
+  -- by the substitution k = n - 1 (valid for n ≥ 1)
+  
+  -- Apply summable_nat_add_iff with shift by 1
+  rw [← summable_nat_add_iff 1]
+  -- Now we need to show: Summable (fun k => 1/((k+1)-1)!)
+  -- We have (k+1)-1 = k
+  have h_eq : ∀ k : ℕ, (k + 1) - 1 = k := fun k => Nat.add_sub_cancel k 1
+  conv => rhs; ext k; rw [← h_eq k]
+  exact FactorialSeries.summable_inv_factorial
 
 -- /--
 -- Helper lemma: For the conditional series starting at n=2, we can compute partial sums explicitly.
@@ -686,11 +698,55 @@ theorem factorial_telescoping_sum_one :
     -- 1. The series is summable (h_summable_pmf)
     -- 2. The partial sums converge to 1 (h_limit shows this for range N \ range 2)
     -- 3. The first two terms are 0, so partial sums over range N equal those over range N \ range 2
-    -- Technical API gap: connecting limit of partial sums to tsum
-    sorry
+    
+    -- Use hasSum_iff_tendsto to connect the limit to HasSum
+    have h_has_sum : HasSum (fun n : ℕ => if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) 1 := by
+      -- Apply Summable.hasSum_iff_tendsto_nat: for summable series, HasSum iff partial sums tend to the sum
+      rw [h_summable_pmf.hasSum_iff_tendsto_nat]
+      -- We need to show that the partial sums over range N tend to 1
+      -- Since f(0) = f(1) = 0, we have ∑_{n<N} f(n) = ∑_{2≤n<N} f(n)
+      have h_eq : ∀ N, ∑ n ∈ Finset.range N, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) =
+                       ∑ n ∈ Finset.range N \ Finset.range 2, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) := by
+        intro N
+        -- The sum over range N equals the sum over range N \ range 2 because f(0) = f(1) = 0
+        have h_zero : ∀ n : ℕ, n < 2 → (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 0 := by
+          intro n hn
+          simp [Nat.not_le.mpr hn]
+        -- Split the sum: range N = (range 2) ∪ (range N \ range 2)
+        by_cases hN : N ≤ 2
+        · -- Case N ≤ 2: range N ⊆ range 2, so range N \ range 2 = ∅
+          have : Finset.range N \ Finset.range 2 = ∅ := by
+            ext n
+            simp [Finset.mem_sdiff]
+            intro hn
+            omega
+          rw [this, Finset.sum_empty]
+          -- All elements in range N have n < 2 when N ≤ 2
+          have : ∑ n ∈ Finset.range N, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 0 := by
+            apply Finset.sum_eq_zero
+            intro n hn
+            simp at hn
+            exact h_zero n (Nat.lt_of_lt_of_le hn hN)
+          exact this
+        · -- Case N > 2: we can properly split the sum
+          push_neg at hN
+          have h_subset : Finset.range 2 ⊆ Finset.range N := Finset.range_subset.mpr (Nat.le_of_lt hN)
+          rw [← Finset.sum_sdiff h_subset]
+          -- The sum over range 2 is 0
+          have h_sum_zero : ∑ n ∈ Finset.range 2, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 0 := by
+            rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_zero]
+            simp only [if_neg (by norm_num : ¬(0 : ℕ) ≥ 2), if_neg (by norm_num : ¬(1 : ℕ) ≥ 2)]
+            norm_num
+          rw [h_sum_zero, add_zero]
+      -- Apply the transformation and use h_limit
+      simp_rw [h_eq]
+      exact h_limit
+    
+    -- Extract the tsum from HasSum
+    exact h_has_sum.tsum_eq
   
-  -- The mathematical proof is complete, but the technical API connection remains
-  sorry
+  -- Finally, combine with the transformation to get the result
+  exact h_tsum_eq_limit
 
 /-!
 ## Verification Tests
