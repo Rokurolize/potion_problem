@@ -204,15 +204,11 @@ noncomputable def subtypeEquiv : {n : ℕ // n ≥ 2} ≃ ℕ where
 
 lemma reindex_series : ∑' n : {n : ℕ // n ≥ 2}, (1 : ℝ) / ((n : ℕ) - 2).factorial = 
                        ∑' k : ℕ, (1 : ℝ) / k.factorial := by
-  -- Apply Equiv.tsum_eq with the equivalence  
-  rw [Equiv.tsum_eq subtypeEquiv.symm]
-  -- The sum becomes ∑' k, f(subtypeEquiv.symm k) = ∑' k, f(k + 2, _)
-  -- We need to show that 1/((k+2)-2)! = 1/k!
-  simp only [subtypeEquiv, Equiv.symm_mk, Equiv.coe_fn_mk]
-  -- Simplify (k + 2) - 2 = k
-  congr 1
-  ext k
-  simp
+  -- The key insight: for n ≥ 2, we have n - 2 ranges over all ℕ
+  -- Use Equiv.tsum_eq with subtypeEquiv
+  conv_lhs => rw [← subtypeEquiv.symm.tsum_eq]
+  -- Now simplify
+  simp [subtypeEquiv]
 
 lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   -- Transform the summability problem using the telescoping property
