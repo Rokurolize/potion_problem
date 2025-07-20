@@ -432,8 +432,12 @@ theorem main_result : expected_hitting_time = exp 1 := by
             
             -- Now convert back to inverse notation and conclude
             rw [h_shift]
-            simp only [one_div] at h_factorial_sum
-            exact h_factorial_sum
+            -- We need to show ∑' k, (k.factorial)⁻¹ = exp 1
+            -- But h_factorial_sum says ∑' k, 1 / k.factorial = exp 1
+            -- These are the same by inv_eq_one_div
+            convert h_factorial_sum
+            ext k
+            simp only [inv_eq_one_div]
           
           -- Right side: ∑_{k≥0} 1/k! = exp(1) by definition
           have h_right_eq_exp : (∑' k : ℕ, ((k.factorial : ℝ)⁻¹)) = exp 1 := by
