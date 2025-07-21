@@ -691,12 +691,14 @@ theorem factorial_telescoping_sum_one :
     
     -- Use hasSum_iff_tendsto to connect the limit to HasSum
     have h_has_sum : HasSum (fun n : ℕ => if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) 1 := by
-      -- Apply Summable.hasSum_iff_tendsto_nat: for summable series, HasSum iff partial sums tend to the sum
+      -- Apply Summable.hasSum_iff_tendsto_nat: for summable series, 
+      -- HasSum iff partial sums tend to the sum
       -- Note: In v4.22.0-rc3, this API might have a different name or location
       rw [h_summable_pmf.hasSum_iff_tendsto_nat]
       -- We need to show that the partial sums over range N tend to 1
       -- Since f(0) = f(1) = 0, we have ∑_{n<N} f(n) = ∑_{2≤n<N} f(n)
-      have h_eq : ∀ N, ∑ n ∈ Finset.range N, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) =
+      have h_eq : ∀ N, 
+        ∑ n ∈ Finset.range N, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) =
                        ∑ n ∈ Finset.range N \ Finset.range 2, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) := by
         intro N
         -- The sum over range N equals the sum over range N \ range 2 because f(0) = f(1) = 0
@@ -721,10 +723,12 @@ theorem factorial_telescoping_sum_one :
           exact this
         · -- Case N > 2: we can properly split the sum
           push_neg at hN
-          have h_subset : Finset.range 2 ⊆ Finset.range N := Finset.range_subset.mpr (Nat.le_of_lt hN)
+          have h_subset : Finset.range 2 ⊆ Finset.range N := 
+            Finset.range_subset.mpr (Nat.le_of_lt hN)
           rw [← Finset.sum_sdiff h_subset]
           -- The sum over range 2 is 0
-          have h_sum_zero : ∑ n ∈ Finset.range 2, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 0 := by
+          have h_sum_zero : 
+            ∑ n ∈ Finset.range 2, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 0 := by
             rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_zero]
             simp only [if_neg (by norm_num : ¬(0 : ℕ) ≥ 2), if_neg (by norm_num : ¬(1 : ℕ) ≥ 2)]
             norm_num

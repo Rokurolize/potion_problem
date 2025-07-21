@@ -1,0 +1,33 @@
+✔ [3106/3112] Built UniformHittingTime.FactorialSeries
+⚠ [3107/3112] Replayed UniformHittingTime.TelescopingSeries
+warning: UniformHittingTime/TelescopingSeries.lean:694:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:700:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:724:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:727:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:767:21: '' starts on column 21, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+⚠ [3108/3112] Built UniformHittingTime.TelescopingSeriesFixed
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:34:8: declaration uses 'sorry'
+✔ [3109/3112] Built UniformHittingTime.HittingTime
+⚠ [3110/3112] Built UniformHittingTime.UniformSumHittingTime
+warning: UniformHittingTime/UniformSumHittingTime.lean:109:6: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:167:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:197:6: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:260:8: declaration uses 'sorry'
+info: UniformHittingTime/UniformSumHittingTime.lean:412:0: UniformSumHittingTime.uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1
+⚠ [3111/3112] Built UniformHittingTime
+warning: UniformHittingTime.lean:25:2: '' starts on column 2, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+Build completed successfully.
