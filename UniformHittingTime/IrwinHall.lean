@@ -71,16 +71,12 @@ formula has only two terms: k=0 and k=1.
 lemma floor_one_eq_one : ⌊(1 : ℝ)⌋ = 1 := by
   norm_num
 
-/-- 
-Helper lemma: 0^n = 0 for n > 0
--/
+/-- Helper lemma: 0^n = 0 for n > 0 -/
 lemma zero_pow_eq_zero {n : ℕ} (hn : n > 0) : (0 : ℝ) ^ n = 0 := by
   exact zero_pow (Nat.pos_iff_ne_zero.mp hn)
 
-/-- 
-Main theorem: P(S_n < 1) = 1/n! for the Irwin-Hall distribution.
-This establishes the fundamental connection between uniform sums and factorials.
--/
+/-- Main theorem: P(S_n < 1) = 1/n! for the Irwin-Hall distribution.
+This establishes the fundamental connection between uniform sums and factorials. -/
 theorem irwin_hall_prob_less_than_one (n : ℕ) (hn : n > 0) : 
   irwin_hall_cdf n 1 = 1 / n.factorial := by
   -- Unfold the definition at x = 1

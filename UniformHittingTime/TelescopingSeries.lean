@@ -71,8 +71,7 @@ open BigOperators Filter
 /-- Finite telescoping sum: ∑ᵢ₌ₘⁿ⁻¹ (aᵢ - aᵢ₊₁) = aₘ - aₙ
 This is a completely proven result for finite sums.
 -/
-theorem telescoping_series_partial_sum {α : Type*} [AddCommGroup α] 
-  (a : ℕ → α) (n : ℕ) :
+theorem telescoping_series_partial_sum {α : Type*} [AddCommGroup α] (a : ℕ → α) (n : ℕ) :
   ∑ i ∈ Finset.range n, (a i - a (i + 1)) = a 0 - a n := by
   induction n with
   | zero => simp
@@ -83,8 +82,7 @@ theorem telescoping_series_partial_sum {α : Type*} [AddCommGroup α]
 /-- Core telescoping theorem for sequences that converge to zero.
 This establishes the fundamental mathematical principle.
 -/
-theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ} 
-    (h₀ : Tendsto a atTop (nhds 0))
+theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ} (h₀ : Tendsto a atTop (nhds 0))
     (hs : Summable (fun n => a n - a (n + 1))) :
     ∑' n, (a n - a (n + 1)) = a 0 := by
   -- Use the fact that partial sums telescope to a 0 - a N
@@ -115,32 +113,26 @@ theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ}
   -- By uniqueness of limits, S = a 0
   exact tendsto_nhds_unique h_conv h_lim
 
-/-- 
-Factorial identity: for n ≥ 1, (1 : ℝ)/n! - 1/(n+1)! = n/(n+1)!
-(Imported from SimpleWorkingProofs.lean)
--/
+/-- Factorial identity: for n ≥ 1, (1 : ℝ)/n! - 1/(n+1)! = n/(n+1)!
+(Imported from SimpleWorkingProofs.lean) -/
 theorem factorial_identity (n : ℕ) (hn : n ≥ 1) :
   (1 : ℝ) / n.factorial - 1 / (n + 1).factorial = n / (n + 1).factorial := by
   rw [Nat.factorial_succ]
   field_simp
 
-/-- 
-Main insight: PMF telescoping structure for n ≥ 2
-(Adapted from SimpleWorkingProofs.lean)
--/
+/-- Main insight: PMF telescoping structure for n ≥ 2
+(Adapted from SimpleWorkingProofs.lean) -/
 theorem pmf_telescoping_insight (n : ℕ) (hn : n ≥ 2) :
   (1 : ℝ) / (n - 1).factorial - 1 / n.factorial = (n - 1 : ℝ) / n.factorial := by
   have h_factorial : n.factorial = n * (n - 1).factorial := by
     cases n with
     | zero => omega  -- contradiction since n ≥ 2
-    | succ m => exact Nat.factorial_succ n
+    | succ m => exact Nat.factorial_succ m
   rw [h_factorial]
   field_simp
 
-/-- 
-Helper lemma: For n ≥ 2, the factorial difference equals the PMF term.
-This establishes the key relationship for the summability proof.
--/
+/-- Helper lemma: For n ≥ 2, the factorial difference equals the PMF term.
+This establishes the key relationship for the summability proof. -/
 lemma factorial_diff_eq_pmf (n : ℕ) (hn : n ≥ 2) :
   (1 : ℝ) / (n - 1).factorial - 1 / n.factorial = (n - 1 : ℝ) / n.factorial := 
   pmf_telescoping_insight n hn
@@ -184,7 +176,7 @@ lemma summable_exp_tail : Summable (fun k : ℕ => if k ≥ 1 then (1 : ℝ) / k
                      if k = 0 then 1 else 0 := by
     intro k
     by_cases hk : k = 0
-    · simp [hk, abs_sub_comm, Nat.factorial_zero]
+    · simp [hk, Nat.factorial_zero]
     · simp [hk]
   
   -- The series of differences is summable (it's essentially just the single value 1 at k=0)
@@ -345,7 +337,7 @@ lemma factorial_diff_abs_bound (n : ℕ) (hn : n ≥ 2) :
       have h_eq : n.factorial = n * (n - 1).factorial := by
         cases n with
         | zero => omega  -- contradiction since n ≥ 2
-        | succ m => exact Nat.factorial_succ n
+        | succ m => exact Nat.factorial_succ m
       rw [h_eq]
       -- Now we need (n-1)! < n * (n-1)!
       -- This is true when n > 1, which follows from n ≥ 2
@@ -411,7 +403,7 @@ lemma pmf_partial_sums_tend_to_one :
     -- Now apply the telescoping_partial_sum_explicit lemma
     rw [telescoping_partial_sum_explicit N hN]
     -- Simplify 1/1 = 1
-    simp [Nat.factorial_one]
+    simp
   
   -- Now show the limit
   -- We have: partial sum = 1 - 1/(N-1)! for N ≥ 2  
@@ -445,7 +437,7 @@ lemma pmf_partial_sums_tend_to_one :
   · -- Show the functions are eventually equal using h_tele
     filter_upwards [h_eventually_ge] with N hN
     rw [h_tele N hN]
-    simp [one_mul]
+    simp
 
 /-- 
 Mathematical validation: The telescoping structure indeed starts correctly.
@@ -455,15 +447,13 @@ lemma telescoping_first_terms :
   (1 : ℝ) / 1 - 1 / 2 + (1 / 2 - 1 / 6) = 1 / 1 - 1 / 6 := by
   ring
 
-/--
-Helper lemma: Explicit calculation of the first few PMF values.
-This helps verify our formulas are correct.
--/
+/-- Helper lemma: Explicit calculation of the first few PMF values.
+This helps verify our formulas are correct. -/
 lemma pmf_first_values : 
   (2 - 1 : ℝ) / 2 = 1 / 2 ∧ 
   (3 - 1 : ℝ) / 6 = 1 / 3 ∧
   (4 - 1 : ℝ) / 24 = 1 / 8 := by
-  simp [Nat.factorial]
+  simp
   norm_num
 
 /--
@@ -476,7 +466,7 @@ lemma pmf_telescoping_examples :
   (1 : ℝ) / 2 = 1 / 1 - 1 / 2 ∧
   (1 : ℝ) / 3 = 1 / 2 - 1 / 6 ∧
   (1 : ℝ) / 8 = 1 / 6 - 1 / 24 := by
-  simp [Nat.factorial]
+  simp
   norm_num
 
 /--
@@ -525,7 +515,7 @@ lemma summable_shifted_factorial : Summable (fun n : ℕ => (1 : ℝ) / (n - 1).
 /--
 Key mathematical insight: Why the sum equals 1.
 The telescoping series ∑_{n≥2} [1/(n-1)! - 1/n!] telescopes to:
-1/1! - lim_{n→∞} 1/n! = 1 - 0 = 1
+  1/1! - lim_{n→∞} 1/n! = 1 - 0 = 1
 -/
 lemma telescoping_limit_insight : 
   Filter.Tendsto (fun n : ℕ => (1 : ℝ) - 1 / n.factorial) atTop (nhds 1) := by
@@ -535,18 +525,17 @@ lemma telescoping_limit_insight :
   convert Filter.Tendsto.sub tendsto_const_nhds h_tend
   simp
 
-/-- 
-Summability of the factorial difference series.
-This establishes that the telescoping series converges.
--/
+/-- Summability of the factorial difference series.
+This establishes that the telescoping series converges. -/
 
 lemma summable_factorial_diff :
   Summable (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := by
   -- Following the API guide's exact pattern for Summable.of_norm_bounded_eventually_nat
   
   -- Step 1: Prove the bound
-  have h_bound : ∀ᶠ n in atTop, ‖if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0‖ ≤ 
-    (1 : ℝ) / (n - 1).factorial := by
+  have h_bound : ∀ᶠ n in atTop, 
+    ‖if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0‖ ≤ 
+      (1 : ℝ) / (n - 1).factorial := by
     filter_upwards [eventually_ge_atTop 2] with n hn
     simp only [hn, ite_true]
     -- Apply the proven bound
@@ -557,12 +546,11 @@ lemma summable_factorial_diff :
     summable_shifted_factorial
   
   -- Step 3: Apply comparison test
-  exact Summable.of_norm_bounded_eventually_nat h_summable_bound h_bound
+  exact Summable.of_norm_bounded_eventually_nat h_summable_bound 
+    h_bound
 
-/-- 
-The key factorial telescoping identity for hitting time calculations.
-This is the core mathematical result that P(τ = n) sums to 1.
--/
+/-- The key factorial telescoping identity for hitting time calculations.
+This is the core mathematical result that P(τ = n) sums to 1. -/
 theorem factorial_telescoping_sum_one :
   ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
   -- MATHEMATICAL FOUNDATION: This is the core probability identity ∑ P(τ = n) = 1
@@ -623,7 +611,8 @@ theorem factorial_telescoping_sum_one :
   
   -- MATHEMATICAL FOUNDATION ESTABLISHED:
   -- ✅ summable_factorial_diff: The series converges 
-  -- ✅ pmf_partial_sums_tend_to_one: Partial sums in PMF form tend to 1
+  -- ✅ pmf_partial_sums_tend_to_one: Partial sums in PMF form 
+  --   tend to 1
   -- ✅ factorial_diff_eq_pmf: Connection between PMF and telescoping forms
   -- ✅ telescoping mathematical structure proven in multiple helper lemmas
   
@@ -641,7 +630,8 @@ theorem factorial_telescoping_sum_one :
     rw [Filter.tendsto_congr']
     · exact h_partial_limit
     · -- Show the functions are eventually equal using h_pmf_telescoping
-      filter_upwards [Filter.eventually_atTop.mpr ⟨2, fun n hn => hn⟩] with N hN
+      filter_upwards [Filter.eventually_atTop.mpr ⟨2, fun n hn => hn⟩] 
+        with N hN
       exact (h_pmf_telescoping N).symm
   
   -- Step 3: Apply the key mathematical insight
@@ -760,26 +750,18 @@ example : (2 : ℝ) - 5 = ∑ _ ∈ Finset.range 3, (-1 : ℝ) := by
   simp [Finset.sum_const, Finset.card_range]
   norm_num
 
-/-- 
-Verify factorial telescoping starts correctly
--/
+/-- Verify factorial telescoping starts correctly -/
 example : (1 : ℝ) / 1 - 1 / 2 = 1 / 2 := by norm_num
 
-/-- 
-Verify that the telescoping difference formula works for factorial terms
--/
+/-- Verify that the telescoping difference formula works for factorial terms -/
 example : (1 : ℝ) / 1 - 1 / 2 = (1 : ℝ) / 2 := by
   norm_num
 
-/-- 
-Mathematical verification: Key comparison bound for n=3.
-This verifies that (n-1)/n! ≤ 1/(n-1)! holds for specific values.
--/
+/-- Mathematical verification: Key comparison bound for n=3.
+This verifies that (n-1)/n! ≤ 1/(n-1)! holds for specific values. -/
 lemma comparison_bound_n_3 : (2 : ℝ) / 6 ≤ (1 : ℝ) / 2 := by norm_num
 
-/-- 
-Mathematical verification: Key comparison bound for n=4.
--/
+/-- Mathematical verification: Key comparison bound for n=4. -/
 lemma comparison_bound_n_4 : (3 : ℝ) / 24 ≤ (1 : ℝ) / 6 := by norm_num
 
 end TelescopingSeries

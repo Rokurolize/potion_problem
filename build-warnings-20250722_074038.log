@@ -1,0 +1,150 @@
+⚠ [2976/3112] Replayed UniformHittingTime.FactorialSeries
+warning: UniformHittingTime/FactorialSeries.lean:99:19: '' starts on column 19, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+⚠ [2977/3112] Replayed UniformHittingTime.TelescopingSeries
+warning: UniformHittingTime/TelescopingSeries.lean:442:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:508:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:601:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:623:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:656:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:692:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:698:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:722:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:725:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:746:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:767:21: '' starts on column 21, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+⚠ [2978/3112] Replayed UniformHittingTime.HittingTime
+warning: UniformHittingTime/HittingTime.lean:39:42: unused variable `hn`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: UniformHittingTime/HittingTime.lean:35:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/HittingTime.lean:53:4: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+
+Note: This linter can be disabled with `set_option linter.style.cases false`
+warning: UniformHittingTime/HittingTime.lean:45:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/HittingTime.lean:61:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/HittingTime.lean:76:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/HittingTime.lean:93:4: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+
+Note: This linter can be disabled with `set_option linter.style.cases false`
+warning: UniformHittingTime/HittingTime.lean:105:4: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+
+Note: This linter can be disabled with `set_option linter.style.cases false`
+warning: UniformHittingTime/HittingTime.lean:84:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/HittingTime.lean:121:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/HittingTime.lean:128:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/HittingTime.lean:129:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/HittingTime.lean:144:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/HittingTime.lean:180:15: '' starts on column 15, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+⚠ [2979/3112] Replayed UniformHittingTime.TelescopingSeriesFixed
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:34:8: declaration uses 'sorry'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:60:26: '' starts on column 26, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+✖ [3110/3112] Building UniformHittingTime.UniformSumHittingTime
+trace: .> LEAN_PATH=/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/Cli/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/batteries/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/Qq/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/aesop/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/importGraph/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/plausible/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/mathlib/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/lib/lean /home/ubuntu/.elan/toolchains/leanprover--lean4---v4.22.0-rc3/bin/lean /home/ubuntu/workbench/projects/potion-v422-migration/UniformHittingTime/UniformSumHittingTime.lean -o /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/lib/lean/UniformHittingTime/UniformSumHittingTime.olean -i /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/lib/lean/UniformHittingTime/UniformSumHittingTime.ilean -c /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/ir/UniformHittingTime/UniformSumHittingTime.c --setup /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/ir/UniformHittingTime/UniformSumHittingTime.setup.json --json
+warning: UniformHittingTime/UniformSumHittingTime.lean:93:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:99:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:107:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:117:6: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:113:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:133:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:142:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:152:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:166:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:180:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:185:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+error: UniformHittingTime/UniformSumHittingTime.lean:276:8: tactic 'rewrite' failed, did not find instance of the pattern in the target expression
+  ∑' (n : ℕ), if n ≥ 2 then (↑(n - 2).factorial)⁻¹ else 0
+h_eq : (fun n ↦ ↑n * prob_hitting_time n) = fun n ↦ if n ≥ 2 then (↑(n - 2).factorial)⁻¹ else 0
+h_factorial_summable : Summable fun k ↦ 1 / ↑k.factorial
+h_finite_zero : ∀ n < 2, (if n ≥ 2 then (↑(n - 2).factorial)⁻¹ else 0) = 0
+h_equiv : (∑' (n : ℕ), if n ≥ 2 then (↑(n - 2).factorial)⁻¹ else 0) = ∑' (k : ℕ), 1 / ↑k.factorial
+⊢ Summable fun n ↦ if n ≥ 2 then (↑(n - 2).factorial)⁻¹ else 0
+error: UniformHittingTime/UniformSumHittingTime.lean:281:2: type mismatch
+  h_shift_summable
+has type
+  Summable fun n ↦ if n ≥ 2 then (↑(n - 2).factorial)⁻¹ else 0 : Prop
+but is expected to have type
+  Summable fun n ↦ ↑n * prob_hitting_time n : Prop
+warning: UniformHittingTime/UniformSumHittingTime.lean:283:8: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:337:8: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+
+Note: This linter can be disabled with `set_option linter.style.cases false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:347:6: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+
+Note: This linter can be disabled with `set_option linter.style.cases false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:303:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:392:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+info: UniformHittingTime/UniformSumHittingTime.lean:434:0: UniformSumHittingTime.uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1
+error: Lean exited with code 1
+Some required builds logged failures:
+- UniformHittingTime.UniformSumHittingTime
+error: build failed

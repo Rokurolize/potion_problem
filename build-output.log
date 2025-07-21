@@ -1,0 +1,142 @@
+⚠ [2974/3085] Replayed UniformHittingTime.IrwinHall
+warning: UniformHittingTime/IrwinHall.lean:74:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/IrwinHall.lean:80:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+⚠ [2975/3085] Replayed UniformHittingTime.FactorialSeries
+warning: UniformHittingTime/FactorialSeries.lean:99:19: '' starts on column 19, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+⚠ [2976/3085] Replayed UniformHittingTime.TelescopingSeriesFixed
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:36:8: declaration uses 'sorry'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:32:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:62:26: '' starts on column 26, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+✖ [3108/3112] Building UniformHittingTime.TelescopingSeries
+trace: .> LEAN_PATH=/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/Cli/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/batteries/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/Qq/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/aesop/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/importGraph/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/plausible/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/mathlib/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/lib/lean /home/ubuntu/.elan/toolchains/leanprover--lean4---v4.22.0-rc3/bin/lean /home/ubuntu/workbench/projects/potion-v422-migration/UniformHittingTime/TelescopingSeries.lean -o /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/lib/lean/UniformHittingTime/TelescopingSeries.olean -i /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/lib/lean/UniformHittingTime/TelescopingSeries.ilean -c /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/ir/UniformHittingTime/TelescopingSeries.c --setup /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/ir/UniformHittingTime/TelescopingSeries.setup.json --json
+warning: UniformHittingTime/TelescopingSeries.lean:74:68: remove line break in the source
+
+This part of the code
+  'α] 
+  (a'
+should be written as
+  'α] (a :'
+
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+warning: UniformHittingTime/TelescopingSeries.lean:86:51: remove line break in the source
+
+This part of the code
+  'ℝ} 
+   '
+should be written as
+  'ℝ} (h₀ :'
+
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+warning: UniformHittingTime/TelescopingSeries.lean:118:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+error: UniformHittingTime/TelescopingSeries.lean:136:41: unknown identifier 'n'
+warning: UniformHittingTime/TelescopingSeries.lean:140:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:187:16: This simp argument is unused:
+  abs_sub_comm
+
+Hint: Omit it from the simp argument list.
+  simp [hk, a̵b̵s̵_̵s̵u̵b̵_̵c̵o̵m̵m̵,̵ ̵Nat.factorial_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: UniformHittingTime/TelescopingSeries.lean:348:45: unknown identifier 'n'
+warning: UniformHittingTime/TelescopingSeries.lean:414:10: This simp argument is unused:
+  Nat.factorial_one
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵N̵a̵t̵.̵f̵a̵c̵t̵o̵r̵i̵a̵l̵_̵o̵n̵e̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: UniformHittingTime/TelescopingSeries.lean:448:10: This simp argument is unused:
+  one_mul
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵o̵n̵e̵_̵m̵u̵l̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: UniformHittingTime/TelescopingSeries.lean:450:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:466:8: This simp argument is unused:
+  Nat.factorial
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵N̵a̵t̵.̵f̵a̵c̵t̵o̵r̵i̵a̵l̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: UniformHittingTime/TelescopingSeries.lean:479:8: This simp argument is unused:
+  Nat.factorial
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵N̵a̵t̵.̵f̵a̵c̵t̵o̵r̵i̵a̵l̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: UniformHittingTime/TelescopingSeries.lean:518:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:538:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:548:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:562:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:613:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:634:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:666:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:702:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:708:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:732:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:735:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:756:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:763:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:768:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:774:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:780:3: error: doc-strings should start with a single space or newline
+
+Note: This linter can be disabled with `set_option linter.style.docString false`
+warning: UniformHittingTime/TelescopingSeries.lean:785:21: '' starts on column 21, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+error: Lean exited with code 1
+Some required builds logged failures:
+- UniformHittingTime.TelescopingSeries
+error: build failed

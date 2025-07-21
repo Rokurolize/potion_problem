@@ -1,300 +1,161 @@
-# CLAUDE.md - Aphrodisiac Problem Lean 4 Formalization Project
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# Aphrodisiac Problem Lean 4 Formalization Project
 
 *Also known as the Potion Problem (媚薬問題)*
 
-## 🚀 Quick Iteration Execution
+## Development Environment
 
-**When requested to "execute next iteration", follow these steps:**
+### Core Tools and Commands
 
-### 1. Immediate Execution Command
-Use the Task tool with the following prompt:
-
-### 2. Execution Prompt
-
-**Simple execution method:**
-```
-Read `/home/ubuntu/workbench/projects/potion_problem/docs/state/self-contained-prompt.md` and follow its instructions.
-```
-
-### 3. Technical Execution Method
-
-**Task tool usage:**
-1. Call Task tool with description: "Execute Lean 4 implementation task"
-2. Use prompt parameter: `Execute the self-contained prompt from /home/ubuntu/workbench/projects/potion_problem/docs/state/self-contained-prompt.md by reading the file and following its instructions.`
-
-**Verified**: Task tool can directly read files and execute instructions.
-
-### 4. MANDATORY: Post-Execution Verification
-
-**After Task agent completes, ALWAYS verify actual results:**
-
+**Build System:**
 ```bash
-# Check what actually changed
-git status
-git log --oneline -3
-git diff HEAD~1
+# Primary build command
+lake build
 
-# Verify build status
+# Build with full output for debugging
+lake build 2>&1 | tee build-output.log
+
+# Clean build
+lake clean && lake build
+```
+
+**Version Information:**
+- Lean 4 version: v4.22.0-rc3 (migrating from v4.21.0)
+- Mathlib4 version: v4.22.0-rc3
+- Project name: `potion_problem`
+
+**Testing:**
+```bash
+# Python verification (requires uv)
+uv sync
+uv run python test_all.py
+
+# Lean 4 verification
 lake build
 ```
 
-**Critical Rule**: Never trust subagent reports without verification. Check:
-- ✅ Actual commits made
-- ✅ Files actually changed
-- ✅ Build status confirmed
-- ✅ Mathematical progress validated
+## Project Architecture
 
-**Documentation**: Update iteration-history.md with verified results only.
+### Mathematical Problem Structure
 
----
+This project formalizes the proof that E[τ] = e for a hitting time problem involving uniform random variables.
 
-## 📋 Project Overview
-
-### Problem Source
-
-**Author**: suamax (@suamax_scp)  
-**Date**: July 9, 2025  
-**URL**: https://x.com/suamax_scp/status/1942902598203322849
-
-**Original (Japanese)**:
-```
-女騎士「私に何を飲ませた！」
-オーク「飲む前の感度をn倍とした時に、感度をn+m倍(m:[0,1)、毎回の摂取ごとに独立して判定される)まで引き上げる薬だ。通常時の感度を1倍として、お前の感度が2倍になるまでこれを飲ませる」
-女騎士「私が媚薬を飲む回数の期待値はどれくらいになるんだ……？」
-```
-
-### Mathematical Background
-
-**Core Proof Structure:**
-1. **Basic Identity**: ∑_{n=0}^∞ 1/n! = e
+**Core Mathematical Components:**
+1. **Hitting Time Definition**: τ = min{n ≥ 1 : ∑_{i=1}^n U_i ≥ 1} where U_i ~ Uniform[0,1)
 2. **Probability Mass Function**: P(τ = n) = (n-1)/n! for n ≥ 2
-3. **Expected Value Calculation**: E[τ] = ∑_{n=1}^∞ n · P(τ = n) = e
+3. **Expected Value**: E[τ] = ∑_{n=2}^∞ n·P(τ=n) = e
 
-**Formalization Challenges:**
-- **API Evolution**: Successfully migrated from mathlib4 v4.12.0 to v4.21.0
-- **Type System**: Rigorous typing for probability theory
-- **Performance**: Avoiding timeouts in complex proofs
+### Module Hierarchy
 
-**Development Framework:**
-- ✅ **API Evolution Management**: Systematic approach to mathlib4 version migrations
-- ✅ **Comprehensive Analysis**: Methodical audit and documentation of API changes
-- ✅ **Research Integration**: Evidence-based methodology for future mathematical developments
-- 🎯 **Core Focus**: Telescoping series formalization with automated proof obligation tracking
-- ✅ **Mathematical Architecture**: Helper lemma strategy connecting discrete and continuous perspectives
+**Primary Modules (UniformHittingTime/):**
+- `IrwinHall.lean` - Irwin-Hall distribution theory (P(S_n < 1) = 1/n!)
+- `FactorialSeries.lean` - Factorial series convergence properties
+- `HittingTime.lean` - Core hitting time probability theory
+- `TelescopingSeries.lean` - Telescoping series manipulation (33 warnings + 2 errors)
+- `UniformSumHittingTime.lean` - Main result connecting all components
 
-### Key Principles
+**Mathematical Dependencies:**
+```
+IrwinHall → HittingTime → TelescopingSeries → UniformSumHittingTime
+     ↓           ↓              ↓                      ↓
+FactorialSeries ────────────────────────────→ Main Result: E[τ] = e
+```
 
-**Development Philosophy:**
-- **Small and Certain**: One concrete improvement per implementation
-- **Mathematical Correctness AND Build Success**: Both are mandatory requirements
-- **Sustainability**: Design for long-term development
-- **Progressive Implementation**: Encourage ambition in attempts, conservative in commits
+### Key Implementation Patterns
 
-**Quality Assurance:**
-- **Git Recording Required**: Track all changes with commits
-- **Build Verification**: Always verify build status after changes
-- **Accuracy of Records**: Ensure reports match actual changes
+**API Migration Strategy:**
+- Systematic migration from v4.21.0 → v4.22.0-rc3
+- `Real.exp` → `rexp` conversion completed
+- `cases'` → `cases` syntax modernization
+- Mathlib4 API adaptations documented in research files
 
-### Continuous Improvement Philosophy
+**Proof Architecture:**
+1. **Telescoping Property**: n × P(τ = n) = 1/(n-2)! for n ≥ 2
+2. **Series Reindexing**: ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! via bijection k ↔ n-2
+3. **Exponential Connection**: ∑_{k≥0} 1/k! = e from fundamental analysis
 
-- **Evidence-Based Progress**: Systematic evaluation through concrete mathematical milestones
-- **Formal Verification Priority**: Mathematical completeness over arbitrary metrics  
-- **Cumulative Knowledge**: Building on proven foundations for sustained advancement
+## Development Workflow
 
-### Important Documents
+### Current Migration Status
 
-**State Management System:**
-- `docs/state/current-state.md` - Current accurate status
-- `docs/state/iteration-history.md` - Cumulative trial records
-- `docs/state/self-contained-prompt.md` - Self-contained implementation prompt
-- `docs/state/session-restoration.md` - Session restoration procedures
+**Build Status**: Partial success with critical issues requiring resolution
+- 2 compilation errors in `TelescopingSeries.lean` (lines 136, 348)
+- 33 linting warnings across multiple files
+- Main mathematical structure intact
 
-**Papers and Documentation:**
-- `2025-07-15-02-00-00-aphrodisiac-problem-MIT-thesis.md` - MIT-level mathematical paper
-- `docs/problem-statement-japanese.md` - Original Japanese text
-- `docs/problem-statement-context.md` - English interpretation
+**Priority Tasks:**
+1. Fix compilation errors (missing pattern variables in `cases` expressions)
+2. Resolve style warnings (doc-strings, line length, unused simp arguments)
+3. Complete remaining `sorry` placeholders in main proofs
 
-**API Modernization Framework:**
-- `docs/research_prompts/35-lean4-v4.21.0-api-migration-validation.md` - Systematic API research framework
-- `docs/api-analysis/2025-07-19-15-40-11-obvious-improvements-audit.md` - Completed API audit findings
-- `docs/research_response/P36-*.md` - Community best practices research
+### Working with Warnings
 
----
+**Common Warning Types:**
+- **Doc-string formatting**: Ensure `/-- Text` format (space after `--`)
+- **Line length**: Break lines exceeding 100 characters
+- **Unused simp arguments**: Remove unused lemmas from `simp` calls
+- **Command positioning**: Fix inappropriate line breaks
 
-## 🔀 Delegation Workflow: Internal vs External Research
-
-### **Two-Pathway Delegation System**
-
-**Understanding when and how to delegate is critical for project success.** The project uses two distinct delegation pathways:
-
-#### **Pathway 1: Internal Task Tool (Subagents)**
-
-**When to Use:**
-- Implementation tasks with existing project context
-- File reading, editing, building within the environment
-- Lean 4 implementation work where files can be directly accessed
-- API fixes, code modifications, testing
-
-**How to Use:**
+**Systematic Resolution:**
 ```bash
-# Task tool can read files directly and execute instructions
-Task tool → "Read /path/file.md and follow its instructions"
+# Check current status
+lake build 2>&1 | tee build-output.log
+
+# After fixes, verify progress
+lake build && git commit -m "Fix warnings: [specific category]"
 ```
 
-**Capabilities:**
-- ✅ Direct file system access
-- ✅ Can execute commands (lake build, git, etc.)
-- ✅ Access to project environment and context
-- ✅ Can make commits and track changes
+## File Organization
 
-#### **Pathway 2: External Research AIs** 
+### Documentation Structure
+- `docs/state/` - Current implementation status and session restoration
+- `docs/research_prompts/` - External research requests (40+ completed)
+- `docs/research_response/` - Research findings and API solutions
+- `docs/api-analysis/` - Version migration analysis
 
-**When to Use:**
-- Advanced troubleshooting beyond internal expertise
-- Complex research requiring specialized knowledge
-- Investigation of problems that need external perspective
-- When internal agents lack necessary domain expertise
+### Research and Delegation System
 
-**How to Use:**
-1. **Create research prompt** in `docs/research_prompts/` with sequential number
-2. **Include complete context** (external AI cannot scan directories)
-3. **Use ask_human tool** to initiate external research
+**Internal vs External Research:**
+- **Internal**: Use for file reading, editing, building, Lean 4 implementation
+- **External**: Use for complex domain research, unknown error investigation, community best practices
 
-**Critical Requirements for External Research:**
+**Research Prompt Creation:**
+- Place in `docs/research_prompts/` with sequential numbering
+- Include complete context (external AI cannot scan directories)
+- Provide exact error messages, code snippets, environment details
 
-### **Research Prompt Creation Protocol**
+### Critical Implementation Notes
 
-**File Naming:**
-- Place in `docs/research_prompts/`
-- Use sequential numbers: `[next-number]-description.md`
-- Check existing files to determine next available number
-- **Do NOT reference numbers within prompt content**
+**Mathematical Correctness:**
+- All proofs maintain mathematical integrity during API migration
+- `sorry` placeholders mark incomplete proofs, not mathematical errors
+- Build success indicates structural correctness
 
-**Content Requirements (Essential for Success):**
-```markdown
-# Research Prompt [Number]: [Descriptive Title]
-
-## Problem Context
-[Complete background - external AI has no file access]
-
-## Specific Issue
-[Exact error messages, code snippets, version information]
-
-## Development Environment
-- Lean 4 version: v4.21.0
-- mathlib4 version: v4.21.0  
-- Operating system: [specify]
-- Tool versions: [lake, etc.]
-
-## Exact Code Causing Issues
-```lean
-[Complete problematic code snippets - not just references]
-```
-
-## What Has Been Tried
-[Previous attempts, what worked, what didn't]
-
-## Specific Questions
-[Precise questions for the research AI to answer]
-```
-
-**Think Advanced AI Troubleshooting:** Structure prompts like sophisticated Stack Overflow questions with complete context, minimal reproducible examples, and specific environment details.
-
-### **External Research Initiation**
-
-**Using ask_human Tool:**
-```bash
-# After creating research prompt file
-ask_human("I've created research prompt at /full/path/to/docs/research_prompts/[number]-[description].md requesting investigation of [brief description]. Please initiate external research assistance.")
-```
-
-**Expected Response:**
-- ask_human tool returns full path where research findings will be placed
-- Research results integrated back into project workflow
-
-### **Decision Matrix: Internal vs External**
-
-| Task Type | Use Internal Task Tool | Use External Research |
-|-----------|----------------------|---------------------|
-| File reading/editing | ✅ | ❌ |
-| Lean 4 implementation | ✅ | ❌ |
-| Build troubleshooting | ✅ | ❌ |
-| API research (known patterns) | ✅ | ❌ |
-| Complex domain research | ❌ | ✅ |
-| Unknown error investigation | ❌ | ✅ |
-| Community best practices | ❌ | ✅ |
-| Advanced optimization | ❌ | ✅ |
-
-### **Integration Workflow**
-
-**Complete Research Cycle:**
-1. **Identify need** for external research
-2. **Create comprehensive prompt** with full context  
-3. **Use ask_human tool** to initiate research
-4. **Receive research findings** at specified path
-5. **Integrate findings** into project using internal tools
-6. **Document integration** in project files
-
----
-
-## 📝 System Design Lessons and Improvement Records
-
-### Fixed Issue: Complete Removal of Duplicate Descriptions
-
-**Discovered Root Design Flaw:**
-- **Problem**: Same prompt duplicated in CLAUDE.md and docs/state/self-contained-prompt.md
-- **Cause**: Designed based on speculation without testing actual Task tool behavior
-- **Discovery**: Confirmed Task tool can directly read files and execute instructions
-
-**Evidence-Based Improvements:**
-1. **Actual Behavior Test Completed** - Task tool file reading test completed
-2. **Execution Test Completed** - Direct execution from self-contained-prompt.md confirmed
-3. **Duplicate Code Removed** - Long prompt completely removed from CLAUDE.md
-
-**Future Prevention Measures:**
-- Always test actual tool API behavior before designing
-- Prohibit system design based on speculation
-- Avoid duplicate work justified by "redundancy"
-
-### Critical Learning: Lean 4 Automated Theorem Discovery
-
-**Discovered Knowledge Gap:**
-- **Problem**: Extended manual exploration instead of using Lean 4's built-in automation
-- **Root Cause**: `exact?` and `apply?` tactics were unknown and not documented in CLAUDE.md
-- **Impact**: Wasted significant time on inefficient mathlib4 source code searches
-
-**Essential Lean 4 Theorem Search Tools:**
-
-#### 1. **`exact?` Tactic**
-- **Purpose**: Automatically finds theorems that directly solve the current goal
-- **Usage**: Replace `sorry` with `exact?` to get automatic theorem suggestions
-- **Example**: For goal `⊢ A = B`, `exact?` searches for existing theorems proving this equality
-
-#### 2. **`apply?` Tactic** 
-- **Purpose**: Finds theorems that partially apply to the goal, creating new subgoals
-- **Usage**: Use when `exact?` fails - provides stepping stone theorems
-- **Example**: Transforms complex goals into simpler ones with applicable intermediate steps
-
-#### 3. **`simp?` Tactic**
-- **Purpose**: Suggests simplification rules for the current goal
-- **Usage**: Identifies which `simp` lemmas would be helpful
-
-**Efficient Search Strategy Order:**
-1. **External Research First**: Check research responses for proven techniques
-2. **Lean 4 Automation**: Use `exact?`, `apply?`, `simp?` for systematic exploration  
-3. **VS Code Features**: F12 (go to definition), Ctrl+Shift+F (project search)
-4. **Manual Source Search**: Only as last resort with targeted approach
+**Version-Specific Patterns:**
+- Use `rexp` instead of `Real.exp` in v4.22.0-rc3
+- Pattern matching with `cases` instead of `cases'`
+- Explicit pattern variables required in case expressions
 
 **Performance Considerations:**
-- **Timeout Management**: If `exact?` times out, try more specific approaches
-- **Goal Decomposition**: Use `apply?` to break complex goals into manageable parts
-- **API Pattern Recognition**: Look for similar proof structures in project
+- Avoid `exact?` in timeout-sensitive proofs
+- Use direct mathematical facts with `sorry` placeholders when needed
+- Maintain systematic approach to proof completion
 
-**Integration with External Research:**
-- External research findings revealed these tools (P40 response)
-- Combines human expertise with automated discovery
-- Prevents repetitive manual exploration patterns
+## Quality Assurance
 
----
+**Pre-commit Checks:**
+1. `lake build` succeeds without errors
+2. No new warnings introduced
+3. Mathematical proofs remain valid
+4. Git commits have descriptive messages
 
-**Note**: This project pursues true mathematical value by combining mathematical absoluteness with formal verification rigor. When the master instructs "execute next iteration", immediately follow the procedure in the first section of this file.
+**Success Criteria:**
+- Zero compilation errors
+- Zero linting warnings
+- All `sorry` placeholders resolved
+- Complete formal verification of E[τ] = e
+
+This project represents a sophisticated intersection of probability theory, formal verification, and software engineering, requiring both mathematical precision and technical implementation skills.

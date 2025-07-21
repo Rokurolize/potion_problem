@@ -29,10 +29,8 @@ namespace TelescopingSeriesFixed
 
 open BigOperators Filter Real
 
-/-- 
-The specific factorial telescoping sum needed for hitting time calculations.
-This uses the mathematical fact that the telescoping series equals 1.
--/
+/-- The specific factorial telescoping sum needed for hitting time calculations.
+This uses the mathematical fact that the telescoping series equals 1. -/
 theorem factorial_telescoping_sum_one :
   ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
   -- Mathematical insight: This is a telescoping series
