@@ -1,0 +1,46 @@
+⚠ [2976/3112] Replayed UniformHittingTime.FactorialSeries
+warning: UniformHittingTime/FactorialSeries.lean:99:19: '' starts on column 19, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+⚠ [2977/3112] Replayed UniformHittingTime.TelescopingSeries
+warning: UniformHittingTime/TelescopingSeries.lean:694:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:700:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:724:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:727:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/TelescopingSeries.lean:767:21: '' starts on column 21, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+⚠ [2978/3112] Replayed UniformHittingTime.HittingTime
+warning: UniformHittingTime/HittingTime.lean:170:15: '' starts on column 15, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+⚠ [2979/3112] Replayed UniformHittingTime.TelescopingSeriesFixed
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:34:8: declaration uses 'sorry'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:60:26: '' starts on column 26, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+✖ [3110/3112] Building UniformHittingTime.UniformSumHittingTime
+trace: .> LEAN_PATH=/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/Cli/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/batteries/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/Qq/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/aesop/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/importGraph/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/plausible/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/packages/mathlib/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/lib/lean /home/ubuntu/.elan/toolchains/leanprover--lean4---v4.22.0-rc3/bin/lean /home/ubuntu/workbench/projects/potion-v422-migration/UniformHittingTime/UniformSumHittingTime.lean -o /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/lib/lean/UniformHittingTime/UniformSumHittingTime.olean -i /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/lib/lean/UniformHittingTime/UniformSumHittingTime.ilean -c /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/ir/UniformHittingTime/UniformSumHittingTime.c --setup /home/ubuntu/workbench/projects/potion-v422-migration/.lake/build/ir/UniformHittingTime/UniformSumHittingTime.setup.json --json
+warning: UniformHittingTime/UniformSumHittingTime.lean:109:6: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:167:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+error: UniformHittingTime/UniformSumHittingTime.lean:258:2: tactic 'assumption' failed
+h_eq : (fun n ↦ ↑n * prob_hitting_time n) = fun n ↦ if n ≥ 2 then (↑(n - 2).factorial)⁻¹ else 0
+h_factorial_summable : Summable fun k ↦ 1 / ↑k.factorial
+h_shift_summable : Summable fun n ↦ if n ≥ 2 then (↑(n - 2).factorial)⁻¹ else 0
+⊢ Summable fun n ↦ ↑n * prob_hitting_time n
+warning: UniformHittingTime/UniformSumHittingTime.lean:260:8: declaration uses 'sorry'
+info: UniformHittingTime/UniformSumHittingTime.lean:412:0: UniformSumHittingTime.uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1
+error: Lean exited with code 1
+Some required builds logged failures:
+- UniformHittingTime.UniformSumHittingTime
+error: build failed
