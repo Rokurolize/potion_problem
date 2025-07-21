@@ -41,8 +41,7 @@ namespace IrwinHall
 
 open Real Finset
 
-/-- 
-The cumulative distribution function of the Irwin-Hall distribution at x
+/-- The cumulative distribution function of the Irwin-Hall distribution at x
 for the sum of n uniform [0,1) random variables.
 
 For our purposes, we only need the value at x=1, but we define the general form
@@ -55,8 +54,7 @@ noncomputable def irwin_hall_cdf (n : ℕ) (x : ℝ) : ℝ :=
   else (1 / n.factorial : ℝ) * ∑ k ∈ range (⌊x⌋.toNat + 1), 
     (-1 : ℝ) ^ k * (n.choose k : ℝ) * (x - k) ^ n
 
-/-- 
-The volume of the n-dimensional standard simplex {(x₁,...,xₙ) : xᵢ ≥ 0, ∑xᵢ < 1}
+/-- The volume of the n-dimensional standard simplex {(x₁,...,xₙ) : xᵢ ≥ 0, ∑xᵢ < 1}
 equals 1/n!. This is a fundamental result in geometric measure theory.
 -/
 theorem volume_standard_simplex (n : ℕ) : 
@@ -67,8 +65,7 @@ theorem volume_standard_simplex (n : ℕ) :
   -- For now, we accept this standard result from measure theory
   rfl
 
-/-- 
-Key calculation: For x = 1 and n > 0, we have ⌊1⌋ = 1, so the sum in the CDF
+/-- Key calculation: For x = 1 and n > 0, we have ⌊1⌋ = 1, so the sum in the CDF
 formula has only two terms: k=0 and k=1.
 -/
 lemma floor_one_eq_one : ⌊(1 : ℝ)⌋ = 1 := by
@@ -117,8 +114,7 @@ theorem irwin_hall_prob_less_than_one (n : ℕ) (hn : n > 0) :
              one_pow, zero_pow_eq_zero hn, sub_zero, sub_self,
              Nat.cast_zero, Nat.cast_one, mul_zero, mul_one, add_zero]
 
-/-- 
-Corollary: For the sum S_n of n uniform [0,1) random variables,
+/-- Corollary: For the sum S_n of n uniform [0,1) random variables,
 P(S_n < 1) = 1/n!. This is the form we need for the hitting time analysis.
 -/
 theorem prob_sum_less_than_one (n : ℕ) : 
