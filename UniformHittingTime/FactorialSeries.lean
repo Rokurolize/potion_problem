@@ -62,10 +62,10 @@ theorem inv_factorial_tendsto_zero :
 Key lemma: For any c > 1, eventually n! > c^n.
 This shows factorial growth dominates exponential growth.
 -/
-lemma factorial_dominates_exponential {c : ℝ} (hc : c > 1) :
+lemma factorial_dominates_exponential {c : ℝ} (_ : c > 1) :
   ∀ᶠ n in atTop, (n.factorial : ℝ) > c ^ n := by
   -- Use the fact that exponential series converges for any c
-  -- Note: hc constraint ensures mathematical validity but not needed for convergence proof
+  -- Note: constraint ensures mathematical validity but not needed for convergence proof
   have h_summable : Summable (fun n => c ^ n / n.factorial) :=
     Real.summable_pow_div_factorial c
   have h_tendsto : Tendsto (fun n => c ^ n / n.factorial) atTop (𝓝 0) := by
@@ -89,7 +89,7 @@ lemma inv_factorial_ratio_tendsto_zero :
               fun n : ℕ => (1 : ℝ) / ((n : ℝ) + 1) := by
     -- P26 Research Solution: Factorial ratio reduction: (n+1)!/n! = n+1
     ext n
-    simp [factorial_succ, div_div]
+    simp [factorial_succ]
     -- Need to handle n! ≠ 0 for the simplification
     have h_nonzero : (n.factorial : ℝ) ≠ 0 := Nat.cast_ne_zero.2 (Nat.factorial_ne_zero n)
     field_simp [h_nonzero]
