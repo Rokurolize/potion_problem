@@ -699,7 +699,8 @@ theorem factorial_telescoping_sum_one :
       -- Since f(0) = f(1) = 0, we have ∑_{n<N} f(n) = ∑_{2≤n<N} f(n)
       have h_eq : ∀ N, 
         ∑ n ∈ Finset.range N, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) =
-                       ∑ n ∈ Finset.range N \ Finset.range 2, (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) := by
+                       ∑ n ∈ Finset.range N \ Finset.range 2, 
+                         (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) := by
         intro N
         -- The sum over range N equals the sum over range N \ range 2 because f(0) = f(1) = 0
         have h_zero : ∀ n : ℕ, n < 2 → (if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) = 0 := by

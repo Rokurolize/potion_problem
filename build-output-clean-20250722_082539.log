@@ -1,0 +1,20 @@
+⚠ [2976/2988] Replayed UniformHittingTime.TelescopingSeriesFixed
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:34:8: declaration uses 'sorry'
+⚠ [3108/3112] Built UniformHittingTime.TelescopingSeries
+warning: UniformHittingTime/TelescopingSeries.lean:702:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+✔ [3109/3112] Built UniformHittingTime.HittingTime
+⚠ [3110/3112] Built UniformHittingTime.UniformSumHittingTime
+warning: UniformHittingTime/UniformSumHittingTime.lean:109:6: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:167:0: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: UniformHittingTime/UniformSumHittingTime.lean:197:6: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:260:8: declaration uses 'sorry'
+info: UniformHittingTime/UniformSumHittingTime.lean:412:0: UniformSumHittingTime.uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1
+⚠ [3111/3112] Built UniformHittingTime
+warning: UniformHittingTime.lean:25:2: '' starts on column 2, but all commands should start at the beginning of the line.
+
+Note: This linter can be disabled with `set_option linter.style.commandStart false`
+Build completed successfully.

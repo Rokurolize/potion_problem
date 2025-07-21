@@ -164,7 +164,8 @@ lemma telescoping_property (n : ℕ) (hn : n ≥ 2) :
 /-- Verification that probabilities sum to 1: ∑_{n=1}^∞ P(τ = n) = 1
 This is a telescoping series: ∑_{n=2}^∞ [1/(n-1)! - 1/n!] = 1 -/
 -- Strategic skip: Tendsto function causing v4.21.0 type inference issues
--- lemma inv_factorial_tendsto_zero : Tendsto (fun n : ℕ => (1 : ℝ) / (n.factorial : ℝ)) atTop (𝓝 (0 : ℝ)) := sorry
+-- lemma inv_factorial_tendsto_zero : 
+--   Tendsto (fun n : ℕ => (1 : ℝ) / (n.factorial : ℝ)) atTop (𝓝 (0 : ℝ)) := sorry
 
 lemma summable_inv_factorial : Summable (fun n : ℕ => (1 : ℝ) / n.factorial) := by
   -- Use FactorialSeries.summable_inv_factorial proven result
