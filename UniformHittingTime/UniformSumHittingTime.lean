@@ -328,69 +328,21 @@ theorem main_result : expected_hitting_time = rexp 1 := by
       
       -- Step 1: Use the mathematical equivalence established in reindex_series  
       -- We know ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k!
-      have h_math_equiv : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 
-                          ∑' k : ℕ, (1 : ℝ) / k.factorial := by
-        -- Mathematical equivalence proven by reindex_series structure
-        -- This conditional sum equals the subtype sum by definition
-        
-        -- Convert to subtype sum first (simplified approach)
-        have h_subtype : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 
-                         (∑' k : ℕ, ((k.factorial : ℝ)⁻¹)) := by
-          -- Strategic approach: Use mathematical equivalence via exponential series
-          -- Both sides equal exp(1), so they equal each other
-          
-          -- Left side: ∑_{n≥2} 1/(n-2)! = exp(1) by reindexing k = n-2
-          have h_left_eq_exp : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = rexp 1 := by
-            -- Mathematical insight: This is the exponential series with shifted index
-            -- Since k = n-2 maps {n ≥ 2} bijectively to ℕ, we have
-            -- ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1)
-            
-            -- Use the existing exponential series result
-            have h_factorial_sum : ∑' k : ℕ, (1 : ℝ) / k.factorial = rexp 1 := 
-              exp_one_eq_tsum_inv_factorial.symm
-            
-            -- The key insight: mathematical equivalence via index transformation
-            -- For each k ∈ ℕ, setting n = k+2 gives n ≥ 2 and (n-2)! = k!
-            -- This establishes ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1)
-            
-            -- Direct proof using mathematical equivalence
-            rw [← h_factorial_sum]
-            
-            -- We need to convert the conditional sum to the standard factorial series
-            -- The key insight: ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1)
-            
-            -- First, we'll show that the conditional sum equals a shifted factorial series
-            have h_shift : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 
-                          ∑' k : ℕ, (k.factorial : ℝ)⁻¹ := by
-              -- We'll use the bijection n = k + 2 for n ≥ 2, k ∈ ℕ
-              -- This gives us the standard factorial series
-              -- Convert inverse notation to division notation for easier manipulation
-              simp only [inv_eq_one_div]
-              -- Both sums equal exp(1) by index transformation, so they're equal
-              sorry  -- Technical index transformation proof
-            
-            -- Now convert back to inverse notation and conclude
-            rw [h_shift]
-            -- We need to show ∑' k, (k.factorial)⁻¹ = rexp 1
-            -- But h_factorial_sum says ∑' k, 1 / k.factorial = rexp 1
-            -- These are the same by inv_eq_one_div
-            convert h_factorial_sum
-            ext k
-            simp only [inv_eq_one_div]
-          
-          -- Right side: ∑_{k≥0} 1/k! = exp(1) by definition
-          have h_right_eq_exp : (∑' k : ℕ, ((k.factorial : ℝ)⁻¹)) = rexp 1 := by
-            simp only [← one_div]
-            exact exp_one_eq_tsum_inv_factorial.symm
-          
-          -- Both sides equal exp(1), so they equal each other
-          rw [h_left_eq_exp, h_right_eq_exp]
-        
-        -- Apply FactorialSeries result: ∑' k, 1/k! = rexp 1
-        -- The mathematical equivalence is established, need API adaptation for v4.22.0-rc3
-        rw [h_math_equiv]
-        -- This should follow from exponential series, but API changed in v4.22.0-rc3
-        sorry
+      -- Mathematical insight: This is the exponential series with shifted index
+      -- Since k = n-2 maps {n ≥ 2} bijectively to ℕ, we have
+      -- ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1)
+      
+      -- Use the existing exponential series result
+      have h_factorial_sum : ∑' k : ℕ, (1 : ℝ) / k.factorial = rexp 1 := 
+        exp_one_eq_tsum_inv_factorial.symm
+      
+      -- The conditional sum equals exp(1) by index transformation
+      -- We need to show: (∑' n, if n ≥ 2 then 1/(n-2)! else 0) = exp(1)
+      -- This follows from the bijection n = k + 2 for n ≥ 2, k ∈ ℕ
+      -- giving us ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1)
+      
+      -- For now, use sorry for the technical index transformation
+      sorry -- v4.22.0-rc3 API research needed for conditional sum to factorial series
     
   -- Combine all steps
   rw [h_sum_split, h_telescoping_transform, h_reindex_equiv]

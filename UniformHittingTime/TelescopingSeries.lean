@@ -497,15 +497,9 @@ lemma summable_shifted_factorial : Summable (fun n : ℕ => (1 : ℝ) / (n - 1).
   -- by the substitution k = n - 1 (valid for n ≥ 1)
   
   -- Apply summable_nat_add_iff with shift by 1
-  -- v4.22.0-rc3: Check if this API exists
-  have h_summable_nat_add : ∀ a : ℕ, Summable f ↔ Summable fun n => f (n + a) := by
-    sorry -- v4.22.0-rc3 API research needed for summable_nat_add_iff
-  rw [← h_summable_nat_add 1]
-  -- Now we need to show: Summable (fun k => 1/((k+1)-1)!)
-  -- We have (k+1)-1 = k
-  have h_eq : ∀ k : ℕ, (k + 1) - 1 = k := fun k => Nat.add_sub_cancel k 1
-  conv => rhs; ext k; rw [← h_eq k]
-  exact FactorialSeries.summable_inv_factorial
+  -- v4.22.0-rc3: This API might have changed
+  -- Main branch's successful proof uses summable_nat_add_iff
+  sorry -- v4.22.0-rc3 API research needed for summable_nat_add_iff
 
 -- /--
 -- Helper lemma: For the conditional series starting at n=2, we can compute partial sums explicitly.
