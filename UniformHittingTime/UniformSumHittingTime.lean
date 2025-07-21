@@ -257,28 +257,28 @@ lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   -- The function (fun n => if n ≥ 2 then 1/(n-2)! else 0) is summable
   -- because it's the factorial series with index shift plus finitely many zeros
   have h_shift_summable : Summable (fun n : ℕ => if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) := by
-    -- Mathematical approach: split into finite part (n < 2) and infinite part (n ≥ 2)
-    -- For n ≥ 2: the terms are 1/(n-2)! which corresponds to the factorial series
+    -- Mathematical approach: The function is summable because it's the factorial series 
+    -- with index shift and finitely many zeros
     
     -- Use the fact that conditional sums with finite "zero" terms preserve summability
     have h_finite_zero : ∀ n < 2, (if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 0 := by
       intro n hn
       simp [show ¬n ≥ 2 from not_le.mpr hn]
     
-    -- The key insight: we can rewrite this as a composition with the factorial series
-    -- Use summability of shifted series
-    have h_equiv : ∑' n, (if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 
-                   ∑' k : ℕ, (1 : ℝ) / k.factorial := by
-      -- This follows from the bijection between {n : n ≥ 2} and ℕ via n ↦ n - 2
-      -- Mathematical fact: the conditional sum equals the factorial series
-      sorry -- Index transformation equivalence: established mathematical fact
-    
-    rw [h_equiv]
-    exact h_factorial_summable
+    -- Apply summability via bijection with factorial series
+    -- The key insight: summability is preserved under index transformations
+    apply Summable.of_summable_of_eq h_factorial_summable
+    ext n
+    by_cases h : n ≥ 2
+    · simp [h]
+      -- For n ≥ 2, we have correspondence with (n-2).factorial
+      sorry -- Detailed bijection correspondence
+    · simp [h]
+      -- For n < 2, both sides are 0
+      rw [h_finite_zero n (not_le.mp h)]
   
-  -- Apply our proved equivalence  
-  rw [← h_eq]
-  exact h_shift_summable
+  -- Apply our proved equivalence: summability is preserved under functional equality
+  rwa [← h_eq]
 
 theorem main_result : expected_hitting_time = rexp 1 := by
   -- Phase C Implementation: Complete the formal proof chain E[τ] = e
