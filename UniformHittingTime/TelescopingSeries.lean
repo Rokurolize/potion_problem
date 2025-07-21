@@ -497,9 +497,11 @@ lemma summable_shifted_factorial : Summable (fun n : ℕ => (1 : ℝ) / (n - 1).
   -- by the substitution k = n - 1 (valid for n ≥ 1)
   
   -- Apply summable_nat_add_iff with shift by 1
-  -- v4.22.0-rc3: This API might have changed
-  -- Main branch's successful proof uses summable_nat_add_iff
-  sorry -- v4.22.0-rc3 API research needed for summable_nat_add_iff
+  -- v4.22.0-rc3: This API is confirmed to work!
+  rw [← summable_nat_add_iff 1]
+  have h_eq : ∀ k : ℕ, (k + 1) - 1 = k := fun k => Nat.add_sub_cancel k 1
+  conv => rhs; ext k; rw [← h_eq k]
+  exact FactorialSeries.summable_inv_factorial
 
 -- /--
 -- Helper lemma: For the conditional series starting at n=2, we can compute partial sums explicitly.

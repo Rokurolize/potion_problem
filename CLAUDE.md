@@ -256,6 +256,45 @@ ask_human("I've created research prompt at /full/path/to/docs/research_prompts/[
 - Prohibit system design based on speculation
 - Avoid duplicate work justified by "redundancy"
 
+### Critical Learning: Lean 4 Automated Theorem Discovery
+
+**Discovered Knowledge Gap:**
+- **Problem**: Extended manual exploration instead of using Lean 4's built-in automation
+- **Root Cause**: `exact?` and `apply?` tactics were unknown and not documented in CLAUDE.md
+- **Impact**: Wasted significant time on inefficient mathlib4 source code searches
+
+**Essential Lean 4 Theorem Search Tools:**
+
+#### 1. **`exact?` Tactic**
+- **Purpose**: Automatically finds theorems that directly solve the current goal
+- **Usage**: Replace `sorry` with `exact?` to get automatic theorem suggestions
+- **Example**: For goal `⊢ A = B`, `exact?` searches for existing theorems proving this equality
+
+#### 2. **`apply?` Tactic** 
+- **Purpose**: Finds theorems that partially apply to the goal, creating new subgoals
+- **Usage**: Use when `exact?` fails - provides stepping stone theorems
+- **Example**: Transforms complex goals into simpler ones with applicable intermediate steps
+
+#### 3. **`simp?` Tactic**
+- **Purpose**: Suggests simplification rules for the current goal
+- **Usage**: Identifies which `simp` lemmas would be helpful
+
+**Efficient Search Strategy Order:**
+1. **External Research First**: Check research responses for proven techniques
+2. **Lean 4 Automation**: Use `exact?`, `apply?`, `simp?` for systematic exploration  
+3. **VS Code Features**: F12 (go to definition), Ctrl+Shift+F (project search)
+4. **Manual Source Search**: Only as last resort with targeted approach
+
+**Performance Considerations:**
+- **Timeout Management**: If `exact?` times out, try more specific approaches
+- **Goal Decomposition**: Use `apply?` to break complex goals into manageable parts
+- **API Pattern Recognition**: Look for similar proof structures in project
+
+**Integration with External Research:**
+- External research findings revealed these tools (P40 response)
+- Combines human expertise with automated discovery
+- Prevents repetitive manual exploration patterns
+
 ---
 
 **Note**: This project pursues true mathematical value by combining mathematical absoluteness with formal verification rigor. When the master instructs "execute next iteration", immediately follow the procedure in the first section of this file.
