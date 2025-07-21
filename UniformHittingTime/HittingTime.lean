@@ -32,35 +32,29 @@ namespace HittingTime
 
 open Real IrwinHall
 
-/-- 
-The probability that τ = n is the difference between consecutive CDFs:
-P(τ = n) = P(S_{n-1} < 1) - P(S_n < 1)
--/
-theorem hitting_time_telescoping (n : ℕ) (hn : n ≥ 2) :
+/-- The probability that τ = n is the difference between consecutive CDFs:
+P(τ = n) = P(S_{n-1} < 1) - P(S_n < 1) -/
+theorem hitting_time_telescoping (n : ℕ) :
   let prob_n := (1 : ℝ) / (n - 1).factorial - 1 / n.factorial
   prob_n = (1 : ℝ) / (n - 1).factorial - 1 / n.factorial := by
   -- This is just the definition
   rfl
 
-/-- 
-Simplification of the telescoping difference:
-1/(n-1)! - 1/n! = (n - (n-1)!)/n! = (n-1)/n!
--/
+/-- Simplification of the telescoping difference:
+1/(n-1)! - 1/n! = (n - (n-1)!)/n! = (n-1)/n! -/
 lemma telescoping_diff_simplification (n : ℕ) (hn : n ≥ 1) :
   (1 : ℝ) / (n - 1).factorial - 1 / n.factorial = (n - 1 : ℝ) / n.factorial := by
   -- Factor out 1/n!
   have h1 : n.factorial = n * (n - 1).factorial := by
-    cases' n with n
-    · contradiction
-    · simp [Nat.factorial_succ]
+    cases n with
+    | zero => contradiction
+    | succ n => simp [Nat.factorial_succ]
   
   -- Rewrite using the factorial relationship
   rw [h1]
   field_simp
 
-/-- 
-Main theorem: P(τ = n) = (n-1)/n! for n ≥ 2
--/
+/-- Main theorem: P(τ = n) = (n-1)/n! for n ≥ 2 -/
 theorem hitting_time_pmf_formula (n : ℕ) (hn : n ≥ 2) :
   (if n ≤ 1 then 0 else (1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 
   (n - 1 : ℝ) / n.factorial := by
@@ -73,27 +67,23 @@ theorem hitting_time_pmf_formula (n : ℕ) (hn : n ≥ 2) :
   rw [inv_eq_one_div, inv_eq_one_div]
   exact telescoping_diff_simplification n h_ge_one
 
-/-- 
-For n = 0 or n = 1, P(τ = n) = 0
-This makes sense: we need at least 2 uniform variables to exceed 1.
--/
+/-- For n = 0 or n = 1, P(τ = n) = 0
+This makes sense: we need at least 2 uniform variables to exceed 1. -/
 theorem hitting_time_pmf_zero_one (n : ℕ) (hn : n ≤ 1) :
   (if n ≤ 1 then 0 else (1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 0 := by
   simp [hn]
 
-/-- 
-The telescoping property: n · P(τ = n) = 1/(n-2)! for n ≥ 2
--/
+/-- The telescoping property: n · P(τ = n) = 1/(n-2)! for n ≥ 2 -/
 theorem hitting_time_telescoping_property (n : ℕ) (hn : n ≥ 2) :
   n * ((n - 1 : ℝ) / n.factorial) = 1 / (n - 2).factorial := by
   -- Simplify: n · (n-1)/n! = (n-1)/(n-1)! = 1/(n-2)!
   field_simp
   -- We have n · (n-1) / n! = (n-1) / (n-1)!
   have h1 : n.factorial = n * (n - 1).factorial := by
-    cases' n with n
-    · -- Case n = 0 contradicts hn : n ≥ 2
+    cases n with
+    | zero => -- Case n = 0 contradicts hn : n ≥ 2
       exfalso; linarith
-    · simp [Nat.factorial_succ]
+    | succ n => simp [Nat.factorial_succ]
   rw [h1]
   ring_nf
   -- Now we have (n-1) / (n-1)! = 1 / (n-2)!
@@ -102,11 +92,11 @@ theorem hitting_time_telescoping_property (n : ℕ) (hn : n ≥ 2) :
     have h_ge : n - 1 ≥ 1 := by
       -- Use omega instead of linarith for natural number constraints
       omega
-    cases' h : n - 1 with m
-    · -- Case n - 1 = 0, contradicts h_ge
+    cases h : n - 1 with
+    | zero => -- Case n - 1 = 0, contradicts h_ge
       rw [h] at h_ge
       exfalso; omega
-    · -- P26 Solution: Handle factorial relationship properly
+    | succ m => -- P26 Solution: Handle factorial relationship properly
       have h_m_eq : m = n - 2 := by
         -- From h : n - 1 = m + 1, we get m = n - 1 - 1 = n - 2
         have : m + 1 = n - 1 := h.symm
@@ -118,15 +108,14 @@ theorem hitting_time_telescoping_property (n : ℕ) (hn : n ≥ 2) :
   field_simp
   ring
 
-/-- 
-Verification: The hitting time PMF sums to 1
--/
+/-- Verification: The hitting time PMF sums to 1 -/
 theorem hitting_time_pmf_sum_one :
   ∑' n : ℕ, (if n ≤ 1 then 0 else (1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 1 := by
   -- Direct proof via conditional equivalence and telescoping
   -- The key insight: for n : ℕ, (n ≤ 1) ↔ (n = 0 ∨ n = 1) ↔ ¬(n ≥ 2)
-  have h_equiv : (fun n : ℕ => if n ≤ 1 then 0 else (1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 
-                 (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := by
+  have h_equiv : (fun n : ℕ => 
+    if n ≤ 1 then 0 else (1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 
+      (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := by
     ext n
     by_cases h : n ≤ 1
     · simp [h]
@@ -141,7 +130,8 @@ theorem hitting_time_pmf_sum_one :
   -- Now we have the standard telescoping series ∑(n≥2) [1/(n-1)! - 1/n!] = 1
   -- P26 Research Solution: Direct telescoping series proof
   -- This is the classic telescoping: ∑[1/(n-1)! - 1/n!] = 1/1! - lim(1/n!) = 1 - 0 = 1
-  have h_telescoping : ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
+  have h_telescoping : ∑' n : ℕ, 
+    (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
     -- Mathematical insight: This is a classic telescoping series
     -- ∑(n≥2) [1/(n-1)! - 1/n!] = [1/1! - 1/2!] + [1/2! - 1/3!] + [1/3! - 1/4!] + ...
     -- The partial sums telescope: 1/1! - 1/N! → 1/1! - 0 = 1 as N → ∞
