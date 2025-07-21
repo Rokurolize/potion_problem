@@ -439,10 +439,8 @@ lemma pmf_partial_sums_tend_to_one :
     rw [h_tele N hN]
     simp
 
-/-- 
-Mathematical validation: The telescoping structure indeed starts correctly.
-This verifies the first few terms of the telescoping sum.
--/
+/-- Mathematical validation: The telescoping structure indeed starts correctly.
+This verifies the first few terms of the telescoping sum. -/
 lemma telescoping_first_terms : 
   (1 : ℝ) / 1 - 1 / 2 + (1 / 2 - 1 / 6) = 1 / 1 - 1 / 6 := by
   ring
@@ -505,7 +503,8 @@ lemma summable_shifted_factorial : Summable (fun n : ℕ => (1 : ℝ) / (n - 1).
 -- Shows that ∑_{n=2}^3 [1/(n-1)! - 1/n!] = 1 - 1/3! = 1 - 1/6 = 5/6
 -- -/
 -- lemma telescoping_partial_sum_n_3 :
---   ∑ n ∈ Finset.range 4 \ Finset.range 2, ((1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 5 / 6 := by
+--   ∑ n ∈ Finset.range 4 \ Finset.range 2, 
+--     ((1 : ℝ) / (n - 1).factorial - 1 / n.factorial) = 5 / 6 := by
 --   -- The set is {2, 3}
 --   -- Sum = [1/1! - 1/2!] + [1/2! - 1/3!]
 --   -- = 1 - 1/2 + 1/2 - 1/6
@@ -598,8 +597,9 @@ theorem factorial_telescoping_sum_one :
   -- Step 3: Apply summability and limit connection
   -- The series converges because it's summable (proven in summable_factorial_diff) 
   -- and its partial sums have limit 1
-  have h_summable_our_series : Summable (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := 
-    summable_factorial_diff
+  have h_summable_our_series : Summable (fun n : ℕ => 
+    if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := 
+      summable_factorial_diff
   
   -- Step 4: Mathematical connection established via proven lemmas
   -- All components needed for the proof are established:
@@ -620,8 +620,9 @@ theorem factorial_telescoping_sum_one :
   -- the limit of partial sums, and we have both summability and the limit.
   
   -- Step 1: Get summability of our telescoping series
-  have h_summable : Summable (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := 
-    summable_factorial_diff
+  have h_summable : Summable (fun n : ℕ => 
+    if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) := 
+      summable_factorial_diff
   
   -- Step 2: Convert PMF limit to telescoping limit using the identity
   have h_telescoping_limit : Filter.Tendsto (fun N => ∑ n ∈ Finset.range N \ Finset.range 2, 
@@ -653,8 +654,9 @@ theorem factorial_telescoping_sum_one :
   -- Key insight: The series telescopes from 1/1! to 0 as 1/n! → 0
   
   -- Step 1: Rewrite using the telescoping transformation for n ≥ 2
-  have h_transform : (fun n : ℕ => if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) =
-                     (fun n : ℕ => if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) := by
+  have h_transform : (fun n : ℕ => 
+    if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) =
+      (fun n : ℕ => if n ≥ 2 then (n - 1 : ℝ) / n.factorial else 0) := by
     ext n
     split_ifs with h_ge
     · exact factorial_diff_eq_pmf n h_ge
@@ -743,9 +745,7 @@ theorem factorial_telescoping_sum_one :
 Simple examples to verify our theorems work correctly.
 -/
 
-/-- 
-Verify basic telescoping for a simple sequence
--/
+/-- Verify basic telescoping for a simple sequence -/
 example : (2 : ℝ) - 5 = ∑ _ ∈ Finset.range 3, (-1 : ℝ) := by
   simp [Finset.sum_const, Finset.card_range]
   norm_num
