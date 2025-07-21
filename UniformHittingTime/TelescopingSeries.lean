@@ -68,8 +68,7 @@ namespace TelescopingSeries
 
 open BigOperators Filter
 
-/-- 
-Finite telescoping sum: ∑ᵢ₌ₘⁿ⁻¹ (aᵢ - aᵢ₊₁) = aₘ - aₙ
+/-- Finite telescoping sum: ∑ᵢ₌ₘⁿ⁻¹ (aᵢ - aᵢ₊₁) = aₘ - aₙ
 This is a completely proven result for finite sums.
 -/
 theorem telescoping_series_partial_sum {α : Type*} [AddCommGroup α] 
@@ -81,8 +80,7 @@ theorem telescoping_series_partial_sum {α : Type*} [AddCommGroup α]
     rw [Finset.sum_range_succ, ih]
     abel
 
-/-- 
-Core telescoping theorem for sequences that converge to zero.
+/-- Core telescoping theorem for sequences that converge to zero.
 This establishes the fundamental mathematical principle.
 -/
 theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ} 
@@ -133,8 +131,8 @@ Main insight: PMF telescoping structure for n ≥ 2
 theorem pmf_telescoping_insight (n : ℕ) (hn : n ≥ 2) :
   (1 : ℝ) / (n - 1).factorial - 1 / n.factorial = (n - 1 : ℝ) / n.factorial := by
   have h_factorial : n.factorial = n * (n - 1).factorial := by
-    cases' n with n
-    · omega  -- contradiction since n ≥ 2
+    cases n with
+    | zero => omega  -- contradiction since n ≥ 2
     · exact Nat.factorial_succ n
   rw [h_factorial]
   field_simp
@@ -345,9 +343,9 @@ lemma factorial_diff_abs_bound (n : ℕ) (hn : n ≥ 2) :
     -- This is equivalent to: (n-1)! < n!
     have h_ineq : (n - 1).factorial < n.factorial := by
       have h_eq : n.factorial = n * (n - 1).factorial := by
-        cases' n with n
-        · omega  -- contradiction since n ≥ 2
-        · exact Nat.factorial_succ n
+        cases n with
+        | zero => omega  -- contradiction since n ≥ 2
+        | succ => exact Nat.factorial_succ n
       rw [h_eq]
       -- Now we need (n-1)! < n * (n-1)!
       -- This is true when n > 1, which follows from n ≥ 2
