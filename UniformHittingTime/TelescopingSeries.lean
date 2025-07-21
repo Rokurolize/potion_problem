@@ -133,7 +133,7 @@ theorem pmf_telescoping_insight (n : ℕ) (hn : n ≥ 2) :
   have h_factorial : n.factorial = n * (n - 1).factorial := by
     cases n with
     | zero => omega  -- contradiction since n ≥ 2
-    · exact Nat.factorial_succ n
+    | succ m => exact Nat.factorial_succ n
   rw [h_factorial]
   field_simp
 
@@ -345,7 +345,7 @@ lemma factorial_diff_abs_bound (n : ℕ) (hn : n ≥ 2) :
       have h_eq : n.factorial = n * (n - 1).factorial := by
         cases n with
         | zero => omega  -- contradiction since n ≥ 2
-        | succ => exact Nat.factorial_succ n
+        | succ m => exact Nat.factorial_succ n
       rw [h_eq]
       -- Now we need (n-1)! < n * (n-1)!
       -- This is true when n > 1, which follows from n ≥ 2
