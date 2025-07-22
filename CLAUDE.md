@@ -9,20 +9,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Essential Development Commands
 
 ```bash
-# Build the Lean 4 project
+# Build the Lean 4 project (using lakefile.toml)
 lake build
 
-# Build and save output to file
+# Build and save output to file for analysis
 lake build > build_output.txt 2>&1
 
-# Run Python tests/simulations
+# Clean build (useful after major changes)
+lake clean && lake build
+
+# Run Python numerical verification
 uv sync
 uv run python test_all.py
 
-# Check build warnings (excluding 'sorry' declarations)
-lake build 2>&1 | grep -v "declaration uses 'sorry'" | grep -i warning
+# Check only sorry warnings (ignore style linter warnings)
+lake build 2>&1 | grep "declaration uses 'sorry'"
 
-# Verify git status and recent commits
+# Check style/linter warnings (many expected due to strict linting)
+lake build 2>&1 | grep -E "(linter\.|style\.)" | head -10
+
+# Verify git status and recent changes
 git status
 git log --oneline -5
 git diff HEAD~1
@@ -77,25 +83,46 @@ lake build
 ## High-Level Architecture
 
 ### Lean 4 Structure
+- **Configuration**: `lakefile.toml` - Modern TOML-based Lake configuration (migrated from lakefile.lean)
 - **Main Library**: `UniformHittingTime` - Core formalization of the problem
 - **Dependencies**: mathlib4 v4.21.0 - Provides mathematical foundations
 - **Key Files**:
   - `UniformHittingTime/UniformSumHittingTime.lean` - Main theorem and supporting lemmas
   - `UniformHittingTime/TelescopingSeriesFixed.lean` - Telescoping series proof components
   - `UniformHittingTime/FactorialSeries.lean` - Factorial series convergence results
+- **Python Verification**: `test_all.py` - Numerical validation supporting formal proofs
 
 ### Current Proof Status
-- **3 Remaining Sorries**:
+- **3 Remaining Sorries** (the only critical warnings):
   1. `telescoping_series_fixed` at TelescopingSeriesFixed.lean:36
   2. `factorial_dominates_exponential_eventually` at UniformSumHittingTime.lean:213
   3. `inv_factorial_geometric_convergence` at UniformSumHittingTime.lean:250
-- **Build**: Succeeds with warnings only for `sorry` declarations
+- **Build**: Succeeds successfully - style warnings are expected due to strict linting
 - **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1`
+- **Linting**: Strict mathlib-style guidelines active (docstring format, line length, deprecated tactics)
+
+### Research Documentation System
+- **Research Prompts**: `docs/research_prompts/` - Sequential numbered prompts for external AI research
+- **Research Responses**: `docs/research_response/` - Results from external research
+- **State Management**: `docs/state/` - Current status and iteration history
 
 ### Automation System
 - **Location**: `.claude/hooks/auto_iteration_continuation.py`
 - **Purpose**: Ensures systematic progress toward completing formal verification
 - **Control**: Set `HOOK_ENABLED = False` to disable when needed
+
+### Linting Guidelines (Post lakefile.toml Migration)
+
+**Expected Warnings** (do NOT fix these - they're style preferences):
+- `doc-strings should start with a single space or newline`
+- `line exceeds the 100 character limit`
+- `cases' tactic is discouraged: please strongly consider using cases`
+- `starts on column X, but all commands should start at the beginning of the line`
+
+**Critical Warnings** (these need resolution):
+- `declaration uses 'sorry'` - Incomplete proofs that block mathematical completeness
+
+**Linting is now strict** due to `lakefile.toml` enabling `weak.linter.mathlibStandardSet = true`. This is intentional and helps maintain mathlib coding standards.
 
 ## 📋 Project Overview
 
