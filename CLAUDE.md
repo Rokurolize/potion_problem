@@ -25,13 +25,22 @@ uv run python test_all.py
 # Check only sorry warnings (ignore style linter warnings)
 lake build 2>&1 | grep "declaration uses 'sorry'"
 
-# Check style/linter warnings (many expected due to strict linting)
-lake build 2>&1 | grep -E "(linter\.|style\.)" | head -10
+# Check style/linter warnings (529 expected with strict linting enabled)
+lake build 2>&1 | grep -E "(warning:|error:)" | wc -l
 
 # Verify git status and recent changes
 git status
 git log --oneline -5
 git diff HEAD~1
+
+# Run specific Lean tests
+lake build test_basic
+lake build test_minimal
+lake build test_summability
+
+# Python analysis tools
+uv run python python/simulation/montecarlo_simulation.py
+uv run python python/theoretical/exact_expectation_proof.py
 ```
 
 ## 🚀 Quick Iteration Execution
@@ -91,15 +100,38 @@ lake build
   - `UniformHittingTime/TelescopingSeriesFixed.lean` - Telescoping series proof components
   - `UniformHittingTime/FactorialSeries.lean` - Factorial series convergence results
 - **Python Verification**: `test_all.py` - Numerical validation supporting formal proofs
+- **Implementation Variants**: Multiple approaches (Working, Minimal, Complete) for different proof strategies
+- **Test Files**: `test_*.lean` files for various verification approaches
+
+### Implementation File Variants
+The project contains multiple implementation approaches with different complexity levels:
+
+**Main Implementation Files:**
+- `UniformSumHittingTime.lean` - Primary implementation with the main theorem
+- `TelescopingSeriesFixed.lean` - Telescoping series components (contains 1 sorry)
+- `FactorialSeries.lean` - Factorial series convergence proofs
+- `IrwinHall.lean` - Irwin-Hall distribution properties
+
+**Variant Implementations:**
+- `*Working*.lean` files - Experimental approaches and work-in-progress proofs
+- `*Minimal.lean` files - Simplified versions focusing on core concepts
+- `*Complete.lean` files - More comprehensive implementations
+- `HittingTime*.lean` files - Different formulations of the hitting time problem
+
+**Test Files:**
+- `test_basic.lean` - Basic functionality tests
+- `test_minimal.lean` - Tests for minimal implementations
+- `test_summability.lean` - Series summability verification
+- `test_working.lean` - Tests for experimental approaches
 
 ### Current Proof Status
 - **3 Remaining Sorries** (the only critical warnings):
   1. `telescoping_series_fixed` at TelescopingSeriesFixed.lean:36
   2. `factorial_dominates_exponential_eventually` at UniformSumHittingTime.lean:213
   3. `inv_factorial_geometric_convergence` at UniformSumHittingTime.lean:250
-- **Build**: Succeeds successfully - style warnings are expected due to strict linting
+- **Build**: Succeeds with 529 warnings (3 sorry + 526 style/linter warnings)
 - **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1`
-- **Linting**: Strict mathlib-style guidelines active (docstring format, line length, deprecated tactics)
+- **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`, `linter.all = true`)
 
 ### Research Documentation System
 - **Research Prompts**: `docs/research_prompts/` - Sequential numbered prompts for external AI research
@@ -108,14 +140,54 @@ lake build
 
 ### Automation System
 - **Location**: `.claude/hooks/auto_iteration_continuation.py`
-- **Purpose**: Ensures systematic progress toward completing formal verification
-- **Control**: Set `HOOK_ENABLED = False` to disable when needed
+- **Status**: Currently **DISABLED** (`HOOK_ENABLED = False`)
+- **Purpose**: Automatically continues iterations while proof obligations remain
+- **Features**: Build verification, infinite loop prevention, strategic guidance
+- **Control**: Set `HOOK_ENABLED = True` to enable automatic continuation
 
-### Linting Guidelines (Post lakefile.toml Migration)
+### Python Verification Ecosystem
+The project includes comprehensive Python tools for numerical validation:
 
-**IMPORTANT: Why Style Warnings Should NOT Be Fixed**
+**Directory Structure:**
+- `python/simulation/` - Monte Carlo simulations and analytical solutions
+- `python/theoretical/` - Exact mathematical proofs and Irwin-Hall distribution analysis
+- `python/proof_assistants/` - Z3 theorem prover demonstration
 
-The lakefile.toml migration enabled strict linting (`weak.linter.mathlibStandardSet = true`), causing many style warnings. **These should NOT be fixed** for these critical reasons:
+**Key Python Files:**
+- `test_all.py` - Main test runner that validates E[τ] = e
+- `montecarlo_simulation.py` - Numerical simulation of the hitting time problem
+- `exact_expectation_proof.py` - Direct mathematical calculation
+- `irwin_hall_analysis.py` - Analysis of the underlying distribution
+
+**Running Python Tools:**
+```bash
+# Install dependencies and run all tests
+uv sync
+uv run python test_all.py
+
+# Run individual analysis tools
+uv run python python/simulation/montecarlo_simulation.py
+uv run python python/theoretical/exact_expectation_proof.py
+```
+
+### Linting Configuration
+
+**Current Settings (Maximum Strictness):**
+```toml
+[leanOptions]
+weak.linter.mathlibStandardSet = true
+linter.all = true
+```
+
+**Warning Categories (529 total):**
+- 3 critical `sorry` declarations
+- 36 docstring format warnings
+- 19 line length warnings
+- 9 command position warnings
+- 6 deprecated tactic warnings
+- ~456 other style/import warnings
+
+**IMPORTANT: Style warnings should NOT be fixed** for these critical reasons:
 
 1. **Mathematical Priority**: This is a formal verification project. Proof completion (`sorry` resolution) takes absolute priority over code style
 2. **Consistency Principle**: The codebase has an established style. Partial style changes create inconsistency and pollute git history
