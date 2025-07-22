@@ -22,7 +22,10 @@ lake clean && lake build
 uv sync
 uv run python test_all.py
 
-# Check only sorry warnings (ignore style linter warnings)
+# Check all warnings to track style fixing progress
+lake build 2>&1 | grep -E "(warning:|error:)" | grep -v "Build completed"
+
+# Check only sorry warnings
 lake build 2>&1 | grep "declaration uses 'sorry'"
 
 # Check style/linter warnings (529 expected with strict linting enabled)
@@ -125,13 +128,15 @@ The project contains multiple implementation approaches with different complexit
 - `test_working.lean` - Tests for experimental approaches
 
 ### Current Proof Status
-- **3 Remaining Sorries** (the only critical warnings):
+- **526 Style Warnings**: Must be fixed first for clean code
+- **3 Remaining Sorries**:
   1. `telescoping_series_fixed` at TelescopingSeriesFixed.lean:36
   2. `factorial_dominates_exponential_eventually` at UniformSumHittingTime.lean:213
   3. `inv_factorial_geometric_convergence` at UniformSumHittingTime.lean:250
-- **Build**: Succeeds with 529 warnings (3 sorry + 526 style/linter warnings)
+- **Build**: Succeeds with 529 warnings (fix 526 style warnings first, then 3 sorries)
 - **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1`
 - **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`, `linter.all = true`)
+- **Current Priority**: Achieve zero style warnings before proceeding with mathematical proofs
 
 ### Research Documentation System
 - **Research Prompts**: `docs/research_prompts/` - Sequential numbered prompts for external AI research
@@ -180,30 +185,20 @@ linter.all = true
 ```
 
 **Warning Categories (529 total):**
-- 3 critical `sorry` declarations
-- 36 docstring format warnings
-- 19 line length warnings
-- 9 command position warnings
-- 6 deprecated tactic warnings
-- ~456 other style/import warnings
+- 526 style/linter warnings to fix first:
+  - 36 docstring format warnings (`doc-strings should start with a single space or newline`)
+  - 19 line length warnings (`line exceeds the 100 character limit`)
+  - 9 command position warnings (`starts on column X`)
+  - 6 deprecated tactic warnings (`cases' tactic is discouraged`)
+  - ~456 other style/import warnings
+- 3 `sorry` declarations (fix after all style warnings)
 
-**IMPORTANT: Style warnings should NOT be fixed** for these critical reasons:
+**Development Priority: Fix All Style Warnings First**
 
-1. **Mathematical Priority**: This is a formal verification project. Proof completion (`sorry` resolution) takes absolute priority over code style
-2. **Consistency Principle**: The codebase has an established style. Partial style changes create inconsistency and pollute git history
-3. **Time Management**: Style fixes are time-consuming and distract from the core mathematical work
-4. **Review Clarity**: Style changes mixed with proof work make it harder to review actual mathematical progress
-
-**Expected Style Warnings** (ignore these):
-- `doc-strings should start with a single space or newline` - Docstring formatting preference
-- `line exceeds the 100 character limit` - Line length preference  
-- `cases' tactic is discouraged: please strongly consider using cases` - Tactic modernization suggestion
-- `starts on column X, but all commands should start at the beginning of the line` - Indentation preference
-
-**Critical Warnings** (fix these immediately):
-- `declaration uses 'sorry'` - Incomplete proofs that block mathematical completeness
-
-**When to Consider Style Fixes**: Only after all `sorry` declarations are resolved and the mathematical formalization is complete. Even then, style changes should be done systematically across the entire codebase, not piecemeal.
+This project prioritizes clean code and mathlib4 compliance:
+1. **First**: Fix all 526 style warnings to achieve mathlib4 standards
+2. **Then**: Focus on resolving the 3 sorry declarations
+3. **Goal**: Clean build with only sorry warnings before mathematical work
 
 ## 🛠️ Lean 4 Proof Completion Tactics Cheat Sheet
 
