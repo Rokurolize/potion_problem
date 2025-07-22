@@ -1,6 +1,32 @@
-# CLAUDE.md - Aphrodisiac Problem Lean 4 Formalization Project
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project: Aphrodisiac Problem Lean 4 Formalization
 
 *Also known as the Potion Problem (媚薬問題)*
+
+## Essential Development Commands
+
+```bash
+# Build the Lean 4 project
+lake build
+
+# Build and save output to file
+lake build > build_output.txt 2>&1
+
+# Run Python tests/simulations
+uv sync
+uv run python test_all.py
+
+# Check build warnings (excluding 'sorry' declarations)
+lake build 2>&1 | grep -v "declaration uses 'sorry'" | grep -i warning
+
+# Verify git status and recent commits
+git status
+git log --oneline -5
+git diff HEAD~1
+```
 
 ## 🚀 Quick Iteration Execution
 
@@ -47,6 +73,29 @@ lake build
 **Documentation**: Update iteration-history.md with verified results only.
 
 ---
+
+## High-Level Architecture
+
+### Lean 4 Structure
+- **Main Library**: `UniformHittingTime` - Core formalization of the problem
+- **Dependencies**: mathlib4 v4.21.0 - Provides mathematical foundations
+- **Key Files**:
+  - `UniformHittingTime/UniformSumHittingTime.lean` - Main theorem and supporting lemmas
+  - `UniformHittingTime/TelescopingSeriesFixed.lean` - Telescoping series proof components
+  - `UniformHittingTime/FactorialSeries.lean` - Factorial series convergence results
+
+### Current Proof Status
+- **3 Remaining Sorries**:
+  1. `telescoping_series_fixed` at TelescopingSeriesFixed.lean:36
+  2. `factorial_dominates_exponential_eventually` at UniformSumHittingTime.lean:213
+  3. `inv_factorial_geometric_convergence` at UniformSumHittingTime.lean:250
+- **Build**: Succeeds with warnings only for `sorry` declarations
+- **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1`
+
+### Automation System
+- **Location**: `.claude/hooks/auto_iteration_continuation.py`
+- **Purpose**: Ensures systematic progress toward completing formal verification
+- **Control**: Set `HOOK_ENABLED = False` to disable when needed
 
 ## 📋 Project Overview
 
@@ -237,25 +286,4 @@ ask_human("I've created research prompt at /full/path/to/docs/research_prompts/[
 
 ---
 
-## 📝 System Design Lessons and Improvement Records
-
-### Fixed Issue: Complete Removal of Duplicate Descriptions
-
-**Discovered Root Design Flaw:**
-- **Problem**: Same prompt duplicated in CLAUDE.md and docs/state/self-contained-prompt.md
-- **Cause**: Designed based on speculation without testing actual Task tool behavior
-- **Discovery**: Confirmed Task tool can directly read files and execute instructions
-
-**Evidence-Based Improvements:**
-1. **Actual Behavior Test Completed** - Task tool file reading test completed
-2. **Execution Test Completed** - Direct execution from self-contained-prompt.md confirmed
-3. **Duplicate Code Removed** - Long prompt completely removed from CLAUDE.md
-
-**Future Prevention Measures:**
-- Always test actual tool API behavior before designing
-- Prohibit system design based on speculation
-- Avoid duplicate work justified by "redundancy"
-
----
-
-**Note**: This project pursues true mathematical value by combining mathematical absoluteness with formal verification rigor. When the master instructs "execute next iteration", immediately follow the procedure in the first section of this file.
+**Note**: This project pursues true mathematical value by combining mathematical absoluteness with formal verification rigor. When instructed to "execute next iteration", immediately follow the procedure in the Quick Iteration Execution section above.
