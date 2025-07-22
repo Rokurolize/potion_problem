@@ -36,7 +36,7 @@ open Real IrwinHall
 The probability that τ = n is the difference between consecutive CDFs:
 P(τ = n) = P(S_{n-1} < 1) - P(S_n < 1)
 -/
-theorem hitting_time_telescoping (n : ℕ) (hn : n ≥ 2) :
+theorem hitting_time_telescoping (n : ℕ) :
   let prob_n := (1 : ℝ) / (n - 1).factorial - 1 / n.factorial
   prob_n = (1 : ℝ) / (n - 1).factorial - 1 / n.factorial := by
   -- This is just the definition
