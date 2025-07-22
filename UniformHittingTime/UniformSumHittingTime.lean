@@ -260,7 +260,10 @@ lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   
   -- Apply summability preservation under reindexing
   -- This follows the pattern from external research
-  sorry -- Apply reindexing theorem: summable series remain summable under bijective shifts
+  -- Apply reindexing theorem from research guide: summable series remain summable under bijective shifts
+  -- Mathematical insight: ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! via bijection k = n-2
+  -- Since ∑_{k≥0} 1/k! converges (exponential series), our shifted series also converges
+  sorry -- IMPLEMENTATION: Use Equiv.tsum_eq with subtypeEquiv or similar bijection
 
 theorem main_result : expected_hitting_time = exp 1 := by
   -- Phase C Implementation: Complete the formal proof chain E[τ] = e
@@ -406,7 +409,9 @@ theorem main_result : expected_hitting_time = exp 1 := by
                 
                 -- Show equivalence by reindexing: substitute k = n-2, n = k+2
                 -- The conditional sum becomes the standard factorial series
-                sorry -- Mathematical identity: ∑_{n≥2} 1/(n-2)! = ∑_k 1/k! = exp(1)
+                -- Mathematical equivalence: ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1)
+                -- This follows from bijective reindexing k = n-2
+                sorry -- IMPLEMENTATION: Apply bijection theorem to transform indices
               
               have rhs_eq : ∑' k : ℕ, 1 / (k.factorial : ℝ) = exp 1 := 
                 exp_one_eq_tsum_inv_factorial.symm

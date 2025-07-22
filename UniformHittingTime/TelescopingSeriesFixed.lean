@@ -36,25 +36,19 @@ This uses the mathematical fact that the telescoping series equals 1.
 -/
 theorem factorial_telescoping_sum_one :
   ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
-  -- Based on external research: telescoping series approach
-  -- Key insight: ∑_{n≥2} [1/(n-1)! - 1/n!] telescopes to 1 - lim_{n→∞} 1/n! = 1 - 0 = 1
+  -- Direct application of telescoping series principle from research guide
+  -- Mathematical insight: ∑_{n≥2} [1/(n-1)! - 1/n!] = 1 - lim_{n→∞} 1/n! = 1 - 0 = 1
   
-  -- MATHEMATICAL FOUNDATION (from external research):
-  -- The telescoping identity shows partial sums equal 1 - 1/(N+1)!
-  -- Since 1/n! → 0, the infinite sum equals 1
-  --
-  -- IMPLEMENTATION STRATEGY:
-  -- Apply the telescoping series theorem with factorial decay
-  -- Use tendsto_one_div_factorial_atTop_nhds_0 for the limit
+  -- Use the approach from the comprehensive CLI cheat sheet
+  -- Key insight: this is precisely the telescoping factorial pattern demonstrated
   
-  -- This is a direct application of the telescoping series principle
-  -- The mathematical correctness is established by:
-  -- 1. Telescoping property: consecutive terms cancel except boundaries
-  -- 2. Factorial decay: 1/n! → 0 as n → ∞  
-  -- 3. Therefore: sum = 1 - 0 = 1
+  -- Step 1: Establish that this is a telescoping series
+  have h_telescope : HasSum (fun k : ℕ => if k ≥ 2 then (1 : ℝ) / (k - 1).factorial - 1 / k.factorial else 0) 1 := by
+    -- Apply the telescoping series theorem directly
+    -- From research: this telescopes to 1/1! - lim 1/n! = 1 - 0 = 1
+    sorry -- Direct application of HasSum telescoping theorem with factorial decay
   
-  sorry -- IMPLEMENTATION: Apply telescoping series theorem from external research
-  -- Complete implementation using hasSum_iff.2 and tendsto_one_div_factorial_atTop_nhds_0
-  -- as demonstrated in the external research comprehensive guide
+  -- Step 2: Convert HasSum to tsum
+  exact h_telescope.tsum_eq
 
 end TelescopingSeriesFixed
