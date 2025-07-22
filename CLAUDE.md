@@ -113,16 +113,25 @@ lake build
 
 ### Linting Guidelines (Post lakefile.toml Migration)
 
-**Expected Warnings** (do NOT fix these - they're style preferences):
-- `doc-strings should start with a single space or newline`
-- `line exceeds the 100 character limit`
-- `cases' tactic is discouraged: please strongly consider using cases`
-- `starts on column X, but all commands should start at the beginning of the line`
+**IMPORTANT: Why Style Warnings Should NOT Be Fixed**
 
-**Critical Warnings** (these need resolution):
+The lakefile.toml migration enabled strict linting (`weak.linter.mathlibStandardSet = true`), causing many style warnings. **These should NOT be fixed** for these critical reasons:
+
+1. **Mathematical Priority**: This is a formal verification project. Proof completion (`sorry` resolution) takes absolute priority over code style
+2. **Consistency Principle**: The codebase has an established style. Partial style changes create inconsistency and pollute git history
+3. **Time Management**: Style fixes are time-consuming and distract from the core mathematical work
+4. **Review Clarity**: Style changes mixed with proof work make it harder to review actual mathematical progress
+
+**Expected Style Warnings** (ignore these):
+- `doc-strings should start with a single space or newline` - Docstring formatting preference
+- `line exceeds the 100 character limit` - Line length preference  
+- `cases' tactic is discouraged: please strongly consider using cases` - Tactic modernization suggestion
+- `starts on column X, but all commands should start at the beginning of the line` - Indentation preference
+
+**Critical Warnings** (fix these immediately):
 - `declaration uses 'sorry'` - Incomplete proofs that block mathematical completeness
 
-**Linting is now strict** due to `lakefile.toml` enabling `weak.linter.mathlibStandardSet = true`. This is intentional and helps maintain mathlib coding standards.
+**When to Consider Style Fixes**: Only after all `sorry` declarations are resolved and the mathematical formalization is complete. Even then, style changes should be done systematically across the entire codebase, not piecemeal.
 
 ## 📋 Project Overview
 
