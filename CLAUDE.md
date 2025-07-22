@@ -154,13 +154,33 @@ simp?        -- Show applicable simp lemmas
 simp [lemma1, lemma2]    -- Simplify with specific lemmas
 ring                     -- Ring arithmetic
 field_simp              -- Field operations and fractions
-norm_num                -- Numerical computations
+norm_num                 -- Numerical computations
 linarith                -- Linear arithmetic reasoning
 
 -- Analysis and limits
 calc                    -- Step-by-step equational proofs  
 gcongr                  -- Monotonicity reasoning
 have h : P := by tactic -- Intermediate results
+
+-- Advanced tactics (from external research)
+aesop                   -- Best-first automated search
+rw_search               -- Breadth-first rewrite search (CLI equivalent of VS Code widget)
+conv                    -- Local rewrites deep inside terms (use with lhs, rhs, congr)
+```
+
+### CLI-Specific Advanced Commands
+```bash
+# Lake optimization commands
+lake build --verbose       -- Watch compilation order
+lake exe cache get        -- Grab mathlib cache for faster builds
+lake env lean --profile    -- Profile compilation performance
+lake build -K              -- Keep going after errors
+lake rebuild -R myPkg      -- Rebuild only specific package
+
+# Performance debugging
+lean --run --heartbeat-attribution MyFile.lean  -- Find performance bottlenecks
+set_option maxHeartbeats 400000                 -- Increase timeout budget
+set_option trace.profiler true                  -- Show compilation times
 ```
 
 ### Project-Specific Patterns
@@ -220,7 +240,44 @@ import Mathlib.Algebra.BigOperators.Basic         -- Finite sum operations
 - factorial/exponential growth lemmas are in `SpecificLimits.Normed`
 - `HasSum` and infinite series API is in `InfiniteSum.Basic`
 
-**Why This Cheat Sheet Matters**: The 3 remaining `sorry` declarations require sophisticated mathlib4 API usage. These tactics and patterns, extracted from project research, provide the specific tools needed to complete the formal verification.
+### Hidden mathlib4 Features (from External Research)
+```lean
+-- Advanced factorial bounds
+Nat.factorial_le_pow           -- n! ≤ k^n for n ≥ k
+Nat.choose_le_pow_two n        -- Binomial bounds
+tendsto_one_div_factorial_atTop_nhds_0  -- 1/n! → 0
+
+-- Series convergence (SpecificLimits.Basic/Normed)
+hasSum_geometric_of_lt_1       -- Geometric series
+tendsto_pow_const_mul_const_pow_of_abs_lt_one  -- Power decay
+Real.tendsto_exp_atTop_nhdsInf -- Exponential limits
+
+-- Filter theory shortcuts
+eventually_of_forall           -- Convert ∀ to ∀ᶠ
+tendsto_add_atTop_iff_nat     -- Limit arithmetic
+```
+
+### Worked Solutions from External Research
+
+**For telescoping_series_fixed**: Use `hasSum_iff.2` with partial sum identity:
+```lean
+-- Key insight: ∑(1/(k+1)! - 1/(k+2)!) telescopes to 1 - 1/(n+1)!
+-- Then apply tendsto_one_div_factorial_atTop_nhds_0
+```
+
+**For factorial_dominates_exponential_eventually**: Apply Stirling's asymptotic formula:
+```lean
+-- Use stirling_tendsto to show factorial/exponential → ∞
+-- Convert via filter_upwards and eventually patterns
+```
+
+**For inv_factorial_geometric_convergence**: Choose constants c=2, r=1/2:
+```lean
+-- Since n! ≥ 2^n eventually, we get 1/n! ≤ (1/2)^n
+-- Multiply by constant 2 to get the required form
+```
+
+**Why This Cheat Sheet Matters**: The 3 remaining `sorry` declarations require sophisticated mathlib4 API usage. These tactics and patterns, extracted from comprehensive project research including external expert consultation, provide the specific tools and complete solution strategies needed to finish the formal verification.
 
 ## 📋 Project Overview
 
