@@ -133,6 +133,81 @@ The lakefile.toml migration enabled strict linting (`weak.linter.mathlibStandard
 
 **When to Consider Style Fixes**: Only after all `sorry` declarations are resolved and the mathematical formalization is complete. Even then, style changes should be done systematically across the entire codebase, not piecemeal.
 
+## 🛠️ Lean 4 Proof Completion Tactics Cheat Sheet
+
+### Interactive Proof Discovery
+```lean
+-- Essential tactic suggestions
+exact?        -- Find exact proof from context
+apply?        -- Find applicable lemmas  
+rw?          -- Suggest rewrite rules
+simp?        -- Show applicable simp lemmas
+
+-- Context exploration
+#check name   -- Show type of definition/theorem
+#find pattern -- Search for lemmas by pattern
+```
+
+### Core Proof Tactics for This Project
+```lean
+-- Algebraic simplification
+simp [lemma1, lemma2]    -- Simplify with specific lemmas
+ring                     -- Ring arithmetic
+field_simp              -- Field operations and fractions
+norm_num                -- Numerical computations
+linarith                -- Linear arithmetic reasoning
+
+-- Analysis and limits
+calc                    -- Step-by-step equational proofs  
+gcongr                  -- Monotonicity reasoning
+have h : P := by tactic -- Intermediate results
+```
+
+### Project-Specific Patterns
+
+**For Telescoping Series (`telescoping_series_fixed`)**:
+- Key concepts: `HasSum`, `Summable`, partial sums, limit behavior
+- Pattern: `HasSum (fun k => a k - a (k+1)) (a 0 - lim atTop a)`
+- Use `calc` mode for step-by-step series manipulation
+
+**For Factorial Growth (`factorial_dominates_exponential_eventually`)**:
+- Key concepts: `eventually`, `atTop`, `Filter.Eventually`  
+- Pattern: `∀ᶠ n in atTop, condition n` (eventually true for large n)
+- Use Stirling's approximation and induction from suitable base case
+
+**For Geometric Convergence (`inv_factorial_geometric_convergence`)**:
+- Key concepts: ratio test, geometric bounds, `∃ c r, conditions ∧ ∀ᶠ n, bound`
+- Pattern: Find constants where `1/n! ≤ c * r^n` eventually  
+- Use factorial growth estimates and ratio test convergence
+
+### Debugging When Stuck
+```lean
+-- Show current goal and hypotheses
+sorry  -- Temporarily complete to check other parts
+
+-- Add intermediate steps  
+have step1 : P := by sorry
+have step2 : Q := by sorry
+-- then: exact final_step step1 step2
+```
+
+### Important API Patterns from Research
+```lean
+-- Series convergence
+Summable.hasSum          -- Convert summable to HasSum
+hasSum_iff_tendsto_nat   -- HasSum via limit of partial sums
+
+-- Factorial properties  
+Nat.factorial_pos        -- n! > 0
+factorial_le_pow         -- Growth bounds
+
+-- Eventually patterns
+Filter.Eventually        -- ∀ᶠ notation
+eventually_of_forall     -- Convert universal to eventual
+```
+
+**Why This Cheat Sheet Matters**: The 3 remaining `sorry` declarations require sophisticated mathlib4 API usage. These tactics and patterns, extracted from project research, provide the specific tools needed to complete the formal verification.
+
 ## 📋 Project Overview
 
 ### Problem Source
