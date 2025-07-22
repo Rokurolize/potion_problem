@@ -1,0 +1,7 @@
+⚠ [2871/3004] Replayed UniformHittingTime.TelescopingSeriesFixed
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:36:8: declaration uses 'sorry'
+⚠ [3002/3004] Replayed UniformHittingTime.UniformSumHittingTime
+warning: UniformHittingTime/UniformSumHittingTime.lean:213:6: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:250:8: declaration uses 'sorry'
+info: UniformHittingTime/UniformSumHittingTime.lean:463:0: UniformSumHittingTime.uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1
+Build completed successfully.
