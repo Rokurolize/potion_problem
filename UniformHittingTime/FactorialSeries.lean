@@ -62,7 +62,7 @@ theorem inv_factorial_tendsto_zero :
 Key lemma: For any c > 1, eventually n! > c^n.
 This shows factorial growth dominates exponential growth.
 -/
-lemma factorial_dominates_exponential {c : ℝ} (hc : c > 1) :
+lemma factorial_dominates_exponential {c : ℝ} :
   ∀ᶠ n in atTop, (n.factorial : ℝ) > c ^ n := by
   -- Use the fact that exponential series converges for any c
   -- Note: hc constraint ensures mathematical validity but not needed for convergence proof
