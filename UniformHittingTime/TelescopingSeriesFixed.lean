@@ -4,16 +4,8 @@ Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
 -- Working imports with needed additions
-import Mathlib.Topology.Algebra.InfiniteSum.Basic  
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Analysis.SpecificLimits.Basic
-import Mathlib.Data.Real.Basic
-import Mathlib.Data.Finset.Basic
-import Mathlib.Data.Set.Basic
-import Mathlib.Topology.Basic
-import Mathlib.Topology.MetricSpace.Basic
-import Mathlib.Order.Filter.Basic
-import UniformHittingTime.FactorialSeries
+import Mathlib.Topology.Algebra.InfiniteSum.Basic
+import Mathlib.Analysis.SpecificLimits.Normed
 
 /-!
 # Telescoping Series Theory - Minimal Working Version
@@ -30,10 +22,8 @@ namespace TelescopingSeriesFixed
 
 open BigOperators Filter Real
 
-/-- 
-The specific factorial telescoping sum needed for hitting time calculations.
-This uses the mathematical fact that the telescoping series equals 1.
--/
+/-- The specific factorial telescoping sum needed for hitting time calculations.
+This uses the mathematical fact that the telescoping series equals 1. -/
 theorem factorial_telescoping_sum_one :
   ∑' n : ℕ, (if n ≥ 2 then (1 : ℝ) / (n - 1).factorial - 1 / n.factorial else 0) = 1 := by
   -- Direct application of telescoping series principle from research guide
@@ -43,7 +33,8 @@ theorem factorial_telescoping_sum_one :
   -- Key insight: this is precisely the telescoping factorial pattern demonstrated
   
   -- Step 1: Establish that this is a telescoping series
-  have h_telescope : HasSum (fun k : ℕ => if k ≥ 2 then (1 : ℝ) / (k - 1).factorial - 1 / k.factorial else 0) 1 := by
+  have h_telescope : HasSum (fun k : ℕ => 
+    if k ≥ 2 then (1 : ℝ) / (k - 1).factorial - 1 / k.factorial else 0) 1 := by
     -- Apply the telescoping series theorem directly
     -- From research: this telescopes to 1/1! - lim 1/n! = 1 - 0 = 1
     sorry -- Direct application of HasSum telescoping theorem with factorial decay

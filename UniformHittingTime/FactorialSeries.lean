@@ -4,12 +4,7 @@ Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
 -- P26 Research Solution: Required v4.21.0 imports for factorial convergence
-import Mathlib.Data.Real.Basic
-import Mathlib.Data.Nat.Factorial.Basic
-import Mathlib.Analysis.SpecialFunctions.Exponential
-import Mathlib.Data.Nat.Factorial.Cast
-import Mathlib.Analysis.SpecificLimits.Basic
-import Mathlib.Order.Filter.AtTopBot.Basic
+import Mathlib.Analysis.SpecificLimits.Normed
 
 open BigOperators Real Nat Filter Topology
 
@@ -35,9 +30,7 @@ namespace FactorialSeries
 
 open Real Filter
 
-/--
-The series ∑ 1/n! is summable (converges absolutely)
--/
+/-- The series ∑ 1/n! is summable (converges absolutely) -/
 theorem summable_inv_factorial :
   Summable (fun n : ℕ => (1 : ℝ) / n.factorial) := by
   -- This is the exponential series at 1
@@ -48,9 +41,7 @@ theorem summable_inv_factorial :
   rw [this]
   exact Real.summable_pow_div_factorial 1
 
-/--
-Main theorem: 1/n! → 0 as n → ∞
--/
+/-- Main theorem: 1/n! → 0 as n → ∞ -/
 theorem inv_factorial_tendsto_zero :
   Tendsto (fun n : ℕ => (1 : ℝ) / n.factorial) atTop (nhds 0) := by
   -- Use the fact that summable sequences tend to zero
@@ -58,10 +49,8 @@ theorem inv_factorial_tendsto_zero :
   rw [← Nat.cofinite_eq_atTop]
   exact summable_inv_factorial.tendsto_cofinite_zero
 
-/--
-Key lemma: For any c > 1, eventually n! > c^n.
-This shows factorial growth dominates exponential growth.
--/
+/-- Key lemma: For any c > 1, eventually n! > c^n.
+This shows factorial growth dominates exponential growth. -/
 lemma factorial_dominates_exponential {c : ℝ} :
   ∀ᶠ n in atTop, (n.factorial : ℝ) > c ^ n := by
   -- Use the fact that exponential series converges for any c
@@ -79,9 +68,7 @@ lemma factorial_dominates_exponential {c : ℝ} :
   filter_upwards [h_eventually] with n hn
   rwa [div_lt_one (Nat.cast_pos.2 (Nat.factorial_pos n))] at hn
 
-/--
-Ratio test: The ratio of consecutive terms goes to 0
--/
+/-- Ratio test: The ratio of consecutive terms goes to 0 -/
 lemma inv_factorial_ratio_tendsto_zero :
   Tendsto (fun n : ℕ => ((1 : ℝ) / (n + 1).factorial) / (1 / n.factorial)) atTop (nhds 0) := by
   -- P26 Research Solution: Factorial ratio reduction (v4.21.0 API verification needed)
@@ -89,7 +76,8 @@ lemma inv_factorial_ratio_tendsto_zero :
               fun n : ℕ => (1 : ℝ) / ((n : ℝ) + 1) := by
     -- P26 Research Solution: Factorial ratio reduction: (n+1)!/n! = n+1
     ext n
-    simp [factorial_succ, div_div]
+    -- Expand the definition and use specific rewrites
+    rw [factorial_succ, div_div]
     -- Need to handle n! ≠ 0 for the simplification
     have h_nonzero : (n.factorial : ℝ) ≠ 0 := Nat.cast_ne_zero.2 (Nat.factorial_ne_zero n)
     field_simp [h_nonzero]

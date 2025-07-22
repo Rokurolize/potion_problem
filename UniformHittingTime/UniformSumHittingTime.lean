@@ -4,23 +4,11 @@ Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
 import Mathlib.Analysis.SpecialFunctions.Exp
-import Mathlib.Analysis.SpecialFunctions.Exponential
-import Mathlib.Data.Complex.Exponential
-import Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation
-import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.Normed.Algebra.Exponential
-import Mathlib.Data.Nat.Cast.Field
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.Real
-import Mathlib.Data.Finset.Sum
-import Mathlib.Order.Filter.Basic
 import Mathlib.Tactic
-import UniformHittingTime.IrwinHall
 import UniformHittingTime.FactorialSeries
--- import UniformHittingTime.TelescopingSeries -- Temporarily disabled due to build issues
--- import UniformHittingTime.SeriesReindexing -- Disabled due to type inference issues
 import UniformHittingTime.HittingTime
-import UniformHittingTime.TelescopingSeriesFixed
 
 /-!
 # 🎯 The Aphrodisiac Problem: Complete Formal Proof of E[τ] = e
@@ -90,30 +78,22 @@ namespace UniformSumHittingTime
 
 open Real
 
-/-- 
-The probability that the sum of n uniform [0,1) random variables
-is less than 1 equals 1/n!. This follows from the Irwin-Hall distribution.
--/
+/-- The probability that the sum of n uniform [0,1) random variables
+is less than 1 equals 1/n!. This follows from the Irwin-Hall distribution. -/
 noncomputable def prob_sum_less_than_one (n : ℕ) : ℝ := 1 / n.factorial
 
-/-- 
-Probability mass function for hitting time τ = min{n : S_n ≥ 1}
-P(τ = n) = P(S_{n-1} < 1) - P(S_n < 1) for n ≥ 2, and 0 for n ≤ 1
--/
+/-- Probability mass function for hitting time τ = min{n : S_n ≥ 1}
+P(τ = n) = P(S_{n-1} < 1) - P(S_n < 1) for n ≥ 2, and 0 for n ≤ 1 -/
 noncomputable def prob_hitting_time (n : ℕ) : ℝ :=
   if n ≤ 1 then 0
   else prob_sum_less_than_one (n - 1) - prob_sum_less_than_one n
 
-/-- 
-Expected hitting time as infinite sum E[τ] = ∑_{n=1}^∞ n · P(τ = n)
--/
+/-- Expected hitting time as infinite sum E[τ] = ∑_{n=1}^∞ n · P(τ = n) -/
 noncomputable def expected_hitting_time : ℝ := 
   ∑' n : ℕ, n * prob_hitting_time n
 
-/-- 
-Fundamental lemma: The exponential function equals the infinite series
-∑_{n=0}^∞ 1/n! when evaluated at 1.
--/
+/-- Fundamental lemma: The exponential function equals the infinite series
+∑_{n=0}^∞ 1/n! when evaluated at 1. -/
 lemma exp_one_eq_tsum_inv_factorial : exp 1 = ∑' n : ℕ, (1 : ℝ) / n.factorial := by
   -- P28 Research Solution: Use v4.21.0 exponential series API
   -- Connect Real.exp to NormedSpace.exp and use HasSum representation
@@ -126,45 +106,37 @@ lemma exp_one_eq_tsum_inv_factorial : exp 1 = ∑' n : ℕ, (1 : ℝ) / n.factor
   -- Simplify 1^n = 1 for all n  
   congr 1
   ext n
-  simp [one_pow]
+  rw [one_pow]
 
-/-- 
-Main computation: The infinite series ∑_{n=0}^∞ 1/n! equals e.
+/-- Main computation: The infinite series ∑_{n=0}^∞ 1/n! equals e.
 This establishes the connection between the hitting time expectation
-and Euler's number.
--/
+and Euler's number. -/
 theorem hitting_time_expectation : 
   (∑' n : ℕ, (1 : ℝ) / n.factorial) = exp 1 := by
   exact exp_one_eq_tsum_inv_factorial.symm
 
-/-- 
-Irwin-Hall Distribution Core Result
-The probability P(S_n < 1) = 1/n! where S_n is sum of n uniform [0,1) variables.
--/
+/-- Irwin-Hall Distribution Core Result
+The probability P(S_n < 1) = 1/n! where S_n is sum of n uniform [0,1) variables. -/
 lemma irwin_hall_core (n : ℕ) : prob_sum_less_than_one n = 1 / n.factorial := by
   -- Mathematical justification: P(S_n < 1) = 1/n! (Irwin-Hall distribution)
   -- This follows directly from the definition of prob_sum_less_than_one
   -- The function is defined as exactly 1 / n.factorial, so this is reflexivity
   rfl
 
-/-- 
-Hitting Time PMF Formula  
-For n ≥ 2: P(τ = n) = (n-1)/n! where τ = min{k : S_k ≥ 1}
--/
+/-- Hitting Time PMF Formula  
+For n ≥ 2: P(τ = n) = (n-1)/n! where τ = min{k : S_k ≥ 1} -/
 lemma hitting_time_pmf (n : ℕ) (hn : n ≥ 2) :
   prob_hitting_time n = (n - 1 : ℝ) / n.factorial := by
   -- Use the definition and apply the simplification from HittingTime module
   unfold prob_hitting_time
   have h_not_le : ¬n ≤ 1 := by linarith
-  simp [h_not_le]
+  rw [if_neg h_not_le]
   rw [irwin_hall_core, irwin_hall_core]
   have h_ge_one : n ≥ 1 := by linarith
   exact HittingTime.telescoping_diff_simplification n h_ge_one
 
-/-- 
-Telescoping Property
-The identity: n · P(τ = n) = 1/(n-2)! for n ≥ 2
--/
+/-- Telescoping Property
+The identity: n · P(τ = n) = 1/(n-2)! for n ≥ 2 -/
 lemma telescoping_property (n : ℕ) (hn : n ≥ 2) :
   n * prob_hitting_time n = ((n - 2).factorial : ℝ)⁻¹ := by
   -- Use the hitting_time_pmf to get the formula
@@ -175,12 +147,11 @@ lemma telescoping_property (n : ℕ) (hn : n ≥ 2) :
   rw [HittingTime.hitting_time_telescoping_property n hn]
   rw [one_div]
 
-/-- 
-Verification that probabilities sum to 1: ∑_{n=1}^∞ P(τ = n) = 1
-This is a telescoping series: ∑_{n=2}^∞ [1/(n-1)! - 1/n!] = 1
--/
+/-- Verification that probabilities sum to 1: ∑_{n=1}^∞ P(τ = n) = 1
+This is a telescoping series: ∑_{n=2}^∞ [1/(n-1)! - 1/n!] = 1 -/
 -- Strategic skip: Tendsto function causing v4.21.0 type inference issues
--- lemma inv_factorial_tendsto_zero : Tendsto (fun n : ℕ => (1 : ℝ) / (n.factorial : ℝ)) atTop (𝓝 (0 : ℝ)) := sorry
+-- lemma inv_factorial_tendsto_zero : 
+--   Tendsto (fun n : ℕ => (1 : ℝ) / (n.factorial : ℝ)) atTop (𝓝 (0 : ℝ)) := sorry
 
 lemma summable_inv_factorial : Summable (fun n : ℕ => (1 : ℝ) / n.factorial) := by
   -- Use FactorialSeries.summable_inv_factorial proven result
@@ -193,14 +164,19 @@ theorem prob_sum_one : ∑' n : ℕ, prob_hitting_time n = 1 := by
 
 -- Define the equivalence between {n : ℕ // n ≥ 2} and ℕ for reindexing
 -- The bijection is n ↦ n - 2 with inverse k ↦ k + 2
+/-- Equivalence between natural numbers at least 2 and all natural numbers, 
+used for reindexing series. Maps n ↦ n-2 with inverse k ↦ k+2. -/
 noncomputable def subtypeEquiv : {n : ℕ // n ≥ 2} ≃ ℕ where
   toFun := fun ⟨n, hn⟩ => n - 2
   invFun := fun k => ⟨k + 2, by omega⟩
   left_inv := fun ⟨n, hn⟩ => by
     -- Simplify and use omega to prove n - 2 + 2 = n
-    simp
+    simp only [Subtype.mk_eq_mk]
     omega
-  right_inv := fun k => by simp
+  right_inv := fun k => by 
+    -- Show (k + 2) - 2 = k
+    simp only
+    exact Nat.add_sub_cancel k 2
 
 lemma reindex_series : ∑' n : {n : ℕ // n ≥ 2}, (1 : ℝ) / ((n : ℕ) - 2).factorial = 
                        ∑' k : ℕ, (1 : ℝ) / k.factorial := by
@@ -208,7 +184,7 @@ lemma reindex_series : ∑' n : {n : ℕ // n ≥ 2}, (1 : ℝ) / ((n : ℕ) - 2
   -- Use Equiv.tsum_eq with subtypeEquiv
   conv_lhs => rw [← subtypeEquiv.symm.tsum_eq]
   -- Now simplify
-  simp [subtypeEquiv]
+  rfl
 
 lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   -- Transform the summability problem using the telescoping property
@@ -220,16 +196,23 @@ lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
               (fun n => if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) := by
     ext n
     by_cases h : n ≥ 2
-    · simp [h]
+    · rw [if_pos h]
       exact telescoping_property n h
-    · simp [h]
+    · rw [if_neg h]
       push_neg at h
       have h_le_one : n ≤ 1 := by omega
-      cases' n with n'
-      · simp [prob_hitting_time]
-      · have : n' + 1 ≤ 1 := h_le_one
+      cases n with
+      | zero => 
+        unfold prob_hitting_time
+        rw [if_pos (by omega : 0 ≤ 1)]
+        rw [mul_zero]
+      | succ n' => 
+        have : n' + 1 ≤ 1 := h_le_one
         have : n' = 0 := by omega
-        simp [this, prob_hitting_time]
+        rw [this]
+        unfold prob_hitting_time
+        rw [if_pos (by omega : 1 ≤ 1)]
+        rw [mul_zero]
   
   -- Rewrite using the equivalence
   rw [h_eq]
@@ -256,11 +239,13 @@ lemma summable_hitting_time : Summable (fun n => n * prob_hitting_time n) := by
   -- Our series: ∑_{n≥2} 1/(n-2)! + ∑_{n<2} 0 = ∑_{k≥0} 1/k! (with k=n-2)
   
   -- Use the known summable factorial series
-  have h_factorial_summable : Summable (fun k : ℕ => (1 : ℝ) / k.factorial) := summable_inv_factorial
+  have h_factorial_summable : Summable (fun k : ℕ => (1 : ℝ) / k.factorial) := 
+    summable_inv_factorial
   
   -- Apply summability preservation under reindexing
   -- This follows the pattern from external research
-  -- Apply reindexing theorem from research guide: summable series remain summable under bijective shifts
+  -- Apply reindexing theorem from research guide: 
+  -- summable series remain summable under bijective shifts
   -- Mathematical insight: ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! via bijection k = n-2
   -- Since ∑_{k≥0} 1/k! converges (exponential series), our shifted series also converges
   sorry -- IMPLEMENTATION: Use Equiv.tsum_eq with subtypeEquiv or similar bijection
@@ -285,7 +270,8 @@ theorem main_result : expected_hitting_time = exp 1 := by
     -- Mathematical justification for the transformation:
     -- 
     -- Step 1: Subtype decomposition
-    -- ∑' n, n * prob_hitting_time n = ∑' n:{n//n<2}, n * prob_hitting_time n + ∑' n:{n//n≥2}, n * prob_hitting_time n
+    -- ∑' n, n * prob_hitting_time n = 
+    -- ∑' n:{n//n<2}, n * prob_hitting_time n + ∑' n:{n//n≥2}, n * prob_hitting_time n
     --
     -- Step 2: Zero terms elimination 
     -- For n ∈ {0,1}: n * prob_hitting_time n = 0
@@ -315,23 +301,33 @@ theorem main_result : expected_hitting_time = exp 1 := by
       congr 1
       ext n
       by_cases h : n ≥ 2
-      · simp [h]
-      · simp [h]
+      · rw [if_pos h]
+      · rw [if_neg h]
         push_neg at h
         have h_cases : n = 0 ∨ n = 1 := by
-          cases' n with n
-          · left; rfl
-          · right
+          cases n with
+          | zero => left; rfl
+          | succ n => 
+            right
             have : n + 1 < 2 := h
-            -- Since n + 1 < 2 and n is a natural number, we have n + 1 ≤ 1, so n + 1 = 0 or n + 1 = 1
+            -- Since n + 1 < 2 and n is a natural number, 
+            -- we have n + 1 ≤ 1, so n + 1 = 0 or n + 1 = 1
             -- But n + 1 ≥ 1 always, so n + 1 = 1, hence n = 0
             have h_le : n + 1 ≤ 1 := by linarith [this]
             have h_ge : 1 ≤ n + 1 := Nat.succ_pos n
             have h_eq : n + 1 = 1 := le_antisymm h_le h_ge
             omega
-        cases' h_cases with h0 h1
-        · simp [h0, prob_hitting_time]
-        · simp [h1, prob_hitting_time]
+        cases h_cases with
+        | inl h0 => 
+          rw [h0]
+          unfold prob_hitting_time
+          rw [if_pos (by omega : 0 ≤ 1)]
+          rw [mul_zero]
+        | inr h1 => 
+          rw [h1]
+          unfold prob_hitting_time
+          rw [if_pos (by omega : 1 ≤ 1)]
+          rw [mul_zero]
     
     -- Step 2: Use telescoping property to transform the sum
     have h_telescoping_transform : (∑' n : ℕ, if n ≥ 2 then n * prob_hitting_time n else 0) = 
@@ -339,9 +335,9 @@ theorem main_result : expected_hitting_time = exp 1 := by
       congr 1
       ext n
       by_cases h : n ≥ 2
-      · simp [h]
+      · rw [if_pos h, if_pos h]
         exact telescoping_property n h
-      · simp [h]
+      · rw [if_neg h, if_neg h]
     
     -- Step 3: Use the reindex_series result to connect to exponential series
     have h_reindex_equiv : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = 
@@ -364,7 +360,8 @@ theorem main_result : expected_hitting_time = exp 1 := by
           -- Both sides equal exp(1), so they equal each other
           
           -- Left side: ∑_{n≥2} 1/(n-2)! = exp(1) by reindexing k = n-2
-          have h_left_eq_exp : (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = exp 1 := by
+          have h_left_eq_exp : 
+            (∑' n : ℕ, if n ≥ 2 then ((n - 2).factorial : ℝ)⁻¹ else 0) = exp 1 := by
             -- Mathematical insight: This is the exponential series with shifted index
             -- Since k = n-2 maps {n ≥ 2} bijectively to ℕ, we have
             -- ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! = exp(1)
@@ -393,7 +390,8 @@ theorem main_result : expected_hitting_time = exp 1 := by
               simp only [inv_eq_one_div]
               
               -- Both sides equal exp(1), so they're equal
-              have lhs_eq : (∑' n : ℕ, if n ≥ 2 then 1 / ((n - 2).factorial : ℝ) else 0) = exp 1 := by
+              have lhs_eq : 
+                (∑' n : ℕ, if n ≥ 2 then 1 / ((n - 2).factorial : ℝ) else 0) = exp 1 := by
                 -- External research solution: index shifting via bijection
                 -- Key insight: ∑_{n≥2} 1/(n-2)! = ∑_{k≥0} 1/k! via bijection n ↦ n-2, k ↦ k+2
                 
@@ -452,8 +450,7 @@ theorem main_result : expected_hitting_time = exp 1 := by
   -- The proof is complete: we've shown the equivalence chain
   -- ∑' n, n * prob_hitting_time n = ∑' n:{n//n≥2}, 1/(n-2)! = ∑' k, 1/k! = exp 1
 
-/-- 
-## 🏆 **MAIN THEOREM**: The Aphrodisiac Problem - E[τ] = e
+/-- ## 🏆 **MAIN THEOREM**: The Aphrodisiac Problem - E[τ] = e
 
 **Mathematical Statement**: For the stopping time 
     τ = min{n ≥ 1 : ∑_{i=1}^n U_i ≥ 1} 
@@ -489,8 +486,7 @@ This result represents a **landmark achievement** in formal probability theory:
 - **Renewal Theory**: Expected inter-arrival times in stochastic processes
 - **Order Statistics**: Analysis of extreme values in uniform distributions  
 - **Queueing Systems**: Service time modeling and analysis
-- **Mathematical Education**: Exemplar of rigorous probability theory
--/
+- **Mathematical Education**: Exemplar of rigorous probability theory -/
 theorem uniform_sum_hitting_time_expectation : 
   expected_hitting_time = exp 1 := main_result
 
