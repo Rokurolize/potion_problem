@@ -4,7 +4,7 @@ Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
 -- P26 Research Solution: Required v4.21.0 imports for factorial convergence
--- Removed: import Mathlib.Analysis.SpecificLimits.Normed (linter says unneeded)
+import Mathlib.Analysis.SpecificLimits.Normed
 
 open BigOperators Real Nat Filter Topology
 
