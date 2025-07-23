@@ -186,20 +186,26 @@ The project contains multiple implementation approaches with different complexit
 
 ### Current Proof Status
 - **Style Warnings**: ✅ **ZERO** (all 526 warnings resolved)
-- **Remaining Sorries**: 2 mathematical proofs in `UniformSumHittingTime.lean` (lines 252, 413)
+- **Active Sorries**: 2 mathematical proofs in `UniformSumHittingTime.lean`
+  - Line 252: `summable_hitting_time` - Prove series summability using reindexing
+  - Line 413: Inside `main_result` - Complete bijection argument for index transformation
   - **IMPORTANT**: Sorry warnings not displayed by default in Lean 4/mathlib4 builds
-  - The sorry declarations ARE present in the code - they represent incomplete mathematical proofs
   - To verify: `grep -n "sorry" UniformHittingTime/UniformSumHittingTime.lean`
+- **Inactive Sorries**: Many exist in experimental/unused files (TelescopingSeriesFixed, SeriesReindexing, etc.)
 - **Build**: ✅ Succeeds with no displayed warnings
 - **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = exp 1`
 - **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`, `linter.all = true`)
-- **Current Priority**: Complete the 2 remaining mathematical proofs (telescoping series)
+- **Current Priority**: Complete the 2 active mathematical proofs
 
 ### ⚠️ Known Design Issues
 - **24 overlapping implementation files** - Many experimental variants kept alongside main implementation
 - **Transitive import dependencies** - Files rely on implicit imports instead of explicit ones
 - **"Unneeded import" warnings were correct** - They exposed the transitive dependency problem
-- See `docs/project-structure-analysis.md` and `docs/sorry-warnings-final-analysis.md` for details
+- **Phantom sorry references** - CLAUDE.md previously listed 3 non-existent theorems as sorries
+- See documentation: 
+  - `docs/project-structure-analysis.md` - Full dependency analysis
+  - `docs/sorry-warnings-final-analysis.md` - Import investigation
+  - `docs/sorry-declarations-evolution.md` - Sorry count clarification
 
 ### Research Documentation System
 - **Research Prompts**: `docs/research_prompts/` - Sequential numbered prompts for external AI research
