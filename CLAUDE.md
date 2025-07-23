@@ -46,6 +46,63 @@ uv run python python/simulation/montecarlo_simulation.py
 uv run python python/theoretical/exact_expectation_proof.py
 ```
 
+## 🧪 TDD (Test-Driven Development) Approach
+
+This project follows t-wada's TDD philosophy: **"Write tests first, then implementation, commit immediately after each green test"**
+
+### TDD Workflow for Lean 4
+
+1. **Red Phase**: Write a failing test
+   ```bash
+   # Create test file or add test case
+   # Build to see the expected failure
+   lake build test_myfeature
+   ```
+
+2. **Green Phase**: Write minimal code to pass
+   ```bash
+   # Implement just enough to make test pass
+   lake build  # Verify all tests pass
+   ```
+
+3. **Refactor Phase**: Improve code while keeping tests green
+   ```bash
+   # Refactor with confidence
+   lake build  # Ensure tests still pass
+   git add . && git commit -m "Refactor: [specific improvement]"
+   ```
+
+### TDD Best Practices Demonstrated
+
+**Incremental Commits**: Each successful change gets its own commit
+- Example: "Remove unneeded imports from IrwinHall.lean"
+- Example: "Fix docstring format warnings in TelescopingSeries.lean"
+
+**Build Verification After Every Change**:
+```bash
+# After each edit, verify build succeeds
+lake build 2>&1 | grep -E "(error:|Build completed)"
+# Only commit if build succeeds
+git add [file] && git commit -m "[specific change]"
+```
+
+**Zero Tolerance for Warnings**:
+- Fix warnings incrementally, not all at once
+- Each warning type fixed in separate commit
+- Build must succeed after each fix
+
+### Test Organization
+
+**Test Files**:
+- `test_basic.lean` - Core functionality verification
+- `test_minimal.lean` - Minimal implementation tests
+- `test_summability.lean` - Mathematical property tests
+- `test_working.lean` - Work-in-progress tests
+
+**Python Verification Tests**:
+- `test_all.py` - Comprehensive numerical validation
+- Individual module tests in `python/` subdirectories
+
 ## 🚀 Quick Iteration Execution
 
 **When requested to "execute next iteration", follow these steps:**
@@ -128,12 +185,12 @@ The project contains multiple implementation approaches with different complexit
 - `test_working.lean` - Tests for experimental approaches
 
 ### Current Proof Status
-- **Style Warnings**: @current_warnings.txt
-- **Remaining Sorries**: @current_sorries.txt
-- **Build**: Succeeds with warnings
-- **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1`
+- **Style Warnings**: ✅ **ZERO** (all 526 warnings resolved)
+- **Remaining Sorries**: 2 mathematical proofs in `UniformSumHittingTime.lean`
+- **Build**: ✅ Succeeds with no warnings
+- **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = exp 1`
 - **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`, `linter.all = true`)
-- **Current Priority**: Achieve zero style warnings before proceeding with mathematical proofs
+- **Current Priority**: Complete the 2 remaining mathematical proofs (telescoping series)
 
 ### Research Documentation System
 - **Research Prompts**: `docs/research_prompts/` - Sequential numbered prompts for external AI research
@@ -181,12 +238,38 @@ weak.linter.mathlibStandardSet = true
 linter.all = true
 ```
 
-**Development Priority: Fix All Style Warnings First**
+**Development Priority: Clean Code and Mathematical Correctness**
 
 This project prioritizes clean code and mathlib4 compliance:
-1. **First**: Fix all style warnings to achieve mathlib4 standards
-2. **Then**: Focus on resolving the 3 sorry declarations
-3. **Goal**: Clean build with only sorry warnings before mathematical work
+1. ✅ **COMPLETED**: All 526 style warnings fixed to achieve mathlib4 standards
+2. **Current Focus**: Resolve the 2 remaining sorry declarations (mathematical proofs)
+3. **Achieved**: Zero warnings build with maximum linting strictness
+
+### Safe Refactoring Practices
+
+**When removing "unneeded" imports (following t-wada's TDD approach)**:
+1. **Backup First**: Commit current state before any import changes
+2. **Remove One at a Time**: Never bulk-remove imports
+3. **Test Immediately**: `lake build` after each removal
+4. **Commit on Success**: Each successful removal gets its own commit
+
+**Example workflow from this project**:
+```bash
+# Check current state
+git status  # Must be clean
+
+# Remove one import
+# Edit file to remove/comment import
+
+# Test build
+lake build 2>&1 | grep -E "(error:|Build completed)"
+
+# If successful, commit immediately
+git add [file] && git commit -m "Remove unneeded [import] from [file]"
+
+# If failed, revert and investigate
+git checkout -- [file]
+```
 
 ## 🛠️ Lean 4 Proof Completion Tactics Cheat Sheet
 
