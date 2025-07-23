@@ -3,14 +3,15 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
-import Mathlib.Data.Nat.Factorial.Basic
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
-import UniformHittingTime.IrwinHall
-import UniformHittingTime.FactorialSeries
-import UniformHittingTime.TelescopingSeries
+-- Removed per linter:
+-- import Mathlib.Data.Nat.Factorial.Basic
+-- import Mathlib.Tactic.FieldSimp
+-- import Mathlib.Tactic.Linarith
+-- import Mathlib.Tactic.Ring
+-- import Mathlib.Tactic.NormNum
+-- import UniformHittingTime.IrwinHall
+-- import UniformHittingTime.FactorialSeries
+-- import UniformHittingTime.TelescopingSeries
 
 /-!
 # Hitting Time Probability Mass Function
