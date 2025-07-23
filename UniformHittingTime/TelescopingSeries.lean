@@ -3,8 +3,8 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import UniformHittingTime.FactorialSeries
+-- Removed per linter: import Mathlib.Topology.Algebra.InfiniteSum.Basic
+-- Removed per linter: import UniformHittingTime.FactorialSeries
 
 /-!
 # Telescoping Series Theory
