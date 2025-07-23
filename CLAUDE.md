@@ -186,8 +186,10 @@ The project contains multiple implementation approaches with different complexit
 
 ### Current Proof Status
 - **Style Warnings**: ✅ **ZERO** (all 526 warnings resolved)
-- **Remaining Sorries**: 2 mathematical proofs in `UniformSumHittingTime.lean` (lines 251, 412)
-  - Note: Sorry warnings not displayed by default in current Lean 4 build
+- **Remaining Sorries**: 2 mathematical proofs in `UniformSumHittingTime.lean` (lines 252, 413)
+  - **IMPORTANT**: Sorry warnings not displayed by default in Lean 4/mathlib4 builds
+  - The sorry declarations ARE present in the code - they represent incomplete mathematical proofs
+  - To verify: `grep -n "sorry" UniformHittingTime/UniformSumHittingTime.lean`
 - **Build**: ✅ Succeeds with no displayed warnings
 - **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = exp 1`
 - **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`, `linter.all = true`)
@@ -253,6 +255,9 @@ This project prioritizes clean code and mathlib4 compliance:
 2. **Remove One at a Time**: Never bulk-remove imports
 3. **Test Immediately**: `lake build` after each removal
 4. **Commit on Success**: Each successful removal gets its own commit
+5. **CRITICAL**: Verify sorry warnings still appear after import changes
+   - Removing imports can break compilation entirely, masking sorry warnings
+   - See `docs/investigation-sorry-warnings-disappearance.md` for details
 
 **Example workflow from this project**:
 ```bash
