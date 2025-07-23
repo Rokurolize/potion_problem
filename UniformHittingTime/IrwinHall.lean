@@ -3,8 +3,9 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic
+-- Removed unneeded imports per linter
+-- import Mathlib.Data.Real.Basic
+-- import Mathlib.Tactic
 
 /-!
 # Irwin-Hall Distribution Theory
