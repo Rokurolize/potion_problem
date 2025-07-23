@@ -186,8 +186,9 @@ The project contains multiple implementation approaches with different complexit
 
 ### Current Proof Status
 - **Style Warnings**: ✅ **ZERO** (all 526 warnings resolved)
-- **Remaining Sorries**: 2 mathematical proofs in `UniformSumHittingTime.lean`
-- **Build**: ✅ Succeeds with no warnings
+- **Remaining Sorries**: 2 mathematical proofs in `UniformSumHittingTime.lean` (lines 251, 412)
+  - Note: Sorry warnings not displayed by default in current Lean 4 build
+- **Build**: ✅ Succeeds with no displayed warnings
 - **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = exp 1`
 - **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`, `linter.all = true`)
 - **Current Priority**: Complete the 2 remaining mathematical proofs (telescoping series)
