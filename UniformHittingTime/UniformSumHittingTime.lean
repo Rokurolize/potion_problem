@@ -3,13 +3,12 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
--- Removed per linter:
--- import Mathlib.Analysis.SpecialFunctions.Exp
--- import Mathlib.Analysis.Normed.Algebra.Exponential
--- import Mathlib.Topology.Algebra.InfiniteSum.Basic
--- import Mathlib.Tactic.Linarith
--- import UniformHittingTime.FactorialSeries
--- import UniformHittingTime.HittingTime
+import Mathlib.Analysis.SpecialFunctions.Exp
+import Mathlib.Analysis.Normed.Algebra.Exponential
+import Mathlib.Topology.Algebra.InfiniteSum.Basic
+import Mathlib.Tactic.Linarith
+import UniformHittingTime.FactorialSeries
+import UniformHittingTime.HittingTime
 
 /-!
 # 🎯 The Aphrodisiac Problem: Complete Formal Proof of E[τ] = e
