@@ -195,6 +195,12 @@ The project contains multiple implementation approaches with different complexit
 - **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`, `linter.all = true`)
 - **Current Priority**: Complete the 2 remaining mathematical proofs (telescoping series)
 
+### ⚠️ Known Design Issues
+- **24 overlapping implementation files** - Many experimental variants kept alongside main implementation
+- **Transitive import dependencies** - Files rely on implicit imports instead of explicit ones
+- **"Unneeded import" warnings were correct** - They exposed the transitive dependency problem
+- See `docs/project-structure-analysis.md` and `docs/sorry-warnings-final-analysis.md` for details
+
 ### Research Documentation System
 - **Research Prompts**: `docs/research_prompts/` - Sequential numbered prompts for external AI research
 - **Research Responses**: `docs/research_response/` - Results from external research
