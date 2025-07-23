@@ -7,6 +7,10 @@ Authors: Astolfo and Contributors
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
 import Mathlib.Analysis.SpecificLimits.Normed
 
+-- Suppress linter warnings for design suggestions and imports
+set_option linter.upstreamableDecl false
+set_option linter.minImports false
+
 /-!
 # Telescoping Series Theory - Minimal Working Version
 

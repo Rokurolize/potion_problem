@@ -23,12 +23,12 @@ uv sync
 uv run python test_all.py
 
 # Check all warnings to track style fixing progress
-lake build 2>&1 | grep -E "(warning:|error:)" | grep -v "Build completed"
+lake build 2>&1 | grep -E "(warning:|error:)" | grep -v "Build completed" > current_warnings.txt
 
 # Check only sorry warnings
-lake build 2>&1 | grep "declaration uses 'sorry'"
+lake build 2>&1 | grep "declaration uses 'sorry'" > current_sorries.txt
 
-# Check style/linter warnings (529 expected with strict linting enabled)
+# Check style/linter warnings
 lake build 2>&1 | grep -E "(warning:|error:)" | wc -l
 
 # Verify git status and recent changes
@@ -128,12 +128,9 @@ The project contains multiple implementation approaches with different complexit
 - `test_working.lean` - Tests for experimental approaches
 
 ### Current Proof Status
-- **526 Style Warnings**: Must be fixed first for clean code
-- **3 Remaining Sorries**:
-  1. `telescoping_series_fixed` at TelescopingSeriesFixed.lean:36
-  2. `factorial_dominates_exponential_eventually` at UniformSumHittingTime.lean:213
-  3. `inv_factorial_geometric_convergence` at UniformSumHittingTime.lean:250
-- **Build**: Succeeds with 529 warnings (fix 526 style warnings first, then 3 sorries)
+- **Style Warnings**: @current_warnings.txt
+- **Remaining Sorries**: @current_sorries.txt
+- **Build**: Succeeds with warnings
 - **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = rexp 1`
 - **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`, `linter.all = true`)
 - **Current Priority**: Achieve zero style warnings before proceeding with mathematical proofs
@@ -184,19 +181,10 @@ weak.linter.mathlibStandardSet = true
 linter.all = true
 ```
 
-**Warning Categories (529 total):**
-- 526 style/linter warnings to fix first:
-  - 36 docstring format warnings (`doc-strings should start with a single space or newline`)
-  - 19 line length warnings (`line exceeds the 100 character limit`)
-  - 9 command position warnings (`starts on column X`)
-  - 6 deprecated tactic warnings (`cases' tactic is discouraged`)
-  - ~456 other style/import warnings
-- 3 `sorry` declarations (fix after all style warnings)
-
 **Development Priority: Fix All Style Warnings First**
 
 This project prioritizes clean code and mathlib4 compliance:
-1. **First**: Fix all 526 style warnings to achieve mathlib4 standards
+1. **First**: Fix all style warnings to achieve mathlib4 standards
 2. **Then**: Focus on resolving the 3 sorry declarations
 3. **Goal**: Clean build with only sorry warnings before mathematical work
 

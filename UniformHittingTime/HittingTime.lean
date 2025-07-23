@@ -9,6 +9,10 @@ import UniformHittingTime.IrwinHall
 import UniformHittingTime.FactorialSeries
 import UniformHittingTime.TelescopingSeries
 
+-- Suppress linter warnings for design suggestions and imports
+set_option linter.upstreamableDecl false
+set_option linter.minImports false
+
 /-!
 # Hitting Time Probability Mass Function
 

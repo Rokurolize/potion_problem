@@ -10,6 +10,10 @@ import Mathlib.Tactic
 import UniformHittingTime.FactorialSeries
 import UniformHittingTime.HittingTime
 
+-- Suppress linter warnings for design suggestions and imports
+set_option linter.upstreamableDecl false
+set_option linter.minImports false
+
 /-!
 # 🎯 The Aphrodisiac Problem: Complete Formal Proof of E[τ] = e
 

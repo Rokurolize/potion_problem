@@ -1,0 +1,97 @@
+warning: UniformHittingTime/FactorialSeries.lean:10:0: Imports increased by 328 to
+warning: UniformHittingTime/FactorialSeries.lean:40:2: source context
+info: UniformHittingTime/FactorialSeries.lean:38:8: 'summable_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:40:2: warning: source context
+warning: UniformHittingTime/FactorialSeries.lean:51:2: source context
+info: UniformHittingTime/FactorialSeries.lean:49:8: 'inv_factorial_tendsto_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:51:2: warning: source context
+warning: UniformHittingTime/FactorialSeries.lean:60:2: source context
+info: UniformHittingTime/FactorialSeries.lean:58:6: 'factorial_dominates_exponential' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:60:2: warning: source context
+warning: UniformHittingTime/FactorialSeries.lean:78:2: source context
+info: UniformHittingTime/FactorialSeries.lean:76:6: 'inv_factorial_ratio_tendsto_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:78:2: warning: source context
+warning: UniformHittingTime/IrwinHall.lean:10:0: Imports increased by 328 to
+warning: UniformHittingTime/IrwinHall.lean:28:85: source context
+warning: UniformHittingTime/IrwinHall.lean:53:2: source context
+info: UniformHittingTime/IrwinHall.lean:49:18: 'irwin_hall_cdf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:53:2: warning: source context
+warning: UniformHittingTime/IrwinHall.lean:59:1: source context
+info: UniformHittingTime/IrwinHall.lean:58:8: 'volume_standard_simplex' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:59:1: warning: source context
+warning: UniformHittingTime/IrwinHall.lean:81:1: source context
+info: UniformHittingTime/IrwinHall.lean:80:8: 'irwin_hall_prob_less_than_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:81:1: warning: source context
+warning: UniformHittingTime/IrwinHall.lean:117:1: source context
+info: UniformHittingTime/IrwinHall.lean:116:8: 'prob_sum_less_than_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:117:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:10:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeries.lean:88:3: This should not have happened: please report this issue!
+warning: UniformHittingTime/TelescopingSeries.lean:88:3: Formatted string:
+warning: UniformHittingTime/TelescopingSeries.lean:82:2: source context
+info: UniformHittingTime/TelescopingSeries.lean:79:8: 'telescoping_series_sum_v4_12_0' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:88:3: warning: This should not have happened: please report this issue!
+info: UniformHittingTime/TelescopingSeries.lean:79:8: 'telescoping_series_sum_v4_12_0' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:88:3: warning: Formatted string:
+info: UniformHittingTime/TelescopingSeries.lean:79:8: 'telescoping_series_sum_v4_12_0' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:82:2: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:123:20: source context
+info: UniformHittingTime/TelescopingSeries.lean:119:8: 'pmf_telescoping_insight' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:123:20: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:132:1: source context
+info: UniformHittingTime/TelescopingSeries.lean:130:6: 'factorial_diff_eq_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:132:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:137:2: source context
+info: UniformHittingTime/TelescopingSeries.lean:136:6: 'summable_exp_tail' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:137:2: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:234:1: source context
+info: UniformHittingTime/TelescopingSeries.lean:232:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:234:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:315:2: source context
+info: UniformHittingTime/TelescopingSeries.lean:313:6: 'factorial_diff_abs_bound' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:315:2: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:352:3: source context
+info: UniformHittingTime/TelescopingSeries.lean:350:6: 'pmf_partial_sums_tend_to_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:352:3: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:428:1: source context
+info: UniformHittingTime/TelescopingSeries.lean:427:6: 'telescoping_first_terms' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:428:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:434:1: source context
+info: UniformHittingTime/TelescopingSeries.lean:433:6: 'pmf_first_values' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:434:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:454:2: source context
+info: UniformHittingTime/TelescopingSeries.lean:453:6: 'summable_shifted_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:454:2: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:498:1: source context
+info: UniformHittingTime/TelescopingSeries.lean:497:6: 'telescoping_limit_insight' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:498:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:510:1: source context
+info: UniformHittingTime/TelescopingSeries.lean:508:6: 'summable_factorial_diff' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:510:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:532:2: source context
+info: UniformHittingTime/TelescopingSeries.lean:530:8: 'factorial_telescoping_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:532:2: warning: source context
+warning: UniformHittingTime/HittingTime.lean:13:0: Imports increased by 328 to
+warning: UniformHittingTime/HittingTime.lean:30:66: source context
+warning: UniformHittingTime/HittingTime.lean:43:2: source context
+info: UniformHittingTime/HittingTime.lean:40:8: 'hitting_time_telescoping' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:43:2: warning: source context
+warning: UniformHittingTime/HittingTime.lean:50:2: source context
+info: UniformHittingTime/HittingTime.lean:48:6: 'telescoping_diff_simplification' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:50:2: warning: source context
+warning: UniformHittingTime/HittingTime.lean:63:1: source context
+info: UniformHittingTime/HittingTime.lean:61:8: 'hitting_time_pmf_formula' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:63:1: warning: source context
+warning: UniformHittingTime/HittingTime.lean:80:2: source context
+info: UniformHittingTime/HittingTime.lean:78:8: 'hitting_time_telescoping_property' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:80:2: warning: source context
+warning: UniformHittingTime/HittingTime.lean:118:11: source context
+info: UniformHittingTime/HittingTime.lean:116:8: 'hitting_time_pmf_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:118:11: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:14:0: Imports increased by 328 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:20:90: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:97:1: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:96:18: 'expected_hitting_time' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:97:1: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:102:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:101:6: 'exp_one_eq_tsum_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:102:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:119:1: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:118:8: 'hitting_time_expectation' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:119:1: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:125:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:124:6: 'irwin_hall_core' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:125:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:130:29: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:132:6: 'hitting_time_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:130:29: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:146:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:144:6: 'telescoping_property' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:146:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:156:0: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:160:6: 'summable_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:156:0: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:165:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:164:8: 'prob_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:165:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:171:76: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:173:18: 'subtypeEquiv' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:171:76: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:185:31: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:185:6: 'reindex_series' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:185:31: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:193:6: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:194:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:193:6: 'summable_hitting_time' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:194:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:257:8: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:272:3: This should not have happened: please report this issue!
+warning: UniformHittingTime/UniformSumHittingTime.lean:272:3: Formatted string:
+warning: UniformHittingTime/UniformSumHittingTime.lean:258:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:257:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:272:3: warning: This should not have happened: please report this issue!
+info: UniformHittingTime/UniformSumHittingTime.lean:257:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:272:3: warning: Formatted string:
+info: UniformHittingTime/UniformSumHittingTime.lean:257:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:258:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:460:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:494:8: 'uniform_sum_hitting_time_expectation' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:460:2: warning: source context
+warning: UniformHittingTime.lean:10:0: Imports increased by 328 to

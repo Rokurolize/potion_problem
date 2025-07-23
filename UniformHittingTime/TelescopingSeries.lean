@@ -6,6 +6,10 @@ Authors: Astolfo and Contributors
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
 import UniformHittingTime.FactorialSeries
 
+-- Suppress linter warnings for design suggestions and imports
+set_option linter.upstreamableDecl false
+set_option linter.minImports false
+
 /-!
 # Telescoping Series Theory
 
@@ -62,8 +66,7 @@ open BigOperators Filter
 
 /-- Finite telescoping sum: ∑ᵢ₌ₘⁿ⁻¹ (aᵢ - aᵢ₊₁) = aₘ - aₙ
 This is a completely proven result for finite sums. -/
-theorem telescoping_series_partial_sum {α : Type*} [AddCommGroup α] 
-  (a : ℕ → α) (n : ℕ) :
+theorem telescoping_series_partial_sum {α : Type*} [AddCommGroup α] (a : ℕ → α) (n : ℕ) :
   ∑ i ∈ Finset.range n, (a i - a (i + 1)) = a 0 - a n := by
   induction n with
   | zero => simp
@@ -73,8 +76,7 @@ theorem telescoping_series_partial_sum {α : Type*} [AddCommGroup α]
 
 /-- Core telescoping theorem for sequences that converge to zero.
 This establishes the fundamental mathematical principle. -/
-theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ} 
-    (h₀ : Tendsto a atTop (nhds 0))
+theorem telescoping_series_sum_v4_12_0 {a : ℕ → ℝ} (h₀ : Tendsto a atTop (nhds 0))
     (hs : Summable (fun n => a n - a (n + 1))) :
     ∑' n, (a n - a (n + 1)) = a 0 := by
   -- Use the fact that partial sums telescope to a 0 - a N

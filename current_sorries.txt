@@ -1,0 +1,6 @@
+warning: UniformHittingTime/UniformSumHittingTime.lean:193:6: declaration uses 'sorry'
+warning: UniformHittingTime/UniformSumHittingTime.lean:257:8: declaration uses 'sorry'
+                                -- This follows from bijective reindexing k = n-2sorry
+                sorry -- IMPLEMENTATION: Apply bijection theorem to transform indices
+                                -- This follows from bijective reindexing k = n-2sorry
+                sorry -- IMPLEMENTATION: Apply bijection theorem to transform indices

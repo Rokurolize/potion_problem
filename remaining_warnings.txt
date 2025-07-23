@@ -1,0 +1,390 @@
+warning: UniformHittingTime/IrwinHall.lean:15:0: Imports increased by 328 to
+warning: UniformHittingTime/IrwinHall.lean:17:0: Imports increased by 328 to
+warning: UniformHittingTime/IrwinHall.lean:30:85: source context
+warning: UniformHittingTime/IrwinHall.lean:40:0: Imports increased by 328 to
+warning: UniformHittingTime/IrwinHall.lean:42:0: Imports increased by 1971 to
+warning: UniformHittingTime/IrwinHall.lean:44:0: Imports increased by 2127 to
+warning: UniformHittingTime/IrwinHall.lean:55:2: source context
+info: UniformHittingTime/IrwinHall.lean:51:18: 'irwin_hall_cdf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:44:0: warning: Imports increased by 2127 to
+info: UniformHittingTime/IrwinHall.lean:51:18: 'irwin_hall_cdf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:55:2: warning: source context
+warning: UniformHittingTime/IrwinHall.lean:57:0: Imports increased by 1959 to
+warning: UniformHittingTime/IrwinHall.lean:61:1: source context
+info: UniformHittingTime/IrwinHall.lean:60:8: 'volume_standard_simplex' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:57:0: warning: Imports increased by 1959 to
+info: UniformHittingTime/IrwinHall.lean:60:8: 'volume_standard_simplex' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:61:1: warning: source context
+warning: UniformHittingTime/IrwinHall.lean:68:0: Imports increased by 1959 to
+info: UniformHittingTime/IrwinHall.lean:71:6: 'floor_one_eq_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:68:0: warning: Imports increased by 1959 to
+warning: UniformHittingTime/IrwinHall.lean:74:0: Imports increased by 1958 to
+warning: UniformHittingTime/IrwinHall.lean:76:6: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+info: UniformHittingTime/IrwinHall.lean:76:6: 'zero_pow_eq_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:74:0: warning: Imports increased by 1958 to
+info: UniformHittingTime/IrwinHall.lean:76:6: 'zero_pow_eq_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:76:6: warning: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+warning: UniformHittingTime/IrwinHall.lean:79:0: Imports increased by 2925 to
+warning: UniformHittingTime/IrwinHall.lean:83:1: source context
+info: UniformHittingTime/IrwinHall.lean:82:8: 'irwin_hall_prob_less_than_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:79:0: warning: Imports increased by 2925 to
+info: UniformHittingTime/IrwinHall.lean:82:8: 'irwin_hall_prob_less_than_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:83:1: warning: source context
+warning: UniformHittingTime/IrwinHall.lean:115:0: Imports increased by 2926 to
+warning: UniformHittingTime/IrwinHall.lean:119:1: source context
+info: UniformHittingTime/IrwinHall.lean:118:8: 'prob_sum_less_than_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:115:0: warning: Imports increased by 2926 to
+info: UniformHittingTime/IrwinHall.lean:118:8: 'prob_sum_less_than_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/IrwinHall.lean:119:1: warning: source context
+warning: UniformHittingTime/IrwinHall.lean:127:0: Imports increased by 328 to
+warning: UniformHittingTime/IrwinHall.lean:6:7: unneeded import 'Mathlib.Data.Real.Basic'
+warning: UniformHittingTime/IrwinHall.lean:7:7: unneeded import 'Mathlib.Data.Nat.Factorial.Basic'
+warning: UniformHittingTime/IrwinHall.lean:10:7: unneeded import 'Mathlib.Algebra.BigOperators.Group.Finset.Basic'
+warning: UniformHittingTime/IrwinHall.lean:12:7: unneeded import 'Mathlib.Analysis.SpecialFunctions.Pow.Real'
+warning: UniformHittingTime/IrwinHall.lean:11:7: unneeded import 'Mathlib.Topology.Algebra.InfiniteSum.Basic'
+warning: UniformHittingTime/IrwinHall.lean:9:7: unneeded import 'Mathlib.Data.Finset.Basic'
+warning: UniformHittingTime/IrwinHall.lean:8:7: unneeded import 'Mathlib.Data.Nat.Choose.Basic'
+warning: UniformHittingTime/IrwinHall.lean:13:7: unneeded import 'Mathlib.Tactic'
+warning: UniformHittingTime/IrwinHall.lean:128:0: Imports increased by 328 to
+warning: UniformHittingTime/FactorialSeries.lean:14:0: Imports increased by 1959 to
+warning: UniformHittingTime/FactorialSeries.lean:16:0: Imports increased by 328 to
+warning: UniformHittingTime/FactorialSeries.lean:34:0: Imports increased by 328 to
+warning: UniformHittingTime/FactorialSeries.lean:36:0: Imports increased by 1959 to
+warning: UniformHittingTime/FactorialSeries.lean:38:0: Imports increased by 2914 to
+warning: UniformHittingTime/FactorialSeries.lean:41:2: source context
+info: UniformHittingTime/FactorialSeries.lean:39:8: 'summable_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:38:0: warning: Imports increased by 2914 to
+info: UniformHittingTime/FactorialSeries.lean:39:8: 'summable_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:41:2: warning: source context
+warning: UniformHittingTime/FactorialSeries.lean:49:0: Imports increased by 2914 to
+warning: UniformHittingTime/FactorialSeries.lean:52:2: source context
+info: UniformHittingTime/FactorialSeries.lean:50:8: 'inv_factorial_tendsto_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:49:0: warning: Imports increased by 2914 to
+info: UniformHittingTime/FactorialSeries.lean:50:8: 'inv_factorial_tendsto_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:52:2: warning: source context
+warning: UniformHittingTime/FactorialSeries.lean:57:0: Imports increased by 2913 to
+warning: UniformHittingTime/FactorialSeries.lean:61:2: source context
+warning: UniformHittingTime/FactorialSeries.lean:59:6: Consider moving this declaration to the module Mathlib.Analysis.SpecificLimits.Normed.
+info: UniformHittingTime/FactorialSeries.lean:59:6: 'factorial_dominates_exponential' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:57:0: warning: Imports increased by 2913 to
+info: UniformHittingTime/FactorialSeries.lean:59:6: 'factorial_dominates_exponential' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:61:2: warning: source context
+info: UniformHittingTime/FactorialSeries.lean:59:6: 'factorial_dominates_exponential' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:59:6: warning: Consider moving this declaration to the module Mathlib.Analysis.SpecificLimits.Normed.
+warning: UniformHittingTime/FactorialSeries.lean:84:4: 'simp [factorial_succ, div_div]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/FactorialSeries.lean:76:0: Imports increased by 2789 to
+warning: UniformHittingTime/FactorialSeries.lean:79:2: source context
+warning: UniformHittingTime/FactorialSeries.lean:77:6: Consider moving this declaration to the module Mathlib.Analysis.SpecificLimits.Basic.
+info: UniformHittingTime/FactorialSeries.lean:77:6: 'inv_factorial_ratio_tendsto_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:84:4: warning: 'simp [factorial_succ, div_div]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/FactorialSeries.lean:77:6: 'inv_factorial_ratio_tendsto_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:76:0: warning: Imports increased by 2789 to
+info: UniformHittingTime/FactorialSeries.lean:77:6: 'inv_factorial_ratio_tendsto_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:79:2: warning: source context
+info: UniformHittingTime/FactorialSeries.lean:77:6: 'inv_factorial_ratio_tendsto_zero' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/FactorialSeries.lean:77:6: warning: Consider moving this declaration to the module Mathlib.Analysis.SpecificLimits.Basic.
+warning: UniformHittingTime/FactorialSeries.lean:91:0: Imports increased by 328 to
+warning: UniformHittingTime/FactorialSeries.lean:7:7: unneeded import 'Mathlib.Data.Real.Basic'
+warning: UniformHittingTime/FactorialSeries.lean:8:7: unneeded import 'Mathlib.Data.Nat.Factorial.Basic'
+warning: UniformHittingTime/FactorialSeries.lean:10:7: unneeded import 'Mathlib.Data.Nat.Factorial.Cast'
+warning: UniformHittingTime/FactorialSeries.lean:12:7: unneeded import 'Mathlib.Order.Filter.AtTopBot.Basic'
+warning: UniformHittingTime/FactorialSeries.lean:11:7: unneeded import 'Mathlib.Analysis.SpecificLimits.Basic'
+warning: UniformHittingTime/FactorialSeries.lean:9:7: unneeded import 'Mathlib.Analysis.SpecialFunctions.Exponential'
+warning: UniformHittingTime/FactorialSeries.lean:92:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeries.lean:16:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeries.lean:66:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeries.lean:68:0: Imports increased by 1576 to
+warning: UniformHittingTime/TelescopingSeries.lean:72:68: remove line break in the source
+warning: UniformHittingTime/TelescopingSeries.lean:72:68: Formatted string:
+warning: UniformHittingTime/TelescopingSeries.lean:70:0: Imports increased by 1922 to
+warning: UniformHittingTime/TelescopingSeries.lean:73:3: source context
+info: UniformHittingTime/TelescopingSeries.lean:72:8: 'telescoping_series_partial_sum' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:72:68: warning: remove line break in the source
+info: UniformHittingTime/TelescopingSeries.lean:72:8: 'telescoping_series_partial_sum' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:72:68: warning: Formatted string:
+info: UniformHittingTime/TelescopingSeries.lean:72:8: 'telescoping_series_partial_sum' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:70:0: warning: Imports increased by 1922 to
+info: UniformHittingTime/TelescopingSeries.lean:72:8: 'telescoping_series_partial_sum' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:73:3: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:83:51: remove line break in the source
+warning: UniformHittingTime/TelescopingSeries.lean:83:51: Formatted string:
+warning: UniformHittingTime/TelescopingSeries.lean:93:3: This should not have happened: please report this issue!
+warning: UniformHittingTime/TelescopingSeries.lean:93:3: Formatted string:
+warning: UniformHittingTime/TelescopingSeries.lean:81:0: Imports increased by 2625 to
+warning: UniformHittingTime/TelescopingSeries.lean:84:3: source context
+info: UniformHittingTime/TelescopingSeries.lean:83:8: 'telescoping_series_sum_v4_12_0' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:83:51: warning: remove line break in the source
+info: UniformHittingTime/TelescopingSeries.lean:83:8: 'telescoping_series_sum_v4_12_0' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:83:51: warning: Formatted string:
+info: UniformHittingTime/TelescopingSeries.lean:83:8: 'telescoping_series_sum_v4_12_0' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:93:3: warning: This should not have happened: please report this issue!
+info: UniformHittingTime/TelescopingSeries.lean:83:8: 'telescoping_series_sum_v4_12_0' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:93:3: warning: Formatted string:
+info: UniformHittingTime/TelescopingSeries.lean:83:8: 'telescoping_series_sum_v4_12_0' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:81:0: warning: Imports increased by 2625 to
+info: UniformHittingTime/TelescopingSeries.lean:83:8: 'telescoping_series_sum_v4_12_0' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:84:3: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:115:0: Imports increased by 2925 to
+info: UniformHittingTime/TelescopingSeries.lean:117:8: 'factorial_identity' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:115:0: warning: Imports increased by 2925 to
+warning: UniformHittingTime/TelescopingSeries.lean:127:4: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+warning: UniformHittingTime/TelescopingSeries.lean:122:0: Imports increased by 2925 to
+warning: UniformHittingTime/TelescopingSeries.lean:128:12: source context
+info: UniformHittingTime/TelescopingSeries.lean:124:8: 'pmf_telescoping_insight' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:127:4: warning: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+info: UniformHittingTime/TelescopingSeries.lean:124:8: 'pmf_telescoping_insight' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:122:0: warning: Imports increased by 2925 to
+info: UniformHittingTime/TelescopingSeries.lean:124:8: 'pmf_telescoping_insight' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:128:12: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:133:0: Imports increased by 1958 to
+warning: UniformHittingTime/TelescopingSeries.lean:137:1: source context
+warning: UniformHittingTime/TelescopingSeries.lean:135:6: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+info: UniformHittingTime/TelescopingSeries.lean:135:6: 'factorial_diff_eq_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:133:0: warning: Imports increased by 1958 to
+info: UniformHittingTime/TelescopingSeries.lean:135:6: 'factorial_diff_eq_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:137:1: warning: source context
+info: UniformHittingTime/TelescopingSeries.lean:135:6: 'factorial_diff_eq_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:135:6: warning: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+warning: UniformHittingTime/TelescopingSeries.lean:139:0: Imports increased by 3158 to
+warning: UniformHittingTime/TelescopingSeries.lean:142:2: source context
+warning: UniformHittingTime/TelescopingSeries.lean:141:6: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+info: UniformHittingTime/TelescopingSeries.lean:141:6: 'summable_exp_tail' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:139:0: warning: Imports increased by 3158 to
+info: UniformHittingTime/TelescopingSeries.lean:141:6: 'summable_exp_tail' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:142:2: warning: source context
+info: UniformHittingTime/TelescopingSeries.lean:141:6: 'summable_exp_tail' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:141:6: warning: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+warning: UniformHittingTime/TelescopingSeries.lean:214:0: Imports increased by 1958 to
+warning: UniformHittingTime/TelescopingSeries.lean:216:6: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+info: UniformHittingTime/TelescopingSeries.lean:216:6: 'factorial_series_reindex_equiv' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:214:0: warning: Imports increased by 1958 to
+info: UniformHittingTime/TelescopingSeries.lean:216:6: 'factorial_series_reindex_equiv' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:216:6: warning: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+warning: UniformHittingTime/TelescopingSeries.lean:221:0: Imports increased by 1958 to
+warning: UniformHittingTime/TelescopingSeries.lean:223:6: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+info: UniformHittingTime/TelescopingSeries.lean:223:6: 'factorial_series_reindex' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:221:0: warning: Imports increased by 1958 to
+info: UniformHittingTime/TelescopingSeries.lean:223:6: 'factorial_series_reindex' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:223:6: warning: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+warning: UniformHittingTime/TelescopingSeries.lean:275:6: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:275:6: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:275:6: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:275:6: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:275:6: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:275:6: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:275:6: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:295:6: 'simp [Finset.mem_singleton] at hb' is a flexible tactic modifying 'hb'…
+warning: UniformHittingTime/TelescopingSeries.lean:235:0: Imports increased by 2093 to
+warning: UniformHittingTime/TelescopingSeries.lean:239:1: source context
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:275:6: warning: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:275:6: warning: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:275:6: warning: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:275:6: warning: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:275:6: warning: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:275:6: warning: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:275:6: warning: 'simp [Finset.mem_Ico, Finset.mem_union, Finset.mem_singleton]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:295:6: warning: 'simp [Finset.mem_singleton] at hb' is a flexible tactic modifying 'hb'…
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:235:0: warning: Imports increased by 2093 to
+info: UniformHittingTime/TelescopingSeries.lean:237:6: 'telescoping_partial_sum_explicit' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:239:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:327:8: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+warning: UniformHittingTime/TelescopingSeries.lean:339:6: 'simp [one_mul]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:316:0: Imports increased by 1959 to
+warning: UniformHittingTime/TelescopingSeries.lean:320:2: source context
+info: UniformHittingTime/TelescopingSeries.lean:318:6: 'factorial_diff_abs_bound' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:327:8: warning: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+info: UniformHittingTime/TelescopingSeries.lean:318:6: 'factorial_diff_abs_bound' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:339:6: warning: 'simp [one_mul]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:318:6: 'factorial_diff_abs_bound' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:316:0: warning: Imports increased by 1959 to
+info: UniformHittingTime/TelescopingSeries.lean:318:6: 'factorial_diff_abs_bound' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:320:2: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:368:4: 'simp at hn' is a flexible tactic modifying 'hn'…
+warning: UniformHittingTime/TelescopingSeries.lean:385:6: 'simp at hn' is a flexible tactic modifying 'hn'…
+warning: UniformHittingTime/TelescopingSeries.lean:353:0: Imports increased by 2830 to
+warning: UniformHittingTime/TelescopingSeries.lean:357:3: source context
+warning: UniformHittingTime/TelescopingSeries.lean:355:6: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+info: UniformHittingTime/TelescopingSeries.lean:355:6: 'pmf_partial_sums_tend_to_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:368:4: warning: 'simp at hn' is a flexible tactic modifying 'hn'…
+info: UniformHittingTime/TelescopingSeries.lean:355:6: 'pmf_partial_sums_tend_to_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:385:6: warning: 'simp at hn' is a flexible tactic modifying 'hn'…
+info: UniformHittingTime/TelescopingSeries.lean:355:6: 'pmf_partial_sums_tend_to_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:353:0: warning: Imports increased by 2830 to
+info: UniformHittingTime/TelescopingSeries.lean:355:6: 'pmf_partial_sums_tend_to_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:357:3: warning: source context
+info: UniformHittingTime/TelescopingSeries.lean:355:6: 'pmf_partial_sums_tend_to_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:355:6: warning: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+warning: UniformHittingTime/TelescopingSeries.lean:429:0: Imports increased by 1638 to
+warning: UniformHittingTime/TelescopingSeries.lean:432:1: source context
+info: UniformHittingTime/TelescopingSeries.lean:431:6: 'telescoping_first_terms' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:429:0: warning: Imports increased by 1638 to
+info: UniformHittingTime/TelescopingSeries.lean:431:6: 'telescoping_first_terms' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:432:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:435:0: Imports increased by 1631 to
+warning: UniformHittingTime/TelescopingSeries.lean:438:1: source context
+info: UniformHittingTime/TelescopingSeries.lean:437:6: 'pmf_first_values' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:435:0: warning: Imports increased by 1631 to
+info: UniformHittingTime/TelescopingSeries.lean:437:6: 'pmf_first_values' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:438:1: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:444:0: Imports increased by 1631 to
+info: UniformHittingTime/TelescopingSeries.lean:448:6: 'pmf_telescoping_examples' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:444:0: warning: Imports increased by 1631 to
+warning: UniformHittingTime/TelescopingSeries.lean:455:0: Imports increased by 2830 to
+warning: UniformHittingTime/TelescopingSeries.lean:458:2: source context
+warning: UniformHittingTime/TelescopingSeries.lean:457:6: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+info: UniformHittingTime/TelescopingSeries.lean:457:6: 'summable_shifted_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:455:0: warning: Imports increased by 2830 to
+info: UniformHittingTime/TelescopingSeries.lean:457:6: 'summable_shifted_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:458:2: warning: source context
+info: UniformHittingTime/TelescopingSeries.lean:457:6: 'summable_shifted_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:457:6: warning: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+warning: UniformHittingTime/TelescopingSeries.lean:498:0: Imports increased by 1200 to
+warning: UniformHittingTime/TelescopingSeries.lean:502:1: source context
+warning: UniformHittingTime/TelescopingSeries.lean:501:6: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+info: UniformHittingTime/TelescopingSeries.lean:501:6: 'telescoping_limit_insight' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:498:0: warning: Imports increased by 1200 to
+info: UniformHittingTime/TelescopingSeries.lean:501:6: 'telescoping_limit_insight' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:502:1: warning: source context
+info: UniformHittingTime/TelescopingSeries.lean:501:6: 'telescoping_limit_insight' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:501:6: warning: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+warning: UniformHittingTime/TelescopingSeries.lean:509:0: Imports increased by 807 to
+warning: UniformHittingTime/TelescopingSeries.lean:514:1: source context
+warning: UniformHittingTime/TelescopingSeries.lean:512:6: Consider moving this declaration to the module Mathlib.Analysis.Normed.Group.InfiniteSum.
+info: UniformHittingTime/TelescopingSeries.lean:512:6: 'summable_factorial_diff' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:509:0: warning: Imports increased by 807 to
+info: UniformHittingTime/TelescopingSeries.lean:512:6: 'summable_factorial_diff' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:514:1: warning: source context
+info: UniformHittingTime/TelescopingSeries.lean:512:6: 'summable_factorial_diff' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:512:6: warning: Consider moving this declaration to the module Mathlib.Analysis.Normed.Group.InfiniteSum.
+warning: UniformHittingTime/TelescopingSeries.lean:569:4: 'simp at hn' is a flexible tactic modifying 'hn'…
+warning: UniformHittingTime/TelescopingSeries.lean:571:4: 'simp [h_ge]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:691:12: 'simp [Finset.mem_sdiff]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/TelescopingSeries.lean:699:12: 'simp at hn' is a flexible tactic modifying 'hn'…
+warning: UniformHittingTime/TelescopingSeries.lean:532:0: Imports increased by 1193 to
+warning: UniformHittingTime/TelescopingSeries.lean:536:2: source context
+info: UniformHittingTime/TelescopingSeries.lean:534:8: 'factorial_telescoping_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:569:4: warning: 'simp at hn' is a flexible tactic modifying 'hn'…
+info: UniformHittingTime/TelescopingSeries.lean:534:8: 'factorial_telescoping_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:571:4: warning: 'simp [h_ge]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:534:8: 'factorial_telescoping_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:691:12: warning: 'simp [Finset.mem_sdiff]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/TelescopingSeries.lean:534:8: 'factorial_telescoping_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:699:12: warning: 'simp at hn' is a flexible tactic modifying 'hn'…
+info: UniformHittingTime/TelescopingSeries.lean:534:8: 'factorial_telescoping_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:532:0: warning: Imports increased by 1193 to
+info: UniformHittingTime/TelescopingSeries.lean:534:8: 'factorial_telescoping_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:536:2: warning: source context
+warning: UniformHittingTime/TelescopingSeries.lean:724:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeries.lean:730:0: Imports increased by 80 to
+info: UniformHittingTime/TelescopingSeries.lean:730:0: /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:730:0: warning: Imports increased by 80 to
+warning: UniformHittingTime/TelescopingSeries.lean:744:6: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+info: UniformHittingTime/TelescopingSeries.lean:744:6: 'comparison_bound_n_3' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:744:6: warning: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+warning: UniformHittingTime/TelescopingSeries.lean:747:6: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+info: UniformHittingTime/TelescopingSeries.lean:747:6: 'comparison_bound_n_4' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeries.lean:747:6: warning: Consider moving this declaration to the module Mathlib.Data.Real.Basic.
+warning: UniformHittingTime/TelescopingSeries.lean:749:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeries.lean:12:7: unneeded import 'Mathlib.Analysis.Normed.Group.Basic'
+warning: UniformHittingTime/TelescopingSeries.lean:9:7: unneeded import 'Mathlib.Data.Real.Basic'
+warning: UniformHittingTime/TelescopingSeries.lean:11:7: unneeded import 'Mathlib.Data.Nat.Factorial.Basic'
+warning: UniformHittingTime/TelescopingSeries.lean:8:7: unneeded import 'Mathlib.Algebra.BigOperators.Group.Finset.Basic'
+warning: UniformHittingTime/TelescopingSeries.lean:6:7: unneeded import 'Mathlib.Topology.Algebra.InfiniteSum.Basic'
+warning: UniformHittingTime/TelescopingSeries.lean:10:7: unneeded import 'Mathlib.Data.Finset.Basic'
+warning: UniformHittingTime/TelescopingSeries.lean:7:7: unneeded import 'Mathlib.Topology.Algebra.InfiniteSum.NatInt'
+warning: UniformHittingTime/TelescopingSeries.lean:14:7: unneeded import 'UniformHittingTime.FactorialSeries'
+warning: UniformHittingTime/TelescopingSeries.lean:13:7: unneeded import 'Mathlib.Analysis.Normed.Group.InfiniteSum'
+warning: UniformHittingTime/TelescopingSeries.lean:750:0: Imports increased by 328 to
+warning: UniformHittingTime/HittingTime.lean:13:0: Imports increased by 328 to
+warning: UniformHittingTime/HittingTime.lean:27:66: source context
+warning: UniformHittingTime/HittingTime.lean:31:0: Imports increased by 328 to
+warning: UniformHittingTime/HittingTime.lean:33:0: Imports increased by 1958 to
+warning: UniformHittingTime/HittingTime.lean:35:0: Imports increased by 1959 to
+warning: UniformHittingTime/HittingTime.lean:40:2: source context
+info: UniformHittingTime/HittingTime.lean:37:8: 'hitting_time_telescoping' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:35:0: warning: Imports increased by 1959 to
+info: UniformHittingTime/HittingTime.lean:37:8: 'hitting_time_telescoping' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:40:2: warning: source context
+warning: UniformHittingTime/HittingTime.lean:49:4: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+warning: UniformHittingTime/HittingTime.lean:43:0: Imports increased by 1961 to
+warning: UniformHittingTime/HittingTime.lean:47:2: source context
+info: UniformHittingTime/HittingTime.lean:45:6: 'telescoping_diff_simplification' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:49:4: warning: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+info: UniformHittingTime/HittingTime.lean:45:6: 'telescoping_diff_simplification' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:43:0: warning: Imports increased by 1961 to
+info: UniformHittingTime/HittingTime.lean:45:6: 'telescoping_diff_simplification' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:47:2: warning: source context
+warning: UniformHittingTime/HittingTime.lean:63:2: 'simp [h_not_le]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/HittingTime.lean:63:2: 'simp [h_not_le]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/HittingTime.lean:57:0: Imports increased by 2928 to
+warning: UniformHittingTime/HittingTime.lean:60:1: source context
+info: UniformHittingTime/HittingTime.lean:58:8: 'hitting_time_pmf_formula' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:63:2: warning: 'simp [h_not_le]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/HittingTime.lean:58:8: 'hitting_time_pmf_formula' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:63:2: warning: 'simp [h_not_le]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/HittingTime.lean:58:8: 'hitting_time_pmf_formula' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:57:0: warning: Imports increased by 2928 to
+info: UniformHittingTime/HittingTime.lean:58:8: 'hitting_time_pmf_formula' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:60:1: warning: source context
+warning: UniformHittingTime/HittingTime.lean:70:0: Imports increased by 1959 to
+info: UniformHittingTime/HittingTime.lean:72:8: 'hitting_time_pmf_zero_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:70:0: warning: Imports increased by 1959 to
+warning: UniformHittingTime/HittingTime.lean:83:4: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+warning: UniformHittingTime/HittingTime.lean:95:4: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+warning: UniformHittingTime/HittingTime.lean:76:0: Imports increased by 2925 to
+warning: UniformHittingTime/HittingTime.lean:79:2: source context
+info: UniformHittingTime/HittingTime.lean:77:8: 'hitting_time_telescoping_property' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:83:4: warning: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+info: UniformHittingTime/HittingTime.lean:77:8: 'hitting_time_telescoping_property' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:95:4: warning: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+info: UniformHittingTime/HittingTime.lean:77:8: 'hitting_time_telescoping_property' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:76:0: warning: Imports increased by 2925 to
+info: UniformHittingTime/HittingTime.lean:77:8: 'hitting_time_telescoping_property' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:79:2: warning: source context
+warning: UniformHittingTime/HittingTime.lean:111:0: Imports increased by 3160 to
+warning: UniformHittingTime/HittingTime.lean:114:11: source context
+info: UniformHittingTime/HittingTime.lean:112:8: 'hitting_time_pmf_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:111:0: warning: Imports increased by 3160 to
+info: UniformHittingTime/HittingTime.lean:112:8: 'hitting_time_pmf_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/HittingTime.lean:114:11: warning: source context
+warning: UniformHittingTime/HittingTime.lean:172:0: Imports increased by 328 to
+warning: UniformHittingTime/HittingTime.lean:6:7: unneeded import 'Mathlib.Data.Real.Basic'
+warning: UniformHittingTime/HittingTime.lean:7:7: unneeded import 'Mathlib.Data.Nat.Factorial.Basic'
+warning: UniformHittingTime/HittingTime.lean:10:7: unneeded import 'UniformHittingTime.FactorialSeries'
+warning: UniformHittingTime/HittingTime.lean:9:7: unneeded import 'UniformHittingTime.IrwinHall'
+warning: UniformHittingTime/HittingTime.lean:11:7: unneeded import 'UniformHittingTime.TelescopingSeries'
+warning: UniformHittingTime/HittingTime.lean:8:7: unneeded import 'Mathlib.Tactic'
+warning: UniformHittingTime/HittingTime.lean:173:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:18:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:29:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:31:0: Imports increased by 1959 to
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:33:0: Imports increased by 2462 to
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:37:2: source context
+info: UniformHittingTime/TelescopingSeriesFixed.lean:35:8: 'factorial_telescoping_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeriesFixed.lean:33:0: warning: Imports increased by 2462 to
+info: UniformHittingTime/TelescopingSeriesFixed.lean:35:8: 'factorial_telescoping_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/TelescopingSeriesFixed.lean:37:2: warning: source context
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:53:0: Imports increased by 328 to
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:10:7: unneeded import 'Mathlib.Data.Real.Basic'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:13:7: unneeded import 'Mathlib.Topology.Basic'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:8:7: unneeded import 'Mathlib.Algebra.BigOperators.Group.Finset.Basic'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:7:7: unneeded import 'Mathlib.Topology.Algebra.InfiniteSum.Basic'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:11:7: unneeded import 'Mathlib.Data.Finset.Basic'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:16:7: unneeded import 'UniformHittingTime.FactorialSeries'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:15:7: unneeded import 'Mathlib.Order.Filter.Basic'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:14:7: unneeded import 'Mathlib.Topology.MetricSpace.Basic'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:12:7: unneeded import 'Mathlib.Data.Set.Basic'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:9:7: unneeded import 'Mathlib.Analysis.SpecificLimits.Basic'
+warning: UniformHittingTime/TelescopingSeriesFixed.lean:54:0: Imports increased by 328 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:25:0: Imports increased by 328 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:28:90: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:89:0: Imports increased by 328 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:91:0: Imports increased by 1958 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:93:0: Imports increased by 1959 to
+info: UniformHittingTime/UniformSumHittingTime.lean:95:18: 'prob_sum_less_than_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:93:0: warning: Imports increased by 1959 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:97:0: Imports increased by 1959 to
+info: UniformHittingTime/UniformSumHittingTime.lean:99:18: 'prob_hitting_time' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:97:0: warning: Imports increased by 1959 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:103:0: Imports increased by 2358 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:105:1: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:104:18: 'expected_hitting_time' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:103:0: warning: Imports increased by 2358 to
+info: UniformHittingTime/UniformSumHittingTime.lean:104:18: 'expected_hitting_time' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:105:1: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:107:0: Imports increased by 3157 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:110:2: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:109:6: Consider moving this declaration to the module Mathlib.Analysis.SpecialFunctions.Exponential.
+info: UniformHittingTime/UniformSumHittingTime.lean:109:6: 'exp_one_eq_tsum_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:107:0: warning: Imports increased by 3157 to
+info: UniformHittingTime/UniformSumHittingTime.lean:109:6: 'exp_one_eq_tsum_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:110:2: warning: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:109:6: 'exp_one_eq_tsum_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:109:6: warning: Consider moving this declaration to the module Mathlib.Analysis.SpecialFunctions.Exponential.
+warning: UniformHittingTime/UniformSumHittingTime.lean:123:0: Imports increased by 3160 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:127:1: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:126:8: 'hitting_time_expectation' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:123:0: warning: Imports increased by 3160 to
+info: UniformHittingTime/UniformSumHittingTime.lean:126:8: 'hitting_time_expectation' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:127:1: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:130:0: Imports increased by 580 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:133:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:132:6: 'irwin_hall_core' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:130:0: warning: Imports increased by 580 to
+info: UniformHittingTime/UniformSumHittingTime.lean:132:6: 'irwin_hall_core' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:133:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:145:2: 'simp [h_not_le]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/UniformSumHittingTime.lean:145:2: 'simp [h_not_le]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/UniformSumHittingTime.lean:138:0: Imports increased by 4146 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:138:29: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:140:6: Consider moving this declaration to the module UniformHittingTime.HittingTime.
+info: UniformHittingTime/UniformSumHittingTime.lean:140:6: 'hitting_time_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:145:2: warning: 'simp [h_not_le]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/UniformSumHittingTime.lean:140:6: 'hitting_time_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:145:2: warning: 'simp [h_not_le]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/UniformSumHittingTime.lean:140:6: 'hitting_time_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:138:0: warning: Imports increased by 4146 to
+info: UniformHittingTime/UniformSumHittingTime.lean:140:6: 'hitting_time_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:138:29: warning: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:140:6: 'hitting_time_pmf' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:140:6: warning: Consider moving this declaration to the module UniformHittingTime.HittingTime.
+warning: UniformHittingTime/UniformSumHittingTime.lean:150:0: Imports increased by 4146 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:154:2: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:152:6: Consider moving this declaration to the module UniformHittingTime.HittingTime.
+info: UniformHittingTime/UniformSumHittingTime.lean:152:6: 'telescoping_property' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:150:0: warning: Imports increased by 4146 to
+info: UniformHittingTime/UniformSumHittingTime.lean:152:6: 'telescoping_property' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:154:2: warning: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:152:6: 'telescoping_property' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:152:6: warning: Consider moving this declaration to the module UniformHittingTime.HittingTime.
+warning: UniformHittingTime/UniformSumHittingTime.lean:162:0: Imports increased by 3158 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:164:0: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:168:6: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+info: UniformHittingTime/UniformSumHittingTime.lean:168:6: 'summable_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:162:0: warning: Imports increased by 3158 to
+info: UniformHittingTime/UniformSumHittingTime.lean:168:6: 'summable_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:164:0: warning: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:168:6: 'summable_inv_factorial' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:168:6: warning: Consider moving this declaration to the module UniformHittingTime.FactorialSeries.
+warning: UniformHittingTime/UniformSumHittingTime.lean:172:0: Imports increased by 4147 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:173:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:172:8: 'prob_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:172:0: warning: Imports increased by 4147 to
+info: UniformHittingTime/UniformSumHittingTime.lean:172:8: 'prob_sum_one' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:173:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:179:18: missing doc string for public def subtypeEquiv
+warning: UniformHittingTime/UniformSumHittingTime.lean:179:34: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:179:18: 'subtypeEquiv' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:179:18: warning: missing doc string for public def subtypeEquiv
+info: UniformHittingTime/UniformSumHittingTime.lean:179:18: 'subtypeEquiv' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:179:34: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:188:0: Imports increased by 295 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:188:31: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:188:6: 'reindex_series' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:188:0: warning: Imports increased by 295 to
+info: UniformHittingTime/UniformSumHittingTime.lean:188:6: 'reindex_series' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:188:31: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:211:6: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+warning: UniformHittingTime/UniformSumHittingTime.lean:206:6: 'simp [h]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/UniformSumHittingTime.lean:196:0: Imports increased by 1925 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:197:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:196:6: 'summable_hitting_time' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:211:6: warning: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+info: UniformHittingTime/UniformSumHittingTime.lean:196:6: 'summable_hitting_time' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:206:6: warning: 'simp [h]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/UniformSumHittingTime.lean:196:6: 'summable_hitting_time' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:196:0: warning: Imports increased by 1925 to
+info: UniformHittingTime/UniformSumHittingTime.lean:196:6: 'summable_hitting_time' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:197:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:268:3: This should not have happened: please report this issue!
+warning: UniformHittingTime/UniformSumHittingTime.lean:268:3: Formatted string:
+warning: UniformHittingTime/UniformSumHittingTime.lean:308:10: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+warning: UniformHittingTime/UniformSumHittingTime.lean:319:8: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+warning: UniformHittingTime/UniformSumHittingTime.lean:329:8: 'simp [h]' is a flexible tactic modifying '⊢'…
+warning: UniformHittingTime/UniformSumHittingTime.lean:253:0: Imports increased by 3 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:254:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:253:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:268:3: warning: This should not have happened: please report this issue!
+info: UniformHittingTime/UniformSumHittingTime.lean:253:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:268:3: warning: Formatted string:
+info: UniformHittingTime/UniformSumHittingTime.lean:253:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:308:10: warning: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+info: UniformHittingTime/UniformSumHittingTime.lean:253:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:319:8: warning: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+info: UniformHittingTime/UniformSumHittingTime.lean:253:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:329:8: warning: 'simp [h]' is a flexible tactic modifying '⊢'…
+info: UniformHittingTime/UniformSumHittingTime.lean:253:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:253:0: warning: Imports increased by 3 to
+info: UniformHittingTime/UniformSumHittingTime.lean:253:8: 'main_result' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:254:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:444:0: Imports increased by 3821 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:447:2: source context
+info: UniformHittingTime/UniformSumHittingTime.lean:481:8: 'uniform_sum_hitting_time_expectation' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:444:0: warning: Imports increased by 3821 to
+info: UniformHittingTime/UniformSumHittingTime.lean:481:8: 'uniform_sum_hitting_time_expectation' /home/ubuntu/workbench/projects/potion_problem/UniformHittingTime/UniformSumHittingTime.lean:447:2: warning: source context
+warning: UniformHittingTime/UniformSumHittingTime.lean:484:0: Imports increased by 328 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:486:0: Imports increased by 328 to
+warning: UniformHittingTime/UniformSumHittingTime.lean:23:7: unneeded import 'UniformHittingTime.TelescopingSeriesFixed'
+warning: UniformHittingTime/UniformSumHittingTime.lean:6:7: unneeded import 'Mathlib.Analysis.SpecialFunctions.Exp'
+warning: UniformHittingTime/UniformSumHittingTime.lean:22:7: unneeded import 'UniformHittingTime.HittingTime'
+warning: UniformHittingTime/UniformSumHittingTime.lean:10:7: unneeded import 'Mathlib.Data.Real.Basic'
+warning: UniformHittingTime/UniformSumHittingTime.lean:8:7: unneeded import 'Mathlib.Data.Complex.Exponential'
+warning: UniformHittingTime/UniformSumHittingTime.lean:14:7: unneeded import 'Mathlib.Topology.Algebra.InfiniteSum.Real'
+warning: UniformHittingTime/UniformSumHittingTime.lean:13:7: unneeded import 'Mathlib.Topology.Algebra.InfiniteSum.Basic'
+warning: UniformHittingTime/UniformSumHittingTime.lean:19:7: unneeded import 'UniformHittingTime.FactorialSeries'
+warning: UniformHittingTime/UniformSumHittingTime.lean:12:7: unneeded import 'Mathlib.Data.Nat.Cast.Field'
+warning: UniformHittingTime/UniformSumHittingTime.lean:16:7: unneeded import 'Mathlib.Order.Filter.Basic'
+warning: UniformHittingTime/UniformSumHittingTime.lean:11:7: unneeded import 'Mathlib.Analysis.Normed.Algebra.Exponential'
+warning: UniformHittingTime/UniformSumHittingTime.lean:18:7: unneeded import 'UniformHittingTime.IrwinHall'
+warning: UniformHittingTime/UniformSumHittingTime.lean:7:7: unneeded import 'Mathlib.Analysis.SpecialFunctions.Exponential'
+warning: UniformHittingTime/UniformSumHittingTime.lean:9:7: unneeded import 'Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation'
+warning: UniformHittingTime/UniformSumHittingTime.lean:15:7: unneeded import 'Mathlib.Data.Finset.Sum'
+warning: UniformHittingTime/UniformSumHittingTime.lean:17:7: unneeded import 'Mathlib.Tactic'
+warning: UniformHittingTime/UniformSumHittingTime.lean:487:0: Imports increased by 328 to
+warning: UniformHittingTime.lean:9:0: Imports increased by 328 to
+warning: UniformHittingTime.lean:7:7: unneeded import 'UniformHittingTime.UniformSumHittingTime'
+warning: UniformHittingTime.lean:6:7: unneeded import 'UniformHittingTime.StoppingTimeBasic'
+warning: UniformHittingTime.lean:26:0: Imports increased by 328 to

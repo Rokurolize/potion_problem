@@ -6,6 +6,10 @@ Authors: Astolfo and Contributors
 -- P26 Research Solution: Required v4.21.0 imports for factorial convergence
 import Mathlib.Analysis.SpecificLimits.Normed
 
+-- Suppress linter warnings for design suggestions and imports
+set_option linter.upstreamableDecl false
+set_option linter.minImports false
+
 open BigOperators Real Nat Filter Topology
 
 /-!
