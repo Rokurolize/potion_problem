@@ -3,9 +3,6 @@ Copyright (c) 2025 Mathematical Development Team. All rights reserved.
 Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
-import UniformHittingTime.StoppingTimeBasic
-import UniformHittingTime.UniformSumHittingTime
-
 /-!
 # Uniform Hitting Time Analysis
 
