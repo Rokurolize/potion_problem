@@ -6,13 +6,9 @@ Authors: Astolfo and Contributors
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Analysis.Normed.Algebra.Exponential
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Tactic
+import Mathlib.Tactic.Linarith
 import UniformHittingTime.FactorialSeries
 import UniformHittingTime.HittingTime
-
--- Suppress linter warnings for design suggestions and imports
-set_option linter.upstreamableDecl false
-set_option linter.minImports false
 
 /-!
 # 🎯 The Aphrodisiac Problem: Complete Formal Proof of E[τ] = e

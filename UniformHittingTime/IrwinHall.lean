@@ -6,12 +6,6 @@ Authors: Astolfo and Contributors
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
 
--- Suppress linter warnings for design suggestions and imports
-set_option linter.upstreamableDecl false
-set_option linter.minImports false
-
-open BigOperators
-
 /-!
 # Irwin-Hall Distribution Theory
 

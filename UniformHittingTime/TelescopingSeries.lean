@@ -6,10 +6,6 @@ Authors: Astolfo and Contributors
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
 import UniformHittingTime.FactorialSeries
 
--- Suppress linter warnings for design suggestions and imports
-set_option linter.upstreamableDecl false
-set_option linter.minImports false
-
 /-!
 # Telescoping Series Theory
 

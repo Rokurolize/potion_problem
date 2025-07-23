@@ -4,14 +4,13 @@ Released under MIT License as described in the file LICENSE.
 Authors: Astolfo and Contributors
 -/
 import Mathlib.Data.Nat.Factorial.Basic
-import Mathlib.Tactic
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.NormNum
 import UniformHittingTime.IrwinHall
 import UniformHittingTime.FactorialSeries
 import UniformHittingTime.TelescopingSeries
-
--- Suppress linter warnings for design suggestions and imports
-set_option linter.upstreamableDecl false
-set_option linter.minImports false
 
 /-!
 # Hitting Time Probability Mass Function

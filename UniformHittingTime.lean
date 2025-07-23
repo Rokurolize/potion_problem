@@ -6,10 +6,6 @@ Authors: Astolfo and Contributors
 import UniformHittingTime.StoppingTimeBasic
 import UniformHittingTime.UniformSumHittingTime
 
--- Suppress linter warnings for design suggestions and imports
-set_option linter.upstreamableDecl false
-set_option linter.minImports false
-
 /-!
 # Uniform Hitting Time Analysis
 
