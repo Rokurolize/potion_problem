@@ -244,6 +244,35 @@ uv run python python/simulation/montecarlo_simulation.py
 uv run python python/theoretical/exact_expectation_proof.py
 ```
 
+### Lean Explore CLI Tool
+
+**lean-explore** is a CLI tool for exploring and searching Lean mathematical libraries.
+
+**Installation:**
+```bash
+uv pip install lean-explore
+```
+
+**Usage:**
+```bash
+# Access lean-explore commands
+uv run python -m lean_explore.cli.main [COMMAND]
+
+# Available commands:
+# - chat: Interact with an AI agent using Lean Explore tools
+# - search: Search for Lean statement groups
+# - get: Get detailed information about a specific statement group by ID
+# - dependencies: Get dependencies (citations) for a statement group by ID
+# - configure: Configure leanexplore CLI settings
+# - mcp: Manage and run the Model Context Protocol (MCP) server
+# - data: Manage local data toolchains
+
+# Examples:
+uv run python -m lean_explore.cli.main search "factorial"
+uv run python -m lean_explore.cli.main get [statement-id]
+uv run python -m lean_explore.cli.main chat
+```
+
 ### Linting Configuration
 
 **Current Settings (Maximum Strictness):**
