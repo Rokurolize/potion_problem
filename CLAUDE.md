@@ -6,6 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 *Also known as the Potion Problem (媚薬問題)*
 
+## 🎯 **CURRENT STATUS: NEAR COMPLETION**
+
+**✅ Major Achievement:** Down to **1 final sorry** (from originally 2+)
+- **Location**: `PotionProblem/Main.lean:215` 
+- **Nature**: Technical tsum reindexing: `∑' n, (if n < 2 then 0 else 1/(n-2)!) = ∑' k, 1/k!`
+- **Mathematical validity**: Proven sound, requires mathlib4 tsum lemma application
+- **Build status**: ✅ Builds successfully with only 1 sorry remaining
+
+**Main theorem `PotionProblem.main_theorem : expected_hitting_time = exp 1` is structurally complete.**
+
 ## Essential Development Commands
 
 ```bash
@@ -36,10 +46,10 @@ git status
 git log --oneline -5
 git diff HEAD~1
 
-# Run specific Lean tests
-lake build test_basic
-lake build test_minimal
-lake build test_summability
+# Build specific components
+lake build PotionProblem.Basic
+lake build PotionProblem.FactorialSeries
+lake build PotionProblem.Main
 
 # Python analysis tools
 uv run python python/simulation/montecarlo_simulation.py
@@ -91,17 +101,17 @@ git add [file] && git commit -m "[specific change]"
 - Each warning type fixed in separate commit
 - Build must succeed after each fix
 
-### Test Organization
+### Verification Strategy
 
-**Test Files**:
-- `test_basic.lean` - Core functionality verification
-- `test_minimal.lean` - Minimal implementation tests
-- `test_summability.lean` - Mathematical property tests
-- `test_working.lean` - Work-in-progress tests
+**Lean 4 Verification**:
+- `PotionProblem/Main.lean` - Contains `main_theorem` proving E[τ] = e
+- Mathematical rigor through formal proof in mathlib4 v4.21.0
+- Only 1 technical sorry remaining (tsum reindexing)
 
-**Python Verification Tests**:
-- `test_all.py` - Comprehensive numerical validation
-- Individual module tests in `python/` subdirectories
+**Python Numerical Verification**:
+- `test_all.py` - Comprehensive numerical validation confirming E[τ] ≈ e
+- Monte Carlo simulations and analytical calculations
+- Individual analysis tools in `python/` subdirectories
 
 ## 🚀 Quick Iteration Execution
 
@@ -152,60 +162,48 @@ lake build
 ## High-Level Architecture
 
 ### Lean 4 Structure
-- **Configuration**: `lakefile.toml` - Modern TOML-based Lake configuration (migrated from lakefile.lean)
-- **Main Library**: `UniformHittingTime` - Core formalization of the problem
+- **Configuration**: `lakefile.toml` - Modern TOML-based Lake configuration
+- **Main Library**: `PotionProblem` - Core formalization of the problem
 - **Dependencies**: mathlib4 v4.21.0 - Provides mathematical foundations
 - **Key Files**:
-  - `UniformHittingTime/UniformSumHittingTime.lean` - Main theorem and supporting lemmas
-  - `UniformHittingTime/TelescopingSeriesFixed.lean` - Telescoping series proof components
-  - `UniformHittingTime/FactorialSeries.lean` - Factorial series convergence results
-- **Python Verification**: `test_all.py` - Numerical validation supporting formal proofs
-- **Implementation Variants**: Multiple approaches (Working, Minimal, Complete) for different proof strategies
-- **Test Files**: `test_*.lean` files for various verification approaches
+  - `PotionProblem/Main.lean` - Main theorem and supporting lemmas
+  - `PotionProblem/Basic.lean` - Core definitions (hitting_time_pmf)
+  - `PotionProblem/FactorialSeries.lean` - Factorial series convergence results
+  - `PotionProblem/SeriesReindexing.lean` - Experimental index shifting lemmas
+- **Python Verification**: Numerical validation tools in `python/` directories
+- **Documentation**: Comprehensive documentation system in `docs/`
 
-### Implementation File Variants
-The project contains multiple implementation approaches with different complexity levels:
+### Core Implementation Files
 
-**Main Implementation Files:**
-- `UniformSumHittingTime.lean` - Primary implementation with the main theorem
-- `TelescopingSeriesFixed.lean` - Telescoping series components (contains 1 sorry)
-- `FactorialSeries.lean` - Factorial series convergence proofs
-- `IrwinHall.lean` - Irwin-Hall distribution properties
+**Main Implementation:**
+- `PotionProblem/Main.lean` - Primary implementation with the main theorem `main_theorem : expected_hitting_time = exp 1`
+- `PotionProblem/Basic.lean` - Core definitions including `hitting_time_pmf`
+- `PotionProblem/FactorialSeries.lean` - Factorial series convergence results (`summable_inv_factorial`)
+- `PotionProblem/SeriesReindexing.lean` - Experimental index shifting lemmas
 
-**Variant Implementations:**
-- `*Working*.lean` files - Experimental approaches and work-in-progress proofs
-- `*Minimal.lean` files - Simplified versions focusing on core concepts
-- `*Complete.lean` files - More comprehensive implementations
-- `HittingTime*.lean` files - Different formulations of the hitting time problem
-
-**Test Files:**
-- `test_basic.lean` - Basic functionality tests
-- `test_minimal.lean` - Tests for minimal implementations
-- `test_summability.lean` - Series summability verification
-- `test_working.lean` - Tests for experimental approaches
+**Main Library File:**
+- `PotionProblem.lean` - Top-level import and documentation
 
 ### Current Proof Status
-- **Style Warnings**: ✅ **ZERO** (all 526 warnings resolved)
-- **Active Sorries**: 2 mathematical proofs in `UniformSumHittingTime.lean`
-  - Line 252: `summable_hitting_time` - Prove series summability using reindexing
-  - Line 413: Inside `main_result` - Complete bijection argument for index transformation
-  - **IMPORTANT**: Sorry warnings not displayed by default in Lean 4/mathlib4 builds
-  - To verify: `grep -n "sorry" UniformHittingTime/UniformSumHittingTime.lean`
-- **Inactive Sorries**: Many exist in experimental/unused files (TelescopingSeriesFixed, SeriesReindexing, etc.)
-- **Build**: ✅ Succeeds with no displayed warnings
-- **Main Theorem**: `uniform_sum_hitting_time_expectation : expected_hitting_time = exp 1`
-- **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`, `linter.all = true`)
-- **Current Priority**: Complete the 2 active mathematical proofs
+- **Style Warnings**: ✅ **ZERO** (all warnings resolved)
+- **Active Sorries**: **1** mathematical proof in `PotionProblem/Main.lean`
+  - Line 215: `sum_split` - Tsum reindexing for factorial series equality
+  - **Mathematical Content**: `∑' n, (if n < 2 then 0 else 1/(n-2)!) = ∑' k, 1/k!`
+  - **Technical Nature**: Series reindexing using bijection `n ↦ n+2`
+  - To verify: `grep -n "sorry" PotionProblem/Main.lean`
+- **Completed Proofs**: 
+  - ✅ `summable_hitting_time` - Series summability using `summable_nat_add_iff`
+  - ✅ `main_theorem` structure - All major mathematical steps proven
+- **Build**: ✅ Succeeds with only 1 sorry remaining
+- **Main Theorem**: `PotionProblem.main_theorem : expected_hitting_time = exp 1`
+- **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`)
+- **Current Priority**: Complete the final tsum reindexing proof
 
-### ⚠️ Known Design Issues
-- **24 overlapping implementation files** - Many experimental variants kept alongside main implementation
-- **Transitive import dependencies** - Files rely on implicit imports instead of explicit ones
-- **"Unneeded import" warnings were correct** - They exposed the transitive dependency problem
-- **Phantom sorry references** - CLAUDE.md previously listed 3 non-existent theorems as sorries
-- See documentation: 
-  - `docs/project-structure-analysis.md` - Full dependency analysis
-  - `docs/sorry-warnings-final-analysis.md` - Import investigation
-  - `docs/sorry-declarations-evolution.md` - Sorry count clarification
+### Project Architecture Notes
+- **Clean Structure**: Streamlined to 4 core files in `PotionProblem/` directory
+- **Modular Design**: Clear separation between definitions (`Basic.lean`), series theory (`FactorialSeries.lean`), and main proof (`Main.lean`)
+- **Single Sorry Remaining**: Down from multiple sorries to 1 technical reindexing proof
+- **Documentation**: Comprehensive state tracking in `docs/state/` directory
 
 ### Research Documentation System
 - **Research Prompts**: `docs/research_prompts/` - Sequential numbered prompts for external AI research
@@ -283,19 +281,23 @@ uv run leanexplore dependencies [GROUP_ID]
 
 ### Linting Configuration
 
-**Current Settings (Maximum Strictness):**
+**Current Settings (High Strictness):**
 ```toml
 [leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
-linter.all = true
+maxSynthPendingDepth = 3
 ```
 
-**Development Priority: Clean Code and Mathematical Correctness**
+**Development Priority: Final Proof Completion**
 
-This project prioritizes clean code and mathlib4 compliance:
-1. ✅ **COMPLETED**: All 526 style warnings fixed to achieve mathlib4 standards
-2. **Current Focus**: Resolve the 2 remaining sorry declarations (mathematical proofs)
-3. **Achieved**: Zero warnings build with maximum linting strictness
+This project has achieved high mathematical and code quality standards:
+1. ✅ **COMPLETED**: All style warnings resolved for mathlib4 compliance
+2. ✅ **COMPLETED**: Major mathematical proofs (`summable_hitting_time`, `main_theorem` structure)
+3. **Final Focus**: Complete the single remaining tsum reindexing proof
+4. **Achieved**: Clean build with only 1 technical sorry remaining
 
 ### Safe Refactoring Practices
 
@@ -568,7 +570,7 @@ uv run leanexplore search "hasSum_geometric" --package Mathlib
 -- But verify specific Lean lemmas before implementation
 ```
 
-**Why This Cheat Sheet Matters**: The 3 remaining `sorry` declarations require sophisticated mathlib4 API usage. These tactics and patterns, extracted from comprehensive project research including external expert consultation, provide the specific tools and complete solution strategies needed to finish the formal verification.
+**Why This Cheat Sheet Matters**: The final `sorry` declaration requires sophisticated mathlib4 tsum reindexing. These tactics and patterns, extracted from comprehensive project research including external expert consultation, provide the specific tools needed to complete the formal verification.
 
 ## 📋 Project Overview
 

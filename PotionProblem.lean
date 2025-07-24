@@ -19,8 +19,11 @@ proving that E[τ] = e where τ is the hitting time for uniform random sums.
 
 ## Status
 
-The formalization contains 2 remaining mathematical proofs to complete:
-1. Summability of the hitting time series
-2. Reindexing argument in the main proof
+✅ **NEAR COMPLETION**: The formalization contains 1 remaining technical proof:
+- Tsum reindexing in `Main.lean:215` (`sum_split` proof)
+
+✅ **Major proofs completed**:
+- `summable_hitting_time` - Series summability proof
+- `main_theorem` structure - All key mathematical steps
 
 -/
