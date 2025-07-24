@@ -253,25 +253,43 @@ uv run python python/theoretical/exact_expectation_proof.py
 uv pip install lean-explore
 ```
 
+**Initial Setup:**
+```bash
+# Configure LeanExplore API key (required for most features)
+uv run leanexplore configure api-key
+
+# Configure OpenAI API key (required for AI chat features)
+uv run leanexplore configure openai-key
+
+# (Optional) Download local data for offline use (~several GB)
+uv run leanexplore data fetch
+```
+
 **Usage:**
 ```bash
-# Access lean-explore commands
-uv run python -m lean_explore.cli.main [COMMAND]
+# Get help
+uv run leanexplore --help
+uv run leanexplore [COMMAND] --help
 
-# Available commands:
-# - chat: Interact with an AI agent using Lean Explore tools
-# - search: Search for Lean statement groups
-# - get: Get detailed information about a specific statement group by ID
-# - dependencies: Get dependencies (citations) for a statement group by ID
-# - configure: Configure leanexplore CLI settings
-# - mcp: Manage and run the Model Context Protocol (MCP) server
-# - data: Manage local data toolchains
+# Search for Lean statements (requires API key)
+uv run leanexplore search "fundamental theorem of calculus"
+uv run leanexplore search "monoid" --package Mathlib --limit 5
 
-# Examples:
-uv run python -m lean_explore.cli.main search "factorial"
-uv run python -m lean_explore.cli.main get [statement-id]
-uv run python -m lean_explore.cli.main chat
+# Get detailed information about a specific statement group
+uv run leanexplore get [GROUP_ID]
+
+# Get dependencies (citations) for a statement group
+uv run leanexplore dependencies [GROUP_ID]
+
+# Interactive AI chat (requires both API keys)
+uv run leanexplore chat                    # Uses remote API (default)
+uv run leanexplore chat --backend local    # Uses local data (requires data fetch)
+
+# Advanced: Run MCP server for AI agent integrations
+uv run leanexplore mcp serve --backend api
 ```
+
+**Note:** Get your LeanExplore API key from https://www.leanexplore.com/api-keys
 
 ### Linting Configuration
 
