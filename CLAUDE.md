@@ -329,6 +329,36 @@ simp?        -- Show applicable simp lemmas
 #find pattern -- Search for lemmas by pattern
 ```
 
+### ⚠️ CRITICAL: Preventing Mathlib4 API Hallucinations
+
+**MANDATORY RULE**: Before using ANY Mathlib4 API function, ALWAYS verify its existence using LeanExplore:
+
+```bash
+# Step 1: Search for the API function
+uv run leanexplore search "function_name"
+
+# Step 2: Get exact definition and signature
+uv run leanexplore get [GROUP_ID]
+
+# Step 3: Check dependencies for required imports
+uv run leanexplore dependencies [GROUP_ID]
+```
+
+**Why this matters**:
+- Mathlib4 APIs change frequently between versions
+- Function names from documentation may be outdated
+- Import paths can vary significantly
+- Claude may hallucinate plausible but non-existent APIs
+
+**Example verification workflow**:
+```bash
+# Looking for hasSum-related functions
+uv run leanexplore search "hasSum" --package Mathlib --limit 10
+# Found: HasSum.tsum_eq (ID: 123456)
+uv run leanexplore get 123456  # Get exact signature
+uv run leanexplore dependencies 123456  # Find required imports
+```
+
 ### Core Proof Tactics for This Project
 ```lean
 -- Algebraic simplification
@@ -393,16 +423,20 @@ have step2 : Q := by sorry
 ```
 
 ### Important API Patterns from Research
+
+**⚠️ WARNING**: These API patterns are from external research and may be outdated or incorrect.
+**ALWAYS verify with LeanExplore before using any of these:**
+
 ```lean
--- Series convergence
+-- Series convergence (VERIFY BEFORE USE)
 Summable.hasSum          -- Convert summable to HasSum
 hasSum_iff_tendsto_nat   -- HasSum via limit of partial sums
 
--- Factorial properties  
+-- Factorial properties (VERIFY BEFORE USE)
 Nat.factorial_pos        -- n! > 0
 factorial_le_pow         -- Growth bounds
 
--- Eventually patterns
+-- Eventually patterns (VERIFY BEFORE USE)
 Filter.Eventually        -- ∀ᶠ notation
 eventually_of_forall     -- Convert universal to eventual
 ```
@@ -422,40 +456,54 @@ import Mathlib.Algebra.BigOperators.Basic         -- Finite sum operations
 - `HasSum` and infinite series API is in `InfiniteSum.Basic`
 
 ### Hidden mathlib4 Features (from External Research)
+
+**⚠️ VERIFY ALL WITH LeanExplore BEFORE USE**
+
 ```lean
--- Advanced factorial bounds
+-- Advanced factorial bounds (UNVERIFIED)
 Nat.factorial_le_pow           -- n! ≤ k^n for n ≥ k
 Nat.choose_le_pow_two n        -- Binomial bounds
 tendsto_one_div_factorial_atTop_nhds_0  -- 1/n! → 0
 
--- Series convergence (SpecificLimits.Basic/Normed)
+-- Series convergence (UNVERIFIED - check actual module paths)
 hasSum_geometric_of_lt_1       -- Geometric series
 tendsto_pow_const_mul_const_pow_of_abs_lt_one  -- Power decay
 Real.tendsto_exp_atTop_nhdsInf -- Exponential limits
 
--- Filter theory shortcuts
+-- Filter theory shortcuts (UNVERIFIED)
 eventually_of_forall           -- Convert ∀ to ∀ᶠ
 tendsto_add_atTop_iff_nat     -- Limit arithmetic
 ```
 
+**Verification example:**
+```bash
+uv run leanexplore search "factorial_le_pow" --package Mathlib
+uv run leanexplore search "hasSum_geometric" --package Mathlib
+```
+
 ### Worked Solutions from External Research
 
-**For telescoping_series_fixed**: Use `hasSum_iff.2` with partial sum identity:
+**⚠️ CRITICAL WARNING**: These solutions contain API references that may be HALLUCINATED.
+**DO NOT USE WITHOUT VERIFICATION via LeanExplore!**
+
+**For telescoping_series_fixed**: 
 ```lean
+-- UNVERIFIED: hasSum_iff.2 may not exist with this exact name
+-- VERIFY: uv run leanexplore search "hasSum_iff"
 -- Key insight: ∑(1/(k+1)! - 1/(k+2)!) telescopes to 1 - 1/(n+1)!
--- Then apply tendsto_one_div_factorial_atTop_nhds_0
 ```
 
-**For factorial_dominates_exponential_eventually**: Apply Stirling's asymptotic formula:
+**For factorial_dominates_exponential_eventually**:
 ```lean
--- Use stirling_tendsto to show factorial/exponential → ∞
--- Convert via filter_upwards and eventually patterns
+-- UNVERIFIED: stirling_tendsto may be hallucinated
+-- VERIFY: uv run leanexplore search "stirling"
+-- Use Stirling's formula related lemmas (search for actual names)
 ```
 
-**For inv_factorial_geometric_convergence**: Choose constants c=2, r=1/2:
+**For inv_factorial_geometric_convergence**:
 ```lean
--- Since n! ≥ 2^n eventually, we get 1/n! ≤ (1/2)^n
--- Multiply by constant 2 to get the required form
+-- Mathematical approach is sound: n! ≥ 2^n eventually
+-- But verify specific Lean lemmas before implementation
 ```
 
 **Why This Cheat Sheet Matters**: The 3 remaining `sorry` declarations require sophisticated mathlib4 API usage. These tactics and patterns, extracted from comprehensive project research including external expert consultation, provide the specific tools and complete solution strategies needed to finish the formal verification.
