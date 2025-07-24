@@ -169,7 +169,6 @@ lake build
   - `PotionProblem/Main.lean` - Main theorem and supporting lemmas
   - `PotionProblem/Basic.lean` - Core definitions (hitting_time_pmf)
   - `PotionProblem/FactorialSeries.lean` - Factorial series convergence results
-  - `PotionProblem/SeriesReindexing.lean` - Experimental index shifting lemmas
 - **Python Verification**: Numerical validation tools in `python/` directories
 - **Documentation**: Comprehensive documentation system in `docs/`
 
@@ -179,10 +178,12 @@ lake build
 - `PotionProblem/Main.lean` - Primary implementation with the main theorem `main_theorem : expected_hitting_time = exp 1`
 - `PotionProblem/Basic.lean` - Core definitions including `hitting_time_pmf`
 - `PotionProblem/FactorialSeries.lean` - Factorial series convergence results (`summable_inv_factorial`)
-- `PotionProblem/SeriesReindexing.lean` - Experimental index shifting lemmas
 
 **Main Library File:**
 - `PotionProblem.lean` - Top-level import and documentation
+
+**Experimental Archive:**
+- `docs/experimental-archive/SeriesReindexing.lean` - Unused experimental index shifting lemmas (archived)
 
 ### Current Proof Status
 - **Style Warnings**: ✅ **ZERO** (all warnings resolved)
