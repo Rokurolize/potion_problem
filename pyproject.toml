@@ -22,21 +22,21 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+    "lean-explore>=0.3.0",  # Lean 4 mathlib API search tool
+]
+
+[project.optional-dependencies]
+numerical = [
     "numpy>=1.26.0",
     "scipy>=1.11.0",
     "matplotlib>=3.8.0",
     "sympy>=1.12",
     "z3-solver>=4.13.0.0",
 ]
-
-[project.optional-dependencies]
 dev = [
     "mypy>=1.8.0",
     "ruff>=0.1.0",
     "pytest>=7.4.0",
-]
-analysis = [
-    "lean-explore>=0.3.0",
 ]
 
 [project.urls]
