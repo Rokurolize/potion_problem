@@ -265,6 +265,13 @@ uv run leanexplore configure openai-key
 uv run leanexplore data fetch
 ```
 
+**Environment Variables:**
+The project includes a `.env` file for API key configuration. The following environment variables are supported:
+- `LEANEXPLORE_API_KEY` - Your LeanExplore API key
+- `OPENAI_API_KEY` - Your OpenAI API key (if using AI chat features)
+
+These variables are automatically loaded by python-dotenv when running Python scripts.
+
 **Usage:**
 ```bash
 # Get help

@@ -54,3 +54,8 @@ Thumbs.db
 *.local.json
 *.local.md
 CLAUDE.local*.md
+
+# Environment variables
+.env
+.env.*
+*.env
