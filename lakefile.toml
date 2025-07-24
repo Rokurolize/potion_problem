@@ -1,17 +1,13 @@
 name = "potion_problem"
 version = "0.1.0"
 keywords = ["math", "probability", "formal-verification"]
-defaultTargets = ["UniformHittingTime"]
+defaultTargets = ["PotionProblem"]
 
 [leanOptions]
 pp.unicode.fun = true
 autoImplicit = false
 relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
-linter.all = true
-linter.deprecated = true
-linter.docBlame = true
-linter.simpNF = true
 maxSynthPendingDepth = 3
 
 [[require]]
@@ -19,24 +15,4 @@ name = "mathlib"
 scope = "leanprover-community"
 
 [[lean_lib]]
-name = "UniformHittingTime"
-
-[[lean_lib]]
-name = "GenuinelyWorking"
-
-[[lean_lib]]
-name = "ReallyWorking"
-
-[[lean_lib]]
-name = "GenuineDemo"
-
-[[lean_lib]]
-name = "SimpleDemo"
-
-[[lean_exe]]
-name = "WorkingMinimal"
-root = "WorkingMinimal"
-
-[[lean_exe]]
-name = "FinalDemo"
-root = "FinalDemo"
+name = "PotionProblem"
