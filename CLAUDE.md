@@ -246,57 +246,28 @@ uv run python python/theoretical/exact_expectation_proof.py
 
 ### Lean Explore CLI Tool
 
-**lean-explore** is a CLI tool for exploring and searching Lean mathematical libraries.
+**lean-explore** is a CLI tool for searching Lean mathematical libraries.
 
 **Installation:**
 ```bash
 uv pip install lean-explore
 ```
 
-**Initial Setup:**
-```bash
-# Configure LeanExplore API key (required for most features)
-uv run leanexplore configure api-key
-
-# Configure OpenAI API key (required for AI chat features)
-uv run leanexplore configure openai-key
-
-# (Optional) Download local data for offline use (~several GB)
-uv run leanexplore data fetch
-```
-
 **Environment Variables:**
-The project includes a `.env` file for API key configuration. The following environment variables are supported:
-- `LEANEXPLORE_API_KEY` - Your LeanExplore API key
-- `OPENAI_API_KEY` - Your OpenAI API key (if using AI chat features)
-
-These variables are automatically loaded by python-dotenv when running Python scripts.
+The project includes a `.env` file with `LEANEXPLORE_API_KEY` pre-configured.
 
 **Usage:**
 ```bash
-# Get help
-uv run leanexplore --help
-uv run leanexplore [COMMAND] --help
+# Search for Lean statements
+uv run leanexplore search "factorial"
+uv run leanexplore search "fundamental theorem" --package Mathlib --limit 5
 
-# Search for Lean statements (requires API key)
-uv run leanexplore search "fundamental theorem of calculus"
-uv run leanexplore search "monoid" --package Mathlib --limit 5
-
-# Get detailed information about a specific statement group
+# Get detailed information about a specific statement
 uv run leanexplore get [GROUP_ID]
 
-# Get dependencies (citations) for a statement group
+# Get dependencies for a statement
 uv run leanexplore dependencies [GROUP_ID]
-
-# Interactive AI chat (requires both API keys)
-uv run leanexplore chat                    # Uses remote API (default)
-uv run leanexplore chat --backend local    # Uses local data (requires data fetch)
-
-# Advanced: Run MCP server for AI agent integrations
-uv run leanexplore mcp serve --backend api
 ```
-
-**Note:** Get your LeanExplore API key from https://www.leanexplore.com/api-keys
 
 ### Linting Configuration
 
