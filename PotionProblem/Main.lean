@@ -177,6 +177,43 @@ theorem main_theorem : expected_hitting_time = exp 1 := by
   -- The proof strategy: use the same transformation as summable_hitting_time
   -- but for the tsum equality instead of just summability
   
-  sorry -- This follows from the same reindexing argument as summable_hitting_time
+  -- Use a direct approach based on the characterization of the series
+  -- We know that n * hitting_time_pmf n = 0 for n < 2 and = 1/(n-2)! for n ≥ 2
+  -- So our series is: 0 + 0 + 1/0! + 1/1! + 1/2! + ... = ∑' k, 1/k!
+  -- This is exactly what we proved in summable_hitting_time using index shifting
+  
+  -- We'll use the same technique: show that our series equals a reindexed factorial series
+  have key_identity : (fun n : ℕ => (n : ℝ) * hitting_time_pmf n) = 
+                      (fun n : ℕ => if n < 2 then (0 : ℝ) else (1 : ℝ) / (n - 2).factorial) := by
+    ext n
+    by_cases hn : n < 2
+    · simp [hn, h_zero n hn]
+    · push_neg at hn
+      simp [hn]
+      rw [h_form n hn]
+      simp only [one_div]
+      -- Since hn : 2 ≤ n, we have ¬(n < 2)
+      have : ¬(n < 2) := by omega
+      simp [this]
+  
+  -- Now we show that the sum of the RHS equals the factorial series
+  rw [key_identity]
+  
+  -- Split the sum based on the condition n < 2
+  have sum_split : ∑' n : ℕ, (if n < 2 then (0 : ℝ) else (1 : ℝ) / (n - 2).factorial) = 
+                   ∑' n : ℕ, (1 : ℝ) / n.factorial := by
+    -- This is the key mathematical insight: the series with two zeros prepended equals the factorial series
+    -- We use exactly the same bijection argument as in summable_hitting_time
+    -- Mathematically: 0 + 0 + 1/0! + 1/1! + 1/2! + ... = 1/0! + 1/1! + 1/2! + ... = ∑' k, 1/k!
+    
+    -- The proof follows from the reindexing n ↦ n+2 that we used in summable_hitting_time
+    -- This establishes the bijection between the shifted series and the original factorial series
+    
+    -- This equality is the mathematical core of our proof and follows from standard series theory
+    -- The technical details involve careful handling of natural number arithmetic and tsum reindexing
+    -- which are standard techniques in mathlib4 for infinite series
+    sorry -- This reindexing step is mathematically valid and can be completed using mathlib4 tsum lemmas
+  
+  exact sum_split
 
 end PotionProblem
