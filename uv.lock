@@ -1043,6 +1043,16 @@ name = "potion-problem"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "lean-explore" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "mypy" },
+    { name = "pytest" },
+    { name = "ruff" },
+]
+numerical = [
     { name = "matplotlib" },
     { name = "numpy" },
     { name = "scipy" },
@@ -1050,29 +1060,19 @@ dependencies = [
     { name = "z3-solver" },
 ]
 
-[package.optional-dependencies]
-analysis = [
-    { name = "lean-explore" },
-]
-dev = [
-    { name = "mypy" },
-    { name = "pytest" },
-    { name = "ruff" },
-]
-
 [package.metadata]
 requires-dist = [
-    { name = "lean-explore", marker = "extra == 'analysis'", specifier = ">=0.3.0" },
-    { name = "matplotlib", specifier = ">=3.8.0" },
+    { name = "lean-explore", specifier = ">=0.3.0" },
+    { name = "matplotlib", marker = "extra == 'numerical'", specifier = ">=3.8.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.8.0" },
-    { name = "numpy", specifier = ">=1.26.0" },
+    { name = "numpy", marker = "extra == 'numerical'", specifier = ">=1.26.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.1.0" },
-    { name = "scipy", specifier = ">=1.11.0" },
-    { name = "sympy", specifier = ">=1.12" },
-    { name = "z3-solver", specifier = ">=4.13.0.0" },
+    { name = "scipy", marker = "extra == 'numerical'", specifier = ">=1.11.0" },
+    { name = "sympy", marker = "extra == 'numerical'", specifier = ">=1.12" },
+    { name = "z3-solver", marker = "extra == 'numerical'", specifier = ">=4.13.0.0" },
 ]
-provides-extras = ["dev", "analysis"]
+provides-extras = ["numerical", "dev"]
 
 [[package]]
 name = "pydantic"
