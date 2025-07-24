@@ -7,6 +7,7 @@ import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Analysis.SpecialFunctions.Exponential
 import Mathlib.Analysis.Normed.Algebra.Exponential
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
+import Mathlib.Topology.Algebra.InfiniteSum.NatInt
 import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 
@@ -96,73 +97,86 @@ lemma hitting_time_formula (n : ℕ) (hn : 2 ≤ n) :
   rw [h2, h1]
   ring
 
+/-- Helper lemma: For n < 2, n * hitting_time_pmf n = 0 -/
+lemma hitting_time_zero (n : ℕ) (hn : n < 2) : 
+  (n : ℝ) * hitting_time_pmf n = 0 := by
+  cases' n with n'
+  · -- n = 0
+    simp [hitting_time_pmf]
+  · -- n = n' + 1
+    cases' n' with n''
+    · -- n = 1
+      simp [hitting_time_pmf]
+    · -- n ≥ 2, contradiction
+      omega
+
 /-- The hitting time expectation series is summable -/
 theorem summable_hitting_time :
   Summable (fun n : ℕ => (n : ℝ) * hitting_time_pmf n) := by
-  -- We'll show this is summable by relating it to the known summable factorial series
-  -- Define a helper function that matches our series for n ≥ 2
-  let g : ℕ → ℝ := fun k => if k < 2 then 0 else (1 : ℝ) / (k - 2).factorial
+  -- The series n * hitting_time_pmf n equals:
+  -- - 0 for n = 0, 1
+  -- - 1/(n-2)! for n ≥ 2
+  -- This is essentially the factorial series ∑ 1/k! with two zeros prepended
   
-  -- Show that our series equals g
-  have h_eq : ∀ n : ℕ, (n : ℝ) * hitting_time_pmf n = g n := by
-    intro n
-    simp only [g]
-    by_cases h : n < 2
-    · -- Case n < 2
-      simp [h]
-      cases' n with n'
-      · -- n = 0
-        simp [hitting_time_pmf]
-      · -- n = 1 
-        cases' n' with n''
-        · simp [hitting_time_pmf]
-        · -- n ≥ 2, contradiction
-          omega
-    · -- Case n ≥ 2
-      push_neg at h
-      simp [h, hitting_time_formula _ h]
+  -- Mathematical proof strategy:
+  -- Since n * hitting_time_pmf n = 0 for n < 2 and = 1/(n-2)! for n ≥ 2,
+  -- we need to show that ∑' n, (if n < 2 then 0 else 1/(n-2)!) converges
   
-  -- Now show g is summable
-  have h_summable_g : Summable g := by
-    -- g(n) = 0 for n < 2, and g(n) = 1/(n-2)! for n ≥ 2
-    -- This is the factorial series ∑ 1/k! with indices shifted by 2 and first two terms zero
-    
-    -- Mathematical argument: 
-    -- g(0) = 0, g(1) = 0, g(2) = 1/0!, g(3) = 1/1!, g(4) = 1/2!, ...
-    -- So ∑ g(n) = 0 + 0 + 1/0! + 1/1! + 1/2! + ... = ∑_{k=0}^∞ 1/k! = e
-    -- Since this series converges to e, g is summable
-    
-    -- Formal proof requires showing that index shifting preserves summability
-    -- This would use lemmas about bijections between index sets and summability
-    sorry -- Requires index shifting lemmas for summability
+  -- This series is essentially ∑' k, 1/k! with two zeros prepended
+  -- Since ∑' k, 1/k! converges (to e), our series also converges
   
-  -- Apply the equality to get summability of original series
-  convert h_summable_g using 1
-  funext n
-  exact h_eq n
+  -- Formal approach: Use that f(n+2) = 1/n! and summable_inv_factorial
+  -- to conclude summability of f
+  
+  -- We'll show that the function equals a summable shifted factorial series
+  -- Key: ∑' n, n * hitting_time_pmf n = ∑' n, f n where
+  -- f(n) = 0 for n < 2 and f(n) = 1/(n-2)! for n ≥ 2
+  
+  -- We can rewrite this as: ∑' n, f n = ∑' n, f (n + 2)
+  -- And f(n + 2) = 1/n! for all n
+  
+  -- Use the fact that if g is summable, and f(n+k) = g(n), then f is summable
+  -- when f is zero for n < k
+  rw [← summable_nat_add_iff 2]
+  -- Now we need to show that fun n => n * hitting_time_pmf (n + 2) is summable
+  -- But (n + 2) * hitting_time_pmf (n + 2) = 1/n! by hitting_time_formula
+  convert summable_inv_factorial using 1
+  ext n
+  exact hitting_time_formula (n + 2) (by omega)
 
 /-- Main theorem: The expected hitting time equals e -/
 theorem main_theorem : expected_hitting_time = exp 1 := by
-  -- Step 1: Expand the definition
+  -- Expand the definition and use exp series representation
   unfold expected_hitting_time
-  
-  -- Step 2: Use our series representation theorem
   rw [exp_one_eq_tsum_inv_factorial]
   
-  -- Step 3: Show that ∑' n, n * hitting_time_pmf n = ∑' k, 1 / k.factorial
-  -- The key observation: 
-  -- n * hitting_time_pmf n = 0 for n = 0, 1
-  -- n * hitting_time_pmf n = 1/(n-2)! for n ≥ 2
-  -- So the series is: 0 + 0 + 1/0! + 1/1! + 1/2! + ... = ∑ 1/k!
+  -- The key insight: our sum ∑' n, n * hitting_time_pmf n can be rewritten
+  -- as ∑' k, 1/k! by using the relationship f(n+2) = 1/n!
   
-  -- Mathematical argument for equality:
-  -- LHS: ∑_{n=0}^∞ n * hitting_time_pmf n = 0 + 0 + 2*(1/2!) + 3*(2/3!) + 4*(3/4!) + ...
-  --                                       = 0 + 0 + 1/0! + 1/1! + 1/2! + ...
-  -- RHS: ∑_{k=0}^∞ 1/k! = 1/0! + 1/1! + 1/2! + ...
-  -- These are equal since the LHS just adds two zero terms at the beginning
+  -- We already proved in summable_hitting_time that:
+  -- (fun n => n * hitting_time_pmf n) = (fun n => if n < 2 then 0 else 1/(n-2)!)
+  -- and this equals ∑' k, 1/k! after shifting indices
   
-  -- Formal proof requires showing that reindexing preserves the sum
-  -- This would use lemmas about series with modified finite terms
-  sorry -- Series equality via reindexing
+  -- Use the same approach as in summable_hitting_time:
+  -- The series ∑' n, n * hitting_time_pmf n equals the shifted factorial series
+  
+  -- From our hitting_time_formula and hitting_time_zero lemmas:
+  have h_form : ∀ (n : ℕ), n ≥ 2 → (n : ℝ) * hitting_time_pmf n = 1 / (n - 2).factorial :=
+    fun n hn => hitting_time_formula n hn
+  have h_zero : ∀ (n : ℕ), n < 2 → (n : ℝ) * hitting_time_pmf n = 0 :=
+    fun n hn => hitting_time_zero n hn
+  
+  -- The summability is already established
+  have h_summable : Summable (fun n : ℕ => (n : ℝ) * hitting_time_pmf n) := summable_hitting_time
+  
+  -- We use the fact that our series is exactly the factorial series with 2 zeros prepended
+  -- This follows from the same reindexing argument used in summable_hitting_time
+  -- Since ∑' n, (n+2) * hitting_time_pmf (n+2) = ∑' n, 1/n! (by hitting_time_formula)
+  -- and the first two terms are zero, we get ∑' n, n * hitting_time_pmf n = ∑' n, 1/n!
+  
+  -- The proof strategy: use the same transformation as summable_hitting_time
+  -- but for the tsum equality instead of just summability
+  
+  sorry -- This follows from the same reindexing argument as summable_hitting_time
 
 end PotionProblem
