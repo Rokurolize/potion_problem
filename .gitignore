@@ -50,6 +50,9 @@ Thumbs.db
 .ruff_cache/
 .pytest_cache/
 
+# Generated output
+repomix-output.xml
+
 # Local configuration
 *.local.json
 *.local.md
