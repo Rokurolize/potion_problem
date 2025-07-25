@@ -6,6 +6,7 @@ Authors: Potion Problem Team
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
+import PotionProblem.SeriesAnalysis
 import PotionProblem.Main
 import PotionProblem.FactorialSeries
 
@@ -89,12 +90,12 @@ theorem prob_tau_exceeds (n : ℕ) :
 theorem expected_value_convergent :
   Summable (fun n : ℕ => (n : ℝ) * hitting_time_pmf n) := by
   -- Already proven in Main.lean
-  exact summable_hitting_time
+  exact hitting_time_series_summable
 
 /-- Alternative expression for the expected value -/
 theorem expected_value_alt :
   ∑' n : ℕ, (n : ℝ) * hitting_time_pmf n = ∑' k : ℕ, 1 / (k.factorial : ℝ) := by
   -- This is proven in Main.lean as main_theorem
-  rw [← expected_hitting_time, main_theorem, exp_one_eq_tsum_inv_factorial]
+  rw [← expected_hitting_time, main_theorem, exp_series_connection]
 
 end PotionProblem
