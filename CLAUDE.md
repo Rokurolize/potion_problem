@@ -33,21 +33,17 @@ lake clean && lake build
 
 # Monitor progress
 lake build 2>&1 | grep "declaration uses 'sorry'" | wc -l  # Count remaining sorries
+grep -n "sorry" PotionProblem/*.lean                     # Find specific sorries
 ```
 
-### Python Development Setup
+### Python Environment Setup
 ```bash
-# Initialize Python environment (first time)
+# Initialize Python environment
 uv sync
 
 # Install additional dependencies
 uv sync --extra numerical  # numpy, scipy, matplotlib, sympy, z3
 uv sync --extra dev        # mypy, ruff, pytest
-
-# Run error analysis tools (NEW)
-python tools/lean_fix_guide.py                           # Complete error analysis
-python tools/lean_fix_guide.py PotionProblem.SeriesAnalysis  # Specific target
-python tools/verification_engine.py status               # Progress tracking
 ```
 
 ### LeanExplore API Verification (Critical for preventing hallucinations)
@@ -58,27 +54,19 @@ uv run leanexplore get [GROUP_ID]          # Get exact signature
 uv run leanexplore dependencies [GROUP_ID] # Find required imports
 ```
 
-## 🔧 **NEW: Systematic Error Resolution Tools**
+## 🔧 **Sorry Elimination Strategy**
 
-The `tools/` directory contains sophisticated error analysis and fix guidance systems:
-
-### Quick Fix Workflow
+For systematic sorry elimination, refer to the comprehensive guide:
 ```bash
-# 1. Analyze all errors with prioritization
-python tools/lean_fix_guide.py
-
-# 2. Apply fixes systematically (one at a time)
-lake build [target]  # after each fix
-
-# 3. Track progress and rollback if needed
-python tools/verification_engine.py verify --error "..." --description "..."
+# Read the battle-tested sorry elimination guide
+cat docs/sorry-elimination-guide.md
 ```
 
-**Key Features:**
-- **Error Categorization**: Type mismatches, tactic failures, sorry declarations, style warnings
-- **Step-by-Step Instructions**: Systematic fix strategies with fallbacks
-- **LeanExplore Integration**: API verification to prevent hallucinations
-- **Git Safety**: Automatic rollback if fixes introduce new errors
+This guide contains:
+- **Proven techniques** from eliminating 10+ sorries
+- **Specific Lean 4 patterns** with working code examples
+- **Common pitfalls** and their solutions
+- **File-specific strategies** for each module
 
 ## High-Level Architecture
 
@@ -191,10 +179,10 @@ lake build                          # Confirm build status
 - `docs/state/iteration-history.md` - Cumulative trial records
 - `docs/state/self-contained-prompt.md` - Self-contained implementation instructions
 
-**Error Analysis Tools:**
-- `tools/lean_fix_guide.py` - Comprehensive error analysis and fix guidance
-- `tools/verification_engine.py` - Build verification with git rollback
-- `tools/README.md` - Complete tool documentation
+**Key Guides:**
+- `docs/sorry-elimination-guide.md` - Battle-tested techniques for eliminating sorries
+- `docs/refactoring-instructions.md` - Module restructuring guidance
+- `docs/immediate-action-plan.md` - Current development priorities
 
 ## Configuration Details
 
