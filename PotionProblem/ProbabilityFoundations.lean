@@ -109,53 +109,10 @@ lemma pmf_summable : Summable hitting_time_pmf := by
 ## Section 2: Fundamental Distributional Properties
 -/
 
-/-- The PMF sums to 1 (fundamental property of probability distributions) -/
-theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
-  -- Use telescoping property and the fact that the PMF is 0 for n < 2
-  -- The sum reduces to a telescoping series that equals 1
-  
-  -- Key insight: use the connection to the exponential series e = ∑ 1/n!
-  -- Since hitting_time_pmf n = 1/(n-1)! - 1/n! for n ≥ 2, the telescoping works
-  
-  -- This proof requires sophisticated series manipulation
-  -- The essential idea is proven in SeriesAnalysis.lean but we can't import due to circular dependency
-  sorry -- TODO: Implement telescoping sum using pmf_telescoping lemma
-
-/-- Tail probability formula: P(τ > n) = 1/n! -/
-theorem tail_probability_formula (n : ℕ) :
-  (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial := by
-  -- This is the key distributional property connecting to Irwin-Hall distribution
-  -- P(τ > n) = 1/n! represents the volume of the n-simplex
-  
-  -- The proof strategy uses complement decomposition and telescoping
-  -- P(τ > n) = 1 - P(τ ≤ n) combined with pmf_telescoping gives the result
-  
-  -- Key insight: the finite sum ∑_{k=0}^n hitting_time_pmf k telescopes to 1 - 1/n!
-  -- using the fact that hitting_time_pmf k = 1/(k-1)! - 1/k! for k ≥ 2
-  -- and hitting_time_pmf 0 = hitting_time_pmf 1 = 0
-  
-  -- This follows the same telescoping pattern established in SeriesAnalysis.lean
-  -- The proof involves sophisticated series manipulation with pmf_telescoping
-  
-  sorry -- TODO: Implement full telescoping proof using complement and pmf_telescoping
-
-/-!
-## Section 3: PMF Characterization
--/
-
 /-- Alternative characterization: PMF equals (n-1)/n! for n ≥ 2 -/
 lemma pmf_eq (n : ℕ) (hn : 2 ≤ n) : 
   hitting_time_pmf n = (n - 1 : ℝ) / n.factorial := by
   simp [hitting_time_pmf, if_neg (not_le.mpr (by omega : 1 < n))]
-
-/-- The PMF vanishes for n ≤ 1 -/
-lemma pmf_eq_zero_of_le_one (n : ℕ) (hn : n ≤ 1) : 
-  hitting_time_pmf n = 0 := by
-  simp [hitting_time_pmf, if_pos hn]
-
-/-!
-## Section 4: Series Properties
--/
 
 /-- Alternative expression for the PMF using the telescoping property -/
 lemma pmf_telescoping (n : ℕ) (hn : 2 ≤ n) :
@@ -184,6 +141,70 @@ lemma pmf_telescoping (n : ℕ) (hn : 2 ≤ n) :
   field_simp
   ring
 
+/-- The PMF sums to 1 (fundamental property of probability distributions) -/
+theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
+  -- Use telescoping property and the fact that the PMF is 0 for n < 2
+  -- The sum reduces to a telescoping series that equals 1
+  
+  -- Key insight: use the connection to the exponential series e = ∑ 1/n!
+  -- Since hitting_time_pmf n = 1/(n-1)! - 1/n! for n ≥ 2, the telescoping works
+  
+  -- Split the sum: first two terms (which are 0) + rest
+  have h_split : ∑' n : ℕ, hitting_time_pmf n = 
+                 hitting_time_pmf 0 + hitting_time_pmf 1 + 
+                 ∑' n : ℕ, hitting_time_pmf (n + 2) := by
+    -- Use sum_add_tsum_nat_add to extract first two terms
+    have h_eq := Summable.sum_add_tsum_nat_add 2 pmf_summable
+    rw [← h_eq]
+    -- Expand the finite sum
+    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add]
+  
+  rw [h_split]
+  -- First two terms are zero
+  have h_zeros := prob_tau_eq_zero_one
+  rw [h_zeros.1, h_zeros.2, zero_add, zero_add]
+  
+  -- Now use telescoping property for the remaining sum
+  -- Each term hitting_time_pmf (n + 2) = 1/(n+1)! - 1/(n+2)!
+  -- This telescopes to lim_{N→∞} [1/1! - 1/(N+2)!] = 1 - 0 = 1
+  
+  -- Now we need to show the sum of hitting_time_pmf (n + 2) equals 1
+  -- Use the fact that it's a telescoping series
+  
+  -- This requires sophisticated series manipulation to show the telescoping sum equals 1
+  sorry -- TODO: Implement telescoping sum proof
+
+/-- Tail probability formula: P(τ > n) = 1/n! -/
+theorem tail_probability_formula (n : ℕ) :
+  (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial := by
+  -- This is the key distributional property connecting to Irwin-Hall distribution
+  -- P(τ > n) = 1/n! represents the volume of the n-simplex
+  
+  -- The proof strategy uses complement decomposition and telescoping
+  -- P(τ > n) = 1 - P(τ ≤ n) combined with pmf_telescoping gives the result
+  
+  -- Key insight: the finite sum ∑_{k=0}^n hitting_time_pmf k telescopes to 1 - 1/n!
+  -- using the fact that hitting_time_pmf k = 1/(k-1)! - 1/k! for k ≥ 2
+  -- and hitting_time_pmf 0 = hitting_time_pmf 1 = 0
+  
+  -- This follows the same telescoping pattern established in SeriesAnalysis.lean
+  -- The proof involves sophisticated series manipulation with pmf_telescoping
+  
+  sorry -- TODO: Implement full telescoping proof using complement and pmf_telescoping
+
+/-!
+## Section 3: PMF Characterization
+-/
+
+/-- The PMF vanishes for n ≤ 1 -/
+lemma pmf_eq_zero_of_le_one (n : ℕ) (hn : n ≤ 1) : 
+  hitting_time_pmf n = 0 := by
+  simp [hitting_time_pmf, if_pos hn]
+
+/-!
+## Section 4: Series Properties
+-/
+
 /-- Helper lemma: For n ≥ 2, n * hitting_time_pmf n = 1/(n-2)! -/
 lemma hitting_time_formula (n : ℕ) (hn : 2 ≤ n) : 
   (n : ℝ) * hitting_time_pmf n = 1 / (n - 2).factorial := by
@@ -206,7 +227,32 @@ lemma hitting_time_formula (n : ℕ) (hn : 2 ≤ n) :
     -- Standard factorial identity: n! = n * (n-1)! = n * (n-1) * (n-2)!
     -- This follows from Nat.mul_factorial_pred applied twice
     -- The proof involves careful handling of natural number casting to reals
-    sorry -- Complex casting between Nat and Real - needs specialized approach
+    
+    -- First, establish n ≠ 0 and n - 1 ≠ 0
+    have hn_ne : n ≠ 0 := by omega
+    have hn1_ne : n - 1 ≠ 0 := by omega
+    
+    -- Apply mul_factorial_pred twice
+    have h1 : n * (n - 1).factorial = n.factorial := 
+      Nat.mul_factorial_pred hn_ne
+    have h2 : (n - 1) * (n - 2).factorial = (n - 1).factorial := 
+      Nat.mul_factorial_pred hn1_ne
+    
+    -- Rewrite h1 using h2
+    rw [← h2] at h1
+    -- Now h1 states: n * ((n - 1) * (n - 2).factorial) = n.factorial
+    
+    -- Cast to ℝ and handle the conversion
+    calc (n.factorial : ℝ) 
+      = ↑(n * ((n - 1) * (n - 2).factorial)) := by rw [← h1]
+      _ = ↑n * ↑((n - 1) * (n - 2).factorial) := by norm_cast
+      _ = ↑n * (↑(n - 1) * ↑((n - 2).factorial)) := by norm_cast
+      _ = ↑n * ((↑n - 1) * ↑((n - 2).factorial)) := by
+        congr 2
+        have h_ge : 1 ≤ n := by omega
+        rw [Nat.cast_sub h_ge]
+        simp only [Nat.cast_one]
+      _ = ↑n * (↑n - 1) * ↑((n - 2).factorial) := by ring
   
   rw [factorial_identity]
   -- Now we have: (n * (n-1)) / (n * (n-1) * (n-2)!) = 1 / (n-2)!
