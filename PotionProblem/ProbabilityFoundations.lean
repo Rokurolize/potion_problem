@@ -192,8 +192,9 @@ lemma hitting_time_formula (n : ℕ) (hn : 2 ≤ n) :
   simp only [mul_div_assoc']
   -- Now we have: (n * (n-1)) / n!
   -- The key is to show: (n * (n-1)) / n! = 1 / (n-2)!
+  -- This is equivalent to showing n! = n * (n-1) * (n-2)!
   
-  sorry  -- TODO: Complete this proof after fixing other build errors
+  sorry  -- TODO: Complete this proof using factorial relations
 
 /-- Helper lemma: For n < 2, n * hitting_time_pmf n = 0 -/
 lemma hitting_time_zero (n : ℕ) (hn : n < 2) : 
