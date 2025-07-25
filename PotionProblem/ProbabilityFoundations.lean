@@ -154,18 +154,6 @@ lemma pmf_eq_zero_of_le_one (n : ℕ) (hn : n ≤ 1) :
 ## Section 4: Series Properties
 -/
 
-/-- The hitting time random variable has finite expectation -/
-lemma expectation_finite : Summable (fun n : ℕ => (n : ℝ) * hitting_time_pmf n) := by
-  -- This is proven in SeriesAnalysis.lean as hitting_time_series_summable
-  -- But we cannot import SeriesAnalysis here due to circular dependency
-  -- The proof uses the relationship between our series and the factorial series
-  
-  -- For n ≥ 2, n * hitting_time_pmf n = n * (n-1)/n! = 1/(n-2)!
-  -- This is summable as it's essentially the factorial series with index shift
-  
-  -- Since we cannot import SeriesAnalysis here, we defer this proof
-  sorry
-
 /-- Alternative expression for the PMF using the telescoping property -/
 lemma pmf_telescoping (n : ℕ) (hn : 2 ≤ n) :
   hitting_time_pmf n = 1 / (n - 1).factorial - 1 / n.factorial := by
@@ -223,5 +211,18 @@ lemma hitting_time_zero (n : ℕ) (hn : n < 2) :
     | succ n'' =>
       -- n ≥ 2, contradiction
       omega
+
+/-- The hitting time random variable has finite expectation -/
+lemma expectation_finite : Summable (fun n : ℕ => (n : ℝ) * hitting_time_pmf n) := by
+  -- Strategy: Use the formula n * hitting_time_pmf n = 1/(n-2)! for n ≥ 2
+  -- and show this is essentially the factorial series with index shift
+  -- The first two terms are zero, so we can use summable_nat_add_iff
+  
+  rw [← summable_nat_add_iff 2]
+  -- Now we need to show (fun n => (n+2) * hitting_time_pmf (n+2)) is summable
+  -- By hitting_time_formula, this equals (fun n => 1/n!)
+  convert summable_inv_factorial using 1
+  ext n
+  exact hitting_time_formula (n + 2) (by omega)
 
 end PotionProblem
