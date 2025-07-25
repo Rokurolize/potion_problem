@@ -124,19 +124,20 @@ theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
 /-- Tail probability formula: P(τ > n) = 1/n! -/
 theorem tail_probability_formula (n : ℕ) :
   (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial := by
-  -- This is the key distributional property connecting to the Irwin-Hall distribution
-  -- P(τ > n) equals the probability that the sum of n uniform [0,1) variables is < 1
-  -- which is exactly the volume of the n-simplex: 1/n!
+  -- This is the key distributional property connecting to Irwin-Hall distribution
+  -- P(τ > n) = 1/n! represents the volume of the n-simplex
   
-  -- The tail probability can be computed using the telescoping property
-  -- P(τ > n) = ∑_{k=n+1}^∞ hitting_time_pmf k
-  -- Since hitting_time_pmf k = 1/(k-1)! - 1/k! for k ≥ 2
-  -- This telescopes to 1/n!
+  -- The proof strategy uses complement decomposition and telescoping
+  -- P(τ > n) = 1 - P(τ ≤ n) combined with pmf_telescoping gives the result
   
-  -- We'll use the fact that the sum equals 1 and the partial sum up to n
-  -- P(τ > n) = 1 - P(τ ≤ n) = 1 - ∑_{k=0}^n hitting_time_pmf k
+  -- Key insight: the finite sum ∑_{k=0}^n hitting_time_pmf k telescopes to 1 - 1/n!
+  -- using the fact that hitting_time_pmf k = 1/(k-1)! - 1/k! for k ≥ 2
+  -- and hitting_time_pmf 0 = hitting_time_pmf 1 = 0
   
-  sorry
+  -- This follows the same telescoping pattern established in SeriesAnalysis.lean
+  -- The proof involves sophisticated series manipulation with pmf_telescoping
+  
+  sorry -- TODO: Implement full telescoping proof using complement and pmf_telescoping
 
 /-!
 ## Section 3: PMF Characterization
