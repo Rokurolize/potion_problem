@@ -72,16 +72,39 @@ lemma series_reindexing :
   
   -- Split the sum based on n < 2 vs n ≥ 2
   have h_split : ∑' n : ℕ, (n : ℝ) * hitting_time_pmf n = 
-                 ∑' n : ℕ, (n : ℝ) * hitting_time_pmf (n + 2) := by
-    -- The transformation: remove the first two zero terms and shift index
-    -- Since n * hitting_time_pmf n = 0 for n < 2, we can reindex
-    sorry  -- TODO: Complete this proof using sum_add_tsum_nat_add
+                 ∑' n : ℕ, ((n + 2) : ℝ) * hitting_time_pmf (n + 2) := by
+    -- Strategy: Apply summable_sum_add_tsum_nat_add which allows us to reindex
+    -- the series by extracting the first k terms and shifting the rest
+    have h_eq := Summable.sum_add_tsum_nat_add 2 hitting_time_series_summable
+    -- This gives us: ∑' n, f n = ∑ i < 2, f i + ∑' n, f (n + 2)
+    
+    rw [← h_eq]
+    -- Show the finite sum equals zero
+    have h_finite_zero : ∑ i ∈ Finset.range 2, (i : ℝ) * hitting_time_pmf i = 0 := by
+      simp only [Finset.sum_range_succ, Finset.sum_range_zero]
+      rw [hitting_time_zero 0 (by norm_num : 0 < 2)]
+      rw [hitting_time_zero 1 (by norm_num : 1 < 2)]
+      simp only [add_zero, zero_add]
+    
+    rw [h_finite_zero, zero_add]
+    -- Now we need to show ∑' (i : ℕ), ↑(i + 2) * hitting_time_pmf (i + 2) = ∑' (n : ℕ), (↑n + 2) * hitting_time_pmf (n + 2)
+    congr 1
+    ext n
+    simp only [Nat.cast_add, Nat.cast_two]
   
   rw [h_split]
-  -- The reindexing shows this equals the factorial series
+  -- Now show that the reindexed series equals the factorial series
   -- Each term (n+2) * hitting_time_pmf (n+2) = 1/n! by hitting_time_formula
-  -- But we need to be careful about the indexing mismatch
-  sorry
+  congr 1
+  ext n
+  -- First convert (↑n + 2) to ↑(n + 2)
+  have h_cast : (↑n + 2 : ℝ) = ↑(n + 2) := by simp only [Nat.cast_add, Nat.cast_two]
+  rw [h_cast]
+  -- Now apply hitting_time_formula with argument (n + 2)
+  rw [hitting_time_formula (n + 2) (by omega : 2 ≤ n + 2)]
+  -- This gives us: (n + 2) * hitting_time_pmf (n + 2) = 1 / (n + 2 - 2).factorial
+  -- Since (n + 2 - 2) = n, this equals 1 / n.factorial
+  simp only [add_tsub_cancel_right]
 
 /-- Connection to exponential series -/
 lemma exp_series_connection : 
@@ -108,8 +131,35 @@ lemma telescoping_partial_sum (N : ℕ) :
   have h_telescope : ∀ n ≥ 2, hitting_time_pmf n = 1/(n-1).factorial - 1/n.factorial :=
     pmf_telescoping
   
-  -- Apply the telescoping identity to show the finite sum telescopes
-  sorry
+  -- Apply the telescoping identity to each term in the sum
+  -- The sum becomes: ∑ n ∈ range N, (1/(n+1)! - 1/(n+2)!)
+  -- which telescopes to 1/1! - 1/(N+1)! = 1 - 1/(N+1)!
+  
+  rw [Finset.sum_congr rfl (fun n hn => h_telescope (n + 2) (by omega : 2 ≤ n + 2))]
+  -- Now we have: ∑ n ∈ range N, (1/(n+1).factorial - 1/(n+2).factorial)
+  rw [Finset.sum_sub_distrib]
+  -- Split into: ∑ n ∈ range N, 1/(n+1).factorial - ∑ n ∈ range N, 1/(n+2).factorial
+  
+  -- Use telescoping sum identity
+  have h1 : ∑ n ∈ Finset.range N, (1 : ℝ) / (n + 1).factorial = 
+            ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 1).factorial := by rfl
+  have h2 : ∑ n ∈ Finset.range N, (1 : ℝ) / (n + 2).factorial = 
+            ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 2).factorial := by rfl
+  
+  -- The key insight: reindex the second sum
+  have h_reindex : ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 2).factorial = 
+                   ∑ j ∈ Finset.range N, (1 : ℝ) / (j + 2).factorial := by rfl
+  
+  -- Use the telescoping identity directly: this is a standard telescoping sum
+  -- ∑_{k=1}^N 1/k! - ∑_{k=2}^{N+1} 1/k! = 1/1! - 1/(N+1)! = 1 - 1/(N+1)!
+  have h_telescope_sum : ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 1).factorial - 
+                         ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 2).factorial = 
+                         1 - 1 / (N + 1).factorial := by
+    -- Simple approach: manipulate the sums directly
+    -- The key insight is that this is the standard telescoping sum difference
+    sorry -- TODO: Need to implement this carefully with proper Lean tactics
+  
+  exact h_telescope_sum
 
 /-- The telescoping property implies PMF sums to 1 -/
 theorem telescoping_pmf_sum : 
@@ -121,8 +171,11 @@ theorem telescoping_pmf_sum :
   have h_split : ∑' n : ℕ, hitting_time_pmf n = 
                  hitting_time_pmf 0 + hitting_time_pmf 1 + 
                  ∑' n : ℕ, hitting_time_pmf (n + 2) := by
-    -- Split the sum into first two terms plus the tail
-    sorry
+    -- Use the same reindexing technique as in series_reindexing
+    have h_eq := Summable.sum_add_tsum_nat_add 2 pmf_summable
+    rw [← h_eq]
+    -- Expand the finite sum: ∑ i ∈ range 2, hitting_time_pmf i = hitting_time_pmf 0 + hitting_time_pmf 1
+    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add]
   
   rw [h_split]
   -- First two terms are zero
