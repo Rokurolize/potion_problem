@@ -33,36 +33,8 @@ open Real Filter Nat Topology
 ## Section 1: PMF Properties
 -/
 
-/-- Helper: The PMF values sum to 1 by the telescoping property -/
-lemma pmf_telescopes : ∑' n : ℕ, hitting_time_pmf n = 1 := by
-  -- We'll use the fact that the series telescopes
-  -- hitting_time_pmf n = (n-1)/n! = 1/(n-1)! - 1/n! for n ≥ 2
-  -- So the sum is: 0 + 0 + (1/1! - 1/2!) + (1/2! - 1/3!) + ... = 1/1! = 1
-  
-  -- Summability follows from the structure of the PMF
-  -- This is proven using similar techniques as in Main.lean
-  have h_summable : Summable hitting_time_pmf := pmf_summable
-  
-  -- Now prove the sum equals 1
-  -- This is a direct consequence of the definition and properties of PMFs
-  
-  -- The key insight: our definition ensures this is a valid PMF
-  -- Use the fact that this is essentially proven in the main development
-  
-  -- Split into the zero terms and the rest
-  have h_zero_one : hitting_time_pmf 0 = 0 ∧ hitting_time_pmf 1 = 0 := by
-    simp [hitting_time_pmf]
-  
-  -- The telescoping property ensures the sum is 1
-  -- This is a standard result that follows from the definition
-  -- For a complete proof, we would show the telescoping identity
-  
-  -- For now, use the fact that this is true by construction
-  -- The formal proof would involve showing the telescoping sum
-  sorry
-
 /-- The PMF sums to 1 -/
-theorem pmf_sum_one : ∑' n : ℕ, hitting_time_pmf n = 1 := pmf_telescopes
+theorem pmf_sum_one : ∑' n : ℕ, hitting_time_pmf n = 1 := pmf_sum_eq_one
 
 /-!
 ## Section 2: Additional Properties
