@@ -100,14 +100,18 @@ lemma hitting_time_formula (n : ℕ) (hn : 2 ≤ n) :
 /-- Helper lemma: For n < 2, n * hitting_time_pmf n = 0 -/
 lemma hitting_time_zero (n : ℕ) (hn : n < 2) : 
   (n : ℝ) * hitting_time_pmf n = 0 := by
-  cases' n with n'
-  · -- n = 0
+  cases n with
+  | zero =>
+    -- n = 0
     simp [hitting_time_pmf]
-  · -- n = n' + 1
-    cases' n' with n''
-    · -- n = 1
+  | succ n' =>
+    -- n = n' + 1
+    cases n' with
+    | zero =>
+      -- n = 1
       simp [hitting_time_pmf]
-    · -- n ≥ 2, contradiction
+    | succ n'' =>
+      -- n ≥ 2, contradiction
       omega
 
 /-- The hitting time expectation series is summable -/
@@ -202,17 +206,30 @@ theorem main_theorem : expected_hitting_time = exp 1 := by
   -- Split the sum based on the condition n < 2
   have sum_split : ∑' n : ℕ, (if n < 2 then (0 : ℝ) else (1 : ℝ) / (n - 2).factorial) = 
                    ∑' n : ℕ, (1 : ℝ) / n.factorial := by
-    -- This is the key mathematical insight: the series with two zeros prepended equals the factorial series
-    -- We use exactly the same bijection argument as in summable_hitting_time
-    -- Mathematically: 0 + 0 + 1/0! + 1/1! + 1/2! + ... = 1/0! + 1/1! + 1/2! + ... = ∑' k, 1/k!
+    -- Strategy: Use the fact that our series is just the factorial series with two zeros prepended
+    -- We know from summable_hitting_time that the series is summable,
+    -- so we can use sum_add_tsum_nat_add
     
-    -- The proof follows from the reindexing n ↦ n+2 that we used in summable_hitting_time
-    -- This establishes the bijection between the shifted series and the original factorial series
+    -- First establish summability 
+    have h_summable : Summable 
+      (fun n : ℕ => if n < 2 then (0 : ℝ) else (1 : ℝ) / (n - 2).factorial) := by
+      rw [← summable_nat_add_iff 2]
+      exact summable_inv_factorial
     
-    -- This equality is the mathematical core of our proof and follows from standard series theory
-    -- The technical details involve careful handling of natural number arithmetic and tsum reindexing
-    -- which are standard techniques in mathlib4 for infinite series
-    sorry -- This reindexing step is mathematically valid and can be completed using mathlib4 tsum lemmas
+    -- Apply sum_add_tsum_nat_add in reverse: ∑' f = (∑ᵢ⁼⁰¹ f i) + ∑' f(i+2)
+    rw [← h_summable.sum_add_tsum_nat_add 2]
+    
+    -- The finite sum is zero: f(0) + f(1) = 0 + 0 = 0
+    have h_finite_zero : ∑ i ∈ Finset.range 2, 
+      (if i < 2 then (0 : ℝ) else (1 : ℝ) / (i - 2).factorial) = 0 := by
+      -- range 2 = {0, 1}, so sum is f(0) + f(1) = 0 + 0 = 0
+      simp only [Finset.sum_range_succ, Finset.sum_range_one, Finset.sum_range_zero, add_zero]
+      simp
+    rw [h_finite_zero, zero_add]
+    
+    -- Now show: ∑' k, f(k+2) = ∑' k, 1/k!
+    -- Since f(k+2) = (if k+2 < 2 then 0 else 1/(k+2-2)!) = 1/k!
+    rfl
   
   exact sum_split
 
