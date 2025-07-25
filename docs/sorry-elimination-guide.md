@@ -410,7 +410,9 @@ Implement tail_probability_formula telescoping framework
 
 ---
 
-## 🔍 Advanced Patterns from Lean 4 Best Practices
+## 🔍 Advanced Patterns Inspired by Lean 4 Development
+
+*Note: These patterns are derived from general functional programming principles and practical experience with Lean 4. They should be validated against your specific use case and the latest mathlib4 conventions.*
 
 ### Index Manipulation with `Finset.sum_bij` (NEW)
 
@@ -433,7 +435,7 @@ apply Finset.sum_bij (fun k _ => k + c)
 
 **Why It Works**: `sum_bij` provides a rigorous framework for bijective index transformations.
 
-### Modular Proof Architecture (from mathlib4 style)
+### Modular Proof Architecture
 
 **Pattern**: Structure proofs in layers
 1. **Executive Layer**: Main theorem with minimal details
@@ -445,7 +447,7 @@ apply Finset.sum_bij (fun k _ => k + c)
 - Clear dependency chains
 - Reusable components across files
 
-### Safe Partiality Pattern (from Lean 4 design)
+### Safe Partiality Pattern
 
 **Pattern**: Instead of `sorry` in recursive definitions, use `OptionM`:
 
@@ -458,7 +460,7 @@ partial def complexCalculation (n : ℕ) : OptionM ℝ := do
 
 **Why**: Enables partial progress while maintaining type safety.
 
-### Namespace Hygiene (from mathlib4)
+### Namespace Hygiene
 
 **Pattern**: Use `.Private` sub-namespaces for helper definitions:
 
@@ -488,8 +490,8 @@ simp
 simp only [Finset.sum_singleton, Nat.factorial_one]
 ```
 
-**Measurement**: Can reduce proof checking time by 40-60% in complex proofs.
+**Benefit**: Can noticeably improve proof checking time in complex proofs by avoiding unnecessary simplification attempts.
 
 ---
 
-*This guide represents battle-tested knowledge from successfully eliminating 10+ sorries in a complex mathematical formalization, enhanced with validated patterns from the Lean 4 community. Follow these patterns for efficient sorry elimination with stable, committable progress.*
+*This guide represents battle-tested knowledge from successfully eliminating 10+ sorries in a complex mathematical formalization, enhanced with practical patterns inspired by Lean 4 best practices and general functional programming principles. These suggested patterns have proven useful in this project but should be adapted to your specific needs.*
