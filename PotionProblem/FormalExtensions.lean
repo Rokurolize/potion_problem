@@ -42,17 +42,8 @@ theorem pmf_sum_one : ∑' n : ℕ, hitting_time_pmf n = 1 := pmf_sum_eq_one
 
 /-- P(τ > n) = 1/n! for all n -/
 theorem prob_tau_exceeds (n : ℕ) :
-  (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial := by
-  -- This follows from the telescoping property and the PMF structure
-  -- P(τ > n) is the probability that the sum of the first n uniform variables is < 1
-  -- This is exactly the volume of the n-simplex, which is 1/n!
-  
-  -- We can derive this from the fact that the PMF telescopes
-  -- and the tail probability has the known form
-  
-  -- For now, use the fact that this is a standard result in probability theory
-  -- The formal proof would use the telescoping identity for the PMF
-  sorry
+  (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial := 
+  tail_probability_formula n
 
 /-- The expected value calculation is valid because the series converges absolutely -/
 theorem expected_value_convergent :
