@@ -89,7 +89,6 @@ lemma pmf_summable : Summable hitting_time_pmf := by
     -- Show (n+1)/(n+1)! = 1/n!
     rw [Nat.factorial_succ]
     field_simp
-    ring
   
   -- Apply comparison test
   apply Summable.of_nonneg_of_le pmf_nonneg _ h_aux
@@ -104,7 +103,6 @@ lemma pmf_summable : Summable hitting_time_pmf := by
     -- Need to show (n-1)/n! ≤ n/n!
     apply div_le_div_of_nonneg_right
     · simp
-      omega
     · simp
 
 /-!
@@ -116,6 +114,16 @@ theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
   -- This is the fundamental property that ensures hitting_time_pmf is a valid PMF
   -- The proof uses the telescoping property: hitting_time_pmf n = 1/(n-1)! - 1/n! for n ≥ 2
   -- So the sum telescopes to 1/1! = 1
+  
+  -- We have already established that the series is summable
+  have h_summable := pmf_summable
+  
+  -- The key is that for n ≥ 2, hitting_time_pmf n = 1/(n-1)! - 1/n!
+  -- So the partial sums telescope:
+  -- ∑_{k=2}^N hitting_time_pmf k = 1/1! - 1/N!
+  -- As N → ∞, 1/N! → 0, so the sum converges to 1
+  
+  -- The actual proof requires showing the limit of partial sums equals 1
   sorry
 
 /-- Tail probability formula: P(τ > n) = 1/n! -/
@@ -124,6 +132,15 @@ theorem tail_probability_formula (n : ℕ) :
   -- This is the key distributional property connecting to the Irwin-Hall distribution
   -- P(τ > n) equals the probability that the sum of n uniform [0,1) variables is < 1
   -- which is exactly the volume of the n-simplex: 1/n!
+  
+  -- The tail probability can be computed using the telescoping property
+  -- P(τ > n) = ∑_{k=n+1}^∞ hitting_time_pmf k
+  -- Since hitting_time_pmf k = 1/(k-1)! - 1/k! for k ≥ 2
+  -- This telescopes to 1/n!
+  
+  -- We'll use the fact that the sum equals 1 and the partial sum up to n
+  -- P(τ > n) = 1 - P(τ ≤ n) = 1 - ∑_{k=0}^n hitting_time_pmf k
+  
   sorry
 
 /-!
@@ -149,6 +166,11 @@ lemma expectation_finite : Summable (fun n : ℕ => (n : ℝ) * hitting_time_pmf
   -- This is proven in SeriesAnalysis.lean as hitting_time_series_summable
   -- But we cannot import SeriesAnalysis here due to circular dependency
   -- The proof uses the relationship between our series and the factorial series
+  
+  -- For n ≥ 2, n * hitting_time_pmf n = n * (n-1)/n! = 1/(n-2)!
+  -- This is summable as it's essentially the factorial series with index shift
+  
+  -- Since we cannot import SeriesAnalysis here, we defer this proof
   sorry
 
 /-- Alternative expression for the PMF using the telescoping property -/
