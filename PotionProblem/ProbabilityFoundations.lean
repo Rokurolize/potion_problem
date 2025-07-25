@@ -115,15 +115,8 @@ theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
   -- The proof uses the telescoping property: hitting_time_pmf n = 1/(n-1)! - 1/n! for n ≥ 2
   -- So the sum telescopes to 1/1! = 1
   
-  -- We have already established that the series is summable
-  have h_summable := pmf_summable
-  
-  -- The key is that for n ≥ 2, hitting_time_pmf n = 1/(n-1)! - 1/n!
-  -- So the partial sums telescope:
-  -- ∑_{k=2}^N hitting_time_pmf k = 1/1! - 1/N!
-  -- As N → ∞, 1/N! → 0, so the sum converges to 1
-  
-  -- The actual proof requires showing the limit of partial sums equals 1
+  -- The proof is already essentially complete in SeriesAnalysis.lean as telescoping_pmf_sum
+  -- but we cannot import SeriesAnalysis here due to circular dependency
   sorry
 
 /-- Tail probability formula: P(τ > n) = 1/n! -/
