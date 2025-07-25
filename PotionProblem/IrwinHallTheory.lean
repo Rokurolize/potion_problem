@@ -155,14 +155,14 @@ theorem irwin_hall_variance (n : ℕ) :
   rfl
 
 /-- Central limit theorem convergence for Irwin-Hall -/
-theorem irwin_hall_clt_convergence (n : ℕ) :
+theorem irwin_hall_clt_convergence (_n : ℕ) :
   -- As n → ∞, (S_n - n/2) / √(n/12) converges to standard normal
   -- This explains why the Irwin-Hall distribution becomes bell-shaped for large n
   True := by
   trivial
 
 /-- Recursion relation for Irwin-Hall CDF -/
-theorem irwin_hall_recursion (n : ℕ) (x : ℝ) :
+theorem irwin_hall_recursion (_n : ℕ) (_x : ℝ) :
   -- The CDF satisfies a convolution recursion: F_{n+1}(x) = ∫₀¹ F_n(x-u) du
   -- For a complete formalization, this would require measure theory
   True := by
@@ -174,21 +174,21 @@ theorem irwin_hall_recursion (n : ℕ) (x : ℝ) :
 -/
 
 /-- Connection to Beta distribution -/
-theorem beta_distribution_connection (n : ℕ) :
+theorem beta_distribution_connection (_n : ℕ) :
   -- The nth order statistic of uniform [0,1] variables has Beta(n, 1) distribution
   -- This connects to our simplex volume calculation
   True := by
   trivial
 
 /-- Connection to Gamma distribution -/
-theorem gamma_distribution_connection (n : ℕ) :
+theorem gamma_distribution_connection (_n : ℕ) :
   -- Related to spacing between Poisson arrivals
   -- The sum of n independent Exp(1) variables has Gamma(n, 1) distribution
   True := by
   trivial
 
 /-- Relationship to exponential distribution via transformation -/
-theorem exponential_transformation (n : ℕ) :
+theorem exponential_transformation (_n : ℕ) :
   -- If S_n ~ Irwin-Hall(n), then -log(1 - S_n/n) has connections to exponential
   -- This relates to our hitting time problem through the exponential constant e
   True := by
