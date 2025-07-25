@@ -6,15 +6,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 *Also known as the Potion Problem (媚薬問題)*
 
-## 🎯 **CURRENT STATUS: NEAR COMPLETION**
+## 🎯 **CURRENT STATUS: COMPLETED** 
 
-**✅ Major Achievement:** Down to **1 final sorry** (from originally 2+)
-- **Location**: `PotionProblem/Main.lean:215` 
-- **Nature**: Technical tsum reindexing: `∑' n, (if n < 2 then 0 else 1/(n-2)!) = ∑' k, 1/k!`
-- **Mathematical validity**: Proven sound, requires mathlib4 tsum lemma application
-- **Build status**: ✅ Builds successfully with only 1 sorry remaining
+**✅ Major Achievement:** Formal proof is now **COMPLETE** with **0 sorries**
+- **Main theorem**: `PotionProblem.main_theorem : expected_hitting_time = exp 1` ✅
+- **Key techniques**: Series reindexing via `Summable.sum_add_tsum_nat_add` theorem
+- **Build status**: ✅ Builds successfully with all proofs complete
+- **Mathematical rigor**: Full formal verification in Lean 4 with mathlib4 v4.21.0
+- **Final breakthrough**: Tsum reindexing resolved through definitional equality (`rfl`)
 
-**Main theorem `PotionProblem.main_theorem : expected_hitting_time = exp 1` is structurally complete.**
+**The Potion Problem has been formally verified: E[τ] = e**
+
+### Recent Completion (July 2025)
+The final sorry was eliminated by applying `Summable.sum_add_tsum_nat_add` to split the series into finite and infinite parts, showing the finite part equals zero, and recognizing that the reindexed infinite part is definitionally equal to the factorial series.
 
 ## Essential Development Commands
 
@@ -45,6 +49,9 @@ lake build 2>&1 | grep -E "(warning:|error:)" | wc -l
 git status
 git log --oneline -5
 git diff HEAD~1
+
+# Verify proof completeness (should return nothing if complete)
+grep -n "sorry" PotionProblem/*.lean
 
 # Build specific components
 lake build PotionProblem.Basic
@@ -104,14 +111,15 @@ git add [file] && git commit -m "[specific change]"
 ### Verification Strategy
 
 **Lean 4 Verification**:
-- `PotionProblem/Main.lean` - Contains `main_theorem` proving E[τ] = e
-- Mathematical rigor through formal proof in mathlib4 v4.21.0
-- Only 1 technical sorry remaining (tsum reindexing)
+- `PotionProblem/Main.lean` - Contains complete `main_theorem` proving E[τ] = e
+- Full mathematical rigor through formal proof in mathlib4 v4.21.0
+- **Status**: ✅ Complete with 0 sorries
 
 **Python Numerical Verification**:
 - `test_all.py` - Comprehensive numerical validation confirming E[τ] ≈ e
 - Monte Carlo simulations and analytical calculations
 - Individual analysis tools in `python/` subdirectories
+- Dependencies installable via `uv sync` (numpy, scipy, matplotlib, sympy, z3-solver)
 
 ## 🚀 Quick Iteration Execution
 
@@ -182,28 +190,22 @@ lake build
 **Main Library File:**
 - `PotionProblem.lean` - Top-level import and documentation
 
-**Experimental Archive:**
-- `docs/experimental-archive/SeriesReindexing.lean` - Unused experimental index shifting lemmas (archived)
-
 ### Current Proof Status
-- **Style Warnings**: ✅ **ZERO** (all warnings resolved)
-- **Active Sorries**: **1** mathematical proof in `PotionProblem/Main.lean`
-  - Line 215: `sum_split` - Tsum reindexing for factorial series equality
-  - **Mathematical Content**: `∑' n, (if n < 2 then 0 else 1/(n-2)!) = ∑' k, 1/k!`
-  - **Technical Nature**: Series reindexing using bijection `n ↦ n+2`
-  - To verify: `grep -n "sorry" PotionProblem/Main.lean`
+- **Style Warnings**: Minor warnings remain (column alignment) but do not affect correctness
+- **Active Sorries**: **0** - All proofs complete!
 - **Completed Proofs**: 
   - ✅ `summable_hitting_time` - Series summability using `summable_nat_add_iff`
-  - ✅ `main_theorem` structure - All major mathematical steps proven
-- **Build**: ✅ Succeeds with only 1 sorry remaining
-- **Main Theorem**: `PotionProblem.main_theorem : expected_hitting_time = exp 1`
+  - ✅ `main_theorem` - Complete proof that E[τ] = e
+  - ✅ `sum_split` - Tsum reindexing completed via definitional equality
+- **Build**: ✅ Succeeds with complete formal verification
+- **Main Theorem**: `PotionProblem.main_theorem : expected_hitting_time = exp 1` ✅
 - **Linting**: Maximum strictness enabled (`weak.linter.mathlibStandardSet = true`)
-- **Current Priority**: Complete the final tsum reindexing proof
+- **Achievement**: Full formal verification of the Potion Problem in Lean 4
 
 ### Project Architecture Notes
-- **Clean Structure**: Streamlined to 4 core files in `PotionProblem/` directory
+- **Clean Structure**: Streamlined to 3 core files in `PotionProblem/` directory
 - **Modular Design**: Clear separation between definitions (`Basic.lean`), series theory (`FactorialSeries.lean`), and main proof (`Main.lean`)
-- **Single Sorry Remaining**: Down from multiple sorries to 1 technical reindexing proof
+- **Proof Complete**: All mathematical content formally verified with 0 sorries
 - **Documentation**: Comprehensive state tracking in `docs/state/` directory
 
 ### Research Documentation System
@@ -234,13 +236,20 @@ The project includes comprehensive Python tools for numerical validation:
 
 **Running Python Tools:**
 ```bash
-# Install dependencies and run all tests
-uv sync
+# Install all dependencies including numerical packages
+uv sync --all-extras
+
+# Run all tests
 uv run python test_all.py
 
 # Run individual analysis tools
 uv run python python/simulation/montecarlo_simulation.py
 uv run python python/theoretical/exact_expectation_proof.py
+uv run python python/theoretical/irwin_hall_analysis.py
+
+# Run with specific optional dependencies
+uv sync --extra numerical  # For numpy, scipy, matplotlib, sympy, z3-solver
+uv sync --extra dev       # For development tools (mypy, ruff, pytest)
 ```
 
 ### Lean Explore CLI Tool
@@ -292,13 +301,13 @@ weak.linter.mathlibStandardSet = true
 maxSynthPendingDepth = 3
 ```
 
-**Development Priority: Final Proof Completion**
+**Development Achievement: Proof Completed**
 
-This project has achieved high mathematical and code quality standards:
-1. ✅ **COMPLETED**: All style warnings resolved for mathlib4 compliance
-2. ✅ **COMPLETED**: Major mathematical proofs (`summable_hitting_time`, `main_theorem` structure)
-3. **Final Focus**: Complete the single remaining tsum reindexing proof
-4. **Achieved**: Clean build with only 1 technical sorry remaining
+This project has successfully achieved formal verification:
+1. ✅ **COMPLETED**: All mathematical proofs verified
+2. ✅ **COMPLETED**: Main theorem E[τ] = e formally proven
+3. ✅ **COMPLETED**: All sorries eliminated through rigorous proof techniques
+4. **Quality**: Maintains high code standards with mathlib4 compliance
 
 ### Safe Refactoring Practices
 
@@ -571,7 +580,7 @@ uv run leanexplore search "hasSum_geometric" --package Mathlib
 -- But verify specific Lean lemmas before implementation
 ```
 
-**Why This Cheat Sheet Matters**: The final `sorry` declaration requires sophisticated mathlib4 tsum reindexing. These tactics and patterns, extracted from comprehensive project research including external expert consultation, provide the specific tools needed to complete the formal verification.
+**Why This Cheat Sheet Matters**: These tactics and patterns were essential for completing the formal verification, particularly the sophisticated mathlib4 tsum reindexing that was the final challenge. They remain valuable for future mathematical formalizations and extensions of this work.
 
 ## 📋 Project Overview
 
