@@ -32,9 +32,8 @@ lake build > build_output.txt 2>&1
 # Clean build (useful after major changes)
 lake clean && lake build
 
-# Run Python numerical verification
-uv sync
-uv run python test_all.py
+# Build the Lean 4 proof
+lake build
 
 # Check all warnings to track style fixing progress
 lake build 2>&1 | grep -E "(warning:|error:)" | grep -v "Build completed" > current_warnings.txt
@@ -58,9 +57,8 @@ lake build PotionProblem.Basic
 lake build PotionProblem.FactorialSeries
 lake build PotionProblem.Main
 
-# Python analysis tools
-uv run python python/simulation/montecarlo_simulation.py
-uv run python python/theoretical/exact_expectation_proof.py
+# Run Lean build with verbose output
+lake build --verbose
 ```
 
 ## 🧪 TDD (Test-Driven Development) Approach
@@ -115,9 +113,9 @@ git add [file] && git commit -m "[specific change]"
 - Full mathematical rigor through formal proof in mathlib4 v4.21.0
 - **Status**: ✅ Complete with 0 sorries
 
-**Python Numerical Verification**:
-- `test_all.py` - Comprehensive numerical validation confirming E[τ] ≈ e
-- Monte Carlo simulations and analytical calculations
+**Key Components**:
+- Complete formal proof that E[τ] = e
+- All mathematical lemmas formally verified
 - Individual analysis tools in `python/` subdirectories
 - Dependencies installable via `uv sync` (numpy, scipy, matplotlib, sympy, z3-solver)
 
@@ -177,7 +175,6 @@ lake build
   - `PotionProblem/Main.lean` - Main theorem and supporting lemmas
   - `PotionProblem/Basic.lean` - Core definitions (hitting_time_pmf)
   - `PotionProblem/FactorialSeries.lean` - Factorial series convergence results
-- **Python Verification**: Numerical validation tools in `python/` directories
 - **Documentation**: Comprehensive documentation system in `docs/`
 
 ### Core Implementation Files
@@ -208,48 +205,12 @@ lake build
 - **Proof Complete**: All mathematical content formally verified with 0 sorries
 - **Documentation**: Comprehensive state tracking in `docs/state/` directory
 
-### Research Documentation System
-- **Research Prompts**: `docs/research_prompts/` - Sequential numbered prompts for external AI research
-- **Research Responses**: `docs/research_response/` - Results from external research
-- **State Management**: `docs/state/` - Current status and iteration history
 
-### Automation System
-- **Location**: `.claude/hooks/auto_iteration_continuation.py`
-- **Status**: Currently **DISABLED** (`HOOK_ENABLED = False`)
-- **Purpose**: Automatically continues iterations while proof obligations remain
-- **Features**: Build verification, infinite loop prevention, strategic guidance
-- **Control**: Set `HOOK_ENABLED = True` to enable automatic continuation
 
-### Python Verification Ecosystem
-The project includes comprehensive Python tools for numerical validation:
 
-**Directory Structure:**
-- `python/simulation/` - Monte Carlo simulations and analytical solutions
-- `python/theoretical/` - Exact mathematical proofs and Irwin-Hall distribution analysis
-- `python/proof_assistants/` - Z3 theorem prover demonstration
-
-**Key Python Files:**
-- `test_all.py` - Main test runner that validates E[τ] = e
-- `montecarlo_simulation.py` - Numerical simulation of the hitting time problem
-- `exact_expectation_proof.py` - Direct mathematical calculation
-- `irwin_hall_analysis.py` - Analysis of the underlying distribution
-
-**Running Python Tools:**
-```bash
-# Install all dependencies including numerical packages
-uv sync --all-extras
-
-# Run all tests
-uv run python test_all.py
-
-# Run individual analysis tools
-uv run python python/simulation/montecarlo_simulation.py
-uv run python python/theoretical/exact_expectation_proof.py
-uv run python python/theoretical/irwin_hall_analysis.py
-
-# Run with specific optional dependencies
-uv sync --extra numerical  # For numpy, scipy, matplotlib, sympy, z3-solver
-uv sync --extra dev       # For development tools (mypy, ruff, pytest)
+# Install and use LeanExplore for API search
+uv sync
+uv run leanexplore search "exp tsum"
 ```
 
 ### Lean Explore CLI Tool

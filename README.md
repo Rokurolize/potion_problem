@@ -11,6 +11,8 @@
 
 **Mathematical Translation**: Starting from sensitivity level 1, each dose increases sensitivity by a uniform random amount m ∈ [0,1). What is the expected number of doses until sensitivity reaches 2?
 
+**Translation Notes**: "感度" (kando: sensitivity) represents a multiplicative factor; "期待値" (kitaichi: expected value) is the standard probability theory term.
+
 **Answer**: E[τ] = e ≈ 2.718281828 (Euler's number)
 
 ## ⚠️ Important Notice
@@ -104,11 +106,6 @@ lake build
 **Status**: ✅ Build succeeds with complete formal verification - 0 sorries remaining.
 **Achievement**: Full mathematical proof that E[τ] = e has been formally verified in Lean 4.
 
-### Python Analysis
-```bash
-uv sync
-uv run python test_all.py
-```
 
 ## Technical Details
 
@@ -116,7 +113,7 @@ uv run python test_all.py
 - Basic theorem framework
 - Irwin-Hall distribution properties (P(S_n < 1) = 1/n!)
 - Factorial series convergence
-- Python numerical simulation (error < 0.01%)
+- Complete telescoping series decomposition
 
 ### Mathematical Components
 The proof architecture follows a telescoping series decomposition with three foundational components:

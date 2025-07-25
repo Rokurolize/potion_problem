@@ -7,6 +7,8 @@ import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 import PotionProblem.Main
 
+set_option linter.style.commandStart false
+
 /-!
 # Potion Problem: Expected Hitting Time = e
 

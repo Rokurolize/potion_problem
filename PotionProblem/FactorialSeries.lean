@@ -5,6 +5,8 @@ Authors: Potion Problem Team
 -/
 import Mathlib.Analysis.SpecificLimits.Normed
 
+set_option linter.style.commandStart false
+
 /-!
 # Factorial Series Convergence Results
 
