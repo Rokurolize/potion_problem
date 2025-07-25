@@ -41,11 +41,7 @@ lemma pmf_telescopes : ∑' n : ℕ, hitting_time_pmf n = 1 := by
   
   -- Summability follows from the structure of the PMF
   -- This is proven using similar techniques as in Main.lean
-  have h_summable : Summable hitting_time_pmf := by
-    -- The proof would use comparison with the factorial series
-    -- since hitting_time_pmf n ≤ n/n! for n ≥ 2
-    -- and the first two terms are zero
-    sorry
+  have h_summable : Summable hitting_time_pmf := pmf_summable
   
   -- Now prove the sum equals 1
   -- This is a direct consequence of the definition and properties of PMFs
