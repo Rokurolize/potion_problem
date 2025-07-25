@@ -75,7 +75,7 @@ lemma series_reindexing :
                  ∑' n : ℕ, (n : ℝ) * hitting_time_pmf (n + 2) := by
     -- The transformation: remove the first two zero terms and shift index
     -- Since n * hitting_time_pmf n = 0 for n < 2, we can reindex
-    sorry
+    sorry  -- TODO: Complete this proof using sum_add_tsum_nat_add
   
   rw [h_split]
   -- The reindexing shows this equals the factorial series
