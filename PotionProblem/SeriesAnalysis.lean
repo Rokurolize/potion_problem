@@ -51,6 +51,7 @@ lemma hitting_time_formula (n : ℕ) (hn : 2 ≤ n) :
   rw [pmf_eq n hn]
   field_simp
   -- The algebraic manipulation follows from factorial properties
+  -- n * (n-1) / n! = 1 / (n-2)! after cancellation
   sorry
 
 /-- Helper lemma: For n < 2, n * hitting_time_pmf n = 0 -/
@@ -112,8 +113,9 @@ lemma exp_series_connection :
   ∑' n : ℕ, (1 : ℝ) / n.factorial = exp 1 := by
   -- This is the fundamental series representation of e
   -- exp(x) = ∑ x^n/n!, so exp(1) = ∑ 1/n!
-  -- This is the standard exponential series representation
-  sorry
+  rw [Real.exp_eq_exp_ℝ]
+  rw [NormedSpace.exp_eq_tsum]
+  simp only [one_pow, smul_eq_mul, inv_eq_one_div, mul_one]
 
 /-!
 ## Section 3: Telescoping Series Properties
