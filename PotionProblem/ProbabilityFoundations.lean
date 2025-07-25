@@ -120,7 +120,8 @@ lemma pmf_eq_zero_of_le_one (n : ℕ) (hn : n ≤ 1) :
 
 /-- The hitting time random variable has finite expectation -/
 lemma expectation_finite : Summable (fun n : ℕ => (n : ℝ) * hitting_time_pmf n) := by
-  -- This is proven in Main.lean as summable_hitting_time
+  -- This is proven in SeriesAnalysis.lean as hitting_time_series_summable
+  -- But we cannot import SeriesAnalysis here due to circular dependency
   -- The proof uses the relationship between our series and the factorial series
   sorry
 
@@ -132,11 +133,8 @@ lemma pmf_telescoping (n : ℕ) (hn : 2 ≤ n) :
   rw [pmf_eq n hn]
   -- hitting_time_pmf n = (n-1)/n! = 1/(n-1)! - 1/n!
   -- This is the telescoping identity
-  -- Direct calculation:
-  -- (n-1)/n! = (n-1)/(n*(n-1)!) = 1/(n-1)! - something
   -- We need to show: (n-1)/n! = 1/(n-1)! - 1/n!
-  -- Equivalently: (n-1)/n! + 1/n! = 1/(n-1)!
-  -- LHS = ((n-1) + 1)/n! = n/n! = 1/(n-1)! ✓
+  -- This requires careful algebraic manipulation
   sorry
 
 end PotionProblem

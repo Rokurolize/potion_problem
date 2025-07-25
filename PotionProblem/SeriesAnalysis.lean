@@ -52,6 +52,8 @@ lemma hitting_time_formula (n : ℕ) (hn : 2 ≤ n) :
   field_simp
   -- The algebraic manipulation follows from factorial properties
   -- n * (n-1) / n! = 1 / (n-2)! after cancellation
+  -- After field_simp, we need to show: n * (n - 1) * (n - 2)! = n!
+  -- This follows from the factorial recursion property
   sorry
 
 /-- Helper lemma: For n < 2, n * hitting_time_pmf n = 0 -/
