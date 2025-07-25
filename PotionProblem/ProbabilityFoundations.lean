@@ -193,4 +193,35 @@ lemma pmf_telescoping (n : ℕ) (hn : 2 ≤ n) :
   field_simp
   ring
 
+/-- Helper lemma: For n ≥ 2, n * hitting_time_pmf n = 1/(n-2)! -/
+lemma hitting_time_formula (n : ℕ) (hn : 2 ≤ n) : 
+  (n : ℝ) * hitting_time_pmf n = 1 / (n - 2).factorial := by
+  -- This is the key formula that connects our expectation to the factorial series
+  -- n * ((n-1)/n!) = (n*(n-1))/n! = 1/(n-2)!
+  rw [pmf_eq n hn]
+  -- hitting_time_pmf n = (n-1)/n!
+  -- So n * hitting_time_pmf n = n * ((n-1)/n!)
+  simp only [mul_div_assoc']
+  -- Now we have: (n * (n-1)) / n!
+  -- The key is to show: (n * (n-1)) / n! = 1 / (n-2)!
+  
+  sorry  -- TODO: Complete this proof after fixing other build errors
+
+/-- Helper lemma: For n < 2, n * hitting_time_pmf n = 0 -/
+lemma hitting_time_zero (n : ℕ) (hn : n < 2) : 
+  (n : ℝ) * hitting_time_pmf n = 0 := by
+  -- Since P(τ = n) = 0 for n < 2, the product is zero
+  cases n with
+  | zero =>
+    -- n = 0: 0 * P(τ = 0) = 0
+    simp [hitting_time_pmf]
+  | succ n' =>
+    cases n' with
+    | zero =>
+      -- n = 1: 1 * P(τ = 1) = 1 * 0 = 0  
+      simp [hitting_time_pmf]
+    | succ n'' =>
+      -- n ≥ 2, contradiction
+      omega
+
 end PotionProblem

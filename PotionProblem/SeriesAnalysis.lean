@@ -43,32 +43,8 @@ open Real Filter Nat
 ## Section 1: Expectation Series Convergence
 -/
 
-/-- Helper lemma: For n ≥ 2, n * hitting_time_pmf n = 1/(n-2)! -/
-lemma hitting_time_formula (n : ℕ) (hn : 2 ≤ n) : 
-  (n : ℝ) * hitting_time_pmf n = 1 / (n - 2).factorial := by
-  -- This is the key formula that connects our expectation to the factorial series
-  -- n * ((n-1)/n!) = (n*(n-1))/n! = (n*(n-1))/(n*(n-1)*(n-2)!) = 1/(n-2)!
-  -- Use the fact that this is already proven in Main.lean, 
-  -- but we can't import Main.lean due to circular dependency
-  -- So we prove it directly here
-  sorry
-
-/-- Helper lemma: For n < 2, n * hitting_time_pmf n = 0 -/
-lemma hitting_time_zero (n : ℕ) (hn : n < 2) : 
-  (n : ℝ) * hitting_time_pmf n = 0 := by
-  -- Since P(τ = n) = 0 for n < 2, the product is zero
-  cases n with
-  | zero =>
-    -- n = 0: 0 * P(τ = 0) = 0
-    simp [hitting_time_pmf]
-  | succ n' =>
-    cases n' with
-    | zero =>
-      -- n = 1: 1 * P(τ = 1) = 1 * 0 = 0  
-      simp [hitting_time_pmf]
-    | succ n'' =>
-      -- n ≥ 2, contradiction
-      omega
+-- Import the hitting_time_formula and hitting_time_zero from ProbabilityFoundations
+-- These are now available from the imported module
 
 /-- The hitting time expectation series is summable -/
 theorem hitting_time_series_summable :
