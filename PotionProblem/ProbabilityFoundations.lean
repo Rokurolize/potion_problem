@@ -78,8 +78,34 @@ lemma pmf_summable : Summable hitting_time_pmf := by
   -- This follows from the fact that hitting_time_pmf n ≤ n/n! for n ≥ 2
   -- and the first two terms are zero
   -- The series ∑ n/n! is summable as it's bounded by the exponential series
-  -- For a complete proof, we would use comparison with the factorial series
-  sorry
+  
+  -- First, we need a bound function that's summable
+  have h_aux : Summable (fun n : ℕ => (n : ℝ) / n.factorial) := by
+    -- n/n! = 1/(n-1)! for n ≥ 1, which is summable
+    -- We can relate this to the summable series ∑ 1/n!
+    rw [← summable_nat_add_iff 1]
+    convert summable_inv_factorial using 1
+    ext n
+    -- Show (n+1)/(n+1)! = 1/n!
+    rw [Nat.factorial_succ]
+    field_simp
+    ring
+  
+  -- Apply comparison test
+  apply Summable.of_nonneg_of_le pmf_nonneg _ h_aux
+  intro n
+  by_cases h : n ≤ 1
+  · -- For n ≤ 1, hitting_time_pmf n = 0
+    simp [hitting_time_pmf, if_pos h]
+    positivity
+  · -- For n ≥ 2, hitting_time_pmf n = (n-1)/n! ≤ n/n!
+    push_neg at h
+    simp [hitting_time_pmf, if_neg (not_le.mpr h)]
+    -- Need to show (n-1)/n! ≤ n/n!
+    apply div_le_div_of_nonneg_right
+    · simp
+      omega
+    · simp
 
 /-!
 ## Section 2: Fundamental Distributional Properties
