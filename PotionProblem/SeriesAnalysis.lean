@@ -135,31 +135,140 @@ lemma telescoping_partial_sum (N : ℕ) :
   -- The sum becomes: ∑ n ∈ range N, (1/(n+1)! - 1/(n+2)!)
   -- which telescopes to 1/1! - 1/(N+1)! = 1 - 1/(N+1)!
   
-  rw [Finset.sum_congr rfl (fun n hn => h_telescope (n + 2) (by omega : 2 ≤ n + 2))]
+  -- First, apply the telescoping identity to transform each PMF term
+  have h_rewrite : ∑ n ∈ Finset.range N, hitting_time_pmf (n + 2) = 
+                   ∑ n ∈ Finset.range N, ((1 : ℝ) / (n + 1).factorial - (1 : ℝ) / (n + 2).factorial) := by
+    apply Finset.sum_congr rfl
+    intro n hn
+    exact h_telescope (n + 2) (by omega : 2 ≤ n + 2)
+  
+  rw [h_rewrite]
+  
   -- Now we have: ∑ n ∈ range N, (1/(n+1).factorial - 1/(n+2).factorial)
   rw [Finset.sum_sub_distrib]
   -- Split into: ∑ n ∈ range N, 1/(n+1).factorial - ∑ n ∈ range N, 1/(n+2).factorial
   
-  -- Use telescoping sum identity
-  have h1 : ∑ n ∈ Finset.range N, (1 : ℝ) / (n + 1).factorial = 
-            ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 1).factorial := by rfl
-  have h2 : ∑ n ∈ Finset.range N, (1 : ℝ) / (n + 2).factorial = 
-            ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 2).factorial := by rfl
+  -- Now we need to show this equals 1 - 1/(N+1)!
+  -- We'll use the telescoping property of the sums
   
-  -- The key insight: reindex the second sum
-  have h_reindex : ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 2).factorial = 
-                   ∑ j ∈ Finset.range N, (1 : ℝ) / (j + 2).factorial := by rfl
+  -- For N = 0, the sums are empty
+  by_cases hN : N = 0
+  · simp [hN]
   
-  -- Use the telescoping identity directly: this is a standard telescoping sum
-  -- ∑_{k=1}^N 1/k! - ∑_{k=2}^{N+1} 1/k! = 1/1! - 1/(N+1)! = 1 - 1/(N+1)!
-  have h_telescope_sum : ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 1).factorial - 
-                         ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 2).factorial = 
-                         1 - 1 / (N + 1).factorial := by
-    -- Simple approach: manipulate the sums directly
-    -- The key insight is that this is the standard telescoping sum difference
-    sorry -- TODO: Need to implement this carefully with proper Lean tactics
+  -- For N ≥ 1, establish the relationship between the sums
+  -- The key insight: The second sum is the first sum shifted by 1
+  have h_relation : ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 2).factorial = 
+                    ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 1).factorial - 
+                    (1 : ℝ) / Nat.factorial 1 + (1 : ℝ) / (N + 1).factorial := by
+    -- First, handle the special case N = 1
+    by_cases h1 : N = 1
+    · subst h1
+      simp [Finset.sum_range_one]
+      norm_num
+    
+    -- For N ≥ 2, use index manipulation
+    -- The key observation: ∑_{k=0}^{N-1} 1/(k+2)! = ∑_{j=2}^{N+1} 1/j!
+    -- And: ∑_{k=0}^{N-1} 1/(k+1)! = ∑_{j=1}^N 1/j!
+    -- So: ∑ 1/(k+2)! = (∑_{j=1}^N 1/j!) - 1/1! + 1/(N+1)!
+    
+    -- First establish the index shift for the second sum
+    have h_shift : ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 2).factorial = 
+                   ∑ j ∈ (Finset.range (N + 2) \ Finset.range 2), (1 : ℝ) / j.factorial := by
+      apply Finset.sum_bij (fun k _ => k + 2)
+      · intro k hk
+        simp [Finset.mem_range] at hk ⊢
+        omega
+      · intro k hk; rfl
+      · intro a₁ a₂ ha₁ ha₂ h_eq
+        -- k + 2 = a₂ + 2 → k = a₂
+        omega
+      · intro b hb
+        simp [Finset.mem_range] at hb
+        use b - 2
+        simp [Finset.mem_range]
+        constructor <;> omega
+    
+    -- Similarly for the first sum
+    have h_shift' : ∑ k ∈ Finset.range N, (1 : ℝ) / (k + 1).factorial = 
+                    ∑ j ∈ (Finset.range (N + 1) \ Finset.range 1), (1 : ℝ) / j.factorial := by
+      apply Finset.sum_bij (fun k _ => k + 1)
+      · intro k hk
+        simp [Finset.mem_range] at hk ⊢
+        omega
+      · intro k hk; rfl
+      · intro a₁ a₂ ha₁ ha₂ h_eq
+        -- k + 1 = a₂ + 1 → k = a₂
+        omega
+      · intro b hb
+        simp [Finset.mem_range] at hb
+        use b - 1
+        simp [Finset.mem_range]
+        constructor <;> omega
+    
+    -- Now express these in terms of each other
+    rw [h_shift, h_shift']
+    
+    -- The key insight: range(N+2) \ range(2) = {2,...,N+1}
+    --                  range(N+1) \ range(1) = {1,...,N}
+    -- So the difference is {1} removed and {N+1} added
+    
+    -- Split the sets appropriately
+    have h_split : Finset.range (N + 2) \ Finset.range 2 = 
+                   ({N + 1} : Finset ℕ) ∪ ((Finset.range (N + 1) \ Finset.range 1) \ {1}) := by
+      ext x
+      simp [Finset.mem_range]
+      omega
+    
+    rw [h_split]
+    
+    -- Use disjointness and union properties
+    have h_disj : Disjoint {N + 1} ((Finset.range (N + 1) \ Finset.range 1) \ {1}) := by
+      simp [Finset.disjoint_iff_ne]
+      intro a ha b hb
+      omega
+    
+    rw [Finset.sum_union h_disj]
+    simp only [Finset.sum_singleton]
+    
+    -- Show that (range(N+1) \ range(1)) \ {1} = range(N+1) \ range(1) - {1}
+    have h_diff : ((Finset.range (N + 1) \ Finset.range 1) \ {1}) = 
+                  Finset.range (N + 1) \ Finset.range 2 := by
+      ext x
+      simp [Finset.mem_range]
+      omega
+    
+    rw [h_diff]
+    
+    -- Now we need to show: sum over {1,...,N} = 1/1! + sum over {2,...,N}
+    have h_split_sum : ∑ j ∈ (Finset.range (N + 1) \ Finset.range 1), (1 : ℝ) / j.factorial = 
+                       (1 : ℝ) / Nat.factorial 1 + 
+                       ∑ j ∈ (Finset.range (N + 1) \ Finset.range 2), (1 : ℝ) / j.factorial := by
+      -- Split off the j=1 term
+      have h_split' : Finset.range (N + 1) \ Finset.range 1 = 
+                      {1} ∪ (Finset.range (N + 1) \ Finset.range 2) := by
+        ext x
+        simp [Finset.mem_range]
+        omega
+      
+      rw [h_split']
+      
+      have h_disj' : Disjoint {1} (Finset.range (N + 1) \ Finset.range 2) := by
+        simp [Finset.disjoint_iff_ne]
+        intro a ha b hb
+        omega
+      
+      rw [Finset.sum_union h_disj']
+      simp only [Finset.sum_singleton]
+    
+    rw [h_split_sum]
+    ring
   
-  exact h_telescope_sum
+  -- Apply the relation
+  rw [h_relation]
+  -- Now we have: sum1 - (sum1 - 1/1! + 1/(N+1)!) = 1/1! - 1/(N+1)! = 1 - 1/(N+1)!
+  -- Simplify 1/1! = 1/1 = 1
+  norm_num
+  ring
 
 /-- The telescoping property implies PMF sums to 1 -/
 theorem telescoping_pmf_sum : 
