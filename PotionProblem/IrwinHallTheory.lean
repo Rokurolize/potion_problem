@@ -85,10 +85,7 @@ theorem irwin_hall_unit_probability (n : ℕ) :
   irwin_hall_cdf n 1 = 1 / n.factorial := by
   -- The probability that n uniform [0,1) variables sum to less than 1
   -- is exactly the volume of the n-dimensional unit simplex
-  unfold irwin_hall_cdf
-  simp
-  -- The inclusion-exclusion formula simplifies to 1/n! when x = 1
-  sorry
+  sorry  -- TODO: Complete this proof by evaluating inclusion-exclusion formula at x=1
 
 /-!
 ## Section 3: Geometric Interpretation
