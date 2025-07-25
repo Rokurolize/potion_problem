@@ -179,10 +179,25 @@ lemma pmf_telescoping (n : ℕ) (hn : 2 ≤ n) :
   -- This telescoping identity is key to proving the sum equals 1
   -- hitting_time_pmf n = (n-1)/n! = 1/(n-1)! - 1/n!
   rw [pmf_eq n hn]
-  -- hitting_time_pmf n = (n-1)/n! = 1/(n-1)! - 1/n!
-  -- This is the telescoping identity
   -- We need to show: (n-1)/n! = 1/(n-1)! - 1/n!
-  -- This requires careful algebraic manipulation
-  sorry
+  -- Rewrite the RHS using common denominator
+  have h1 : ((n - 1).factorial : ℝ) ≠ 0 := by
+    simp [Nat.factorial_ne_zero]
+  have h2 : (n.factorial : ℝ) ≠ 0 := by
+    simp [Nat.factorial_ne_zero]
+  rw [div_sub_div 1 1 h1 h2]
+  -- Now show: (n-1)/n! = (n! - (n-1)!) / ((n-1)! * n!)
+  -- Since n! = n * (n-1)!, we have n! - (n-1)! = n*(n-1)! - (n-1)! = (n-1)*(n-1)!
+  -- So the RHS becomes: ((n-1)*(n-1)!) / ((n-1)! * n!) = (n-1)/n!
+  have fact_eq : (n.factorial : ℝ) = n * (n - 1).factorial := by
+    cases' n with n
+    · omega  -- impossible since n ≥ 2
+    · rw [Nat.factorial_succ]
+      simp only [Nat.cast_mul]
+      congr 1
+  rw [fact_eq]
+  -- Now we need to show: (n-1)/n! = (n*(n-1)! - (n-1)!) / ((n-1)! * n*(n-1)!)
+  field_simp
+  ring
 
 end PotionProblem
