@@ -17,6 +17,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **The Potion Problem has been formally verified: E[τ] = e**
 
+### Proof Strategy and API Interactions
+- Forget about the idea of creating a simpler version. Write more straightforwardly, fix build errors exactly as they're pointed out, and understand that only the API functions you find in LeanExplore actually exist—any other randomly conceived API function names are hallucinations.
+- Add a item to your Todo list stating you'll continue implementing iteratively until you confirm the "sorry" count reaches zero. To ensure nothing is left incomplete.
+
 ### Recent Completion (July 2025)
 The final sorry was eliminated by applying `Summable.sum_add_tsum_nat_add` to split the series into finite and infinite parts, showing the finite part equals zero, and recognizing that the reindexed infinite part is definitionally equal to the factorial series.
 

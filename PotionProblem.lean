@@ -6,6 +6,7 @@ Authors: Potion Problem Team
 import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 import PotionProblem.Main
+import PotionProblem.FormalExtensions
 
 set_option linter.style.commandStart false
 
