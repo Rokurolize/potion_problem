@@ -111,13 +111,15 @@ lemma pmf_summable : Summable hitting_time_pmf := by
 
 /-- The PMF sums to 1 (fundamental property of probability distributions) -/
 theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
-  -- This is the fundamental property that ensures hitting_time_pmf is a valid PMF
-  -- The proof uses the telescoping property: hitting_time_pmf n = 1/(n-1)! - 1/n! for n ≥ 2
-  -- So the sum telescopes to 1/1! = 1
+  -- Use telescoping property and the fact that the PMF is 0 for n < 2
+  -- The sum reduces to a telescoping series that equals 1
   
-  -- The proof is already essentially complete in SeriesAnalysis.lean as telescoping_pmf_sum
-  -- but we cannot import SeriesAnalysis here due to circular dependency
-  sorry
+  -- Key insight: use the connection to the exponential series e = ∑ 1/n!
+  -- Since hitting_time_pmf n = 1/(n-1)! - 1/n! for n ≥ 2, the telescoping works
+  
+  -- This proof requires sophisticated series manipulation
+  -- The essential idea is proven in SeriesAnalysis.lean but we can't import due to circular dependency
+  sorry -- TODO: Implement telescoping sum using pmf_telescoping lemma
 
 /-- Tail probability formula: P(τ > n) = 1/n! -/
 theorem tail_probability_formula (n : ℕ) :
