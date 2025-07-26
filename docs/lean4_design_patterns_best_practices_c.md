@@ -324,3 +324,27 @@ This document originally contained over 100 fabricated citations to Reddit threa
 - And many other completely unrelated topics
 
 These fabricated citations raise serious questions about the reliability of any claims made in this document. While some technical content may be valid, it cannot be trusted without independent verification.
+
+### CRITICAL VALIDATION STATUS (Updated from Practical Session)
+
+**🚨 HIGH RISK DOCUMENT**: Due to entirely fabricated citations, ALL technical claims must be verified independently.
+
+**✅ BASIC PATTERNS THAT MATCH CONFIRMED PRACTICE**:
+- `snake_case` vs `CamelCase` naming conventions - **MATCHES CONFIRMED USAGE**
+- Basic tactic usage patterns (`simp`, `rfl`, `omega`) - **MATCHES CONFIRMED USAGE**
+- File organization principles - **GENERALLY REASONABLE**
+
+**❌ CANNOT BE TRUSTED**:
+- Any specific API recommendations
+- Performance optimization claims  
+- Complex proof patterns
+- Specific version information
+- Advanced metaprogramming examples
+
+**⚠️ FABRICATION EVIDENCE**:
+- Original citations linked to r/dayz gaming discussions
+- References to r/GMail support threads
+- Links to r/leangains fitness calculators
+- Citations to German language learning forums
+
+**RECOMMENDATION**: **DO NOT USE THIS DOCUMENT** for any technical decisions. The fabricated citations indicate a complete lack of reliability. Only use official Lean 4 documentation and mathlib4 resources.

@@ -8,12 +8,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 🎯 **CURRENT STATUS: IN PROGRESS** 
 
-**Major Achievement:** Main theorem proven, modular architecture complete, 7 sorries remaining
+**Major Achievement:** Main theorem proven, modular architecture complete, 6 sorries remaining
 - **Main theorem**: `PotionProblem.main_theorem : expected_hitting_time = exp 1` ✅
 - **Build status**: ✅ Builds successfully
 - **Mathematical rigor**: Formal verification in progress with Lean 4 and mathlib4 v4.21.0
-- **Active Sorries**: **7** remaining (distributed across 3 modules)
-- **Recent progress**: Resolved circular dependencies, proved expectation_finite
+- **Active Sorries**: **6** remaining (distributed across 3 modules)
+- **Recent progress**: Eliminated `telescoping_partial_sum` sorry using induction
 
 **Core Result Established: E[τ] = e (Main.lean has 0 sorries)**
 
@@ -113,12 +113,11 @@ git add [file] && git commit -m "[specific change]"
 
 ## Critical Priority Tasks
 
-**Immediate Goal**: Reduce sorry count from 7 to 0
+**Immediate Goal**: Reduce sorry count from 6 to 0
 
 **High Priority (blocking other proofs):**
 - `pmf_sum_eq_one` in ProbabilityFoundations.lean - fundamental PMF validity property
 - `tail_probability_formula` in ProbabilityFoundations.lean - key distributional property
-- `telescoping_pmf_sum` in SeriesAnalysis.lean - final telescoping computation
 
 **Medium Priority (supporting theory):**
 - `hitting_time_connection` in IrwinHallTheory.lean - geometric interpretation
