@@ -490,6 +490,16 @@ echo "Exit code: $?"
 - **Issue**: May fail with "no applicable extensionality theorem"
 - **Solution**: First establish function equality separately, then rewrite
 
+**❌ Fighting Complex Conditional Sums**: 
+- **Wrong**: Trying to manipulate `∑' k : ℕ, if k > n then f k else 0` with complex index shifting
+- **Issue**: Multiple layers of conditionals, type coercions, and summability proofs become unmanageable
+- **Solution**: Consider induction or strategic retreat
+
+**❌ Attempting Full Piecewise Continuity Proofs**:
+- **Wrong**: Trying to prove continuity of complex piecewise functions with nested if-then-else
+- **Issue**: Both `continuity` tactic and manual `continuous_if` approaches time out or fail
+- **Solution**: Prove continuity on each piece separately, or use strategic retreat
+
 **✅ Prefer Simplicity**: When eliminating sorries, choose the most direct path. Complex mathematical arguments often have simple Lean implementations.
 
 ---
@@ -843,6 +853,46 @@ theorem tail_probability_formula (n : ℕ) :
 -- 4. Document the attempt and retreat decision
 -- 5. Move to next task to maintain momentum
 ```
+
+### Partial Progress Pattern (NEW - FROM TODAY'S SESSION)
+
+**Problem**: Complex lemma with both easy and hard directions (e.g., iff statements)
+
+**Solution**: Prove what you can, document the rest
+```lean
+lemma complex_iff_statement : P ↔ Q := by
+  -- Split into forward and backward directions
+  constructor
+  
+  -- Forward direction: hard case requiring complex analysis
+  · -- Document the mathematical approach needed
+    -- This requires [specific technique/lemma]
+    sorry
+    
+  -- Backward direction: often easier
+  · intro h
+    -- Complete proof of easier direction
+    exact proof_of_backward h
+```
+
+**Alternative for Partial Proofs**:
+```lean
+lemma complex_statement : P := by
+  -- Proved partial result that contributes
+  have h_partial : Q := by
+    -- Complete proof of related fact
+    exact some_proof
+  -- Main result requires additional work
+  -- Mathematical insight: [explanation]
+  sorry
+```
+
+**Benefits**:
+- Shows mathematical understanding
+- Provides useful partial results
+- Maintains build success
+- Documents exactly what remains
+- Allows progress on other fronts
 
 ### Advanced Patterns That Failed
 

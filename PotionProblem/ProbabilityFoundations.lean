@@ -226,6 +226,9 @@ theorem tail_probability_formula (n : ℕ) :
   -- - pmf_telescoping: hitting_time_pmf n = 1/(n-1)! - 1/n! for n ≥ 2
   -- - prob_tau_eq_zero_one: hitting_time_pmf 0 = hitting_time_pmf 1 = 0
   -- - pmf_sum_eq_one: ∑' n, hitting_time_pmf n = 1
+  -- Strategic retreat: This proof requires complex series manipulation
+  -- Mathematical approach is correct but implementation needs refinement
+  -- Will return to this after eliminating simpler sorries
   sorry
 
 /-!
