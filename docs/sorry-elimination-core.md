@@ -1,0 +1,186 @@
+# Sorry Elimination Core Guide
+
+*Essential principles and workflow for systematic sorry elimination*
+
+**Mission**: Eliminate all `sorry` statements through systematic, build-driven development.
+
+## 🎯 Core Principles
+
+### 1. **Fight One Sorry to the Death**
+- **Never change targets mid-proof** - Stick with your chosen sorry until completion
+- **Design approach thoroughly first** - Plan the entire proof strategy before coding  
+- **Only build errors can guide you** - Trust compilation feedback over intuition
+
+### 2. **Systematic Target Selection**  
+- **Dependency-First**: Eliminate sorries that other proofs depend on
+- **Foundation-Up**: Start with basic lemmas before complex theorems
+- **File-Focused**: Complete all sorries in one file before moving to another
+
+### 3. **Framework-First Development**
+- **Build Complete Infrastructure**: Establish full proof structure even with temporary sorries
+- **Commit on Solid Progress**: If build succeeds with meaningful framework, commit and proceed
+- **Mathematical Rigor**: Document the complete mathematical approach in comments
+- **Cross-Module Patterns**: Recognize and reuse proof patterns across different modules
+
+## 🔧 Pre-Attack Checklist
+
+Before targeting any sorry:
+
+### 1. **MANDATORY API Verification**
+```bash
+uv run leanexplore search "lemma_name" --package Mathlib --limit 5
+uv run leanexplore get [GROUP_ID]  # Get exact signature
+uv run leanexplore dependencies [GROUP_ID]  # Get import requirements
+```
+
+**Check Pre-Verified APIs First**: See [`docs/api-library.md`](api-library.md) before using LeanExplore
+
+### 2. **MANDATORY API Usage Verification**
+Create `test_api.lean` in project root:
+```lean
+import Required.Module.From.Dependencies
+
+-- Test the exact usage pattern from LeanExplore
+variable {α : Type} {f : ℕ → α} (hf : Summable f) (k : ℕ)
+#check Summable.sum_add_tsum_nat_add k hf  -- Must compile without errors
+```
+
+**Run verification**:
+```bash
+echo "test_api.lean" >> .gitignore  # Exclude from version control
+lake env lean test_api.lean        # Must succeed before proceeding
+```
+
+### 3. **Check Current Build Status**
+```bash
+lake build PotionProblem.ModuleName
+```
+
+### 4. **Understand the Goal**
+- Read the theorem statement carefully
+- Identify the mathematical strategy needed  
+- Check what lemmas are already available
+
+### 5. **Update Todo List**
+```bash
+# Mark current sorry as "in_progress"
+# This provides accountability and progress tracking
+```
+
+## ⚠️ CRITICAL: Common API Misuse Patterns (MUST AVOID)
+
+### Field vs Direct Call Confusion
+**❌ WRONG** - Causes "invalid field" errors:
+```lean
+(Summable.hasSum pmf_summable).sum_add_tsum_nat_add
+```
+
+**✅ CORRECT** - Direct namespace access:
+```lean
+Summable.sum_add_tsum_nat_add k pmf_summable
+```
+
+### Argument Order Mistakes
+**❌ WRONG**:
+```lean
+Summable.sum_add_tsum_nat_add summability_proof k  -- Wrong order
+```
+
+**✅ CORRECT**:  
+```lean
+Summable.sum_add_tsum_nat_add k summability_proof  -- k first, proof second
+```
+
+**See [`docs/api-library.md`](api-library.md) for comprehensive API patterns**
+
+## 🔄 Build-Driven Development Workflow
+
+### Progressive Refinement
+```lean
+-- Start with structure
+sorry  
+
+-- Add key steps
+have h1 : P := by sorry
+have h2 : Q := by sorry  
+exact final_step h1 h2
+
+-- Fill in details
+have h1 : P := by
+  rw [some_lemma]
+  simp
+have h2 : Q := by sorry
+-- Continue...
+```
+
+### TDD-Style Verification
+```bash
+# After each change
+lake build 2>&1 | grep -E "(error:|Build completed)"
+# Only commit if build succeeds
+git add [file] && git commit -m "[specific change]"
+```
+
+## 🎯 Decision Framework
+
+```
+┌─ Simple Proof Patterns? ──── YES ──→ Use established techniques
+│
+├─ API Available in Library? ── YES ──→ Use pre-verified patterns  
+│
+├─ Mathematical Complexity ─── HIGH ──→ Consider strategic retreat
+│   Manageable?                       │
+│                                     └─ See strategic-retreat-guide.md
+│
+└─ Build Errors Manageable? ── NO ───→ Strategic retreat recommended
+```
+
+## 📊 Progress Tracking
+
+### Todo List Management
+**Mandatory**: Update TodoWrite after each sorry elimination
+```bash
+# Mark completed sorries as "completed"
+# Update sorry count in main tracking todo
+# Mark next target as "in_progress"
+```
+
+### Verification Commands
+```bash
+# Check sorry count
+grep -c "sorry" ./PotionProblem/*.lean
+
+# Find specific sorries  
+grep -n "sorry" ./PotionProblem/FileName.lean
+
+# Verify build success
+lake build
+echo "Exit code: $?"
+```
+
+## 🏆 Success Patterns
+
+### High-Success Techniques
+1. **MANDATORY 3-Step API Verification**: LeanExplore search → test file creation → compilation verification
+2. **Field vs Direct Call Awareness**: Always use `Summable.api_name k proof` not `(some_object).api_name`
+3. **Systematic Type Handling**: Explicit cast conversions  
+4. **Build-First Development**: Immediate error feedback after every change
+5. **Todo Tracking**: Clear progress visibility
+
+### Proven Workflow
+1. ✅ Choose sorry based on dependency analysis
+2. ✅ Verify required APIs using pre-verified library
+3. ✅ Create test file for any new APIs
+4. ✅ Implement proof incrementally with frequent builds
+5. ✅ Document complex mathematical reasoning
+6. ✅ Consider strategic retreat if complexity exceeds session scope
+
+## 🔗 Reference Documents
+
+- **[API Library](api-library.md)** - Pre-verified APIs with usage patterns
+- **[Strategic Retreat Guide](strategic-retreat-guide.md)** - When and how to retreat strategically
+- **[Technique Patterns](sorry-elimination-patterns.md)** - Specific proof techniques and patterns
+
+---
+
+*This core guide provides the essential workflow for systematic sorry elimination. See the referenced documents for detailed techniques and specialized guidance.*
