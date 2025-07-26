@@ -295,6 +295,67 @@ elab "eraseHyp" n:ident : tactic => do
 end Tactic
 ```
 
+### Advanced Proof Strategy Patterns ✓ Verified
+
+Based on successful sorry elimination in mathematical formalizations:
+
+#### 1. Case Analysis with Arithmetic Constraints ✓
+
+For theorems involving natural numbers with different behavior in different ranges:
+
+```lean
+theorem example_theorem (n : ℕ) : some_property n := by
+  by_cases h0 : n = 0
+  · -- Handle n = 0 case
+    simp [h0]
+  · by_cases h1 : n = 1  
+    · -- Handle n = 1 case
+      simp [h1]
+    · -- Handle n ≥ 2 case
+      have h_ge_2 : n ≥ 2 := by omega
+      -- Use omega for arithmetic constraints
+```
+
+**Why This Works**: Natural number theorems often have boundary conditions at small values. Systematic case analysis with `omega` for constraints provides clean, verifiable proofs.
+
+#### 2. Transitivity Through Common Values ✓
+
+When both sides of an equality can be shown to equal the same intermediate value:
+
+```lean
+theorem connection_theorem : complex_lhs = complex_rhs := by
+  rw [lemma_showing_lhs_eq_middle]
+  exact (lemma_showing_rhs_eq_middle).symm
+```
+
+**Pattern**: Instead of directly proving `A = B`, show `A = C` and `C = B`, then use transitivity.
+
+#### 3. Dependency-Ordered Theorem Proving ✓
+
+Structure file organization to prove dependencies before dependents:
+
+```lean
+-- First prove the fundamental property
+theorem fundamental_property : P := by ...
+
+-- Then use it in more complex theorems
+theorem derived_property : Q := by
+  rw [fundamental_property]
+  -- Continue proof
+```
+
+**Critical**: Reorder theorem definitions if necessary to ensure forward references work correctly.
+
+#### 4. Foundation-First Sorry Elimination Strategy ✓
+
+When multiple sorries exist, prioritize by dependency:
+
+1. **Basic Properties**: PMF non-negativity, summability
+2. **Fundamental Formulas**: Core identities and telescoping relations  
+3. **Derived Results**: Complex applications and geometric interpretations
+
+**Success Pattern**: Eliminate 2-3 foundational sorries first to unlock multiple dependent proofs.
+
 ## Metaprogramming \& DSL Construction - Unverified
 
 ### Extensible Syntax via `syntax` \& `macro_rules`
@@ -350,7 +411,10 @@ Implement `elab_rules : command` to interleave interpretation, code generation, 
 | Global `open` of many namespaces | Name clashes, slow elaboration | `open scoped` locally |
 | `by apply` chains exceeding 10 lines | Hard to read, brittle | Use `calc` or dedicated lemma |
 | Copy-pasted `simp` lemmas without tags | Causes looping | Tag with `@[simp, norm_cast]` conscientiously |
-| Multiple `package` declarations per repo | Breaks Lake’s manifest assumptions | Split into separate repos or use `lean_lib` targets |
+| Multiple `package` declarations per repo | Breaks Lake's manifest assumptions | Split into separate repos or use `lean_lib` targets |
+| Complex complement decomposition without API verification | mathlib4 API changes cause failures | Verify APIs with LeanExplore before complex proofs ✓ |
+| Forcing advanced techniques on simple problems | Unnecessary complexity, debugging difficulty | Use direct calculation when possible ✓ |
+| Sorry elimination without dependency analysis | Cascade failures, wasted effort | Apply foundation-first strategy from sorry-elimination-guide ✓ |
 
 ## Appendix A: Cheat-Sheet Tables
 
