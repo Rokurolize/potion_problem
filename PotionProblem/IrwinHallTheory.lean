@@ -140,6 +140,9 @@ theorem order_statistics_connection (n : ℕ) :
 /-- The Irwin-Hall distribution has support [0, n] -/
 lemma irwin_hall_support (n : ℕ) (x : ℝ) :
   irwin_hall_cdf n x = 0 ↔ x < 0 ∨ (x = 0 ∧ n > 0) := by
+  -- This characterizes exactly when the Irwin-Hall CDF equals zero
+  -- Key insight: CDF = 0 only for negative x or at x = 0 when n > 0
+  -- The inclusion-exclusion formula is positive for 0 < x < n
   sorry
 
 /-- The Irwin-Hall distribution is continuous -/
