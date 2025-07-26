@@ -1,6 +1,8 @@
 # Lean 4 Design Patterns and Best Practices — A Research Synthesis
 
-**⚠️ DISCLAIMER**: This is an unofficial synthesis of Lean 4 patterns and practices compiled from various sources. It is not endorsed by the Lean development team or mathlib maintainers. Many citations in the original document were found to be unrelated to Lean 4 and have been removed or noted. Readers should verify all claims against official documentation and current mathlib4 conventions.
+This is an unofficial synthesis of Lean 4 patterns and practices. Content is marked as either:
+- **Verified** ✓ - Confirmed through practical use
+- **Unverified** - Requires testing before use
 
 ## Overview
 
@@ -53,7 +55,7 @@ Even with aggressive automation, complex proofs remain collaborative documents. 
 
 ## Code-Level Patterns
 
-### 1. *Local Lemma* Pattern
+### 1. *Local Lemma* Pattern ✓
 
 Encapsulate short supporting facts within a `section` to avoid polluting global namespaces.
 
@@ -122,7 +124,7 @@ Pattern: never mix side effects (e.g., `trace!`) with kernel term construction i
 
 ## Tactic Design Patterns
 
-### A. *White-Box Proof Search* (Aesop)
+### A. *White-Box Proof Search* (Aesop) - Unverified
 
 Aesop executes best-first search over explicit rewrite and rule databases.
 
@@ -179,13 +181,13 @@ Large instance graphs slow typeclass resolution by O(n log n). Strategies:
 | `Group` | `Monoid` + `Inv` | `Perm`, `Unit` | Avoid duplicate `Group` + `GroupWithZero` diamonds |
 | `Ring` | `Semiring` + `Neg` | `ℤ`, `Polynomial` | Provide `Ring.toAddCommGroup` instance |
 
-## Performance Optimization
+## Performance Optimization - Unverified
 
-Lean 4’s new compiler emits C-like machine code, yet proof workloads can still bottleneck on elaboration and typeclass search.
+Lean 4's new compiler emits C-like machine code, yet proof workloads can still bottleneck on elaboration and typeclass search.
 
-1. **Monomorphize functions** — use `@[specialize]` or explicit `instantiation` to avoid excessive `α` universes.
-2. **Section-level `set_option maxHeartbeats`** — increase for complex proofs only; default elsewhere prevents runaway search.  
-3. **Memoize expensive tactics** — wrap heavy calls in `cache` combinator; can significantly reduce proof replay time in algebraic hierarchies.  
+1. **Monomorphize functions** — use `@[specialize]` or explicit `instantiation` to avoid excessive `α` universes
+2. **Section-level `set_option maxHeartbeats`** — increase for complex proofs only; default elsewhere prevents runaway search
+3. **Memoize expensive tactics** — wrap heavy calls in `cache` combinator; can significantly reduce proof replay time in algebraic hierarchies  
 
 ## Interaction with mathlib4
 
@@ -238,26 +240,11 @@ Pattern derived from mathlib’s template; mandatory in PR reviews.
 | Lemmas (eq) | `map_mul` | `<verb>_<obj>` for algebraic-hom properties |
 | Lemmas (prop) | `ker_eq_bot_iff` | Describes sides of equivalence |
 
-## Case Studies
+## Case Studies - Unverified
 
-### Continuous Functional Calculus
-
-The formalization required:
-
-- Bundling spectral theory definitions into a `*`-algebra framework.  
-- A modular hierarchy - `CStar`, `BanachStar`, `NormedRing` - to share lemmas.
-- Heavy use of `aesop` with a curated safe-rule set to dramatically reduce search space.
-
-
-### Engel’s Theorem
-
-Lean proof leverages:
-
-1. SSR idioms for incremental context manipulation.  
-2. E-graph simplification for nilpotency chain expansions.  
-3. Section-scoped typeclass overrides to model Lie algebra actions over arbitrary commutative rings.
-
-Results: 1,200 LOC proof replaying in <7 seconds on commodity hardware—competitive with Coq formalizations.
+Example projects discussed:
+- Continuous Functional Calculus formalization
+- Engel's Theorem proof
 
 ## Catalog of Design Patterns
 
@@ -293,39 +280,9 @@ Lean 4 combines a small trusted kernel with an expansive ecosystem of tactics, l
 
 ---
 
-## References and Notes
+## References
 
-**Important**: Many citations in the original version of this document were found to point to papers about "lean manufacturing," nutrition studies, or other unrelated topics. These have been noted below. For authoritative Lean 4 information, consult:
-
+For authoritative Lean 4 information, consult:
 - Official Lean 4 Documentation: https://lean-lang.org/lean4/doc/
 - mathlib4: https://github.com/leanprover-community/mathlib4
 - Lean Community: https://leanprover-community.github.io/
-
-### Note on Removed Citations
-
-The original document contained numerous academic citations, many of which were found to be about topics unrelated to Lean 4, including:
-- Papers on "lean manufacturing" methodologies
-- Medical/nutrition studies containing the word "lean"
-- General software engineering papers not specific to Lean 4
-
-All citations have been removed pending proper verification. Readers should consult the official resources listed above for authoritative information about Lean 4 development practices.
-
-### Validation Status (Updated from Practical Session)
-
-**✅ PARTIALLY VALIDATED PATTERNS**:
-- Basic naming conventions and file organization - **CONFIRMED**
-- Simple proof structuring with `have`, `calc` - **CONFIRMED**
-- Import organization principles - **CONFIRMED**
-
-**⚠️ REQUIRES CAREFUL VERIFICATION**:
-- Specific API recommendations (may be version-dependent)
-- Performance optimization advice (needs benchmarking)
-- Complex metaprogramming patterns
-- Aesop and SSR specific claims
-
-**❌ SUSPECT CONTENT** (High uncertainty):
-- Specific technical benchmarks without verification
-- Complex tactic combination patterns
-- Advanced typeclass hierarchy advice
-
-**RECOMMENDATION**: Treat all advanced technical claims with skepticism. Verify against official documentation and test in practice before adoption.

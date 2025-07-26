@@ -1,6 +1,10 @@
-# Lean 4 Design Patterns and Best Practices — Community Observations
+# Lean 4 Design Patterns and Best Practices — Unreliable Source
 
-**⚠️ CRITICAL DISCLAIMER**: This document was found to contain entirely fabricated citations linking to unrelated Reddit threads about video games, Gmail support, and other topics completely unrelated to Lean 4. All original citations have been removed. The technical content itself appears to be a mix of reasonable Lean 4 patterns and general functional programming principles, but readers should verify ALL claims against official Lean 4 documentation. This is NOT an authoritative guide.
+**Note**: This document's credibility is compromised due to fabricated citations. Only the most basic patterns are retained below.
+
+Content is marked as either:
+- **Verified** ✓ - Matches confirmed practice
+- **Unverified** - Cannot be trusted
 
 ## Overview
 
@@ -16,9 +20,7 @@ Throughout the document we use short code snippets and cross-reference Mathlib 4
 
 ## Naming, Layout and Documentation
 
-### Snake vs. Camel — Type–Term Dichotomy
-
-Lean follows a strict convention:
+### Snake vs. Camel — Type–Term Dichotomy ✓
 
 
 | Element Kind | Recommended Style | Example |
@@ -143,9 +145,7 @@ calc
 ```
 
 
-## Computation-oriented Patterns
-
-Lean 4 is a general-purpose language. Common idioms:
+## Computation-oriented Patterns - Unverified
 
 ### 1. Option/Except pipelines
 
@@ -188,92 +188,10 @@ Macros expand Lean syntax at compile time (Racket-style). Design pattern:
 
 Example: “matrix notation” macro in Mathlib.
 
-## Performance Tuning \& Automation Hygiene
-
-| Issue | Best Practice | Reference |
-| :-- | :-- | :-- |
-| **Long `simp`** | Convert expensive lemmas into `@[simp_high]`, invoke with `simp (config := { zeta := false })` | Core discussion |
-| **Slow `rewrite`** | Prefer `simp` with lemma marked `@[simp]` over chains of `rw` | Zulip thread \#new_tactic |
-| **Type-class search loops** | Use `attribute [instance]` only on leanest defs; tag others `priority 50` | Mathlib style guide |
-| **Exponential elaboration** | Delete implicit args with wildcards `_`; pre-fill explicit universe `.{u}` | Lean 4 perf tips |
-| **Large `simp` sets** | `simp (config := { maxSteps := 1000 })` to cap runaway simplification | Core-team note |
-
-### Profiling Tools
-
-`set_option profiler true` emits tactic timing tree. `#eval showProfiling` prints JSON; feed into pprof.
-
-## High-level Design Patterns
-
-### Builder API for DSLs
-
-Lean’s monadic notation enables “builder” style:
-
-```lean
-open Lean Meta
-
-elab "defenv " n:str : command => do
-  let env ← getEnv
-  liftIO <| IO.println s!"env has {env.constants.size} constants"
-```
-
-This pattern appears in test generation tools (Moogle) and LeanCI scripts.
-
-### Parametric Module Pattern
-
-Lean lacks first-class module functors à la OCaml, but parameterised namespaces coupled with `variable` blocks:
-
-```lean
-variable {α : Type} [Ring α]
-
-namespace Polynomial
-
-def eval (p : Polynomial α) (x : α) := ...
-theorem eval_add : eval (p + q) x = eval p x + eval q x := ...
-```
-
-Consumers simply `open Polynomial` after fixing the typeclass context.
-
-### Interactive Experiments via `#eval` and `#reduce`
-
-Repl-friendly design: provide computational companion lemmas. E.g.:
-
-```lean
-#eval gcd 120 45  -- => 15
-#reduce (Nat.choose 5 2) -- => 10
-```
+## Performance Tuning \& Automation Hygiene - Unverified
 
 
-## Testing, Linting and CI
 
-Mathlib’s `lake exe lint` runs:
-
-- `simpNF` – no duplicate simp lemmas.
-- `unusedArguments` – detects unused implicits.
-- `docBlame` – ensures every public decl has docstring.
-- `higherOrder` – checks higher-order lemma forms.
-
-CI integrates `lake -K` (Lean Cache) and Zippy to share o-files across PRs.
-
-## Interoperability Patterns
-
-1. **C FFI** with `@[extern]` constant stubs.
-2. **Rust-via-C** when memory-sensitive: build thin wrapper, call with `Primitive.Ref`.
-3. **`.olean` export** for proof reuse; importable from other projects via Lake package.
-
-## Case Studies
-
-### 1. *Birkhoff’s Theorem* Port (Lean 3 → 4)
-
-Refactor showed:
-
-- rename lemma families systematically (`inv` → `_inv`).
-- Use `alias` to create new names while maintaining mathlib 3 API.
-- Performance improved via `simp, ring` replacement.
-
-
-### 2. Lean-written Code Generator
-
-Lean compiler itself uses unique pattern: macro-generated `Compiler.LCNF`. Demonstrates staged metaprogramming.
 
 ## Common Anti-Patterns
 
@@ -296,55 +214,22 @@ Lean compiler itself uses unique pattern: macro-generated `Compiler.LCNF`. Demon
 | restrict simp set | `simp (config := {contextual := true}) only [h₁,h₂]` |  |
 | inspect proof state | `set_option pp.goalTypes true` | Dev debug |
 
-## Road-map and Emerging Patterns
-
-- **`Aesop`** tactic encourages rule-based automation; design pattern: tag lemmas `@[aesop unsafe 50%]`.
-- **`Std` library arrays vs. `Std.HashMap` interplay evolving; expect stable ABI by Lean 4.5.
-- **`Lake` scripts** as build-scripts pattern: `lake exe` equals `cargo run`.
 
 
-## Conclusion and Warning
+## References
 
-The patterns presented in this document appear to contain a mix of reasonable Lean 4 practices and general functional programming principles. However, given that ALL original citations were fabricated (linking to video game forums, Gmail support, etc.), readers should approach this content with extreme caution.
-
-**For reliable Lean 4 information, consult only:**
+For reliable Lean 4 information, consult:
 - Official Lean 4 Documentation: https://lean-lang.org/lean4/doc/
 - mathlib4: https://github.com/leanprover-community/mathlib4
 - Lean Community: https://leanprover-community.github.io/
 - Lean Zulip Chat: https://leanprover.zulipchat.com/
 
-## Note on Fabricated Citations
+## Summary
 
-This document originally contained over 100 fabricated citations to Reddit threads including:
-- r/dayz gaming discussions
-- r/WarzoneMobile FPS optimization
-- r/GMail support threads
-- r/leangains fitness calculators
-- r/German language idioms
-- And many other completely unrelated topics
+Due to fabricated citations in the original document, only basic naming conventions can be considered reliable:
+- `snake_case` for lemmas/definitions ✓
+- `CamelCase` for types/structures ✓
+- Basic `calc` chains ✓
+- Simple `simp` usage ✓
 
-These fabricated citations raise serious questions about the reliability of any claims made in this document. While some technical content may be valid, it cannot be trusted without independent verification.
-
-### CRITICAL VALIDATION STATUS (Updated from Practical Session)
-
-**🚨 HIGH RISK DOCUMENT**: Due to entirely fabricated citations, ALL technical claims must be verified independently.
-
-**✅ BASIC PATTERNS THAT MATCH CONFIRMED PRACTICE**:
-- `snake_case` vs `CamelCase` naming conventions - **MATCHES CONFIRMED USAGE**
-- Basic tactic usage patterns (`simp`, `rfl`, `omega`) - **MATCHES CONFIRMED USAGE**
-- File organization principles - **GENERALLY REASONABLE**
-
-**❌ CANNOT BE TRUSTED**:
-- Any specific API recommendations
-- Performance optimization claims  
-- Complex proof patterns
-- Specific version information
-- Advanced metaprogramming examples
-
-**⚠️ FABRICATION EVIDENCE**:
-- Original citations linked to r/dayz gaming discussions
-- References to r/GMail support threads
-- Links to r/leangains fitness calculators
-- Citations to German language learning forums
-
-**RECOMMENDATION**: **DO NOT USE THIS DOCUMENT** for any technical decisions. The fabricated citations indicate a complete lack of reliability. Only use official Lean 4 documentation and mathlib4 resources.
+All other content requires independent verification.

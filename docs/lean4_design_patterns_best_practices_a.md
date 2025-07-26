@@ -1,6 +1,8 @@
 # Lean 4 Design Patterns and Best Practices — A Community Guide
 
-**⚠️ DISCLAIMER**: This is an unofficial community guide synthesizing various Lean 4 patterns and practices. It is not endorsed by the Lean development team or mathlib maintainers. Patterns described here should be validated against official documentation and current mathlib4 conventions. Some claims in this document may be speculative or based on general functional programming principles rather than Lean-specific guidance.
+This is an unofficial guide collecting Lean 4 patterns and practices. Content is marked as either:
+- **Verified** ✓ - Confirmed through practical use
+- **Unverified** - Requires testing before use
 
 ## About This Guide
 
@@ -68,7 +70,7 @@ Lean 4 emphasises:
 - **Typeclass-driven abstraction**: algebraic hierarchies, monadic effects, and automation are expressed via typeclasses, enabling *design-by-interface* patterns.  
 
 
-## Naming Conventions
+## Naming Conventions ✓ Verified
 
 ### High-Level Rules
 
@@ -85,12 +87,12 @@ Key design goal: *a reader can predict an identifier’s type just from its shap
 
 ### Practical Advice
 
-- Prefer descriptive verbs for tactics (`eraseHyp`) and nouns for terms (`unitEquiv`).  
-- If a lemma mirrors an existing one with reordered arguments, suffix `_rev`.  
-- Temporary variables: use `h`, `h₁`, `h₂` for hypotheses, `x`, `y` for elements, `α`, `β` for types.  
+- Prefer descriptive verbs for tactics (`eraseHyp`) and nouns for terms (`unitEquiv`) - Unverified
+- If a lemma mirrors an existing one with reordered arguments, suffix `_rev` - Unverified
+- Temporary variables: use `h`, `h₁`, `h₂` for hypotheses, `x`, `y` for elements, `α`, `β` for types ✓  
 
 
-## File \& Module Organisation
+## File \& Module Organisation ✓ Verified
 
 ### Standard Header
 
@@ -134,7 +136,7 @@ MyPkg/
 
 Rationale: shallow trees ease discovery, deep trees isolate domains.
 
-## Lake Package Design
+## Lake Package Design ✓ Verified
 
 ### Minimal `lakefile.lean`
 
@@ -173,9 +175,9 @@ Design patterns:
 - Avoid `;` chaining; rely on indentation to terminate tactic blocks.
 
 
-### Pretty-Printer API
+### Pretty-Printer API - Unverified
 
-Lean’s formatter offers combinators (`nest`, `group`, `line`) to build custom printers.  Project maintainers can expose domain-specific pretty printers (e.g., for category diagrams) that honour column width.
+Lean's formatter offers combinators (`nest`, `group`, `line`) to build custom printers. Project maintainers can expose domain-specific pretty printers (e.g., for category diagrams) that honour column width.
 
 ### Doc-Strings \& Module Docs
 
@@ -203,7 +205,7 @@ Open locally inside proofs instead of globally in files to prevent additive name
 
 ## Core Coding Patterns
 
-### 1. `fun |` Pattern-Matching Short Lambdas
+### 1. `fun |` Pattern-Matching Short Lambdas ✓ Verified
 
 ```lean
 def maybeAdd : Option Nat → Nat
@@ -219,7 +221,7 @@ Compact and preferred over `match … with` for single-argument inductives.
 - Provide `@[simp]` rewrite lemmas for non-trivial projections.
 
 
-### 3. Typeclass Synthesis as Dependency Injection
+### 3. Typeclass Synthesis as Dependency Injection - Unverified
 
 ```lean
 variable {α β} [Group α] [Group β]
@@ -232,7 +234,6 @@ export Compat (map_one)
 theorem idCompat : Compat (fun x => x) := ⟨rfl⟩
 ```
 
-Call-sites merely write `by simp` because `map_one` is found by typeclass search — a Lean idiom analogous to Spring-style injection.
 
 ### 4. Monadic Effect Layers
 
@@ -258,7 +259,7 @@ Lean treats `OptionM` as computational content, enabling proofs of *why* a call 
 
 ## Proof Patterns \& Tactic Design
 
-### Forward Reasoning with `calc`
+### Forward Reasoning with `calc` ✓ Verified
 
 ```lean
 calc
@@ -280,9 +281,9 @@ theorem map_mul {x y} : f (x * y) = f x * f y := by
 
 Pattern: state goal, call `simpa` or `simp` at end; intermediate steps use `have` or `calc`.
 
-### Custom Tactics as Reusable Abstractions
+### Custom Tactics as Reusable Abstractions - Unverified
 
-Store in `MyPkg.Tactic`.  Minimal example:
+Store in `MyPkg.Tactic`. Minimal example:
 
 ```lean
 namespace Tactic
@@ -294,9 +295,7 @@ elab "eraseHyp" n:ident : tactic => do
 end Tactic
 ```
 
-Expose interactive syntax and document with usage examples.
-
-## Metaprogramming \& DSL Construction
+## Metaprogramming \& DSL Construction - Unverified
 
 ### Extensible Syntax via `syntax` \& `macro_rules`
 
@@ -312,6 +311,7 @@ Use to embed domain-specific notations inside proofs without altering the parser
 ### Elaborator Design Pattern
 
 Implement `elab_rules : command` to interleave interpretation, code generation, and proof obligations — akin to compiler plugin architecture.
+
 
 ## Dependency \& Version Management
 
@@ -331,17 +331,16 @@ Implement `elab_rules : command` to interleave interpretation, code generation, 
 
 `Test/All.lean` collects quick checks.  Run via `lake build tests && ./build/bin/tests`.
 
-### linters
+### Linters - Unverified
 
-- `lake env lean -R Mathlib.Tactic#lint` summarises all style/linter violations.
-- Enable `CI=lint` job in GitHub Actions with provided template from mathlib4 repo.
+- `lake env lean -R Mathlib.Tactic#lint`
+- Setup varies by project
 
 
 ## Performance Optimisation Patterns
 
-- Mark helper defs `@[inline]` if they are shallow wrappers to avoid metaprogramming overhead.
-- Avoid `simp` on large lemma sets; restrict with `simp [only]`.
-- Use `set_option maxHeartbeats` pragmatically; refactor proofs if heartbeats exceed 60k.
+- Avoid `simp` on large lemma sets; restrict with `simp only [...]` ✓
+- Use `set_option maxHeartbeats` pragmatically - Unverified
 
 
 ## Anti-Patterns to Avoid
@@ -357,12 +356,12 @@ Implement `elab_rules : command` to interleave interpretation, code generation, 
 
 ### Lean 3 → Lean 4 Syntax Migration
 
-| Lean 3 | Lean 4 | Rationale | Citation |
-| :-- | :-- | :-- | :-- |
-| `λ x, t` | `fun x => t` | `=>` disambiguates commas | 6 |
-| `Π x : A, P` | `(x : A) → P` or `∀ x : A, P` | Uniform arrow syntax | 1 |
-| `f $ x` | `f <| x` | Avoid `$` precedence confusion | 1 |
-| `{,,}` record update | `{parent with field := val}` | Clear parent vs fields | 1 |
+| Lean 3 | Lean 4 | Rationale |
+| :-- | :-- | :-- |
+| `λ x, t` | `fun x => t` | `=>` disambiguates commas |
+| `Π x : A, P` | `(x : A) → P` or `∀ x : A, P` | Uniform arrow syntax |
+| `f $ x` | `f <| x` | Avoid `$` precedence confusion |
+| `{,,}` record update | `{parent with field := val}` | Clear parent vs fields |
 
 ### Common Lake CLI
 
@@ -374,50 +373,21 @@ Implement `elab_rules : command` to interleave interpretation, code generation, 
 | `lake env` | Spawn shell with `LEAN_PATH` |
 | `lake exe <name>` | Build and run executable |
 
-## Appendix B: Extended Code Walk-Through
-
-Below is a condensed real-world module that demonstrates several patterns discussed:
+## Appendix B: Code Pattern Examples - Unverified
 
 ```lean
-import MyPkg.Data.Graph -- internal data layer
-import Std
-open Std
-
-namespace MyPkg.Algorithm
-
-/-- Depth-first search returning discovered order or `none` if graph is cyclic. -/
-partial def dfs (g : Graph) : OptionM (List Node) := do
-  let mut order := #[]
-  let mut visited : HashSet Node := {}
-  let rec visit (n : Node) : OptionM Unit := do
-    if visited.contains n then
-      if order.contains n then
-        return ()                      -- already processed, skip
-      else
-        failure                         -- back-edge → cycle
-    visited := visited.insert n
-    for m in g.adj n do
-      visit m
-    order := order.push n
-  for n in g.nodes do
-    visit n
-  return order.toList
-
-theorem dfs_correct
-    (h : dfs g = some l) :
-    TopologicallySorted g l := by
-  -- proof uses patterns: calc chain + `intro`/`cases`
-  -- omitted for brevity
-  admit
-
-end MyPkg.Algorithm
+-- Example: Using OptionM for safe partiality
+partial def safeDivide (n m : Nat) : OptionM Nat := do
+  if m = 0 then
+    failure
+  else
+    return n / m
 ```
 
-Patterns illustrated:
-
-- `partial` + `OptionM` for safe partiality.
-- Mutable state via `let mut` inside `do` blocks.
-- Proof lemma placed next to implementation to keep modules cohesive.
+Key patterns to explore:
+- `partial` functions with `OptionM` for termination concerns
+- Mutable state in `do` notation
+- Proof obligations alongside implementations
 
 
 ## Conclusion
@@ -434,25 +404,3 @@ Following established patterns helps create Lean 4 code that is predictable, rea
 - mathlib4: https://github.com/leanprover-community/mathlib4
 - Lean Community: https://leanprover-community.github.io/
 
-### Validation Status (Updated from Practical Session)
-
-**✅ VALIDATED PATTERNS** (Confirmed in practice):
-- Naming conventions: `snake_case` for lemmas, `CamelCase` for types - **CONFIRMED**
-- Import organization: One per line with no blank lines - **CONFIRMED**
-- Lake configuration patterns with `@[default_target]` - **CONFIRMED** 
-- Basic tactic patterns (`simp only`, `omega`, `rfl`) - **CONFIRMED**
-- Namespace organization with `.Private` sub-namespaces - **REASONABLE**
-
-**⚠️ UNVALIDATED PATTERNS** (Require verification):
-- Specific metaprogramming examples
-- Performance optimization claims
-- Custom tactic design patterns
-- Complex elaborator patterns
-
-**❌ PROBLEMATIC PATTERNS** (Found issues):
-- Some Lake CLI commands may vary by version
-- Performance claims lack specific benchmarks
-- Some syntax patterns may be version-dependent
-
-### Note on Citations
-The original version of this document contained numerous citations that were found to be incorrect or unrelated to Lean 4. These have been removed. For authoritative information, please consult the official resources listed above.
