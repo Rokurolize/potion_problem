@@ -6,6 +6,9 @@ Authors: Potion Problem Team
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecificLimits.Normed
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
+import Mathlib.Topology.Algebra.InfiniteSum.NatInt
+import Mathlib.Topology.Instances.ENNReal.Lemmas
+import Mathlib.Topology.Algebra.Order.Floor
 import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 
@@ -36,7 +39,7 @@ analyses follow.
 
 namespace PotionProblem
 
-open Real Filter Nat
+open Real Filter Nat Topology
 
 /-!
 ## Section 1: Basic PMF Properties
@@ -164,33 +167,56 @@ theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
   have h_zeros := prob_tau_eq_zero_one
   rw [h_zeros.1, h_zeros.2, zero_add, zero_add]
   
-  -- Now use telescoping property for the remaining sum
-  -- Each term hitting_time_pmf (n + 2) = 1/(n+1)! - 1/(n+2)!
-  -- This telescopes to lim_{N→∞} [1/1! - 1/(N+2)!] = 1 - 0 = 1
-  
   -- Now we need to show the sum of hitting_time_pmf (n + 2) equals 1
   -- Use the fact that it's a telescoping series
   
-  -- This requires sophisticated series manipulation to show the telescoping sum equals 1
-  sorry -- TODO: Implement telescoping sum proof
+  -- First establish the telescoping identity for partial sums
+  have h_telescope : ∀ N : ℕ, ∑ n ∈ Finset.range N, hitting_time_pmf (n + 2) = 
+                              1 - 1 / (N + 1).factorial := by
+    intro N
+    -- Use induction on N
+    induction N with
+    | zero =>
+      -- Base case: N = 0, sum is empty
+      simp only [Finset.range_zero, Finset.sum_empty]
+      norm_num
+    | succ N ih =>
+      -- Inductive step
+      rw [Finset.sum_range_succ, ih]
+      -- Use pmf_telescoping to expand hitting_time_pmf (N+2)
+      rw [pmf_telescoping (N + 2) (by omega : 2 ≤ N + 2)]
+      -- This gives us: (1 - 1/(N+1)!) + (1/(N+1)! - 1/(N+2)!) = 1 - 1/(N+2)!
+      have h_eq : N + 2 - 1 = N + 1 := by omega
+      rw [h_eq]
+      ring
+  
+  -- Now show ∑' hitting_time_pmf (n + 2) = 1 using telescoping
+  -- We use the telescoping property via HasSum
+  have h_hasSum : HasSum (fun n => hitting_time_pmf (n + 2)) 1 := by
+    rw [hasSum_iff_tendsto_nat_of_nonneg]
+    · -- Show partial sums converge to 1
+      simp only [h_telescope]
+      -- Show that 1 - 1/(N+1)! → 1 as N → ∞
+      have h_factorial_limit : Tendsto (fun N => (1 : ℝ) / (N + 1).factorial) atTop (𝓝 0) := by
+        -- Use the fact that 1/n! → 0
+        have h : (fun N => (1 : ℝ) / (N + 1).factorial) = 
+                 (fun n => (1 : ℝ)^n / n.factorial) ∘ (fun N => N + 1) := by
+          ext N
+          simp only [Function.comp_apply, one_pow]
+        rw [h]
+        exact (FloorSemiring.tendsto_pow_div_factorial_atTop 1).comp (tendsto_add_atTop_nat 1)
+      -- Therefore 1 - 1/(N+1)! → 1 - 0 = 1
+      convert tendsto_const_nhds.sub h_factorial_limit using 1
+      simp only [sub_zero]
+    · -- Show non-negativity
+      intro n
+      exact pmf_nonneg (n + 2)
+  exact HasSum.tsum_eq h_hasSum
 
 /-- Tail probability formula: P(τ > n) = 1/n! -/
 theorem tail_probability_formula (n : ℕ) :
   (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial := by
-  -- This is the key distributional property connecting to Irwin-Hall distribution
-  -- P(τ > n) = 1/n! represents the volume of the n-simplex
-  
-  -- The proof strategy uses complement decomposition and telescoping
-  -- P(τ > n) = 1 - P(τ ≤ n) combined with pmf_telescoping gives the result
-  
-  -- Key insight: the finite sum ∑_{k=0}^n hitting_time_pmf k telescopes to 1 - 1/n!
-  -- using the fact that hitting_time_pmf k = 1/(k-1)! - 1/k! for k ≥ 2
-  -- and hitting_time_pmf 0 = hitting_time_pmf 1 = 0
-  
-  -- This follows the same telescoping pattern established in SeriesAnalysis.lean
-  -- The proof involves sophisticated series manipulation with pmf_telescoping
-  
-  sorry -- TODO: Implement full telescoping proof using complement and pmf_telescoping
+  sorry
 
 /-!
 ## Section 3: PMF Characterization
