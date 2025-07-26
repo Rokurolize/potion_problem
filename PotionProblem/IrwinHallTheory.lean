@@ -85,7 +85,33 @@ theorem irwin_hall_unit_probability (n : ℕ) :
   irwin_hall_cdf n 1 = 1 / n.factorial := by
   -- The probability that n uniform [0,1) variables sum to less than 1
   -- is exactly the volume of the n-dimensional unit simplex
-  sorry  -- TODO: Complete this proof by evaluating inclusion-exclusion formula at x=1
+  unfold irwin_hall_cdf
+  by_cases h0 : n = 0
+  · -- Case n = 0
+    simp [h0]
+  · by_cases h1 : n = 1  
+    · -- Case n = 1
+      simp [h1]
+    · -- Case n ≥ 2
+      have h_ge_2 : n ≥ 2 := by omega
+      -- Simplify the conditionals: 1 ≥ 0 is true, 1 ≥ n is false for n ≥ 2
+      have h_nonneg : ¬(1 : ℝ) < 0 := by norm_num
+      have h_not_ge : ¬(1 : ℝ) ≥ (n : ℝ) := by
+        rw [not_le]
+        exact Nat.one_lt_cast.mpr h_ge_2
+      simp only [h_nonneg, ite_false, h_not_ge, ite_false]
+      -- Now evaluate the inclusion-exclusion formula at x = 1
+      -- We need to show that the sum equals n.factorial
+      simp only [Int.floor_one, Int.natAbs_one]
+      rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_zero]
+      simp only [add_zero, pow_zero, pow_one, Nat.choose_zero_right, Nat.choose_one_right, 
+                 one_pow, sub_zero, sub_self, Nat.cast_one]
+      -- For n ≥ 2, we have 0^n = 0
+      have h_n_pos : n ≠ 0 := h0
+      have h_zero_pow : (0 : ℝ)^n = 0 := zero_pow h_n_pos
+      rw [h_zero_pow]
+      -- So the sum is 1 * 1 + (-1) * n * 0 = 1, and (1/n!) * 1 = 1/n!
+      ring
 
 /-!
 ## Section 3: Geometric Interpretation
