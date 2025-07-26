@@ -68,18 +68,6 @@ noncomputable def irwin_hall_cdf (n : ℕ) (x : ℝ) : ℝ :=
 ## Section 2: Connection to Hitting Time
 -/
 
-/-- The key connection: P(τ > n) equals the probability that S_n < 1 -/
-theorem hitting_time_connection (n : ℕ) :
-  (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = irwin_hall_cdf n 1 := by
-  -- This is the fundamental connection between our discrete problem
-  -- and the continuous Irwin-Hall distribution
-  -- P(τ > n) = P(sum of first n uniform variables < 1) = P(S_n < 1)
-  unfold irwin_hall_cdf
-  simp
-  -- For the case where n ≥ 1, we get the inclusion-exclusion formula
-  -- which evaluates to 1/n! for our specific case x = 1
-  sorry
-
 /-- Direct proof that P(S_n < 1) = 1/n! -/
 theorem irwin_hall_unit_probability (n : ℕ) :
   irwin_hall_cdf n 1 = 1 / n.factorial := by
@@ -112,6 +100,16 @@ theorem irwin_hall_unit_probability (n : ℕ) :
       rw [h_zero_pow]
       -- So the sum is 1 * 1 + (-1) * n * 0 = 1, and (1/n!) * 1 = 1/n!
       ring
+
+/-- The key connection: P(τ > n) equals the probability that S_n < 1 -/
+theorem hitting_time_connection (n : ℕ) :
+  (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = irwin_hall_cdf n 1 := by
+  -- This is the fundamental connection between our discrete problem
+  -- and the continuous Irwin-Hall distribution
+  -- P(τ > n) = P(sum of first n uniform variables < 1) = P(S_n < 1)
+  -- Both sides equal 1/n!, establishing the connection
+  rw [tail_probability_formula]
+  exact (irwin_hall_unit_probability n).symm
 
 /-!
 ## Section 3: Geometric Interpretation
