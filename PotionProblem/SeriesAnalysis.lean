@@ -180,9 +180,13 @@ theorem telescoping_pmf_sum :
   -- As N → ∞, 1/(N+1)! → 0 
   have h_limit : Tendsto (fun N => (1 : ℝ) / (N + 1).factorial) atTop (𝓝 0) := by
     -- Direct application: 1/(N+1)! → 0
-    -- Use the result from FactorialSeries module
-    rw [← Filter.tendsto_add_atTop_iff_nat 1]
-    exact inv_factorial_tendsto_zero
+    -- Show that this is just inv_factorial_tendsto_zero composed with successor
+    have h : (fun N => (1 : ℝ) / (N + 1).factorial) = 
+             (fun n => (1 : ℝ) / n.factorial) ∘ (fun N => N + 1) := by
+      ext N
+      simp only [Function.comp_apply]
+    rw [h]
+    exact inv_factorial_tendsto_zero.comp (tendsto_add_atTop_nat 1)
   
   -- Apply the lemma connecting HasSum and partial sum convergence
   have h_hasSum : HasSum (fun n => hitting_time_pmf (n + 2)) 1 := by

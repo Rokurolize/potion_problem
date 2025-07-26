@@ -285,6 +285,40 @@ have h_summable : Summable (fun n => f (n + k)) := by
 
 **Why This Works**: `summable_nat_add_iff` establishes exact equivalence between summability of f and f shifted by k.
 
+### 12. Function Composition for Shifted Limits (NEW - FROM TODAY'S SESSION)
+
+**Problem**: Show that if `f(n) → L` then `f(n+k) → L` when `Filter.tendsto_add_atTop_iff_nat` doesn't apply directly
+
+**Solution Pattern**:
+```lean
+-- To show: Tendsto (fun N => f (N + k)) atTop (𝓝 L)
+have h_limit : Tendsto (fun N => f (N + k)) atTop (𝓝 L) := by
+  -- Express as composition
+  have h : (fun N => f (N + k)) = f ∘ (fun N => N + k) := by
+    ext N
+    simp only [Function.comp_apply]
+  rw [h]
+  -- Use Tendsto.comp with the index shift
+  exact original_limit.comp (tendsto_add_atTop_nat k)
+```
+
+**Critical Details**:
+- Use function equality (`ext`) to show the shifted function equals a composition
+- Apply `Tendsto.comp` to combine the original limit with index shifting
+- `tendsto_add_atTop_nat k` provides the index shift convergence
+
+**Example from PotionProblem**:
+```lean
+-- Proving 1/(N+1)! → 0 from 1/n! → 0
+have h_limit : Tendsto (fun N => (1 : ℝ) / (N + 1).factorial) atTop (𝓝 0) := by
+  have h : (fun N => (1 : ℝ) / (N + 1).factorial) = 
+           (fun n => (1 : ℝ) / n.factorial) ∘ (fun N => N + 1) := by
+    ext N
+    simp only [Function.comp_apply]
+  rw [h]
+  exact inv_factorial_tendsto_zero.comp (tendsto_add_atTop_nat 1)
+```
+
 ## 🚀 Efficient Workflow
 
 ### Build-Driven Development
@@ -445,6 +479,16 @@ echo "Exit code: $?"
 **❌ Excessive Proof Structure**: Don't build overly elaborate proof frameworks. Sometimes the simplest approach (direct application of known results) is best.
 
 **❌ Ignoring Import Requirements**: Always verify and include all required imports. Missing imports cause "unknown identifier" errors.
+
+**❌ Misusing `Filter.tendsto_add_atTop_iff_nat` for Index Shifts**: 
+- **Wrong**: Trying to use `rw [← Filter.tendsto_add_atTop_iff_nat k]` directly
+- **Issue**: This often creates type mismatches like expecting `f(n+1+1)` when you have `f(n+1)`
+- **Solution**: Use function composition pattern (see Pattern #12 above)
+
+**❌ Using `convert` with `ext` Without Clear Goal**:
+- **Wrong**: `convert some_theorem; ext n`
+- **Issue**: May fail with "no applicable extensionality theorem"
+- **Solution**: First establish function equality separately, then rewrite
 
 **✅ Prefer Simplicity**: When eliminating sorries, choose the most direct path. Complex mathematical arguments often have simple Lean implementations.
 
