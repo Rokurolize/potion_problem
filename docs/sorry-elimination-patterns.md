@@ -363,6 +363,33 @@ lemma telescoping_result (N : ℕ) : P N := by
 - **Issue**: Both `continuity` tactic and manual `continuous_if` approaches time out or fail
 - **Solution**: Prove continuity on each piece separately, or use strategic retreat
 
+### January 2025 Session Anti-Patterns
+
+**❌ Ignoring Deprecation Warnings**:
+- **Wrong**: Using `tsum_add`, `cases'`, `Finset.not_mem_empty` despite warnings
+- **Issue**: Future mathlib versions may remove deprecated APIs
+- **Solution**: Always replace deprecated APIs immediately
+
+**❌ `if_neg`/`if_pos` Type Confusion**:
+- **Wrong**: `simp only [if_neg h1]` where `h1 : 0 ≤ x` 
+- **Issue**: `if_neg` expects `¬condition`, not the condition itself
+- **Solution**: Use proper boolean logic: `if_neg (not_lt.mpr h1)`
+
+**❌ Assuming Non-Existent Constants**:
+- **Wrong**: Using `zero_lt_zero` or similar assumed constants
+- **Issue**: "unknown identifier" errors from incorrect assumptions about stdlib
+- **Solution**: Use `#check` to verify existence or use established patterns like `lt_irrefl`
+
+**❌ Complex `conv_lhs` Pattern Matching**:
+- **Wrong**: `conv_lhs => rw [← h_total]` without verifying pattern exists
+- **Issue**: "did not find instance of the pattern" errors
+- **Solution**: Use direct rewriting or establish equality explicitly first
+
+**❌ Case Analysis Logic Errors**:
+- **Wrong**: Creating contradictory hypotheses like `h1 : 0 ≤ x` and `h_zero : x < 0`
+- **Issue**: Impossible proof states from flawed boolean logic
+- **Solution**: Careful case analysis with `omega` for arithmetic constraints
+
 **✅ Prefer Simplicity**: When eliminating sorries, choose the most direct path. Complex mathematical arguments often have simple Lean implementations.
 
 ---
