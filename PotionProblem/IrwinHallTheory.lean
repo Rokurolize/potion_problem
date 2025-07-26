@@ -116,8 +116,6 @@ theorem order_statistics_connection (n : ℕ) :
 /-- The Irwin-Hall distribution has support [0, n] -/
 lemma irwin_hall_support (n : ℕ) (x : ℝ) :
   irwin_hall_cdf n x = 0 ↔ x < 0 ∨ (x = 0 ∧ n > 0) := by
-  -- The CDF is zero for negative values and zero at x=0 when n > 0
-  unfold irwin_hall_cdf
   sorry
 
 /-- The Irwin-Hall distribution is continuous -/
