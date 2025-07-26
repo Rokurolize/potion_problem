@@ -6,6 +6,7 @@ Authors: Potion Problem Team
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
+import Mathlib.Topology.Piecewise
 import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 import PotionProblem.ProbabilityFoundations
@@ -149,6 +150,26 @@ lemma irwin_hall_support (n : ℕ) (x : ℝ) :
 lemma irwin_hall_continuous (n : ℕ) :
   Continuous (irwin_hall_cdf n) := by
   -- The CDF is continuous everywhere (though the density has corners)
+  -- Strategy: CDF of Irwin-Hall distribution is known to be continuous
+  -- The inclusion-exclusion formula produces a continuous function
+  -- even though the PDF has corners at integer points
+  --
+  -- Mathematical insight: The sum ∑ k, (-1)^k * (n choose k) * (x-k)^n
+  -- is a piecewise polynomial where each piece is continuous,
+  -- and the pieces match at boundaries (this is a key property
+  -- of the inclusion-exclusion principle for CDFs)
+  --
+  -- Implementation approach:
+  -- 1. Use continuity tactic for automated proof (ATTEMPTED: times out)
+  -- 2. If that fails, prove continuity on each interval separately
+  -- 3. Show boundary values match using CDF properties
+  --
+  -- LESSON LEARNED: The nested piecewise structure (if-then-else within if-then-else)
+  -- causes both the continuity tactic and manual continuous_if approaches to struggle
+  -- with complexity. This suggests the need for a different mathematical approach:
+  -- - Prove continuity of the inclusion-exclusion formula separately
+  -- - Handle the boundary matching more directly
+  -- - Use CDF-specific continuity theorems if available in mathlib
   sorry
 
 /-- Moment generating function of the Irwin-Hall distribution -/
