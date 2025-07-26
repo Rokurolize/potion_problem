@@ -216,10 +216,6 @@ theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
 /-- Tail probability formula: P(τ > n) = 1/n! -/
 theorem tail_probability_formula (n : ℕ) :
   (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial := by
-  -- Mathematical strategy: Use telescoping series structure and complement decomposition
-  -- The key insight is that P(τ > n) represents the tail probability of the hitting
-  -- time distribution, which equals 1/n! through the telescoping property.
-  --
   -- MATHEMATICAL FOUNDATION: 
   -- 1. P(τ > n) = 1 - P(τ ≤ n) = 1 - ∑_{k=0}^n hitting_time_pmf k
   -- 2. Since hitting_time_pmf k = 0 for k < 2, we have P(τ ≤ n) = ∑_{k=2}^n hitting_time_pmf k  

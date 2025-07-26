@@ -242,7 +242,7 @@ Future Path: [Next steps for completion]
 
 ### High-Value Retreat Patterns
 - **Mathematical Documentation Over Code**: Better to have complete mathematical understanding documented than partial, broken code
-- **Build Success Preservation**: Maintaining compilation is more valuable than incomplete proofs
+- **Build Success Preservation**: Maintaining compilation is more value than incomplete proofs
 - **Clear Challenge Identification**: Documenting specific technical hurdles accelerates future attempts
 
 ### Anti-Patterns to Avoid
@@ -250,6 +250,45 @@ Future Path: [Next steps for completion]
 - **Abandoning Mathematical Insights**: Throwing away partial mathematical understanding
 - **Build Destabilization**: Leaving broken code that affects other modules
 - **Context Loss**: Not documenting what was attempted and why it failed
+
+### January 2025 Session Insights
+
+#### Advanced Technical Challenges Confirmed
+
+**Conditional Sum Manipulation with Deprecated APIs**:
+- **Challenge**: `tail_probability_formula` requiring complement decomposition with conditional sums
+- **API Issues**: `Summable.tsum_add` deprecated, `subtype` API patterns causing type mismatches
+- **Pattern Failures**: `conv_lhs => rw [← h_total]` failing to find rewrite patterns
+- **Recommendation**: Wait for API stabilization or develop custom complement decomposition lemmas
+
+**Inclusion-Exclusion Forward Direction Analysis**:
+- **Challenge**: `irwin_hall_support` forward direction requiring proof that inclusion-exclusion sum > 0 for 0 < x < n
+- **Mathematical Complexity**: Alternating binomial sums with floor function analysis
+- **Technical Issues**: Case analysis logic errors, if-then-else condition matching failures
+- **Recommendation**: Requires dedicated combinatorics expertise and possibly external lemma library
+
+**Piecewise Continuity with Complex Boundaries**:
+- **Challenge**: `irwin_hall_continuous` requiring boundary analysis for three-piece function
+- **Known Limitations**: Both `continuity` tactic and manual `continuous_if` approaches confirmed to time out
+- **Boundary Complexity**: Limit computations at x=0 and x=n requiring advanced real analysis
+- **Recommendation**: Focus on proving continuity of each piece separately, use specialized CDF continuity theorems
+
+#### Validated Strategic Retreat Indicators
+
+**API Instability Cascade** ✅ Confirmed:
+- Deprecated `tsum_add` leading to multiple rewrite pattern failures
+- Type coercion issues with `Summable.subtype` requiring complex workarounds
+- Pattern: API deprecation warnings often signal broader instability
+
+**Logic Error Propagation** ✅ Confirmed:
+- Single case analysis errors leading to contradictory hypotheses
+- if-then-else condition matching requiring careful boolean logic analysis
+- Pattern: Complex case analysis errors indicate proof structure may be too ambitious
+
+**Timeout Pattern Recognition** ✅ Confirmed:
+- Piecewise function continuity proofs consistently exceed computational limits
+- Standard automation failing on boundary analysis
+- Pattern: When both automatic and manual approaches time out, retreat is warranted
 
 ---
 

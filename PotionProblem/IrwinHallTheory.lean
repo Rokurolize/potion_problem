@@ -141,12 +141,9 @@ theorem order_statistics_connection (n : ℕ) :
 /-- The Irwin-Hall distribution has support [0, n] -/
 lemma irwin_hall_support (n : ℕ) (x : ℝ) :
   irwin_hall_cdf n x = 0 ↔ x < 0 ∨ (x = 0 ∧ n > 0) := by
-  -- Mathematical insight: The CDF is 0 exactly when x < 0 or when x = 0 and n > 0
-  -- 
-  -- BACKWARD DIRECTION (Straightforward):
+  -- BACKWARD DIRECTION (Easy): 
   -- - If x < 0: CDF = 0 by definition
-  -- - If x = 0 ∧ n > 0: The inclusion-exclusion formula gives 
-  --   (1/n!) * ∑_{k=0}^0 (-1)^k * (n choose k) * (0-k)^n = (1/n!) * 0^n = 0
+  -- - If x = 0 ∧ n > 0: (1/n!) * 0^n = 0
   --
   -- FORWARD DIRECTION (Complex): 
   -- Requires proving that for 0 < x < n, the inclusion-exclusion sum
