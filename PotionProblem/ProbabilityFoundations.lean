@@ -216,19 +216,20 @@ theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
 /-- Tail probability formula: P(τ > n) = 1/n! -/
 theorem tail_probability_formula (n : ℕ) :
   (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial := by
-  -- Mathematical strategy (proven sound, implementation needs technical refinement):
-  -- 1. Use complement: P(τ > n) = 1 - P(τ ≤ n)
-  -- 2. P(τ ≤ n) = ∑_{k=0}^n hitting_time_pmf k = ∑_{k=2}^n hitting_time_pmf k (first two terms are 0)
-  -- 3. Apply telescoping: ∑_{k=2}^n hitting_time_pmf k = ∑_{k=2}^n (1/(k-1)! - 1/k!) = 1 - 1/n!
+  -- Mathematical strategy: Use telescoping series structure and complement decomposition
+  -- The key insight is that P(τ > n) represents the tail probability of the hitting
+  -- time distribution, which equals 1/n! through the telescoping property.
+  --
+  -- MATHEMATICAL FOUNDATION: 
+  -- 1. P(τ > n) = 1 - P(τ ≤ n) = 1 - ∑_{k=0}^n hitting_time_pmf k
+  -- 2. Since hitting_time_pmf k = 0 for k < 2, we have P(τ ≤ n) = ∑_{k=2}^n hitting_time_pmf k  
+  -- 3. Using telescoping: ∑_{k=2}^n hitting_time_pmf k = ∑_{k=2}^n (1/(k-1)! - 1/k!) = 1 - 1/n!
   -- 4. Therefore: P(τ > n) = 1 - (1 - 1/n!) = 1/n!
-  -- 
-  -- Key lemmas available:
-  -- - pmf_telescoping: hitting_time_pmf n = 1/(n-1)! - 1/n! for n ≥ 2
-  -- - prob_tau_eq_zero_one: hitting_time_pmf 0 = hitting_time_pmf 1 = 0
-  -- - pmf_sum_eq_one: ∑' n, hitting_time_pmf n = 1
-  -- Strategic retreat: This proof requires complex series manipulation
-  -- Mathematical approach is correct but implementation needs refinement
-  -- Will return to this after eliminating simpler sorries
+  --
+  -- STRATEGIC COMPLEXITY: This proof requires intricate series manipulation with 
+  -- conditional sums, complement decomposition, index rewriting, and telescoping identities.
+  -- The mathematical approach is sound, but technical implementation with current API 
+  -- patterns has proven challenging. Strategic retreat to maintain build success.
   sorry
 
 /-!
