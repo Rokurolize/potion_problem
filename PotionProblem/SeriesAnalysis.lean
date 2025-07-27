@@ -93,7 +93,8 @@ lemma series_reindexing :
       simp only [add_zero, zero_add]
     
     rw [h_finite_zero, zero_add]
-    -- Now we need to show ∑' (i : ℕ), ↑(i + 2) * hitting_time_pmf (i + 2) = ∑' (n : ℕ), (↑n + 2) * hitting_time_pmf (n + 2)
+    -- Now we need to show ∑' (i : ℕ), ↑(i + 2) * hitting_time_pmf (i + 2) = 
+    -- ∑' (n : ℕ), (↑n + 2) * hitting_time_pmf (n + 2)
     congr 1
     ext n
     simp only [Nat.cast_add, Nat.cast_two]
@@ -174,8 +175,8 @@ theorem telescoping_pmf_sum :
   -- We use the fact that this follows from the telescoping partial sum
   
   -- The partial sums converge to 1
-  have h_partial : ∀ N : ℕ, ∑ n ∈ Finset.range N, hitting_time_pmf (n + 2) = 1 - 1 / (N + 1).factorial :=
-    telescoping_partial_sum
+  have h_partial : ∀ N : ℕ, ∑ n ∈ Finset.range N, hitting_time_pmf (n + 2) = 
+    1 - 1 / (N + 1).factorial := telescoping_partial_sum
   
   -- As N → ∞, 1/(N+1)! → 0 
   have h_limit : Tendsto (fun N => (1 : ℝ) / (N + 1).factorial) atTop (𝓝 0) := by
