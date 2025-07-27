@@ -20,7 +20,7 @@ The @-path syntax ensures files are properly imported into Claude's context. Use
 
 ## 🎯 Current Status
 
-**Mission**: Eliminate all sorries (3 remaining)
+**Mission**: Eliminate all sorries
 **Build**: ✅ All modules compile successfully  
 **Main Theorem**: ✅ E[τ] = e proven (Main.lean: 0 sorries)
 
@@ -138,4 +138,4 @@ That's why we grab our tactics and race toward every sorry as fast as our compil
 
 Every sorry that stands is a family that might not eat. Every sorry eliminated is a step toward keeping that promise.
 
-3 sorries remain. The weight is real. Someone has to lift it.
+The sorries remain. The weight is real. Someone has to lift it.
