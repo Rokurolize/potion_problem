@@ -15,7 +15,7 @@
 | Factorial & Series | 2 | 2 verified |
 | Index Manipulation | 2 | 1 verified, 1 partial |
 | Arithmetic & Logic | 2 | 2 verified |
-| APIs for Remaining Sorries | 3 | Investigation needed |
+| APIs for Remaining Sorries | 6 | 5 verified, 1 deprecated |
 
 ## 📚 Infinite Sum APIs
 
@@ -232,38 +232,59 @@ When adding new verified APIs to this library:
 4. **Proof Context Verification**: Use in actual proof
 5. **Documentation**: Add to this library with template
 
-## 🎯 APIs Needed for Remaining Sorries (2025-07-27)
+## 🎯 APIs for Remaining Sorries (Verified 2025-07-27)
 
 ### For `tail_probability_formula` (ProbabilityFoundations.lean:259)
 
-#### Conditional Sum Manipulation
-- **Need**: Convert `∑' k, if k > n then f k else 0` to standard forms
-- **Potential APIs**: 
-  - `Equiv.tsum_eq` - For proving sum equivalences via bijections
-  - `tsum_subtype` - For conditional to subtype conversion (not found in searches)
-  - `Set.indicator` - For rewriting conditional sums
+#### `tsum_subtype_add_tsum_subtype_compl`
+**Status**: ⚠️ Deprecated (alias of `Summable.tsum_subtype_add_tsum_subtype_compl`)  
+**Signature**: `tsum_subtype_add_tsum_subtype_compl : ∑'_{x : s} f(x) + ∑'_{x : s^c} f(x) = ∑' x, f(x)`  
+**Import**: `import Mathlib.Topology.Algebra.InfiniteSum.Group`  
+**ID**: 187696  
+**Notes**: For conditional to subtype conversion. Sum over subtype + complement = total sum.
 
-#### Complement Decomposition 
-- **Have**: `Summable.tsum_add_tsum_compl` (verified ✅)
-- **Need**: Apply to conditional sums with index shifts
+#### `Set.indicator`
+**Status**: ✅ Verified  
+**Signature**: `Set.indicator s f a` returns `f a` if `a ∈ s`, `0` otherwise  
+**Import**: `import Mathlib.Algebra.Group.Indicator`  
+**ID**: 9175  
+**Usage Pattern**:
+```lean
+-- Convert conditional sum to indicator notation
+∑' k, if k > n then f k else 0 = ∑' k, Set.indicator {k | k > n} f k
+```
 
 ### For `irwin_hall_support` (IrwinHallTheory.lean:158)
 
-#### Inclusion-Exclusion Analysis
-- **Need**: Prove alternating binomial sum positivity
-- **Potential APIs**:
-  - `Finset.sum_bij` - For bijective sum transformations
-  - Alternating series convergence lemmas
-  - Binomial coefficient manipulation APIs
+#### `Finset.sum_bij`
+**Status**: ✅ Verified  
+**Signature**: Reorder finite sums via bijection (see detailed signature in ID 2350)  
+**Import**: `import Mathlib.Algebra.BigOperators.Group.Finset.Defs`  
+**ID**: 2350  
+**Notes**: For inclusion-exclusion rearrangements with dependent bijections
 
-### For `irwin_hall_continuous` (IrwinHallTheory.lean:208)  
+#### `Antitone.tendsto_alternating_series_of_tendsto_zero`
+**Status**: ✅ Verified  
+**Signature**: Alternating series test for antitone sequences  
+**Import**: `import Mathlib.Analysis.SpecificLimits.Normed`  
+**ID**: 58273  
+**Usage**: Proves convergence of alternating series like `∑ (-1)^i * f(i)` when `f` is antitone and tends to 0
 
-#### Piecewise Continuity
-- **Need**: Handle floor function discontinuities in finset construction
-- **Potential APIs**:
-  - `Continuous.if` - For piecewise function continuity
-  - `continuousOn_piecewise` - For proving continuity on pieces
-  - Floor function continuity lemmas
+### For `irwin_hall_continuous` (IrwinHallTheory.lean:208)
+
+#### `Continuous.if`
+**Status**: ✅ Verified  
+**Signature**: `Continuous.if` - continuity of piecewise functions via if-then-else  
+**Import**: `import Mathlib.Topology.Piecewise`  
+**ID**: 201977  
+**Requirement**: Functions must agree on the frontier of the condition set
+
+#### `ContinuousOn.piecewise`
+**Status**: ✅ Verified  
+**Signature**: Continuity of piecewise functions on a set  
+**Import**: `import Mathlib.Topology.Piecewise`  
+**ID**: 201974  
+**Notes**: Handles piecewise definitions with frontier agreement conditions
 
 ## 🔄 API Lifecycle Management
 
