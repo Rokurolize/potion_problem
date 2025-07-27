@@ -5,7 +5,7 @@
 **Purpose**: Avoid redundant LeanExplore searches by documenting previously verified APIs with correct usage patterns and common failure modes.
 
 **Version**: mathlib4 v4.21.0  
-**Last Updated**: January 2025
+**Last Updated**: January 2025 (Updated 2025-07-27)
 
 ## 🔍 Quick Reference
 
@@ -15,6 +15,7 @@
 | Factorial & Series | 2 | 2 verified |
 | Index Manipulation | 2 | 1 verified, 1 partial |
 | Arithmetic & Logic | 2 | 2 verified |
+| APIs for Remaining Sorries | 3 | Investigation needed |
 
 ## 📚 Infinite Sum APIs
 
@@ -230,6 +231,39 @@ When adding new verified APIs to this library:
 3. **Compilation Check**: `lake env lean test_api.lean`
 4. **Proof Context Verification**: Use in actual proof
 5. **Documentation**: Add to this library with template
+
+## 🎯 APIs Needed for Remaining Sorries (2025-07-27)
+
+### For `tail_probability_formula` (ProbabilityFoundations.lean:259)
+
+#### Conditional Sum Manipulation
+- **Need**: Convert `∑' k, if k > n then f k else 0` to standard forms
+- **Potential APIs**: 
+  - `Equiv.tsum_eq` - For proving sum equivalences via bijections
+  - `tsum_subtype` - For conditional to subtype conversion (not found in searches)
+  - `Set.indicator` - For rewriting conditional sums
+
+#### Complement Decomposition 
+- **Have**: `Summable.tsum_add_tsum_compl` (verified ✅)
+- **Need**: Apply to conditional sums with index shifts
+
+### For `irwin_hall_support` (IrwinHallTheory.lean:158)
+
+#### Inclusion-Exclusion Analysis
+- **Need**: Prove alternating binomial sum positivity
+- **Potential APIs**:
+  - `Finset.sum_bij` - For bijective sum transformations
+  - Alternating series convergence lemmas
+  - Binomial coefficient manipulation APIs
+
+### For `irwin_hall_continuous` (IrwinHallTheory.lean:208)  
+
+#### Piecewise Continuity
+- **Need**: Handle floor function discontinuities in finset construction
+- **Potential APIs**:
+  - `Continuous.if` - For piecewise function continuity
+  - `continuousOn_piecewise` - For proving continuity on pieces
+  - Floor function continuity lemmas
 
 ## 🔄 API Lifecycle Management
 
