@@ -85,16 +85,16 @@ import Mathlib.Data.Set.Indicator
 To find the exact APIs in your mathlib4 version:
 ```bash
 # Search for equivalence-based sum reindexing
-uv run leanexplore search "Equiv.tsum_eq" --package Mathlib
+scripts/lle search "Equiv.tsum_eq" --package Mathlib
 
 # Search for injective function sum reindexing  
-uv run leanexplore search "Function.Injective.tsum_eq" --package Mathlib
+scripts/lle search "Function.Injective.tsum_eq" --package Mathlib
 
 # Search for support-based theorems
-uv run leanexplore search "support f ⊆" --package Mathlib
+scripts/lle search "support f ⊆" --package Mathlib
 
 # Get details on the complement decomposition theorem
-uv run leanexplore get 187696
+scripts/lle get 187696
 ```
 
 ## Additional Important Findings
@@ -134,12 +134,12 @@ For the PotionProblem project, the complement decomposition theorem (`tsum_subty
 
 1. Verify if `Equiv.tsum_eq` exists under a different name:
    ```bash
-   uv run leanexplore search "∑' c, f (e c) = ∑' b, f b" --package Mathlib
+   scripts/lle search "∑' c, f (e c) = ∑' b, f b" --package Mathlib
    ```
 
 2. Check for bijection-based sum reindexing:
    ```bash
-   uv run leanexplore search "tsum_bij" --package Mathlib
+   scripts/lle search "tsum_bij" --package Mathlib
    ```
 
 3. For the PotionProblem, focus on using `tsum_subtype_add_tsum_subtype_compl` with the appropriate imports:

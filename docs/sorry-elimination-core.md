@@ -31,11 +31,11 @@ Before targeting any sorry:
 **Check Pre-Verified APIs**:
 Check [`docs/api-library.md`](api-library.md) for proven patterns
 
-**LeanExplore Research**:
+**LeanExplore Research** (MUST use wrapper):
 ```bash
-uv run leanexplore search "lemma_name" --package Mathlib --limit 5
-uv run leanexplore get [GROUP_ID]  # Get exact signature
-uv run leanexplore dependencies [GROUP_ID]  # Get import requirements
+scripts/lle search "lemma_name" --package Mathlib --limit 5
+scripts/lle get [GROUP_ID]  # Get exact signature
+scripts/lle dependencies [GROUP_ID]  # Get import requirements
 ```
 
 ### 2. **MANDATORY API Usage Verification**
@@ -174,7 +174,7 @@ echo "Exit code: $?"
 2. ✅ Check pre-verified APIs in api-library.md
 3. ✅ Fix build errors and type mismatches
 4. ✅ Document mathematical framework clearly in comments
-5. ✅ Use LeanExplore for API discovery when needed
+5. ✅ Use LeanExplore wrapper (scripts/lle) for API discovery when needed
 6. ✅ Consider strategic retreat if complexity exceeds session scope
 
 ## 🔗 Reference Documents

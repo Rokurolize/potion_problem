@@ -225,7 +225,7 @@ When adding new verified APIs to this library:
 
 ### Verification Process
 
-1. **LeanExplore Search**: `uv run leanexplore search "api_name" --package Mathlib`
+1. **LeanExplore Search**: `scripts/lle search "api_name" --package Mathlib` (use wrapper!)
 2. **Test File Creation**: Create `test_api.lean` with exact usage
 3. **Compilation Check**: `lake env lean test_api.lean`
 4. **Proof Context Verification**: Use in actual proof

@@ -434,8 +434,8 @@ Always verify APIs before complex proof attempts:
 ```bash
 # Pre-implementation verification workflow
 cat docs/api-library/[relevant-category]/verified-apis.md  # Check pre-verified APIs first
-uv run leanexplore search "api_name" --package Mathlib     # Only if not in library
-uv run leanexplore get [GROUP_ID]                         # Get exact signature
+scripts/lle search "api_name" --package Mathlib           # Only if not in library (use wrapper!)
+scripts/lle get [GROUP_ID]                               # Get exact signature (use wrapper!)
 echo "test_api.lean" >> .gitignore                        # Exclude test file
 lake env lean test_api.lean                               # Verify compilation
 ```
