@@ -13,6 +13,8 @@ import subprocess
 import json
 import sys
 import re
+import os
+from pathlib import Path
 from typing import Optional, List, Dict, Any
 from enum import Enum
 
@@ -26,6 +28,7 @@ class DetailLevel(Enum):
 class LLMLeanExplore:
     def __init__(self):
         self.base_cmd = ["uv", "run", "leanexplore"]
+        self.non_existent_file = Path(__file__).parent.parent / "list-of-non-existent-mathlib-apis.md"
         
     def _run_command(self, args: List[str]) -> str:
         """Run a leanexplore command and return raw output."""
@@ -172,6 +175,74 @@ class LLMLeanExplore:
         
         return '\n'.join(output)
     
+    def _is_likely_non_existent(self, query: str, parsed_data: Dict[str, Any]) -> bool:
+        """Determine if search results indicate the API doesn't exist."""
+        # No candidates at all
+        if parsed_data['candidates'] == 0:
+            return True
+        
+        # Check if results are relevant to the query
+        query_lower = query.lower()
+        query_parts = set(re.findall(r'\w+', query_lower))
+        
+        # If we have results, check if any are actually relevant
+        relevant_count = 0
+        for result in parsed_data['results'][:5]:  # Check first 5 results
+            result_name = result.get('name', '').lower()
+            result_parts = set(re.findall(r'\w+', result_name))
+            
+            # Check for overlap between query and result
+            if query_parts.intersection(result_parts):
+                relevant_count += 1
+        
+        # If very few relevant results compared to query complexity
+        if len(query_parts) >= 2 and relevant_count == 0:
+            return True
+            
+        return False
+    
+    def _check_already_listed(self, query: str) -> bool:
+        """Check if query pattern is already in the non-existent list."""
+        if not self.non_existent_file.exists():
+            return False
+            
+        content = self.non_existent_file.read_text()
+        # Simple check - could be enhanced with pattern matching
+        return query in content or query.replace('.', r'\.') in content
+    
+    def _append_non_existent(self, query: str, package: Optional[str]) -> None:
+        """Append a non-existent API to the list."""
+        # Check if already listed
+        if self._check_already_listed(query):
+            return
+            
+        # Prepare the entry
+        timestamp = subprocess.run(['date', '+%Y-%m-%d'], capture_output=True, text=True).stdout.strip()
+        
+        entry = f"\n{self._get_existing_entries() + 1}. **`{query}`** - Not found in mathlib4\n"
+        entry += f"   - **Search context**: Searched"
+        if package:
+            entry += f" in package {package}"
+        entry += f" on {timestamp}\n"
+        entry += "   - **Implication**: Consider alternative approaches or verify the API name\n"
+        
+        # Append to file
+        with open(self.non_existent_file, 'a') as f:
+            f.write(entry)
+    
+    def _get_existing_entries(self) -> int:
+        """Get count of existing entries for numbering."""
+        if not self.non_existent_file.exists():
+            return 0
+            
+        content = self.non_existent_file.read_text()
+        # Count numbered entries - look for patterns like "28. **`"
+        matches = re.findall(r'^(\d+)\.\s+\*\*`', content, re.MULTILINE)
+        if matches:
+            # Return the highest number found
+            return max(int(m) for m in matches)
+        return 0
+    
     def search(self, query: str, limit: int = 10, 
                detail: Optional[str] = None, 
                package: Optional[str] = None) -> str:
@@ -186,6 +257,10 @@ class LLMLeanExplore:
         
         # Parse output
         parsed = self._parse_search_output(raw_output)
+        
+        # Check if API likely doesn't exist and append to list
+        if self._is_likely_non_existent(query, parsed):
+            self._append_non_existent(query, package)
         
         # Determine detail level
         if detail:

@@ -213,6 +213,25 @@ scripts/lle search "[function_name]" --package Mathlib
 - `lean-explore` dependency included in `pyproject.toml`
 - **ALWAYS use `scripts/lle` wrapper** - never call `uv run leanexplore` directly
 
+### Non-Existent APIs Reference
+
+**BEFORE searching for any API**, check the pre-verified non-existent list:
+```bash
+cat list-of-non-existent-mathlib-apis.md
+```
+
+This file contains:
+- **28+ documented non-existent APIs** organized by category
+- **Automatic additions** by the LLM wrapper when searches yield no relevant results
+- **Alternative approaches** for each non-existent pattern
+
+**The wrapper automatically appends** to this list when:
+- Search returns 0 candidates
+- Search results have no relevance to the query
+- Multi-word queries have zero overlap with results
+
+This prevents redundant searches and saves valuable context.
+
 ### MANDATORY: Use LLM-Optimized Wrapper for ALL API Searches
 
 **REQUIRED**: You MUST use the LLM-optimized wrapper instead of raw LeanExplore:
