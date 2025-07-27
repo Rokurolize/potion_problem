@@ -279,7 +279,7 @@ theorem tail_probability_formula (n : ℕ) :
             apply hk
             rw [if_neg h]
       -- Since the function is non-zero only on finitely many points, it's summable
-      sorry
+      exact summable_of_finite_support h_support
     · -- Summability of second part  
       apply Summable.of_nonneg_of_le
       · intro k

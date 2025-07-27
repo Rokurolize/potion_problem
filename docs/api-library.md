@@ -10,13 +10,15 @@
 
 | API Category | Count | Status Summary |
 |--------------|-------|----------------|
-| Infinite Sum APIs | 3 | 2 verified, 1 deprecated |
+| Infinite Sum APIs | 6 | 5 verified, 1 deprecated |
 | Factorial & Series | 4 | 4 verified (2 new critical) |
 | Index Manipulation | 2 | 1 verified, 1 partial |
 | Arithmetic & Logic | 3 | 3 verified |
 | APIs for Remaining Sorries | 13 | 11 verified, 2 deprecated |
-| Non-Existent APIs | 4 | Documented to prevent searches |
+| Non-Existent APIs | 6 | Documented to prevent searches |
 | Implementation Strategies | 3 | Ready for sorry elimination |
+| Conditional Sum Conversion | 3 | 3 verified (expert validated) |
+| Finset Decomposition | 3 | 3 verified |
 
 ## 📚 Infinite Sum APIs
 
@@ -54,6 +56,43 @@ have h_summable : Summable (fun n => f (n + k)) := by
   rw [← summable_nat_add_iff k]
   exact original_summability
 ```
+
+### `tsum_congr` ⭐⭐⭐ **Expert Validated**
+**Status**: ✅ Verified (2025-07-28)
+**Signature**: `tsum_congr {f g : β → α} (h : ∀ b, f b = g b) : ∑' b, f b = ∑' b, g b`
+**Import**: `import Mathlib.Topology.Algebra.InfiniteSum.Basic`
+**Usage Pattern**:
+```lean
+-- When functions agree pointwise, their sums are equal
+have h_eq : ∀ k, f k = g k := by ...
+rw [tsum_congr h_eq]
+```
+**Note**: Essential for rewriting sum contents when converting if-then-else to indicator.
+
+### `tsum_subtype` ⭐⭐⭐⭐ **Critical for Conditional Sums**
+**Status**: ✅ Verified (2025-07-28)
+**Signature**: `tsum_subtype (s : Set β) (f : β → α) : ∑' (x : ↑s), f ↑x = ∑' x, s.indicator f x`
+**Import**: `import Mathlib.Topology.Algebra.InfiniteSum.Basic`
+**Usage Pattern**:
+```lean
+-- Convert conditional sum to subtype sum
+-- From: ∑' k, if k > n then f k else 0
+-- To: ∑' (k : {k // k > n}), f k
+rw [← tsum_subtype {k | k > n} f]
+```
+**Note**: Provides direct conversion between indicator sums and subtype sums. Use reverse direction for conditional-to-subtype conversion.
+
+### `Set.indicator` ⭐⭐⭐ **Foundation for Conditional Sums**
+**Status**: ✅ Verified (2025-07-28)
+**Signature**: `Set.indicator (s : Set α) (f : α → M) (a : α) : M` where it returns `f a` if `a ∈ s`, `0` otherwise
+**Import**: `import Mathlib.Algebra.Group.Indicator`
+**Usage Pattern**:
+```lean
+-- Convert if-then-else to indicator
+have : (fun k => if k > n then f k else 0) = {k | k > n}.indicator f := by
+  ext k; simp [Set.indicator]
+```
+**Note**: Standard way to express conditional sums in mathlib.
 
 ## 🧮 Factorial and Series APIs
 
@@ -277,6 +316,46 @@ have h_exp_series := NormedSpace.expSeries_div_hasSum_exp (1 : ℝ)
 **Import**: `import Mathlib.Algebra.BigOperators.Group.Finset.Defs`  
 **ID**: 2350  
 **Notes**: For inclusion-exclusion rearrangements with dependent bijections. The bijection can depend on membership proof.
+
+## 🔄 Finset Decomposition APIs (Expert Validated)
+
+### `Finset.union_sdiff_of_subset` ⭐⭐⭐
+**Status**: ✅ Verified (2025-07-28)
+**Signature**: `Finset.union_sdiff_of_subset {s t : Finset α} (h : s ⊆ t) : s ∪ (t \ s) = t`
+**Import**: `import Mathlib.Data.Finset.Basic`
+**Usage Pattern**:
+```lean
+-- Decompose a finset into subset and complement
+have h_sub : Finset.range 2 ⊆ Finset.range (n + 1) := Finset.range_mono (by omega)
+have h_decomp : Finset.range (n + 1) = Finset.range 2 ∪ (Finset.range (n + 1) \ Finset.range 2) :=
+  (Finset.union_sdiff_of_subset h_sub).symm
+```
+**Note**: Essential for splitting finite sums into disjoint parts.
+
+### `Finset.sum_union` ⭐⭐⭐⭐
+**Status**: ✅ Verified (2025-07-28)
+**Signature**: `Finset.sum_union [DecidableEq ι] (h : Disjoint s₁ s₂) : ∑ x ∈ s₁ ∪ s₂, f x = ∑ x ∈ s₁, f x + ∑ x ∈ s₂, f x`
+**Import**: `import Mathlib.Algebra.BigOperators.Group.Finset.Basic`
+**Usage Pattern**:
+```lean
+-- Split sum over disjoint union
+rw [Finset.sum_union Finset.disjoint_sdiff]
+-- Now have: ∑ x ∈ s, f x + ∑ x ∈ t \ s, f x
+```
+**Note**: Requires disjointness proof. Often used with `Finset.disjoint_sdiff`.
+
+### `Finset.disjoint_sdiff` ⭐⭐⭐
+**Status**: ✅ Verified (2025-07-28)
+**Signature**: `Finset.disjoint_sdiff {s t : Finset α} : Disjoint s (t \ s)`
+**Import**: `import Mathlib.Data.Finset.Basic`
+**Usage Pattern**:
+```lean
+-- Prove s and t \ s are disjoint (automatic)
+have h_disj : Disjoint s (t \ s) := Finset.disjoint_sdiff
+-- Use with sum_union
+rw [Finset.sum_union h_disj]
+```
+**Note**: Provides automatic disjointness proof for set difference operations.
 
 #### `Antitone.tendsto_alternating_series_of_tendsto_zero`
 **Status**: ✅ Verified  

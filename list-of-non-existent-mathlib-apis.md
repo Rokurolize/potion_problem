@@ -182,3 +182,13 @@ The following entries were added when MCP LeanExplore searches yielded no releva
    - **Search context**: Searched on 2025-07-27 - Expert's revised proposal for converting indicator sums to subtype sums
    - **Implication**: Build proof manually using `tsum_subtype` or use alternative decomposition approaches
    - **Note**: Expert claimed this was in `Mathlib.Topology.Algebra.InfiniteSum.Group` but it doesn't exist
+
+34. **`tsum_eq_tsum_of_ne_zero`** - Not found in mathlib4
+   - **Search context**: Searched on 2025-07-28 - Expert suggested this for converting conditional sums to subtype sums
+   - **Implication**: Use `tsum_eq_sum` when support is finite, or `Summable.tsum_subtype_add_tsum_subtype_compl` for decomposition
+   - **Note**: Expert incorrectly suggested this as a standard Mathlib API for converting `∑' k, if k > n then f k else 0` to `∑' (k : {k // k > n}), f k`
+
+35. **`Finset.sum_sdiff`** - Not found in mathlib4
+   - **Search context**: Searched on 2025-07-28 - Expert suggested this for splitting finite sums
+   - **Implication**: Use `Finset.sum_union` with disjoint sets, or `Finset.sum_subset` for subset-based splitting
+   - **Note**: While `sdiff` operations exist for sets, there's no specific `sum_sdiff` lemma for finsets
