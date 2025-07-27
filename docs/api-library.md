@@ -96,7 +96,7 @@ have h_hasSum : HasSum f L := by
 **Mathematical Foundation**: Rigorous proof that ∑ x^n/n! = exp(x)
 **Key Application**: Setting x=1 proves ∑ 1/n! = e
 
-## 🔄 Index Manipulation APIs
+## 🔢 Index Manipulation APIs
 
 ### `tendsto_add_atTop_nat`
 **Status**: ✅ Verified  
