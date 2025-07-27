@@ -12,10 +12,12 @@
 | API Category | Count | Status Summary |
 |--------------|-------|----------------|
 | Infinite Sum APIs | 3 | 2 verified, 1 deprecated |
-| Factorial & Series | 2 | 2 verified |
+| Factorial & Series | 4 | 4 verified (2 new critical) |
 | Index Manipulation | 2 | 1 verified, 1 partial |
-| Arithmetic & Logic | 2 | 2 verified |
-| APIs for Remaining Sorries | 6 | 5 verified, 1 deprecated |
+| Arithmetic & Logic | 3 | 3 verified |
+| APIs for Remaining Sorries | 13 | 11 verified, 2 deprecated |
+| Non-Existent APIs | 4 | Documented to prevent searches |
+| Implementation Strategies | 3 | Ready for sorry elimination |
 
 ## 📚 Infinite Sum APIs
 
@@ -79,6 +81,22 @@ have h_hasSum : HasSum f L := by
   · exact nonnegativity_proof
 ```
 
+### `Complex.sum_div_factorial_le` ⭐⭐⭐⭐⭐ **CRITICAL**
+**Status**: ✅ Verified  
+**Signature**: `Complex.sum_div_factorial_le (n j : ℕ) (hn : 0 < n) : (∑ m ∈ range j with n ≤ m, (1 / m.factorial : α)) ≤ n.succ / (n.factorial * n)`  
+**Import**: `import Mathlib.Data.Complex.Exponential`  
+**ID**: 84423  
+**Mathematical Significance**: Provides direct bounds for partial sums of factorial reciprocals
+**Critical for**: tail_probability_formula - bounds ∑_{k>n} 1/k!
+
+### `NormedSpace.expSeries_div_hasSum_exp` ⭐⭐⭐⭐
+**Status**: ✅ Verified  
+**Signature**: `expSeries_div_hasSum_exp (x : 𝔸) : HasSum (fun n => x ^ n / n !) (exp 𝕂 x)`  
+**Import**: `import Mathlib.Analysis.Normed.Algebra.Exponential`  
+**ID**: 50387  
+**Mathematical Foundation**: Rigorous proof that ∑ x^n/n! = exp(x)
+**Key Application**: Setting x=1 proves ∑ 1/n! = e
+
 ## 🔄 Index Manipulation APIs
 
 ### `tendsto_add_atTop_nat`
@@ -106,6 +124,13 @@ have h_limit : Tendsto (fun N => f (N + k)) atTop (𝓝 L) := by
 **Status**: ✅ Verified   
 **Usage**: Case analysis on finite ranges  
 **Pattern**: `interval_cases n` when `n < 2`
+
+### `Nat.factorial_ne_zero`
+**Status**: ✅ Verified  
+**Signature**: `Nat.factorial_ne_zero (n : ℕ) : n.factorial ≠ 0`  
+**Import**: `import Mathlib.Data.Nat.Factorial.Basic`  
+**ID**: 98910  
+**Usage**: Required for safe division by factorials in tail_probability_formula
 
 ## ❌ Common API Failure Patterns (AVOID)
 
@@ -236,14 +261,60 @@ When adding new verified APIs to this library:
 
 ### For `tail_probability_formula` (ProbabilityFoundations.lean:259)
 
-#### `tsum_subtype_add_tsum_subtype_compl`
+#### Critical Breakthrough APIs
+
+##### `Complex.sum_div_factorial_le` ⭐⭐⭐⭐⭐ **CRITICAL**
+**Status**: ✅ Verified  
+**Signature**: `Complex.sum_div_factorial_le (n j : ℕ) (hn : 0 < n) : (∑ m ∈ range j with n ≤ m, (1 / m.factorial : α)) ≤ n.succ / (n.factorial * n)`  
+**Import**: `import Mathlib.Data.Complex.Exponential`  
+**ID**: 84423  
+**Why Critical**: Direct bounds for factorial reciprocal sums - exactly the pattern in tail_probability_formula
+**Usage Pattern**:
+```lean
+-- Apply to bound tail sums involving 1/k! patterns
+have h_factorial_bound := Complex.sum_div_factorial_le n j h_n_pos
+-- Provides: ∑_{k>n} 1/k! ≤ specific bound involving 1/n!
+```
+
+##### `NormedSpace.expSeries_div_hasSum_exp` ⭐⭐⭐⭐
+**Status**: ✅ Verified  
+**Signature**: `expSeries_div_hasSum_exp (x : 𝔸) : HasSum (fun n => x ^ n / n !) (exp 𝕂 x)`  
+**Import**: `import Mathlib.Analysis.Normed.Algebra.Exponential`  
+**ID**: 50387  
+**Mathematical Foundation**: Proves ∑ x^n/n! = exp(x), setting x=1 gives ∑ 1/n! = e
+**Usage Pattern**:
+```lean
+-- Apply exponential series convergence with x=1
+have h_exp_series := NormedSpace.expSeries_div_hasSum_exp (1 : ℝ)
+-- Simplifies to: ∑' n, (1 : ℝ) / n.factorial = exp 1
+```
+
+#### Complement Decomposition APIs
+
+##### `tsum_subtype_add_tsum_subtype_compl`
 **Status**: ⚠️ Deprecated (alias of `Summable.tsum_subtype_add_tsum_subtype_compl`)  
 **Signature**: `tsum_subtype_add_tsum_subtype_compl : ∑'_{x : s} f(x) + ∑'_{x : s^c} f(x) = ∑' x, f(x)`  
 **Import**: `import Mathlib.Topology.Algebra.InfiniteSum.Group`  
 **ID**: 187696  
-**Notes**: For conditional to subtype conversion. Sum over subtype + complement = total sum.
+**Notes**: Perfect complement decomposition for splitting ∑' k into tail + head = total
 
-#### `Set.indicator`
+##### `NNReal.sum_add_tsum_nat_add` ⭐⭐⭐⭐
+**Status**: ✅ Verified  
+**Signature**: `NNReal.sum_add_tsum_nat_add {f : ℕ → ℝ≥0} (k : ℕ) (hf : Summable f) : ∑' i, f i = (∑ i ∈ range k, f i) + ∑' i, f (i + k)`  
+**Import**: `import Mathlib.Topology.Instances.NNReal.Lemmas`  
+**ID**: 196967  
+**Why Important**: Enhanced nonnegative real specialization for PMF decomposition
+
+#### Conditional Sum Manipulation
+
+##### `Summable.tsum_eq_add_tsum_ite` ⭐⭐⭐
+**Status**: ✅ Verified  
+**Signature**: `Summable.tsum_eq_add_tsum_ite {f : β → α} (hf : Summable f) (b : β) : ∑' n, f n = f b + ∑' n, if n = b then 0 else f n`  
+**Import**: `import Mathlib.Topology.Algebra.InfiniteSum.Group`  
+**ID**: 187683  
+**Usage**: Extract individual terms from infinite sums - critical for boundary cases
+
+##### `Set.indicator`
 **Status**: ✅ Verified  
 **Signature**: `Set.indicator s f a` returns `f a` if `a ∈ s`, `0` otherwise  
 **Import**: `import Mathlib.Algebra.Group.Indicator`  
@@ -253,6 +324,29 @@ When adding new verified APIs to this library:
 -- Convert conditional sum to indicator notation
 ∑' k, if k > n then f k else 0 = ∑' k, Set.indicator {k | k > n} f k
 ```
+
+#### PMF-Specific APIs
+
+##### `PMF.filter_apply` ⭐⭐⭐⭐
+**Status**: ✅ Verified  
+**Signature**: `PMF.filter_apply (a : α) : (p.filter s h) a = s.indicator p a * (∑' a', (s.indicator p) a')⁻¹`  
+**Import**: `import Mathlib.Probability.ProbabilityMassFunction.Constructions`  
+**ID**: 166007  
+**Why Critical**: Provides exact conditional probability formula via filtered PMF normalization
+
+##### `ENNReal.summable` ⭐⭐⭐
+**Status**: ✅ Verified  
+**Signature**: `ENNReal.summable {α : Type*} (f : α → ℝ≥0∞) : Summable f`  
+**Import**: `import Mathlib.Topology.Instances.ENNReal.Lemmas`  
+**ID**: 196624  
+**Why Important**: Any function to ENNReal is automatically summable - eliminates summability proofs
+
+#### Important Non-Existent APIs ❌
+**These do NOT exist - avoid searching for them:**
+- `tsum_gt` or `tsum_tail` - No greater-than conditional sum APIs
+- `pmf_tail_probability` - No PMF-specific tail probability APIs  
+- `factorial_reciprocal_sum` - No specialized factorial reciprocal summation
+- `tsum_subtype` (standalone) - Use the full `tsum_subtype_add_tsum_subtype_compl`
 
 ### For `irwin_hall_support` (IrwinHallTheory.lean:158)
 
@@ -285,6 +379,32 @@ When adding new verified APIs to this library:
 **Import**: `import Mathlib.Topology.Piecewise`  
 **ID**: 201974  
 **Notes**: Handles piecewise definitions with frontier agreement conditions
+
+## 🚀 Implementation Strategies
+
+### Strategy 1: Factorial Bounds Approach (Most Promising)
+Use `Complex.sum_div_factorial_le` for direct bounds on tail sums:
+```lean
+-- Apply factorial bounds theorem
+have h_bound := Complex.sum_div_factorial_le n ∞ h_n_pos
+-- Use limit arguments to prove exact equality from bounds
+```
+
+### Strategy 2: Perfect Complement Decomposition  
+Use `tsum_subtype_add_tsum_subtype_compl` or `Summable.sum_add_tsum_nat_add`:
+```lean
+-- Split: ∑' k, PMF k = (∑_{k≤n} PMF k) + (∑_{k>n} PMF k)
+have h_split := Summable.sum_add_tsum_nat_add (n + 1) pmf_summable
+-- Solve: tail = 1 - head, compute head using telescoping
+```
+
+### Strategy 3: PMF Filtering (Advanced)
+Use `PMF.filter_apply` for conditional probability approach:
+```lean
+-- Create filtered PMF on {k | k > n}
+have filtered := PMF.filter hitting_time_pmf {k | k > n} h_support
+-- Extract normalization constant = tail probability
+```
 
 ## 🔄 API Lifecycle Management
 
