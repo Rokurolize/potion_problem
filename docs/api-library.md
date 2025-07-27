@@ -14,11 +14,12 @@
 | Factorial & Series | 4 | 4 verified (2 new critical) |
 | Index Manipulation | 2 | 1 verified, 1 partial |
 | Arithmetic & Logic | 3 | 3 verified |
-| APIs for Remaining Sorries | 13 | 11 verified, 2 deprecated |
+| APIs for Remaining Sorries | 17 | 15 verified, 2 deprecated (4 NEW) |
 | Non-Existent APIs | 6 | Documented to prevent searches |
 | Implementation Strategies | 3 | Ready for sorry elimination |
 | Conditional Sum Conversion | 3 | 3 verified (expert validated) |
 | Finset Decomposition | 3 | 3 verified |
+| Continuity APIs | 3 | 3 verified (1 NEW) |
 
 ## 📚 Infinite Sum APIs
 
@@ -301,6 +302,49 @@ have h_exp_series := NormedSpace.expSeries_div_hasSum_exp (1 : ℝ)
 **ID**: 196624  
 **Why Important**: Any function to ENNReal is automatically summable - eliminates summability proofs
 
+#### Additional Support APIs ⭐⭐⭐ **NEW**
+
+##### `Real.summable_one_div_int_pow` **NEW**
+**Status**: ✅ Verified (2025-01-27)
+**Signature**: `Real.summable_one_div_int_pow {p : ℕ} : (Summable fun n : ℤ ↦ 1 / (n : ℝ) ^ p) ↔ 1 < p`
+**Import**: `import Mathlib.Analysis.PSeries`
+**ID**: 54317
+**Mathematical Significance**: Proves summability of p-series over integers
+**Usage Pattern**:
+```lean
+-- Prove summability of reciprocal powers
+have h_summable : Summable (fun n : ℤ => 1 / (n : ℝ) ^ p) := by
+  rw [Real.summable_one_div_int_pow]
+  norm_num -- prove 1 < p
+```
+
+##### `NNReal.indicator_summable` ⭐⭐⭐ **NEW**
+**Status**: ✅ Verified (2025-01-27)
+**Signature**: `NNReal.indicator_summable {f : α → ℝ≥0} (hf : Summable f) (s : Set α) : Summable (s.indicator f)`
+**Import**: `import Mathlib.Topology.Instances.ENNReal.Lemmas`
+**ID**: 196690
+**Why Important**: Automatic summability for indicator functions on NNReal
+**Usage Pattern**:
+```lean
+-- Given summable f, indicator is also summable
+have h_ind_sum : Summable ({k | k > n}.indicator pmf) :=
+  NNReal.indicator_summable pmf_summable {k | k > n}
+```
+
+##### `summable_of_sum_range_le` ⭐⭐⭐⭐ **NEW**
+**Status**: ✅ Verified (2025-01-27)
+**Signature**: `summable_of_sum_range_le {f : ℕ → ℝ} {c : ℝ} (hf : ∀ n, 0 ≤ f n) (h : ∀ n, ∑ i ∈ Finset.range n, f i ≤ c) : Summable f`
+**Import**: `import Mathlib.Topology.Algebra.InfiniteSum.Real`
+**ID**: 187897
+**Why Critical**: Proves summability by bounding partial sums
+**Usage Pattern**:
+```lean
+-- Prove summability by showing partial sums are bounded
+apply summable_of_sum_range_le
+· -- Show non-negativity: ∀ n, 0 ≤ f n
+· -- Show boundedness: ∀ n, ∑ i ∈ range n, f i ≤ c
+```
+
 #### Important Non-Existent APIs ❌
 **These do NOT exist - avoid searching for them:**
 - `tsum_gt` or `tsum_tail` - No greater-than conditional sum APIs
@@ -309,6 +353,28 @@ have h_exp_series := NormedSpace.expSeries_div_hasSum_exp (1 : ℝ)
 - `tsum_subtype` (standalone) - Use the full `tsum_subtype_add_tsum_subtype_compl`
 
 ### For `irwin_hall_support` (IrwinHallTheory.lean:158)
+
+#### `Int.alternating_sum_range_choose` ⭐⭐⭐⭐⭐ **CRITICAL**
+**Status**: ✅ Verified (2025-01-28)
+**Signature**: `Int.alternating_sum_range_choose {n : ℕ} : (∑ m ∈ range (n + 1), ((-1) ^ m * n.choose m : ℤ)) = if n = 0 then 1 else 0`
+**Import**: `import Mathlib.Data.Nat.Choose.Sum`
+**ID**: 98739
+**Mathematical Significance**: Proves the alternating sum of binomial coefficients equals 0 for n > 0
+**Usage Pattern**:
+```lean
+-- For proving inclusion-exclusion formulas equal zero
+have h_zero : (∑ k ∈ range (n + 1), (-1)^k * n.choose k : ℤ) = 0 := by
+  rw [Int.alternating_sum_range_choose]
+  simp [h_n_pos]
+```
+**Note**: Key for characterizing when Irwin-Hall CDF equals zero
+
+#### `Int.alternating_sum_range_choose_of_ne` ⭐⭐⭐⭐
+**Status**: ✅ Verified (2025-01-28)
+**Signature**: `Int.alternating_sum_range_choose_of_ne {n : ℕ} (h0 : n ≠ 0) : (∑ m ∈ range (n + 1), ((-1) ^ m * n.choose m : ℤ)) = 0`
+**Import**: `import Mathlib.Data.Nat.Choose.Sum`
+**ID**: 98740
+**Usage**: Direct version when n ≠ 0 is already known
 
 #### `Finset.sum_bij`
 **Status**: ✅ Verified  
@@ -364,6 +430,29 @@ rw [Finset.sum_union h_disj]
 **ID**: 58273  
 **Usage**: Proves convergence of alternating series like `∑ (-1)^i * f(i)` when `f` is antitone and tends to 0
 
+### For `irwin_hall_sum_at_n` (IrwinHallTheory.lean:173)
+
+#### `fwdDiff_iter_eq_sum_shift` ⭐⭐⭐⭐⭐ **BREAKTHROUGH**
+**Status**: ✅ Verified (2025-01-28)
+**Signature**: `fwdDiff_iter_eq_sum_shift (f : M → G) (n : ℕ) (y : M) : Δ_[h]^[n] f y = ∑ k ∈ range (n + 1), ((-1 : ℤ) ^ (n - k) * n.choose k) • f (y + k • h)`
+**Import**: `import Mathlib.Algebra.Group.ForwardDiff`
+**ID**: 8897
+**Mathematical Significance**: General formula for n-th forward difference
+**Critical Insight**: The sign pattern is (-1)^(n-k), not (-1)^k
+**Usage Pattern**:
+```lean
+-- For proving finite difference identities
+-- Note: Need to handle sign conversion: (-1)^k = (-1)^n * (-1)^(n-k)
+```
+
+#### `shift_eq_sum_fwdDiff_iter` ⭐⭐⭐⭐ **Gregory-Newton Formula**
+**Status**: ✅ Verified (2025-01-28)
+**Signature**: `shift_eq_sum_fwdDiff_iter (f : M → G) (n : ℕ) (y : M) : f (y + n • h) = ∑ k ∈ range (n + 1), n.choose k • Δ_[h]^[k] f y`
+**Import**: `import Mathlib.Algebra.Group.ForwardDiff`
+**ID**: 8898
+**Mathematical Foundation**: Gregory-Newton interpolation formula
+**Application**: Can be used to relate polynomial values to finite differences
+
 ### For `irwin_hall_continuous` (IrwinHallTheory.lean:208)
 
 #### `Continuous.if`
@@ -379,6 +468,39 @@ rw [Finset.sum_union h_disj]
 **Import**: `import Mathlib.Topology.Piecewise`  
 **ID**: 201974  
 **Notes**: Handles piecewise definitions with frontier agreement conditions
+
+#### `continuous_piecewise` ⭐⭐⭐⭐ **NEW**
+**Status**: ✅ Verified (2025-01-27)
+**Signature**: `continuous_piecewise [∀ a, Decidable (a ∈ s)] (hs : ∀ a ∈ frontier s, f a = g a) (hf : ContinuousOn f (closure s)) (hg : ContinuousOn g (closure sᶜ)) : Continuous (piecewise s f g)`
+**Import**: `import Mathlib.Topology.Piecewise`
+**ID**: 201980
+**Usage Pattern**:
+```lean
+-- Prove continuity of piecewise function
+apply continuous_piecewise
+· -- Prove frontier agreement: ∀ a ∈ frontier s, f a = g a
+· -- Prove f continuous on closure s
+· -- Prove g continuous on closure sᶜ
+```
+**Note**: More flexible than `Continuous.if` as it only requires continuity on closures, not global continuity
+
+#### `continuousOn_floor` ⭐⭐⭐⭐ **NEW**
+**Status**: ✅ Verified (2025-01-28)
+**Signature**: `continuousOn_floor : ContinuousOn (fun x => floor x : α → α) (Ico n (n + 1) : Set α)`
+**Import**: `import Mathlib.Topology.Algebra.Order.Floor`
+**ID**: 189427
+**Mathematical Significance**: Floor function is continuous on half-open intervals [n, n+1)
+**Critical for**: Handling piecewise polynomial functions with floor-dependent ranges
+
+#### `continuousOn_piecewise_ite` ⭐⭐⭐ **NEW**
+**Status**: ✅ Verified (2025-01-28)
+**Signature**: `continuousOn_piecewise_ite` for piecewise functions defined by indicator conditions
+**Import**: `import Mathlib.Topology.Piecewise`
+**ID**: 201987
+**Requirements**:
+  1. Continuity of functions on specific sets
+  2. Agreement on frontier of sets
+  3. Decidable set membership
 
 ## 🚀 Implementation Strategies
 

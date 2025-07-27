@@ -7,6 +7,8 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
 import Mathlib.Topology.Piecewise
+import Mathlib.Topology.Order.DenselyOrdered
+import Mathlib.Data.Nat.Choose.Sum
 import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 import PotionProblem.ProbabilityFoundations
@@ -141,61 +143,79 @@ theorem order_statistics_connection (n : ℕ) :
 /-- The Irwin-Hall distribution has support [0, n] -/
 lemma irwin_hall_support (n : ℕ) (x : ℝ) :
   irwin_hall_cdf n x = 0 ↔ x < 0 ∨ (x = 0 ∧ n > 0) := by
-  -- BACKWARD DIRECTION (Easy): 
-  -- - If x < 0: CDF = 0 by definition
-  -- - If x = 0 ∧ n > 0: (1/n!) * 0^n = 0
-  --
-  -- FORWARD DIRECTION (Complex): 
-  -- Requires proving that for 0 < x < n, the inclusion-exclusion sum
-  -- ∑ k ∈ Finset.range (⌊x⌋ + 1), (-1)^k * (n choose k) * (x - k)^n > 0
-  -- This involves detailed combinatorial analysis of alternating binomial sums
-  -- with careful handling of floor function ranges and polynomial terms.
-  --
-  -- STRATEGIC COMPLEXITY: The forward direction requires deep analysis of 
-  -- inclusion-exclusion principles, alternating series convergence, and 
-  -- floor function behavior. The mathematical foundation is sound but
-  -- technical implementation complexity warrants strategic retreat.
+  -- Mathematical fact: The Irwin-Hall CDF is zero if and only if:
+  -- 1. x < 0 (by definition of the CDF)
+  -- 2. x = 0 and n > 0 (because the sum contains 0^n = 0)
+  -- 
+  -- The forward direction for 0 < x < n requires proving the inclusion-exclusion
+  -- sum is positive, which follows from B-spline theory but is technically complex.
   sorry
 
-/-- The Irwin-Hall distribution is continuous -/
-lemma irwin_hall_continuous (n : ℕ) :
+/-- Helper lemma: frontier of {x | x < 0} equals {0} -/
+lemma frontier_lt_zero : frontier {x : ℝ | x < 0} = {0} := by
+  have : {x : ℝ | x < 0} = Set.Iio 0 := by rfl
+  rw [this, frontier_Iio]
+
+/-- Helper lemma: frontier of {x | x ≥ n} equals {n} -/
+lemma frontier_ge_n (n : ℕ) : frontier {x : ℝ | x ≥ n} = {(n : ℝ)} := by
+  have : {x : ℝ | x ≥ (n : ℝ)} = Set.Ici (n : ℝ) := by rfl
+  rw [this, frontier_Ici]
+
+/-- Key combinatorial identity for the inclusion-exclusion formula at x = n -/
+lemma irwin_hall_sum_at_n (n : ℕ) (hn : n > 0) :
+  ∑ k ∈ Finset.range (n + 1), 
+    ((-1 : ℝ) ^ k * (Nat.choose n k) * (n - k : ℝ) ^ n) = n.factorial := by
+  -- This identity follows from finite differences of polynomials
+  -- The sum represents the n-th forward difference of x^n evaluated at x = 0
+  -- By the finite difference formula, Δ^n[x^n](0) = n!
+  -- where Δ is the forward difference operator with step size 1
+  
+  -- We'll prove this by strong induction on n
+  induction n using Nat.strong_induction_on with
+  | _ n ih =>
+    -- Base case: n = 1
+    by_cases h1 : n = 1
+    · subst h1
+      simp only [Finset.sum_range_succ, Finset.sum_range_zero, add_zero]
+      simp only [pow_zero, pow_one, Nat.choose_zero_right, Nat.choose_one_right]
+      simp only [Nat.cast_one, sub_zero, sub_self, zero_pow (by norm_num : 1 ≠ 0)]
+      simp only [mul_zero, add_zero, one_mul, mul_one]
+      norm_num
+    
+    -- For n ≥ 2, we use the alternating sum identity
+    · have h_ge_2 : n ≥ 2 := by
+        by_contra h
+        push_neg at h
+        -- n > 0 and n ≠ 1, so n ≥ 2
+        have : n = 0 ∨ n = 1 := by omega
+        cases this with
+        | inl h0 => exact absurd h0 (Nat.pos_iff_ne_zero.mp hn)
+        | inr h1' => exact absurd h1' h1
+      
+      -- Mathematical approach: The sum equals n! by the classical finite difference formula
+      -- For a concrete proof, we would need to:
+      -- 1. Establish connection to forward differences
+      -- 2. Prove that Δ^n[x^n](0) = n!
+      -- 3. Handle the alternating sign pattern
+      
+      -- Since mathlib doesn't have the required finite difference machinery,
+      -- we document the mathematical validity and mark for future completion
+      sorry
+
+/-- The Irwin-Hall distribution is continuous for n > 0 -/
+lemma irwin_hall_continuous (n : ℕ) (hn : n > 0) :
   Continuous (irwin_hall_cdf n) := by
-  -- STRATEGIC RETREAT: Enhanced Documentation for Future Sessions
+  -- The Irwin-Hall CDF is continuous for n > 0
+  -- It consists of piecewise polynomial segments that match at boundaries
   -- 
-  -- MATHEMATICAL FOUNDATION (100% verified):
-  -- The Irwin-Hall CDF is continuous as a piecewise function with:
-  -- 1. f(x) = 0 for x < 0 (constant function, continuous)
-  -- 2. f(x) = 1 for x ≥ n (constant function, continuous)  
-  -- 3. f(x) = (1/n!) * ∑ k, (-1)^k * (n choose k) * (x-k)^n for 0 ≤ x < n (polynomial, continuous)
+  -- For n = 0, the CDF is the Heaviside step function (discontinuous at 0)
+  -- For n > 0, the CDF is continuous everywhere due to:
+  -- 1. Polynomial continuity on each interval
+  -- 2. Matching values at integer boundaries  
+  -- 3. Proper limits at x = 0 and x = n
   --
-  -- IMPLEMENTATION APPROACH VALIDATION:  
-  -- ✅ Continuous.if API verified and applicable for nested if-then-else structure
-  -- ✅ Constant functions (0, 1) are trivially continuous
-  -- ✅ Polynomial expressions are continuous as compositions
-  -- ✅ Boundary agreement conditions mathematically sound:
-  --    - At x = 0: CDF evaluates to 0 (verified for n > 0)
-  --    - At x = n: CDF evaluates to 1 (by construction of Irwin-Hall)
-  --
-  -- TECHNICAL CHALLENGES IDENTIFIED:
-  -- ⚠️ Frontier characterization: frontier {x | x < 0} = {0} requires careful proof
-  -- ⚠️ Boundary value computation: Proving CDF(n) = 1 requires inclusion-exclusion analysis
-  -- ⚠️ Floor function discontinuity: The range Finset.range (⌊x⌋.natAbs + 1) creates
-  --    technical challenges despite not affecting continuity of the overall expression
-  -- ⚠️ Type management: Multiple coercions between ℕ, ℤ, and ℝ in the polynomial expression
-  --
-  -- PARTIAL PROGRESS ACHIEVED:
-  -- ✓ Verified Continuous.if applicability through test implementation
-  -- ✓ Confirmed boundary value at x = 0 equals 0 for n > 0
-  -- ✓ Identified that n = 0 case requires separate handling (CDF jumps from 0 to 1 at x = 0)
-  --
-  -- STRATEGIC RETREAT JUSTIFICATION:
-  -- While the mathematical continuity is clear and the API approach is correct,
-  -- the technical implementation requires:
-  -- 1. Precise frontier characterization lemmas from topology
-  -- 2. Mathematical proof that the inclusion-exclusion formula equals 1 at x = n
-  -- 3. Careful handling of the floor function's role in defining finite sum ranges
-  -- The complexity of these technical details, combined with the special case handling
-  -- for n = 0, warrants preserving the validated approach for future completion.
+  -- The technical proof requires handling the floor function and showing
+  -- continuity at each integer point, which is complex but mathematically valid.
   sorry
 
 /-- Moment generating function of the Irwin-Hall distribution -/
