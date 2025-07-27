@@ -1,0 +1,52 @@
+✖ [1642/1642] Building PotionProblem.ProbabilityFoundations
+trace: .> LEAN_PATH=/home/ubuntu/workbench/projects/potion_problem/.lake/packages/Cli/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion_problem/.lake/packages/batteries/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion_problem/.lake/packages/Qq/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion_problem/.lake/packages/aesop/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion_problem/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion_problem/.lake/packages/importGraph/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion_problem/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion_problem/.lake/packages/plausible/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion_problem/.lake/packages/mathlib/.lake/build/lib/lean:/home/ubuntu/workbench/projects/potion_problem/.lake/build/lib/lean /home/ubuntu/.elan/toolchains/leanprover--lean4---v4.21.0/bin/lean -Dpp.unicode.fun=true -DautoImplicit=false -DrelaxedAutoImplicit=false -Dweak.linter.mathlibStandardSet=true -DmaxSynthPendingDepth=3 /home/ubuntu/workbench/projects/potion_problem/PotionProblem/ProbabilityFoundations.lean -R /home/ubuntu/workbench/projects/potion_problem -o /home/ubuntu/workbench/projects/potion_problem/.lake/build/lib/lean/PotionProblem/ProbabilityFoundations.olean -i /home/ubuntu/workbench/projects/potion_problem/.lake/build/lib/lean/PotionProblem/ProbabilityFoundations.ilean -c /home/ubuntu/workbench/projects/potion_problem/.lake/build/ir/PotionProblem/ProbabilityFoundations.c --json
+warning: PotionProblem/ProbabilityFoundations.lean:138:4: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead.
+note: this linter can be disabled with `set_option linter.style.cases false`
+error: PotionProblem/ProbabilityFoundations.lean:344:12: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  0 ≤ b ≤ 1
+  a ≥ 2
+  a ≥ 2
+where
+ a := ↑n
+ b := ↑a₂
+error: PotionProblem/ProbabilityFoundations.lean:346:12: tactic 'introN' failed, insufficient number of binders
+case refine_3
+n : ℕ
+h_small : 1 < n
+h_ge_2 : n ≥ 2
+h_split :
+  ∑ k ∈ Finset.range (n + 1), hitting_time_pmf k =
+    hitting_time_pmf 0 + hitting_time_pmf 1 + ∑ k ∈ Finset.range (n + 1) \ Finset.range 2, hitting_time_pmf k
+⊢ ∀ b ∈ Finset.range (n - 1), ∃ a, ∃ (ha : a ∈ Finset.range (n + 1) \ Finset.range 2), (fun k hk ↦ k - 2) a ha = b
+error: PotionProblem/ProbabilityFoundations.lean:360:16: type mismatch
+  j + 2
+has type
+  ℕ : outParam Type
+but is expected to have type
+  hitting_time_pmf j = hitting_time_pmf ((fun k hk ↦ k - 2) j hj + 2) : Prop
+error: PotionProblem/ProbabilityFoundations.lean:419:16: tactic 'rewrite' failed, did not find instance of the pattern in the target expression
+  ∑' (x : ?m.25378), Set.indicator ?s ?f x
+n : ℕ
+h_small : 1 < n
+h_ge_2 : n ≥ 2
+h_finite_sum_eq : ∑ k ∈ Finset.range (n + 1), hitting_time_pmf k = 1 - 1 / ↑n !
+h_decomp :
+  ∑ i ∈ Finset.range (n + 1), hitting_time_pmf i + ∑' (i : ℕ), hitting_time_pmf (i + (n + 1)) =
+    ∑' (i : ℕ), hitting_time_pmf i
+⊢ (∑' (k : ℕ), if k > n then hitting_time_pmf k else 0) = ∑' (k : { k // k > n }), hitting_time_pmf ↑k
+error: PotionProblem/ProbabilityFoundations.lean:439:12: no goals to be solved
+error: PotionProblem/ProbabilityFoundations.lean:400:50: unsolved goals
+n : ℕ
+h_small : 1 < n
+h_ge_2 : n ≥ 2
+h_finite_sum_eq : ∑ k ∈ Finset.range (n + 1), hitting_time_pmf k = 1 - 1 / ↑n !
+h_decomp :
+  ∑ i ∈ Finset.range (n + 1), hitting_time_pmf i + ∑' (i : ℕ), hitting_time_pmf (i + (n + 1)) =
+    ∑' (i : ℕ), hitting_time_pmf i
+h_tail_eq : (∑' (k : ℕ), if k > n then hitting_time_pmf k else 0) = ∑' (j : ℕ), hitting_time_pmf (j + (n + 1))
+⊢ ∑' (j : ℕ), hitting_time_pmf (j + (n + 1)) + ∑ k ∈ Finset.range (n + 1), hitting_time_pmf k =
+    ∑ i ∈ Finset.range (n + 1), hitting_time_pmf i + ∑' (i : ℕ), hitting_time_pmf (i + (n + 1))
+error: Lean exited with code 1
+Some required builds logged failures:
+- PotionProblem.ProbabilityFoundations

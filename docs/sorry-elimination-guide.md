@@ -43,7 +43,7 @@ Summable.sum_add_tsum_nat_add k pmf_summable         -- CORRECT
 **❌ Complex Proof Wrestling**: Use strategic retreat for >2 hour investments  
 **❌ Build Instability**: Don't commit broken code that affects other modules
 
-## 📊 Success Metrics
+## 📊 Success Metrics & Lessons Learned
 
 ### From PotionProblem Session
 - ✅ **11+ sorries eliminated** using systematic approach
@@ -53,9 +53,10 @@ Summable.sum_add_tsum_nat_add k pmf_summable         -- CORRECT
 
 ### Session Patterns That Worked
 1. **Dependency-first elimination** - Fundamental lemmas before complex theorems
-2. **API verification workflow** - LeanExplore → test file → compilation → usage
-3. **Incremental progress commits** - Build success before each commit
-4. **Strategic retreat documentation** - Mathematical foundation preserved when retreating
+2. **Framework documentation** - Clear mathematical reasoning in comments
+3. **API verification workflow** - LeanExplore → test file → compilation → usage
+4. **Incremental progress commits** - Build success before each commit
+5. **Strategic retreat documentation** - Mathematical foundation preserved when retreating
 
 ## 🔗 Navigation Guide
 

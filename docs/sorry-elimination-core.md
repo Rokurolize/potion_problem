@@ -26,14 +26,17 @@
 
 Before targeting any sorry:
 
-### 1. **MANDATORY API Verification**
+### 1. **API Verification**
+
+**Check Pre-Verified APIs**:
+Check [`docs/api-library.md`](api-library.md) for proven patterns
+
+**LeanExplore Research**:
 ```bash
 uv run leanexplore search "lemma_name" --package Mathlib --limit 5
 uv run leanexplore get [GROUP_ID]  # Get exact signature
 uv run leanexplore dependencies [GROUP_ID]  # Get import requirements
 ```
-
-**Check Pre-Verified APIs First**: See [`docs/api-library.md`](api-library.md) before using LeanExplore
 
 ### 2. **MANDATORY API Usage Verification**
 Create `test_api.lean` in project root:
@@ -160,19 +163,18 @@ echo "Exit code: $?"
 
 ## 🏆 Success Patterns
 
-### High-Success Techniques
-1. **MANDATORY 3-Step API Verification**: LeanExplore search → test file creation → compilation verification
-2. **Field vs Direct Call Awareness**: Always use `Summable.api_name k proof` not `(some_object).api_name`
-3. **Systematic Type Handling**: Explicit cast conversions  
-4. **Build-First Development**: Immediate error feedback after every change
-5. **Todo Tracking**: Clear progress visibility
+### High-Success Techniques (Based on Actual Experience)
+1. **Build Error-Driven Resolution**: Fix compilation errors systematically
+2. **Framework Documentation**: Complete proof structure with clear mathematical reasoning
+3. **Field vs Direct Call Awareness**: Always use `Summable.api_name k proof` not `(some_object).api_name`
+4. **Strategic Sorry Placement**: Working sorry with clear next steps > broken complex proof
 
 ### Proven Workflow
 1. ✅ Choose sorry based on dependency analysis
-2. ✅ Verify required APIs using pre-verified library
-3. ✅ Create test file for any new APIs
-4. ✅ Implement proof incrementally with frequent builds
-5. ✅ Document complex mathematical reasoning
+2. ✅ Check pre-verified APIs in api-library.md
+3. ✅ Fix build errors and type mismatches
+4. ✅ Document mathematical framework clearly in comments
+5. ✅ Use LeanExplore for API discovery when needed
 6. ✅ Consider strategic retreat if complexity exceeds session scope
 
 ## 🔗 Reference Documents

@@ -1,0 +1,8 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://gateway.ai.cloudflare.com/v1/66a4965dcbf7caf84b9271f3ba008add/potion/anthropic",
+    "MAX_THINKING_TOKENS": "31999",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "32000"
+  },
+  "model": "opus"
+}
