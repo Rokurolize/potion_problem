@@ -220,6 +220,7 @@ lemma pmf_eq_zero_of_le_one (n : ℕ) (hn : n ≤ 1) :
   hitting_time_pmf n = 0 := by
   simp [hitting_time_pmf, if_pos hn]
 
+
 /-- Tail probability formula: P(τ > n) = 1/n! -/
 theorem tail_probability_formula (n : ℕ) :
   (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial := by
@@ -251,12 +252,145 @@ theorem tail_probability_formula (n : ℕ) :
   -- and careful application of complement decomposition APIs. While the mathematical foundation
   -- is sound and all required lemmas exist, the technical implementation complexity warrants
   --
-  -- Progress made:
-  -- - Successfully handled case analysis for n ≤ 1
-  -- - Successfully computed finite sum using Finset.sum_image
-  -- - Identified correct equivalence approach for tail sum
-  -- - API discovery revealed missing expected lemmas
-  sorry
+  -- Step 1: The total sum splits into two parts
+  have h_total : ∑' k, hitting_time_pmf k = 
+                 (∑' k : ℕ, if k ≤ n then hitting_time_pmf k else 0) +
+                 (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) := by
+    -- This is true because every k is either ≤ n or > n
+    rw [← Summable.tsum_add]
+    · congr 1
+      ext k
+      by_cases h : k ≤ n
+      · simp [h, le_iff_lt_or_eq]
+      · simp [h, not_le.mp h]
+    · -- Summability of first part (finite support)
+      -- The support is {0, 1, ..., n}, which is finite
+      have h_support : (Function.support (fun k => if k ≤ n then hitting_time_pmf k else 0)).Finite := by
+        apply Set.Finite.subset (s := (Finset.range (n + 1) : Set ℕ))
+        · exact Finset.finite_toSet _
+        · intro k hk
+          simp only [Function.support, Function.mem_support, ne_eq] at hk
+          simp only [Finset.mem_coe, Finset.mem_range]
+          by_cases h : k ≤ n
+          · -- If k ≤ n, then k < n + 1
+            exact Nat.lt_succ_of_le h
+          · -- If k > n, then the function is 0
+            exfalso
+            apply hk
+            rw [if_neg h]
+      -- Since the function is non-zero only on finitely many points, it's summable
+      sorry
+    · -- Summability of second part  
+      apply Summable.of_nonneg_of_le
+      · intro k
+        split_ifs
+        · exact pmf_nonneg k
+        · exact le_refl 0
+      · intro k
+        split_ifs with h
+        · exact le_refl _
+        · exact pmf_nonneg k
+      · exact pmf_summable
+  
+  -- Step 2: The finite part equals the sum over range (n+1)
+  have h_finite : (∑' k : ℕ, if k ≤ n then hitting_time_pmf k else 0) = 
+                  ∑ k ∈ Finset.range (n + 1), hitting_time_pmf k := by
+    rw [tsum_eq_sum (s := Finset.range (n + 1))]
+    · -- Show the sums are equal on range n+1
+      apply Finset.sum_congr rfl
+      intro k hk
+      simp only [Finset.mem_range] at hk
+      simp only [if_pos (Nat.lt_succ_iff.mp hk)]
+    · intro k hk
+      simp [Finset.mem_range] at hk
+      exact if_neg (not_le_of_gt hk)
+  
+  -- Step 3: Use pmf_sum_eq_one to get tail = 1 - finite
+  rw [pmf_sum_eq_one] at h_total
+  rw [h_finite] at h_total
+  have h_result : (∑' k, if k > n then hitting_time_pmf k else 0) = 
+                  1 - ∑ k ∈ Finset.range (n + 1), hitting_time_pmf k := by
+    linarith
+  rw [h_result]
+  
+  -- Step 4: Compute the finite sum
+  by_cases h0 : n = 0
+  · -- Case n = 0
+    simp [h0, Finset.sum_range_one, prob_tau_eq_zero_one.1]
+    
+  by_cases h1 : n = 1
+  · -- Case n = 1
+    simp [h1]
+    rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_zero]
+    simp [prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2, Finset.sum_empty]
+    
+  -- Case n ≥ 2
+  push_neg at h0 h1
+  have h_ge : 2 ≤ n := by omega
+  
+  -- The finite sum equals 1 - 1/n!
+  suffices ∑ k ∈ Finset.range (n + 1), hitting_time_pmf k = 1 - 1 / n.factorial by
+    linarith
+  
+  -- Split off k=0,1 terms (which are 0)
+  have h_sum_eq : ∑ k ∈ Finset.range (n + 1), hitting_time_pmf k = 
+                  ∑ k ∈ Finset.Ico 2 (n + 1), hitting_time_pmf k := by
+    have h_eq : Finset.range (n + 1) = Finset.range 2 ∪ Finset.Ico 2 (n + 1) := by
+      ext k
+      simp [Finset.mem_range, Finset.mem_Ico, Finset.mem_union]
+      omega
+    rw [h_eq, Finset.sum_union]
+    · simp [Finset.sum_range_succ, prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2]
+    · apply Finset.disjoint_left.mpr
+      intro k hk_range hk_ico
+      simp [Finset.mem_range, Finset.mem_Ico] at hk_range hk_ico
+      omega
+  
+  rw [h_sum_eq]
+  
+  -- Reindex: k ∈ [2,n] ↦ j ∈ [0,n-2] via k = j+2
+  have h_reindex : ∑ k ∈ Finset.Ico 2 (n + 1), hitting_time_pmf k = 
+                   ∑ j ∈ Finset.range (n - 1), hitting_time_pmf (j + 2) := by
+    -- We'll prove equality directly by showing the bijection
+    symm
+    -- Now need to show: ∑ j ∈ range (n-1), f(j+2) = ∑ k ∈ Ico 2 (n+1), f(k)
+    rw [← Finset.sum_image]
+    · -- Show the image of range (n-1) under (· + 2) equals Ico 2 (n+1)
+      congr 1
+      ext k
+      simp only [Finset.mem_image, Finset.mem_range, Finset.mem_Ico]
+      constructor
+      · intro ⟨j, hj, h_eq⟩
+        rw [← h_eq]
+        omega
+      · intro ⟨h2, hn⟩
+        use k - 2
+        constructor
+        · omega
+        · omega
+    · -- Show (· + 2) is injective on range (n-1)
+      intro a b ha hb h_eq
+      -- h_eq : a + 2 = b + 2, so a = b
+      linarith
+  
+  rw [h_reindex]
+  -- Prove by induction that ∑_{n=0}^{N-1} hitting_time_pmf (n + 2) = 1 - 1/(N+1)!
+  have h_telescoping : ∑ j ∈ Finset.range (n - 1), hitting_time_pmf (j + 2) = 
+                       1 - 1 / n.factorial := by
+    have h_general : ∀ N : ℕ, ∑ j ∈ Finset.range N, hitting_time_pmf (j + 2) = 
+                     1 - 1 / (N + 1).factorial := by
+      intro N
+      induction N with
+      | zero => simp
+      | succ N ih =>
+        rw [Finset.sum_range_succ, ih, pmf_telescoping (N + 2) (by omega)]
+        have h_eq : N + 2 - 1 = N + 1 := by omega
+        rw [h_eq]
+        ring
+    convert h_general (n - 1)
+    congr
+    omega
+  exact h_telescoping
 
 /-!
 ## Section 3: PMF Characterization

@@ -1,0 +1,2264 @@
+╭────────────────────────────────────────────────────────╮
+│ ✻ Welcome to Claude Code!                              │
+│                                                        │
+│   /help for help, /status for your current setup       │
+│                                                        │
+│   cwd: /home/ubuntu/workbench/projects/potion_problem  │
+│                                                        │
+│   ──────────────────────────────────────────────────── │
+│                                                        │
+│   Overrides (via env):                                 │
+│                                                        │
+│   • API timeout: 100000000ms                           │
+│   • Max thinking tokens: 31999                         │
+│   • API Base URL: https://gateway.ai.cloudflare.com/v1 │
+│   /66a4965dcbf7caf84b9271f3ba008add/potion/anthropic   │
+╰────────────────────────────────────────────────────────╯
+● Compact summary (ctrl+r to expand)
+  ⎿  Read test/tail_proof.lean (90 lines)
+  ⎿  Read test/api_test.lean (149 lines)
+  ⎿  Read docs/api-library.md (337 lines)
+  ⎿  Read docs/workflow-commands.md (190 lines)
+  ⎿  Read docs/sorry-elimination-core.md (111 lines)
+  ⎿  Todo list read (5 items)
+
+> /compact 
+  ⎿  Compacted. ctrl+r to see full summary
+
+> 専門家のアドバイス第2弾を下記に貼り付けるよ。
+
+  ご指摘ありがとうございます。そして、私のこれまでのヒントが的
+  確でなく、かえって混乱を招いてしまったことを深くお詫び申し上
+  げます。あなたの「役に立っていない」というフィードバックは非
+  常に重要です。抽象的なアドバイスではなく、今まさに必要とされ
+  ている、具体的で実行可能な解決策を提示します。
+
+  数学者として、そしてLeanの専門家として、この 
+  `tail_probability_formula` の証明を私自身が書くとしたらどうな
+  るか、その完成形を示します。これまでの試行錯誤でAIが掴んだ数
+  学的アイデアは正しいのですが、それをLeanのコードに翻訳する際
+  の「作法」でつまずいています。
+
+  **根本的な問題点:** Mathlibの強力なAPIを「知っているか」だけ
+  でなく、**「どのように組み合わせるか」**という設計の部分で迷
+  子になっています。特に無限和の添え字の扱いは、定石を知らない
+  と複雑な手作業に陥りがちです。
+
+  以下に提示するのは、この問題を解決するための、ほぼ完成された
+  証明コードです。これを `test/api_test.lean` 
+  に書き込んで、まずはビルドが通ることを確認してください。
+
+  ---
+
+  ### **【本気のアドバイス】`test/api_test.lean` 
+  に書き込むべき証明コード**
+
+  このコードは、専門家が推奨する2つの重要なテクニックに基づいて
+  います。
+
+  1.  **無限和の変形:** `if` 式の和を、`tsum_subtype_eq_if` 
+  を使って部分集合上の和に変換し、`Equiv.tsum_eq` を使って添え
+  字をシフトします。これはこの種の変形の**王道**です。
+  2.  **有限和の計算:** `n` の値で場合分けし (`n=0, 1, 
+  ≥2`)、`n≥2` の場合は `sum_sdiff` で和の範囲を整理してから 
+  `sum_bij` で添え字を変換します。AIが苦労していた複雑な全単射
+  の証明は、`omega` がほとんど自動で解決してくれます。
+
+  ```lean
+  -- test/api_test.lean
+
+  import PotionProblem.ProbabilityFoundations
+  import Mathlib.Analysis.SpecificLimits.Normed
+  import Mathlib.Data.Real.ENNReal
+
+  open Real Filter Nat Topology PotionProblem
+
+  -- AIが自力で導出したこの補題は素晴らしい。証明を完成させてグ
+  ローバルに利用する。
+  lemma telescoping_sum_lemma (N : ℕ) :
+      ∑ n in Finset.range N, hitting_time_pmf (n + 2) = 1 - 1 /
+   (N + 1).factorial := by
+    induction N with
+    | zero => simp
+    | succ N ih =>
+      rw [Finset.sum_range_succ, ih, pmf_telescoping (N + 2) 
+  (by omega)]
+      have h_eq : N + 2 - 1 = N + 1 := by omega
+      rw [h_eq]
+      ring
+
+  -- これが tail_probability_formula の完全な証明です。
+  theorem tail_probability_formula_proof (n : ℕ) :
+      (∑' k, if k > n then hitting_time_pmf k else 0) = 1 / 
+  n.factorial := by
+
+    -- === ステップ1: 無限和の変形 ===
+    -- 目標: (∑' k, if k > n then ...) = 1 - (∑ k in range 
+  (n+1), ...) を示す。
+    -- 戦略:
+    -- 1. `tsum_subtype_eq_if` で if を消す。
+    -- 2. `Equiv.tsum_eq` で添え字をシフトする (k > n  <-->  j 
+  ≥ 0)。
+    -- 3. `Summable.sum_add_tsum_nat_add` 
+  で全体を有限和と無限和に分解する。
+    -- 4. `linarith` で式を整理する。
+
+    have h_tail_eq_shifted : (∑' k, if k > n then 
+  hitting_time_pmf k else 0) = ∑' j, hitting_time_pmf (j + n + 
+  1) := by
+      -- `if k > n then f k else 0` は `{k | k > n}` 
+  という部分集合上の和と等しい
+      rw [tsum_subtype_eq_if (by simp)]
+      -- 集合 `{k | k > n}` は、自然数 `ℕ` と同型 (bijective) 
+  である。
+      -- その対応 (Equiv) は j ↦ j + n + 1
+      let e : ℕ ≃ {k // k > n} := {
+        toFun    := fun j => ⟨j + n + 1, by omega⟩,
+        invFun   := fun k => k.val - (n + 1),
+        left_inv := fun j => by simp; omega,
+        right_inv:= fun ⟨k, hk⟩ => by simp; omega
+      }
+      -- Equiv を使って和の添え字を変換する
+      rw [e.tsum_eq]
+      simp [Function.comp]
+
+    -- `pmf_sum_eq_one` と `sum_add_tsum_nat_add` 
+  を使って、尾部を有限和で表現する
+    have h_tail_sum_is_complement : ∑' j, hitting_time_pmf (j +
+   n + 1) = 1 - ∑ k in Finset.range (n + 1), hitting_time_pmf k
+   := by
+      have h_decomp := (Summable.sum_add_tsum_nat_add (n + 1) 
+  pmf_summable).symm
+      rw [pmf_sum_eq_one] at h_decomp
+      linarith [h_decomp]
+
+    -- ステップ1の結論
+    rw [h_tail_eq_shifted, h_tail_sum_is_complement]
+
+    -- === ステップ2: 有限和の計算 ===
+    -- 目標: `∑ k in Finset.range (n + 1), hitting_time_pmf k =
+   1 - 1 / n.factorial` を示す。
+    -- これは `1 - (1 - 1/n!) = 1/n!` を示すことに対応する。
+
+    -- n の値で場合分け
+    by_cases h_n : n < 2
+    · -- n = 0 or n = 1 の場合
+      have h_sum_zero : ∑ k in Finset.range (n + 1), 
+  hitting_time_pmf k = 0 := by
+        apply Finset.sum_eq_zero
+        intro k hk
+        simp at hk
+        exact pmf_eq_zero_of_le_one k (by omega)
+      rw [h_sum_zero]
+      -- 1 - 0 = 1/n! を示す
+      rcases h_n with (_ | _) <;> norm_num
+    · -- n ≥ 2 の場合
+      push_neg at h_n
+      -- 有限和が `1 - 1 / n.factorial` に等しいことを示す
+      have h_finite_sum : ∑ k in Finset.range (n + 1), 
+  hitting_time_pmf k = 1 - 1 / n.factorial := by
+        -- 和から k=0,1 の項（どちらも0）を分離する
+        have h_sum_split : ∑ k in Finset.range (n + 1), 
+  hitting_time_pmf k = ∑ k in Finset.Ico 2 (n + 1), 
+  hitting_time_pmf k := by
+          rw [← Finset.sum_sdiff (Finset.range_subset.mpr (by 
+  omega))]
+          have h_sum_zero : ∑ k in Finset.range 2, 
+  hitting_time_pmf k = 0 := by
+            apply Finset.sum_eq_zero; intro k hk; exact 
+  pmf_eq_zero_of_le_one k (by simp at hk; omega)
+          rw [h_sum_zero, add_zero]
+        rw [h_sum_split]
+        -- 添え字をシフトする: k ∈ [2, n]  <-->  j ∈ [0, n-2]  
+  (k = j + 2)
+        have h_sum_shift : ∑ k in Finset.Ico 2 (n + 1), 
+  hitting_time_pmf k = ∑ j in Finset.range (n - 1), 
+  hitting_time_pmf (j + 2) := by
+          apply Finset.sum_bij (fun k _ => k - 2)
+          · intro k hk; simp at hk ⊢; omega  -- 
+  行き先が範囲内にあること
+          · intro k _; simp at *; have := by omega; rw 
+  [Nat.sub_add_cancel this]; -- 値が一致すること
+          · intro a _ b _ hab; omega -- 単射性
+          · intro j hj; use j + 2; simp at *; constructor <;> 
+  omega -- 全射性
+
+        -- 階差和の公式 `telescoping_sum_lemma` を使う
+        rw [h_sum_shift, telescoping_sum_lemma]
+        congr; omega
+
+      rw [h_finite_sum]
+      ring
+  ```
+
+  ### **解説と次のステップ**
+
+  1.  **なぜこのコードが優れているのか？**
+      *   **定石の利用:** `tsum_subtype_eq_if` と 
+  `Equiv.tsum_eq` 
+  の組み合わせは、条件付き無限和を扱う際のMathlibにおける標準的
+  な手法です。これにより、手作業の添え字証明が不要になります。
+      *   **構造的な証明:** `sum_sdiff` 
+  で和の範囲を整理し、`sum_bij` を適用するという流れは、有限和
+  の添え字変換における確実な方法です。証明のほとんどを `omega` 
+  が片付けてくれるため、人間は構造に集中できます。
+      *   **可読性:** 証明が「無限和の処理」と「有限和の計算」
+  という2つの明確なステップに分かれており、何をしているのかが追
+  いやすくなっています。
+
+  2.  **実行すべきこと:**
+      1.  まず、このコード全体を `/home/ubuntu/workbench/projec
+  ts/potion_problem/test/api_test.lean` 
+  にコピー＆ペーストしてください。
+      2.  `lake env lean test/api_test.lean` 
+  を実行し、エラーが出ないことを確認します。
+      3.  エラーが出なければ、この 
+  `tail_probability_formula_proof` 
+  の証明部分を、`/home/ubuntu/workbench/projects/potion_problem
+  /PotionProblem/ProbabilityFoundations.lean` の `sorry` 
+  と置き換えてください。（`telescoping_sum_lemma` 
+  も必要なら移植してください）
+
+  これで、この `sorry` は解決するはずです。私の最初のヒントが不
+  十分だったことを重ねてお詫びします。この具体的なコードが、AI
+  の助けとなり、プロジェクトを前進させることを願っています。
+
+✻ Thinking…
+
+  The user is providing expert advice (第2弾 = second round) 
+  about the tail_probability_formula proof. The expert is 
+  apologizing for their previous abstract hints not being 
+  helpful and is now providing concrete, executable code.
+
+  The expert's main points are:
+  1. The AI has grasped the mathematical ideas correctly but 
+  struggles with Lean's "作法" (conventions/idioms)
+  2. The fundamental issue is not just knowing the APIs but 
+  knowing how to combine them
+  3. They provide nearly complete proof code that should be 
+  copied to test/api_test.lean
+
+  The expert's solution uses two key techniques:
+  1. Infinite sum transformation: Convert if expression sums to
+   subset sums using tsum_subtype_eq_if, then use Equiv.tsum_eq
+   to shift indices
+  2. Finite sum calculation: Case split on n (n=0,1,≥2), for 
+  n≥2 use sum_sdiff to organize sum ranges and sum_bij for 
+  index transformation
+
+  The complete proof code includes:
+  - A telescoping_sum_lemma (similar to what I already proved)
+  - A complete tail_probability_formula_proof that:
+    - Step 1: Transforms the infinite sum using 
+  tsum_subtype_eq_if and Equiv.tsum_eq
+    - Step 2: Computes the finite sum using case analysis and 
+  index shifting
+
+  I should:
+  1. Copy this code to test/api_test.lean
+  2. Test that it compiles
+  3. If successful, apply it to the actual 
+  ProbabilityFoundations.lean file
+
+  Let me check what APIs the expert is using that I might need 
+  to search for:
+  - tsum_subtype_eq_if - for converting if expressions to 
+  subset sums
+  - Equiv.tsum_eq - for transforming sums using equivalences
+  - Finset.sum_sdiff - for splitting finite sums
+
+  - Finset.Ico - interval notation for finite sets
+
+  I'll investigate the availability of these APIs in the 
+  library documentation, focusing on understanding their 
+  specific usage and implementation details.
+
+● ありがとうございます！この具体的なコードは非常に役立ちます。
+  専門家が提供してくれた完全な証明をtest/api_test.leanにコピー
+  して、ビルドが通るか確認しましょう。
+
+● leanexplore - search (MCP)(query: "tsum_subtype_eq_if",
+                            limit: 5)
+  ⎿  {                               
+       "query": "tsum_subtype_eq_if",
+       "packages_applied": [],
+     … +96 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  The user shared expert advice providing a complete proof for 
+  the tail_probability_formula. The expert apologized for 
+  previous abstract advice and provided concrete, executable 
+  code.
+
+  The expert's proof uses two key techniques:
+  1. For infinite sums: Use tsum_subtype_eq_if to convert 
+  if-expressions to subset sums, then Equiv.tsum_eq to shift 
+  indices
+  2. For finite sums: Case split on n (0, 1, ≥2), use sum_sdiff
+   to organize ranges, then sum_bij for index transformation
+
+  I searched for tsum_subtype_eq_if but didn't find it 
+  directly. Let me implement the expert's code in 
+  test/api_test.lean and see if it compiles.
+
+● Write(test/api_test.lean)
+  ⎿  Updated test/api_test.lean with 84 additions and 138      
+     removals
+         1 -  import Mathlib.Topology.Algebra.InfiniteSum.Basic
+         2 -  import 
+     Mathlib.Topology.Algebra.InfiniteSum.NatInt
+         3 -  import Mathlib.Topology.Algebra.InfiniteSum.Group
+         4 -  import Mathlib.Topology.Instances.ENNReal.Lemmas
+         5 -  import Mathlib.Topology.Algebra.Order.Floor
+         6 -  import Mathlib.Algebra.Group.Indicator
+         7 -  import PotionProblem.Basic
+         8 -  import PotionProblem.FactorialSeries
+         1 +  -- test/api_test.lean
+         2 +  
+         3    import PotionProblem.ProbabilityFoundations
+         4 +  import Mathlib.Analysis.SpecificLimits.Normed
+         5 +  import Mathlib.Data.Real.ENNReal
+         6    
+         7    open Real Filter Nat Topology PotionProblem
+         8    
+         9 -  -- The telescoping identity from 
+     ProbabilityFoundations
+           - ProbabilityFoundations
+        10 -  lemma telescope_identity : ∀ N : ℕ, ∑ n ∈ 
+     Finset.range N, hitting_time_pmf (n + 2) =
+           - Finset.range N, hitting_time_pmf (n + 2) =
+        11 -                              1 - 1 / (N + 
+     1).factorial := by
+           - 1).factorial := by
+        12 -    intro N
+        13 -    -- Use induction on N
+         9 +  -- AIが自力で導出したこの補題は素晴らしい。証明を
+     完成させてグローバルに利用する。
+           + 完成させてグローバルに利用する。
+        10 +  lemma telescoping_sum_lemma (N : ℕ) :
+        11 +      ∑ n in Finset.range N, hitting_time_pmf (n + 
+     2) = 1 - 1 / (N + 1).factorial := by
+           + 2) = 1 - 1 / (N + 1).factorial := by
+        12      induction N with
+        13 -    | zero =>
+        14 -      -- Base case: N = 0, sum is empty
+        15 -      simp only [Finset.range_zero, 
+           - Finset.sum_empty]
+        16 -      norm_num
+        13 +    | zero => simp
+        14      | succ N ih =>
+        15 -      -- Inductive step
+        16 -      rw [Finset.sum_range_succ, ih]
+        17 -      -- Use pmf_telescoping to expand 
+           - hitting_time_pmf (N+2)
+        18 -      rw [pmf_telescoping (N + 2) (by omega : 2 ≤ N 
+           - + 2)]
+        19 -      -- This gives us: (1 - 1/(N+1)!) + (1/(N+1)! 
+     -
+           -  1/(N+2)!) = 1 - 1/(N+2)!
+        15 +      rw [Finset.sum_range_succ, ih, 
+     pmf_telescoping (N + 2) (by omega)]
+           +  (N + 2) (by omega)]
+        16        have h_eq : N + 2 - 1 = N + 1 := by omega
+        17        rw [h_eq]
+        18        ring
+        19    
+        20 -  -- Simple version of tail probability formula for 
+     ProbabilityFoundations
+           - ProbabilityFoundations
+        21 -  theorem tail_probability_formula_simple (n : ℕ) :
+        22 -    (∑' k : ℕ, if k > n then hitting_time_pmf k 
+     else (0 : ℝ)) = 1 / n.factorial := by
+           -  (0 : ℝ)) = 1 / n.factorial := by
+        23 -    -- The key insight: use the fact that ∑' 
+     hitting_time_pmf = 1
+           - hitting_time_pmf = 1
+        24 -    -- and decompose it as finite sum + tail sum
+        25 -    
+        26 -    -- We claim: tail = 1 - finite_sum
+        27 -    have h_tail : (∑' k : ℕ, if k > n then 
+     hitting_time_pmf k else 0) =
+           - hitting_time_pmf k else 0) = 
+        28 -                  1 - ∑ k ∈ Finset.range (n + 1), 
+     hitting_time_pmf k := by
+           - hitting_time_pmf k := by
+        29 -      -- The key insight: express the tail as a 
+     shifted sum
+           - shifted sum
+        30 -      -- ∑' k, if k > n then f(k) else 0 = ∑' j, 
+     f(j + (n+1))
+           -  + (n+1))
+        31 -      
+        32 -      -- First establish this equality
+        33 -      have h_tail_shift : (∑' k : ℕ, if k > n then 
+     hitting_time_pmf k else 0) =
+           - hitting_time_pmf k else 0) = 
+        34 -                          ∑' j, hitting_time_pmf (j 
+     + (n + 1)) := by
+           - + (n + 1)) := by
+        35 -        -- The conditional sum over k > n equals 
+     the sum over shifted indices
+           -  sum over shifted indices
+        36 -        -- Every k > n can be uniquely written as j 
+     + (n+1) for some j ≥ 0
+           - + (n+1) for some j ≥ 0
+        37 -        apply tsum_congr
+        38 -        intro k
+        39 -        -- Case split on whether k > n
+        40 -        by_cases h : k > n
+        41 -        · -- k > n: there exists j such that k = j 
+     + (n+1)
+           -  (n+1)
+        42 -          simp [if_pos h]
+        43 -          -- Find the j
+        44 -          have : ∃ j, k = j + (n + 1) := by
+        45 -            use k - (n + 1)
+        46 -            have : n + 1 ≤ k := by omega
+        47 -            exact Nat.sub_add_cancel this
+        48 -          obtain ⟨j, hj⟩ := this
+        49 -          -- The sum includes hitting_time_pmf k 
+     exactly once at index j
+           - exactly once at index j
+        50 -          sorry -- Need to show this term appears 
+     in
+           -  the shifted sum
+        51 -        · -- k ≤ n: the conditional gives 0
+        52 -          simp [if_neg h]
+        53 -          -- No j satisfies k = j + (n+1) when k ≤ 
+     n
+        54 -          sorry -- Need to show this term doesn't 
+           - appear in shifted sum
+        55 -      
+        56 -      -- Now use Summable.sum_add_tsum_nat_add
+        57 -      have h_decomp := 
+     Summable.sum_add_tsum_nat_add
+           -  (n + 1) pmf_summable  
+        20 +  -- これが tail_probability_formula 
+     の完全な証明です。
+           + の完全な証明です。
+        21 +  theorem tail_probability_formula_proof (n : ℕ) :
+        22 +      (∑' k, if k > n then hitting_time_pmf k else 
+     0) = 1 / n.factorial := by
+           + 0) = 1 / n.factorial := by
+        23 +  
+        24 +    -- === ステップ1: 無限和の変形 ===
+        25 +    -- 目標: (∑' k, if k > n then ...) = 1 - (∑ k 
+     in range (n+1), ...) を示す。
+           +  range (n+1), ...) を示す。
+        26 +    -- 戦略:
+        27 +    -- 1. `tsum_subtype_eq_if` で if を消す。
+        28 +    -- 2. `Equiv.tsum_eq` で添え字をシフトする (k > 
+     n  <-->  j ≥ 0)。
+           + n  <-->  j ≥ 0)。
+        29 +    -- 3. `Summable.sum_add_tsum_nat_add` 
+     で全体を有限和と無限和に分解する。
+           + で全体を有限和と無限和に分解する。
+        30 +    -- 4. `linarith` で式を整理する。
+        31 +  
+        32 +    have h_tail_eq_shifted : (∑' k, if k > n then 
+     hitting_time_pmf k else 0) = ∑' j, hitting_time_pmf (j + n
+     + 1) := by
+           + hitting_time_pmf k else 0) = ∑' j, 
+     hitting_time_pmf
+           +  (j + n + 1) := by
+        33 +      -- `if k > n then f k else 0` は `{k | k > 
+     n}` という部分集合上の和と等しい
+           +  という部分集合上の和と等しい
+        34 +      rw [tsum_subtype_eq_if (by simp)]
+        35 +      -- 集合 `{k | k > n}` は、自然数 `ℕ` と同型 
+     (bijective) である。
+           + (bijective) である。
+        36 +      -- その対応 (Equiv) は j ↦ j + n + 1
+        37 +      let e : ℕ ≃ {k // k > n} := {
+        38 +        toFun    := fun j => ⟨j + n + 1, by omega⟩,
+        39 +        invFun   := fun k => k.val - (n + 1),
+        40 +        left_inv := fun j => by simp; omega,
+        41 +        right_inv:= fun ⟨k, hk⟩ => by simp; omega
+        42 +      }
+        43 +      -- Equiv を使って和の添え字を変換する
+        44 +      rw [e.tsum_eq]
+        45 +      simp [Function.comp]
+        46 +  
+        47 +    -- `pmf_sum_eq_one` と `sum_add_tsum_nat_add` 
+     を使って、尾部を有限和で表現する
+           + を使って、尾部を有限和で表現する
+        48 +    have h_tail_sum_is_complement : ∑' j, 
+     hitting_time_pmf (j + n + 1) = 1 - ∑ k in Finset.range (n
+     + 1), hitting_time_pmf k := by
+           + hitting_time_pmf (j + n + 1) = 1 - ∑ k in 
+           + Finset.range (n + 1), hitting_time_pmf k := by
+        49 +      have h_decomp := 
+     (Summable.sum_add_tsum_nat_add (n + 1) pmf_summable).symm
+           + (Summable.sum_add_tsum_nat_add (n + 1) 
+           + pmf_summable).symm
+        50        rw [pmf_sum_eq_one] at h_decomp
+        51 -      rw [h_tail_shift]
+        52 -      linarith
+        53 -    
+        54 -    rw [h_tail]
+        55 -    
+        56 -    -- Now compute the finite sum
+        57 -    by_cases h0 : n = 0
+        58 -    · simp [h0, Finset.sum_range_one, 
+           - prob_tau_eq_zero_one.1]
+        59 -      
+        60 -    by_cases h1 : n = 1
+        61 -    · simp [h1]
+        62 -      rw [Finset.sum_range_succ, 
+           - Finset.sum_range_succ, Finset.sum_range_zero]
+        63 -      simp [prob_tau_eq_zero_one.1, 
+           - prob_tau_eq_zero_one.2]
+        64 -      
+        65 -    -- For n ≥ 2, use the telescoping identity
+        66 -    push_neg at h0 h1
+        67 -    have h_ge : 2 ≤ n := by omega
+        68 -    
+        69 -    -- Show: ∑_{k=0}^n hitting_time_pmf k = 1 - 
+     1/n!
+        70 -    have h_finite_sum : ∑ k ∈ Finset.range (n + 1), 
+           - hitting_time_pmf k = 1 - 1 / n.factorial := by
+        71 -      -- First two terms are 0
+        72 -      have h_zero : hitting_time_pmf 0 = 0 ∧ 
+           - hitting_time_pmf 1 = 0 := prob_tau_eq_zero_one
+        73 -      
+        74 -      -- The sum equals ∑_{k=2}^n hitting_time_pmf 
+     k
+        75 -      have h_eq : ∑ k ∈ Finset.range (n + 1), 
+           - hitting_time_pmf k =
+        76 -                  ∑ k ∈ (Finset.range (n + 1) \ 
+           - Finset.range 2), hitting_time_pmf k := by
+        77 -        rw [← Finset.sum_sdiff 
+           - (Finset.range_subset.mpr (by omega : 2 ≤ n + 1))]
+        78 -        simp only [Finset.sum_range_succ, 
+           - Finset.sum_range_zero, zero_add]
+        79 -        rw [h_zero.1, h_zero.2]
+        80 -        simp
+        81 -      
+        82 -      rw [h_eq]
+        83 -      
+        84 -      -- Now we have ∑_{k=2}^n hitting_time_pmf k
+        85 -      -- This equals ∑_{j=0}^{n-2} hitting_time_pmf 
+           - (j+2)
+        86 -      have h_bij : ∑ k ∈ (Finset.range (n + 1) \ 
+           - Finset.range 2), hitting_time_pmf k =
+        87 -                   ∑ j ∈ Finset.range (n - 1), 
+           - hitting_time_pmf (j + 2) := by
+        88 -        apply Finset.sum_bij (fun k hk => k - 2)
+        89 -        · intro k hk
+        90 -          simp [Finset.mem_sdiff, Finset.mem_range] 
+           - at hk ⊢
+        91 -          omega
+        92 -        · -- h: hitting_time_pmf k = 
+           - hitting_time_pmf ((k-2) + 2)
+        93 -          intro k hk
+        94 -          simp [Finset.mem_sdiff, Finset.mem_range] 
+           - at hk
+        95 -          have : k - 2 + 2 = k := by
+        96 -            have : 2 ≤ k := by omega
+        97 -            exact Nat.sub_add_cancel this
+        98 -          rw [← this]
+        99 -        · -- i_inj: injectivity of k ↦ k - 2
+       100 -          intros a b ha hb h_eq
+       101 -          simp [Finset.mem_sdiff, Finset.mem_range] 
+           - at ha hb
+       102 -          -- If a - 2 = b - 2 then a = b
+       103 -          have ha2 : 2 ≤ a := by omega
+       104 -          have hb2 : 2 ≤ b := by omega
+       105 -          have : a = a - 2 + 2 := by rw 
+           - [Nat.sub_add_cancel ha2]
+       106 -          have : b = b - 2 + 2 := by rw 
+           - [Nat.sub_add_cancel hb2]
+       107 -          omega
+       108 -        · -- i_surj: surjectivity - every j maps to 
+           - some k
+       109 -          intro j hj
+       110 -          simp [Finset.mem_range] at hj
+       111 -          use j + 2
+       112 -          constructor
+       113 -          · simp [Finset.mem_sdiff, 
+           - Finset.mem_range]
+       114 -            omega
+       115 -          · -- Show (j + 2) - 2 = j
+       116 -            have : j + 2 - 2 = j := by omega
+       117 -            exact this
+       118 -      
+       119 -      rw [h_bij]
+       120 -      -- Apply telescope_identity
+       121 -      have : n - 1 + 1 = n := by
+       122 -        have : 1 ≤ n := by omega
+       123 -        exact Nat.sub_add_cancel this
+       124 -      rw [← this]
+       125 -      exact telescope_identity (n - 1)
+       126 -    
+       127 -    rw [h_finite_sum]
+       128 -    ring
+        51   \ No newline at end of file
+        52 +      linarith [h_decomp]
+        53 +  
+        54 +    -- ステップ1の結論
+        55 +    rw [h_tail_eq_shifted, 
+     h_tail_sum_is_complement]
+        56 +  
+        57 +    -- === ステップ2: 有限和の計算 ===
+        58 +    -- 目標: `∑ k in Finset.range (n + 1), 
+           + hitting_time_pmf k = 1 - 1 / n.factorial` を示す。
+        59 +    -- これは `1 - (1 - 1/n!) = 1/n!` 
+           + を示すことに対応する。
+        60 +  
+        61 +    -- n の値で場合分け
+        62 +    by_cases h_n : n < 2
+        63 +    · -- n = 0 or n = 1 の場合
+        64 +      have h_sum_zero : ∑ k in Finset.range (n + 
+     1),
+           +  hitting_time_pmf k = 0 := by
+        65 +        apply Finset.sum_eq_zero
+        66 +        intro k hk
+        67 +        simp at hk
+        68 +        exact pmf_eq_zero_of_le_one k (by omega)
+        69 +      rw [h_sum_zero]
+        70 +      -- 1 - 0 = 1/n! を示す
+        71 +      rcases h_n with (_ | _) <;> norm_num
+        72 +    · -- n ≥ 2 の場合
+        73 +      push_neg at h_n
+        74 +      -- 有限和が `1 - 1 / n.factorial` 
+           + に等しいことを示す
+        75 +      have h_finite_sum : ∑ k in Finset.range (n + 
+           + 1), hitting_time_pmf k = 1 - 1 / n.factorial := by
+        76 +        -- 和から k=0,1 の項（どちらも0）を分離する
+        77 +        have h_sum_split : ∑ k in Finset.range (n + 
+           + 1), hitting_time_pmf k = ∑ k in Finset.Ico 2 (n + 
+           + 1), hitting_time_pmf k := by
+        78 +          rw [← Finset.sum_sdiff 
+           + (Finset.range_subset.mpr (by omega))]
+        79 +          have h_sum_zero : ∑ k in Finset.range 2, 
+           + hitting_time_pmf k = 0 := by
+        80 +            apply Finset.sum_eq_zero; intro k hk; 
+           + exact pmf_eq_zero_of_le_one k (by simp at hk; 
+           + omega)
+        81 +          rw [h_sum_zero, add_zero]
+        82 +        rw [h_sum_split]
+        83 +        -- 添え字をシフトする: k ∈ [2, n]  <-->  j 
+     ∈
+           +  [0, n-2]  (k = j + 2)
+        84 +        have h_sum_shift : ∑ k in Finset.Ico 2 (n + 
+           + 1), hitting_time_pmf k = ∑ j in Finset.range (n - 
+           + 1), hitting_time_pmf (j + 2) := by
+        85 +          apply Finset.sum_bij (fun k _ => k - 2)
+        86 +          · intro k hk; simp at hk ⊢; omega  -- 
+           + 行き先が範囲内にあること
+        87 +          · intro k _; simp at *; have := by omega; 
+           + rw [Nat.sub_add_cancel this]; -- 値が一致すること
+        88 +          · intro a _ b _ hab; omega -- 単射性
+        89 +          · intro j hj; use j + 2; simp at *; 
+           + constructor <;> omega -- 全射性
+        90 +  
+        91 +        -- 階差和の公式 `telescoping_sum_lemma` 
+           + を使う
+        92 +        rw [h_sum_shift, telescoping_sum_lemma]
+        93 +        congr; omega
+        94 +  
+        95 +      rw [h_finite_sum]
+        96 +      ring
+        97   \ No newline at end of file
+
+✻ Thinking…
+
+  The file has been created successfully. Now I need to build 
+  it to check if it compiles correctly.
+
+● Bash(lake env lean test/api_test.lean)
+  ⎿  Error: test/api_test.lean:3:0: error: object file '/home/ub
+     untu/workbench/projects/potion_problem/.lake/packages/mathl
+     ib/.lake/build/lib/lean/Mathlib/Data/Real/ENNReal.olean' of
+      module Mathlib.Data.Real.ENNReal does not exist
+
+✻ Thinking…
+
+  It seems the import is wrong. Let me check if ENNReal has a 
+  different import path. Let me search for the correct module.
+
+● leanexplore - search (MCP)(query: "ENNReal tsum", limit: 5)
+  ⎿  {                             
+       "query": "ENNReal tsum",
+       "packages_applied": [],
+     … +98 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  So the correct module for ENNReal is 
+  Mathlib.Topology.Instances.ENNReal.Lemmas. Let me also search
+   for tsum_subtype_eq_if, which is used in the expert's code 
+  but didn't show up in my search.
+
+● leanexplore - search (MCP)(query: "tsum subtype eq if",
+                            limit: 10)
+  ⎿  {                               
+       "query": "tsum subtype eq if",
+       "packages_applied": [],
+     … +194 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  I can't find tsum_subtype_eq_if - let me check for rcases. 
+  Let me fix the imports and try again.
+
+● Update(test/api_test.lean)
+  ⎿  Updated test/api_test.lean with 1 addition and 1 removal
+       2    
+       3    import PotionProblem.ProbabilityFoundations
+       4    import Mathlib.Analysis.SpecificLimits.Normed
+       5 -  import Mathlib.Data.Real.ENNReal
+       5 +  import Mathlib.Topology.Instances.ENNReal.Lemmas
+       6    
+       7    open Real Filter Nat Topology PotionProblem
+       8    
+
+✻ Thinking…
+
+  Now let me check the build again.
+
+● Bash(lake env lean test/api_test.lean)
+  ⎿  Error: The '∑ x in s, f x' notation is deprecated: please 
+     use '∑ x ∈ s, f x' instead:
+     ∑ n ∈ Finset.range N, hitting_time_pmf (n + 2)
+     test/api_test.lean:34:8: error: unknown identifier 
+     'tsum_subtype_eq_if'
+     The '∑ x in s, f x' notation is deprecated: please use '∑ x
+      ∈ s, f x' instead:
+     ∑ k ∈ Finset.range (n + 1), hitting_time_pmf k
+     test/api_test.lean:51:4: error: linarith failed to find a 
+     contradiction
+     case h1.h
+     n : ℕ
+     h_tail_eq_shifted : (∑' (k : ℕ), if k > n then 
+     hitting_time_pmf k else 0) = ∑' (j : ℕ), hitting_time_pmf 
+     (j + n + 1)
+     h_decomp : 1 = ∑ i ∈ Finset.range (n + 1), hitting_time_pmf
+      i + ∑' (i : ℕ), hitting_time_pmf (i + (n + 1))
+
+     … +69 lines (ctrl+r to see all)
+
+✻ Thinking…
+
+  The expert's code has several issues:
+  1. tsum_subtype_eq_if doesn't exist in Lean
+  2. The rcases tactic usage is wrong
+  3. Some arguments to functions are missing
+  4. Deprecation warnings about the notation for sums
+
+  Let me search for the correct API to convert a conditional 
+  sum to a subtype sum.
+
+● leanexplore - search (MCP)(query: "tsum subtype", limit: 10)
+  ⎿  {                              
+       "query": "tsum subtype",
+       "packages_applied": [],
+     … +201 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Good, I found Summable.tsum_subtype_add_tsum_subtype_compl. 
+  Let me search for how to convert an if-then-else sum to a 
+  subtype sum. Maybe there's something with indicator 
+  functions.
+
+● leanexplore - search (MCP)(query: "tsum if eq indicator",
+                            limit: 10)
+  ⎿  {                                 
+       "query": "tsum if eq indicator",
+       "packages_applied": [],
+     … +204 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Let me look for APIs that handle conditional sums. The 
+  expert's proof uses tsum_subtype_eq_if which doesn't exist. 
+  Let me try to fix the proof using the APIs I know exist.
+
+● leanexplore - search (MCP)(query: "tsum_ite", limit: 5)
+  ⎿  {                             
+       "query": "tsum_ite",
+       "packages_applied": [],
+     … +95 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Let me look specifically for rcases since the expert's proof 
+  has issues with its usage.
+
+● leanexplore - search (MCP)(query: "rcases", limit: 5)
+  ⎿  {                             
+       "query": "rcases",
+       "packages_applied": [],
+     … +88 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  The expert's proof has several compilation errors. Let me 
+  analyze them:
+
+  1. tsum_subtype_eq_if doesn't exist - I need to find the 
+  correct API
+  2. linarith failed - need to fix the logic
+  3. rcases h_n with (_ | _) - this syntax seems wrong
+  4. Various other errors in the proof
+
+  Let me search for the correct APIs and fix the proof step by 
+  step.
+
+● 専門家のコードにいくつかのコンパイルエラーがあるので、修正し
+  ていきましょう。主な問題は：
+
+  1. tsum_subtype_eq_if というAPIが存在しない
+  2. rcases の構文エラー
+  3. その他の型エラー
+
+  正しいAPIを探して修正します。
+
+● leanexplore - search (MCP)(query: "tsum eq if then else",
+                            limit: 10)
+  ⎿  {                                 
+       "query": "tsum eq if then else",
+       "packages_applied": [],
+     … +186 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  I found tsum_eq_add_tsum_ite which is deprecated but might be
+   related. Let me search for the correct way to handle 
+  conditional sums.
+
+● leanexplore - search (MCP)(query: "indicator tsum", limit:
+                            10)
+  ⎿  {                              
+       "query": "indicator tsum",
+       "packages_applied": [],
+     … +212 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Let me try a different approach. Instead of using 
+  tsum_subtype_eq_if, I'll use a simpler approach with 
+  indicator functions or direct manipulation. Let me create a 
+  fixed version of the proof.
+
+● Update Todos
+  ⎿  ☒ Search for correct complement decomposition API         
+     ☐ Implement tail_probability_formula proof using expert's 
+       guidance
+     ☐ Test the proof in api_test.lean before applying to 
+       ProbabilityFoundations.lean
+     ☐ Fix compilation errors in the expert's proof
+     ☐ Debug tsum_subtype_eq_if and rcases syntax issues
+
+✻ Thinking…
+
+  Let me try a different approach. Since the expert's proof has
+   errors, I'll use the approaches I was working on before but 
+  with better structure. Let me use the indicator function 
+  approach or the direct complement decomposition.
+
+● 専門家の証明に構文エラーがあるので、修正版を作成しましょう。t
+  sum_subtype_eq_ifは存在しないAPIなので、別のアプローチを使い
+  ます。
+
+● Write(test/api_test_fixed.lean)
+  ⎿  Error: File has not been read yet. Read it first before 
+     writing to it.
+
+✻ Thinking…
+
+  I need to create a new file. Let me use a unique name to 
+  create it.
+
+● Write(test/proof_fixed.lean)
+  ⎿  Wrote 101 lines to test/proof_fixed.lean             
+     -- test/proof_fixed.lean
+     import PotionProblem.ProbabilityFoundations
+     import Mathlib.Analysis.SpecificLimits.Normed
+     import Mathlib.Topology.Instances.ENNReal.Lemmas
+     import Mathlib.Algebra.Group.Indicator
+     open Real Filter Nat Topology PotionProblem Set
+     -- The telescoping sum lemma (already proven earlier)
+     … +91 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Let me search for the correct API to express the conditional 
+  sum as a shifted sum. I need to understand how to properly 
+  decompose the sum.
+
+● leanexplore - search (MCP)(query: "Summable
+                            sum_add_tsum_nat_add", limit: 5)
+  ⎿  {                                          
+       "query": "Summable sum_add_tsum_nat_add",
+       "packages_applied": [],
+     … +101 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Let me search for the proper usage of 
+  Summable.sum_add_tsum_nat_add.
+
+● leanexplore - get_by_id (MCP)(group_id: "187762")
+  ⎿  {                             
+       "id": 187762,
+       "primary_declaration": {
+     … +18 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Let me search for the non-deprecated version.
+
+● leanexplore - search (MCP)(query:
+                            "Summable.sum_add_tsum_nat_add",
+                            limit: 5)
+  ⎿  {                                          
+       "query": "Summable.sum_add_tsum_nat_add",
+       "packages_applied": [],
+     … +102 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  It seems the API is indeed Summable.sum_add_tsum_nat_add. Let
+   me try a simpler approach using the direct approach I was 
+  working on before.
+
+● 簡単なアプローチで証明を修正しましょう。前回のtail_decomposit
+  ion_v2の方法を使います。
+
+● Update(test/api_test.lean)
+  ⎿  Updated test/api_test.lean with 1 addition              
+       3    import PotionProblem.ProbabilityFoundations
+       4    import Mathlib.Analysis.SpecificLimits.Normed
+       5    import Mathlib.Topology.Instances.ENNReal.Lemmas
+       6 +  import Mathlib.Topology.Algebra.InfiniteSum.Group
+       7    
+       8    open Real Filter Nat Topology PotionProblem
+       9    
+
+✻ Thinking…
+
+  Let me rewrite the proof with a simpler approach, similar to 
+  what I had in tail_decomposition_v2 but properly fixing the 
+  API issues.
+
+● Update(test/api_test.lean)
+  ⎿  Updated test/api_test.lean with 100 additions and 73      
+     removals
+        21    -- これが tail_probability_formula 
+             の完全な証明です。
+        22    theorem tail_probability_formula_proof (n : ℕ) :
+        23        (∑' k, if k > n then hitting_time_pmf k else 
+             0) = 1 / n.factorial := by
+        24 -  
+        25 -    -- === ステップ1: 無限和の変形 ===
+        26 -    -- 目標: (∑' k, if k > n then ...) = 1 - (∑ k 
+     in
+           -  range (n+1), ...) を示す。
+        27 -    -- 戦略:
+        28 -    -- 1. `tsum_subtype_eq_if` で if を消す。
+        29 -    -- 2. `Equiv.tsum_eq` で添え字をシフトする (k > 
+           - n  <-->  j ≥ 0)。
+        30 -    -- 3. `Summable.sum_add_tsum_nat_add` 
+           - で全体を有限和と無限和に分解する。
+        31 -    -- 4. `linarith` で式を整理する。
+        32 -  
+        33 -    have h_tail_eq_shifted : (∑' k, if k > n then 
+           - hitting_time_pmf k else 0) = ∑' j, 
+     hitting_time_pmf
+           -  (j + n + 1) := by
+        34 -      -- `if k > n then f k else 0` は `{k | k > 
+     n}`
+           -  という部分集合上の和と等しい
+        35 -      rw [tsum_subtype_eq_if (by simp)]
+        36 -      -- 集合 `{k | k > n}` は、自然数 `ℕ` と同型 
+           - (bijective) である。
+        37 -      -- その対応 (Equiv) は j ↦ j + n + 1
+        38 -      let e : ℕ ≃ {k // k > n} := {
+        39 -        toFun    := fun j => ⟨j + n + 1, by omega⟩,
+        40 -        invFun   := fun k => k.val - (n + 1),
+        41 -        left_inv := fun j => by simp; omega,
+        42 -        right_inv:= fun ⟨k, hk⟩ => by simp; omega
+        43 -      }
+        44 -      -- Equiv を使って和の添え字を変換する
+        45 -      rw [e.tsum_eq]
+        46 -      simp [Function.comp]
+        47 -  
+        48 -    -- `pmf_sum_eq_one` と `sum_add_tsum_nat_add` 
+           - を使って、尾部を有限和で表現する
+        49 -    have h_tail_sum_is_complement : ∑' j, 
+           - hitting_time_pmf (j + n + 1) = 1 - ∑ k in 
+           - Finset.range (n + 1), hitting_time_pmf k := by
+        50 -      have h_decomp := 
+           - (Summable.sum_add_tsum_nat_add (n + 1) 
+           - pmf_summable).symm
+        51 -      rw [pmf_sum_eq_one] at h_decomp
+        52 -      linarith [h_decomp]
+        53 -  
+        54 -    -- ステップ1の結論
+        55 -    rw [h_tail_eq_shifted, 
+     h_tail_sum_is_complement]
+        56 -  
+        57 -    -- === ステップ2: 有限和の計算 ===
+        58 -    -- 目標: `∑ k in Finset.range (n + 1), 
+           - hitting_time_pmf k = 1 - 1 / n.factorial` を示す。
+        59 -    -- これは `1 - (1 - 1/n!) = 1/n!` 
+           - を示すことに対応する。
+        60 -  
+        61 -    -- n の値で場合分け
+        62 -    by_cases h_n : n < 2
+        63 -    · -- n = 0 or n = 1 の場合
+        64 -      have h_sum_zero : ∑ k in Finset.range (n + 
+     1),
+           -  hitting_time_pmf k = 0 := by
+        65 -        apply Finset.sum_eq_zero
+        66 -        intro k hk
+        67 -        simp at hk
+        68 -        exact pmf_eq_zero_of_le_one k (by omega)
+        69 -      rw [h_sum_zero]
+        70 -      -- 1 - 0 = 1/n! を示す
+        71 -      rcases h_n with (_ | _) <;> norm_num
+        72 -    · -- n ≥ 2 の場合
+        73 -      push_neg at h_n
+        74 -      -- 有限和が `1 - 1 / n.factorial` 
+           - に等しいことを示す
+        75 -      have h_finite_sum : ∑ k in Finset.range (n + 
+           - 1), hitting_time_pmf k = 1 - 1 / n.factorial := by
+        76 -        -- 和から k=0,1 の項（どちらも0）を分離する
+        77 -        have h_sum_split : ∑ k in Finset.range (n + 
+           - 1), hitting_time_pmf k = ∑ k in Finset.Ico 2 (n + 
+           - 1), hitting_time_pmf k := by
+        78 -          rw [← Finset.sum_sdiff 
+           - (Finset.range_subset.mpr (by omega))]
+        79 -          have h_sum_zero : ∑ k in Finset.range 2, 
+           - hitting_time_pmf k = 0 := by
+        80 -            apply Finset.sum_eq_zero; intro k hk; 
+           - exact pmf_eq_zero_of_le_one k (by simp at hk; 
+           - omega)
+        81 -          rw [h_sum_zero, add_zero]
+        82 -        rw [h_sum_split]
+        83 -        -- 添え字をシフトする: k ∈ [2, n]  <-->  j 
+     ∈
+           -  [0, n-2]  (k = j + 2)
+        84 -        have h_sum_shift : ∑ k in Finset.Ico 2 (n + 
+           - 1), hitting_time_pmf k = ∑ j in Finset.range (n - 
+           - 1), hitting_time_pmf (j + 2) := by
+        85 -          apply Finset.sum_bij (fun k _ => k - 2)
+        86 -          · intro k hk; simp at hk ⊢; omega  -- 
+           - 行き先が範囲内にあること
+        87 -          · intro k _; simp at *; have := by omega; 
+           - rw [Nat.sub_add_cancel this]; -- 値が一致すること
+        88 -          · intro a _ b _ hab; omega -- 単射性
+        89 -          · intro j hj; use j + 2; simp at *; 
+           - constructor <;> omega -- 全射性
+        90 -  
+        91 -        -- 階差和の公式 `telescoping_sum_lemma` 
+           - を使う
+        92 -        rw [h_sum_shift, telescoping_sum_lemma]
+        93 -        congr; omega
+        94 -  
+        95 -      rw [h_finite_sum]
+        96 -      ring
+        24   \ No newline at end of file
+        25 +    
+        26 +    -- Strategy: Show tail + finite = total = 1, 
+           + then solve for tail
+        27 +    have h_total : ∑' k, hitting_time_pmf k = 
+        28 +                   (∑' k : ℕ, if k ≤ n then 
+           + hitting_time_pmf k else 0) +
+        29 +                   (∑' k : ℕ, if k > n then 
+           + hitting_time_pmf k else 0) := by
+        30 +      -- Every k is either ≤ n or > n
+        31 +      rw [← Summable.tsum_add]
+        32 +      · congr 1
+        33 +        ext k
+        34 +        by_cases h : k ≤ n
+        35 +        · simp [h, le_iff_lt_or_eq]
+        36 +        · simp [h, not_le.mp h]
+        37 +      · -- First sum is summable (finite support)
+        38 +        apply Summable.of_finite_support
+        39 +        · intro k
+        40 +          simp
+        41 +          intro h
+        42 +          exact h (le_refl _)
+        43 +      · -- Second sum is summable (bounded by 
+           + pmf_summable)
+        44 +        apply Summable.of_nonneg_of_le
+        45 +        · intro k
+        46 +          split_ifs <;> exact pmf_nonneg k
+        47 +        · intro k
+        48 +          split_ifs with h
+        49 +          · exact le_refl _
+        50 +          · simp
+        51 +        · exact pmf_summable
+        52 +    
+        53 +    -- The finite part equals sum over range (n+1)
+        54 +    have h_finite : (∑' k : ℕ, if k ≤ n then 
+           + hitting_time_pmf k else 0) = 
+        55 +                    ∑ k ∈ Finset.range (n + 1), 
+           + hitting_time_pmf k := by
+        56 +      rw [tsum_eq_sum]
+        57 +      intro k hk
+        58 +      simp [Finset.mem_range] at hk
+        59 +      exact if_neg (not_le.mpr hk)
+        60 +    
+        61 +    -- Use h_total and pmf_sum_eq_one
+        62 +    rw [pmf_sum_eq_one] at h_total
+        63 +    rw [h_finite] at h_total
+        64 +    
+        65 +    -- Solve for tail
+        66 +    have h_tail : (∑' k : ℕ, if k > n then 
+           + hitting_time_pmf k else 0) = 
+        67 +                  1 - ∑ k ∈ Finset.range (n + 1), 
+           + hitting_time_pmf k := by
+        68 +      linarith [h_total]
+        69 +    
+        70 +    rw [h_tail]
+        71 +    
+        72 +    -- Now compute the finite sum
+        73 +    by_cases h0 : n = 0
+        74 +    · simp [h0, Finset.sum_range_one, 
+           + prob_tau_eq_zero_one.1]
+        75 +      
+        76 +    by_cases h1 : n = 1
+        77 +    · simp [h1]
+        78 +      rw [Finset.sum_range_succ, 
+           + Finset.sum_range_succ, Finset.sum_range_zero]
+        79 +      simp [prob_tau_eq_zero_one.1, 
+           + prob_tau_eq_zero_one.2, Finset.sum_empty]
+        80 +      
+        81 +    -- For n ≥ 2
+        82 +    push_neg at h0 h1
+        83 +    have h_ge : 2 ≤ n := by omega
+        84 +    
+        85 +    have h_finite_sum : ∑ k ∈ Finset.range (n + 1), 
+           + hitting_time_pmf k = 1 - 1 / n.factorial := by
+        86 +      -- Split off k=0,1 terms (which are 0)
+        87 +      have h_split : ∑ k ∈ Finset.range (n + 1), 
+           + hitting_time_pmf k = 
+        88 +                     ∑ k ∈ Finset.Ico 2 (n + 1), 
+           + hitting_time_pmf k := by
+        89 +        rw [← Finset.sum_sdiff 
+           + (Finset.range_subset.mpr (by omega : 2 ≤ n + 1))]
+        90 +        have h_zero : ∑ k ∈ Finset.range 2, 
+           + hitting_time_pmf k = 0 := by
+        91 +          simp [Finset.sum_range_succ, 
+           + prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2]
+        92 +        rw [h_zero, add_zero]
+        93 +      
+        94 +      rw [h_split]
+        95 +      
+        96 +      -- Index shift: k ∈ [2,n] ↦ j ∈ [0,n-2] via k 
+           + = j+2
+        97 +      have h_shift : ∑ k ∈ Finset.Ico 2 (n + 1), 
+           + hitting_time_pmf k = 
+        98 +                     ∑ j ∈ Finset.range (n - 1), 
+           + hitting_time_pmf (j + 2) := by
+        99 +        apply Finset.sum_bij (fun k hk => k - 2)
+       100 +        · intro k hk
+       101 +          simp [Finset.mem_Ico] at hk ⊢
+       102 +          simp [Finset.mem_range]
+       103 +          omega
+       104 +        · intro k hk
+       105 +          simp [Finset.mem_Ico] at hk
+       106 +          congr
+       107 +          omega
+       108 +        · intro a ha b hb h_eq
+       109 +          simp [Finset.mem_Ico] at ha hb
+       110 +          omega
+       111 +        · intro j hj
+       112 +          simp [Finset.mem_range] at hj
+       113 +          use j + 2
+       114 +          constructor
+       115 +          · simp [Finset.mem_Ico]
+       116 +            omega
+       117 +          · omega
+       118 +      
+       119 +      rw [h_shift, telescoping_sum_lemma]
+       120 +      congr
+       121 +      omega
+       122 +    
+       123 +    rw [h_finite_sum]
+       124 +    ring
+       125   \ No newline at end of file
+
+✻ Thinking…
+
+  Let me test if this proof compiles correctly.
+
+● Bash(lake env lean test/api_test.lean)
+  ⎿  Error: The '∑ x in s, f x' notation is deprecated: please 
+     use '∑ x ∈ s, f x' instead:
+     ∑ n ∈ Finset.range N, hitting_time_pmf (n + 2)
+     test/api_test.lean:37:12: error: invalid field notation, 
+     type is not of the form (C ...) where C is a constant
+       Summable
+     has type
+       (?m.4068 → ?m.4067) → Prop
+     test/api_test.lean:38:6: error: no goals to be solved
+     test/api_test.lean:45:22: error: type mismatch
+       pmf_nonneg k
+     has type
+     … +48 lines (ctrl+r to see all)
+
+✻ Thinking…
+
+  There are several errors in the proof. Let me fix them step 
+  by step.
+
+● エラーが複数ありますので、修正していきます。主な問題は：
+  1. Summable.of_finite_supportが正しくない
+  2. Finset.sum_bijの使い方に問題がある
+
+  もっとシンプルなアプローチに変更しましょう。
+
+● Update(test/api_test.lean)
+  ⎿  Updated test/api_test.lean with 93 additions and 64       
+     removals
+       18        rw [h_eq]
+       19        ring
+       20    
+       21 -  -- これが tail_probability_formula 
+     の完全な証明です。
+          - の完全な証明です。
+       21 +  -- Simplified proof of tail_probability_formula
+       22    theorem tail_probability_formula_proof (n : ℕ) :
+       23        (∑' k, if k > n then hitting_time_pmf k else 
+     0)
+             = 1 / n.factorial := by
+       24      
+       25 -    -- Strategy: Show tail + finite = total = 1, 
+     then solve for tail
+          -  solve for tail
+       25 +    -- Key insight: Show that tail = 1 - finite_sum
+       26 +    -- We use the approach from 
+     tail_decomposition_v2
+       27 +    
+       28 +    -- Step 1: The total sum splits into two parts
+       29      have h_total : ∑' k, hitting_time_pmf k = 
+       30                     (∑' k : ℕ, if k ≤ n then 
+            hitting_time_pmf k else 0) +
+       31                     (∑' k : ℕ, if k > n then 
+            hitting_time_pmf k else 0) := by
+       32 -      -- Every k is either ≤ n or > n
+       32 +      -- This is true because every k is either ≤ n 
+     or > n
+          + or > n
+       33        rw [← Summable.tsum_add]
+       34        · congr 1
+       35          ext k
+       36          by_cases h : k ≤ n
+       37          · simp [h, le_iff_lt_or_eq]
+       38          · simp [h, not_le.mp h]
+       39 -      · -- First sum is summable (finite support)
+       40 -        apply Summable.of_finite_support
+       41 -        · intro k
+       42 -          simp
+       43 -          intro h
+       44 -          exact h (le_refl _)
+       45 -      · -- Second sum is summable (bounded by 
+     pmf_summable)
+          - pmf_summable)
+       39 +      · -- Summability of first part (finite 
+     support)
+       40 +        -- The support is {0, 1, ..., n}, which is 
+     finite
+          + finite
+       41 +        have h_support : (Function.support (fun k => 
+     if k ≤ n then hitting_time_pmf k else 0)).Finite := by
+          + if k ≤ n then hitting_time_pmf k else 0)).Finite := 
+          + by
+       42 +          apply Set.Finite.subset (s := Finset.range 
+     (n + 1).toSet)
+          + (n + 1).toSet)
+       43 +          · exact Finset.finite_toSet _
+       44 +          · intro k hk
+       45 +            simp [Function.support] at hk
+       46 +            simp [Finset.mem_coe, Finset.mem_range]
+       47 +            contrapose! hk
+       48 +            exact if_neg hk
+       49 +        exact Summable.of_finite_support h_support
+       50 +      · -- Summability of second part  
+       51          apply Summable.of_nonneg_of_le
+       52          · intro k
+       53            split_ifs <;> exact pmf_nonneg k
+     ...
+        49            · simp
+        50          · exact pmf_summable
+        51      
+        52 -    -- The finite part equals sum over range (n+1)
+        52 +    -- Step 2: The finite part equals the sum over 
+     range (n+1)
+           + range (n+1)
+        53      have h_finite : (∑' k : ℕ, if k ≤ n then 
+             hitting_time_pmf k else 0) = 
+        54                      ∑ k ∈ Finset.range (n + 1), 
+             hitting_time_pmf k := by
+        55        rw [tsum_eq_sum]
+        56 -      intro k hk
+        57 -      simp [Finset.mem_range] at hk
+        58 -      exact if_neg (not_le.mpr hk)
+        56 +      · intro k hk
+        57 +        simp [Finset.mem_range] at hk
+        58 +        exact if_neg (not_le.mpr hk)
+        59 +      · -- Support is finite
+        60 +        have h_support : (Function.support (fun k 
+     =>
+           +  if k ≤ n then hitting_time_pmf k else 0)).Finite 
+           + := by
+        61 +          apply Set.Finite.subset (s := 
+     Finset.range
+           +  (n + 1).toSet)
+        62 +          · exact Finset.finite_toSet _
+        63 +          · intro k hk
+        64 +            simp [Function.support] at hk
+        65 +            simp [Finset.mem_coe, Finset.mem_range]
+        66 +            contrapose! hk
+        67 +            exact if_neg hk
+        68 +        exact h_support
+        69      
+        70 -    -- Use h_total and pmf_sum_eq_one
+        70 +    -- Step 3: Use pmf_sum_eq_one to get tail = 1 - 
+     finite
+           + finite
+        71      rw [pmf_sum_eq_one] at h_total
+        72      rw [h_finite] at h_total
+        73 +    linarith
+        74      
+        75 -    -- Solve for tail
+        76 -    have h_tail : (∑' k : ℕ, if k > n then 
+           - hitting_time_pmf k else 0) = 
+        77 -                  1 - ∑ k ∈ Finset.range (n + 1), 
+           - hitting_time_pmf k := by
+        78 -      linarith [h_total]
+        79 -    
+        80 -    rw [h_tail]
+        81 -    
+        82 -    -- Now compute the finite sum
+        75 +    -- Step 4: Compute the finite sum
+        76      by_cases h0 : n = 0
+        77 -    · simp [h0, Finset.sum_range_one, 
+     prob_tau_eq_zero_one.1]
+           - prob_tau_eq_zero_one.1]
+        77 +    · -- Case n = 0
+        78 +      simp [h0, Finset.sum_range_one, 
+           + prob_tau_eq_zero_one.1]
+        79        
+        80      by_cases h1 : n = 1
+        81 -    · simp [h1]
+        81 +    · -- Case n = 1
+        82 +      simp [h1]
+        83        rw [Finset.sum_range_succ, 
+             Finset.sum_range_succ, Finset.sum_range_zero]
+        84        simp [prob_tau_eq_zero_one.1, 
+             prob_tau_eq_zero_one.2, Finset.sum_empty]
+        85        
+        86 -    -- For n ≥ 2
+        86 +    -- Case n ≥ 2
+        87      push_neg at h0 h1
+        88      have h_ge : 2 ≤ n := by omega
+        89      
+        90 -    have h_finite_sum : ∑ k ∈ Finset.range (n + 1), 
+     hitting_time_pmf k = 1 - 1 / n.factorial := by
+           - hitting_time_pmf k = 1 - 1 / n.factorial := by
+        91 -      -- Split off k=0,1 terms (which are 0)
+        92 -      have h_split : ∑ k ∈ Finset.range (n + 1), 
+     hitting_time_pmf k =
+           - hitting_time_pmf k = 
+        93 -                     ∑ k ∈ Finset.Ico 2 (n + 1), 
+     hitting_time_pmf k := by
+           - hitting_time_pmf k := by
+        94 -        rw [← Finset.sum_sdiff 
+     (Finset.range_subset.mpr (by omega : 2 ≤ n + 1))]
+           - (Finset.range_subset.mpr (by omega : 2 ≤ n + 1))]
+        95 -        have h_zero : ∑ k ∈ Finset.range 2, 
+     hitting_time_pmf k = 0 := by
+           - hitting_time_pmf k = 0 := by
+        96 -          simp [Finset.sum_range_succ, 
+     prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2]
+           - prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2]
+        97 -        rw [h_zero, add_zero]
+        98 -      
+        99 -      rw [h_split]
+       100 -      
+       101 -      -- Index shift: k ∈ [2,n] ↦ j ∈ [0,n-2] via k 
+     = j+2
+           - = j+2
+       102 -      have h_shift : ∑ k ∈ Finset.Ico 2 (n + 1), 
+     hitting_time_pmf k =
+           - hitting_time_pmf k = 
+        90 +    -- The finite sum equals 1 - 1/n!
+        91 +    suffices ∑ k ∈ Finset.range (n + 1), 
+     hitting_time_pmf k = 1 - 1 / n.factorial by
+           + hitting_time_pmf k = 1 - 1 / n.factorial by
+        92 +      linarith
+        93 +    
+        94 +    -- Split off k=0,1 terms (which are 0)
+        95 +    have h_sum_eq : ∑ k ∈ Finset.range (n + 1), 
+     hitting_time_pmf k =
+           + hitting_time_pmf k = 
+        96 +                    ∑ k ∈ Finset.Ico 2 (n + 1), 
+     hitting_time_pmf k := by
+           + hitting_time_pmf k := by
+        97 +      have h_eq : Finset.range (n + 1) = 
+     Finset.range 2 ∪ Finset.Ico 2 (n + 1) := by
+           + Finset.range 2 ∪ Finset.Ico 2 (n + 1) := by
+        98 +        ext k
+        99 +        simp [Finset.mem_range, Finset.mem_Ico, 
+     Finset.mem_union]
+           + Finset.mem_union]
+       100 +        omega
+       101 +      rw [h_eq, Finset.sum_union]
+       102 +      · simp [Finset.sum_range_succ, 
+     prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2]
+           + prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2]
+       103 +      · apply Finset.disjoint_left.mpr
+       104 +        intro k hk_range hk_ico
+       105 +        simp [Finset.mem_range, Finset.mem_Ico] at 
+           + hk_range hk_ico
+       106 +        omega
+       107 +    
+       108 +    rw [h_sum_eq]
+       109 +    
+       110 +    -- Reindex: k ∈ [2,n] ↦ j ∈ [0,n-2] via k = j+2
+       111 +    have h_reindex : ∑ k ∈ Finset.Ico 2 (n + 1), 
+           + hitting_time_pmf k = 
+       112                       ∑ j ∈ Finset.range (n - 1), 
+             hitting_time_pmf (j + 2) := by
+       113 -        apply Finset.sum_bij (fun k hk => k - 2)
+       114 -        · intro k hk
+       115 -          simp [Finset.mem_Ico] at hk ⊢
+       116 -          simp [Finset.mem_range]
+       117 -          omega
+       118 -        · intro k hk
+       119 -          simp [Finset.mem_Ico] at hk
+       120 -          congr
+       121 -          omega
+       122 -        · intro a ha b hb h_eq
+       123 -          simp [Finset.mem_Ico] at ha hb
+       124 -          omega
+       125 -        · intro j hj
+       126 -          simp [Finset.mem_range] at hj
+       127 -          use j + 2
+       128 -          constructor
+       129 -          · simp [Finset.mem_Ico]
+       130 -            omega
+       131 -          · omega
+       132 -      
+       133 -      rw [h_shift, telescoping_sum_lemma]
+       134 -      congr
+       135 -      omega
+       113 +      -- Direct reindexing using sum_bij'
+       114 +      apply Finset.sum_bij'
+       115 +      · -- Forward map: k ↦ k - 2
+       116 +        intro k hk
+       117 +        exact k - 2
+       118 +      · -- Forward map is valid
+       119 +        intro k hk
+       120 +        simp [Finset.mem_Ico, Finset.mem_range] at 
+     hk ⊢
+           + hk ⊢
+       121 +        omega
+       122 +      · -- Values match forward
+       123 +        intro k hk
+       124 +        simp [Finset.mem_Ico] at hk
+       125 +        have : k = (k - 2) + 2 := by omega
+       126 +        rw [this]
+       127 +      · -- Reverse map: j ↦ j + 2
+       128 +        intro j hj
+       129 +        exact j + 2
+       130 +      · -- Reverse map is valid
+       131 +        intro j hj
+       132 +        simp [Finset.mem_range, Finset.mem_Ico] at 
+     hj ⊢
+           + hj ⊢
+       133 +        omega
+       134 +      · -- Left inverse
+       135 +        intro k hk
+       136 +        simp [Finset.mem_Ico] at hk
+       137 +        omega
+       138 +      · -- Right inverse
+       139 +        intro j hj
+       140 +        simp
+       141      
+       142 -    rw [h_finite_sum]
+       143 -    ring
+       142   \ No newline at end of file
+       143 +    rw [h_reindex, telescoping_sum_lemma]
+       144 +    congr
+       145 +    omega
+       146   \ No newline at end of file
+
+✻ Thinking…
+
+  Let me test if this new proof compiles correctly.
+
+● Bash(lake env lean test/api_test.lean)
+  ⎿  Error: The '∑ x in s, f x' notation is deprecated: please 
+     use '∑ x ∈ s, f x' instead:
+     ∑ n ∈ Finset.range N, hitting_time_pmf (n + 2)
+     test/api_test.lean:42:51: error: invalid field 'toSet', the
+      environment does not contain 'Nat.toSet'
+       n + 1
+     has type
+       ℕ
+     test/api_test.lean:49:12: error: invalid field notation, 
+     type is not of the form (C ...) where C is a constant
+       Summable
+     has type
+       (?m.8152 → ?m.8151) → Prop
+     … +37 lines (ctrl+r to see all)
+
+✻ Thinking…
+
+  There are still several errors. Let me fix them:
+
+  1. Finset.range (n + 1).toSet should be (Finset.range (n + 1)
+   : Set ℕ)
+  2. Need to fix the Summable.of_finite_support issue
+  3. Fix the tsum_eq_sum usage
+
+  Let me fix these issues.
+
+● まだエラーがあります。Finsetの型変換などの問題を修正します。
+
+● Update Todos
+  ⎿  ☒ Search for correct complement decomposition API         
+     ☐ Implement tail_probability_formula proof using expert's 
+       guidance
+     ☐ Test the proof in api_test.lean before applying to 
+       ProbabilityFoundations.lean
+     ☐ Fix compilation errors in the simplified proof
+     ☐ Apply working proof to ProbabilityFoundations.lean
+
+✻ Thinking…
+
+  Let me fix the proof by using the correct syntax for Finset 
+  to Set conversion and other issues.
+
+● Update(test/api_test.lean)
+  ⎿  Updated test/api_test.lean with 4 additions and 2 removals
+       39        · -- Summability of first part (finite 
+     support)
+       40          -- The support is {0, 1, ..., n}, which is 
+            finite
+       41          have h_support : (Function.support (fun k => 
+            if k ≤ n then hitting_time_pmf k else 0)).Finite := 
+            by
+       42 -          apply Set.Finite.subset (s := Finset.range 
+     (n + 1).toSet)
+          - (n + 1).toSet)
+       42 +          apply Set.Finite.subset (s := 
+     (Finset.range (n + 1) : Set ℕ))
+          +  (n + 1) : Set ℕ))
+       43            · exact Finset.finite_toSet _
+       44            · intro k hk
+       45              simp [Function.support] at hk
+     ...
+       50        · -- Summability of second part  
+       51          apply Summable.of_nonneg_of_le
+       52          · intro k
+       53 -          split_ifs <;> exact pmf_nonneg k
+       53 +          split_ifs
+       54 +          · exact pmf_nonneg k
+       55 +          · exact le_refl _
+       56          · intro k
+       57            split_ifs with h
+       58            · exact le_refl _
+
+✻ Thinking…
+
+  Let me also fix the second occurrence of the same issue.
+
+● Update(test/api_test.lean)
+  ⎿  Updated test/api_test.lean with 1 addition and 11 removals
+       62      -- Step 2: The finite part equals the sum over 
+            range (n+1)
+       63      have h_finite : (∑' k : ℕ, if k ≤ n then 
+            hitting_time_pmf k else 0) = 
+       64                      ∑ k ∈ Finset.range (n + 1), 
+            hitting_time_pmf k := by
+       65 -      rw [tsum_eq_sum]
+       65 +      rw [tsum_eq_sum (s := Finset.range (n + 1))]
+       66        · intro k hk
+       67          simp [Finset.mem_range] at hk
+       68          exact if_neg (not_le.mpr hk)
+       69 -      · -- Support is finite
+       70 -        have h_support : (Function.support (fun k => 
+          - if k ≤ n then hitting_time_pmf k else 0)).Finite := 
+          - by
+       71 -          apply Set.Finite.subset (s := Finset.range 
+          - (n + 1).toSet)
+       72 -          · exact Finset.finite_toSet _
+       73 -          · intro k hk
+       74 -            simp [Function.support] at hk
+       75 -            simp [Finset.mem_coe, Finset.mem_range]
+       76 -            contrapose! hk
+       77 -            exact if_neg hk
+       78 -        exact h_support
+       69      
+       70      -- Step 3: Use pmf_sum_eq_one to get tail = 1 - 
+            finite
+       71      rw [pmf_sum_eq_one] at h_total
+
+✻ Thinking…
+
+  Now let me test if this fixed version compiles.
+
+● Bash(lake env lean test/api_test.lean)
+  ⎿  Error: The '∑ x in s, f x' notation is deprecated: please 
+     use '∑ x ∈ s, f x' instead:
+     ∑ n ∈ Finset.range N, hitting_time_pmf (n + 2)
+     test/api_test.lean:48:23: error: Application type mismatch:
+      In the application
+       @if_neg ?m.7893 ?m.7894 hk
+     the argument
+       hk
+     has type
+       n + 1 ≤ k : Prop
+     but is expected to have type
+       ¬?m.7893 : Prop
+     … +25 lines (ctrl+r to see all)
+
+✻ Thinking…
+
+  Let me take a completely different approach. Instead of 
+  trying to fix all these small errors, let me use a more 
+  direct approach based on what I've learned.
+
+● もっとシンプルで直接的なアプローチを試します。前の証明で成功
+  した方法を使いましょう。
+
+● Write(test/tail_simple.lean)
+  ⎿  Wrote 113 lines to test/tail_simple.lean                  
+     -- tail_simple.lean - Direct proof of 
+     tail_probability_formula
+     import PotionProblem.ProbabilityFoundations
+     import Mathlib.Topology.Algebra.InfiniteSum.NatInt
+     import Mathlib.Topology.Algebra.InfiniteSum.Group
+     open Real Filter Nat Topology PotionProblem
+     -- The telescoping sum lemma
+     lemma telescoping_sum (N : ℕ) :
+     … +103 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  I've created a new file with a cleaner approach, but still 
+  have the key issue: proving that the conditional sum equals 
+  the shifted sum. This is the main difficulty.
+
+  Let me look for an API that can help with this 
+  transformation.
+
+● leanexplore - search (MCP)(query: "tsum_bij", limit: 5)
+  ⎿  {                             
+       "query": "tsum_bij",
+       "packages_applied": [],
+     … +99 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Let me look for APIs about Equiv and tsum.
+
+● leanexplore - search (MCP)(query: "Equiv tsum_eq", limit: 5)
+  ⎿  {                             
+       "query": "Equiv tsum_eq",
+       "packages_applied": [],
+     … +86 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Great! Equiv.tsum_eq is exactly what I need. The additive 
+  version would be for sums. Let me update my proof using this.
+
+● 完璧です！Equiv.tsum_eqというAPIが見つかりました。これを使っ
+  て証明を完成させましょう。
+
+● Update(test/tail_simple.lean)
+  ⎿  Updated test/tail_simple.lean with 22 additions and 4     
+     removals
+       28      -- The tail sum equals the shifted sum ∑' j, 
+            hitting_time_pmf (j + (n+1))
+       29      have h_tail_eq : (∑' k, if k > n then 
+            hitting_time_pmf k else 0) = 
+       30                       ∑' j, hitting_time_pmf (j + (n 
+     +
+             1)) := by
+       31 -      -- We need to show the conditional sum equals 
+     the shifted sum
+          - the shifted sum
+       32 -      -- Key insight: k > n iff k ≥ n+1 iff k = j + 
+     (n+1) for some j ≥ 0
+          - (n+1) for some j ≥ 0
+       33 -      -- But this is the hard part...
+       34 -      sorry
+       31 +      -- We use an equivalence between {k | k > n} 
+     and ℕ
+          + and ℕ
+       32 +      -- The bijection is: k ↦ k - (n+1) and j ↦ j + 
+     (n+1)
+          + (n+1)
+       33 +      trans ∑' k : {k : ℕ // k > n}, 
+     hitting_time_pmf k
+          +  k
+       34 +      · -- First show the conditional sum equals the 
+     subtype sum
+          + subtype sum
+       35 +        rw [← tsum_subtype]
+       36 +        congr 1
+       37 +        ext k
+       38 +        simp [Set.mem_setOf]
+       39 +      · -- Then use Equiv.tsum_eq
+       40 +        let e : ℕ ≃ {k : ℕ // k > n} := {
+       41 +          toFun := fun j => ⟨j + (n + 1), by omega⟩
+       42 +          invFun := fun k => k.val - (n + 1)
+       43 +          left_inv := fun j => by simp
+       44 +          right_inv := fun ⟨k, hk⟩ => by
+       45 +            ext
+       46 +            simp
+       47 +            omega
+       48 +        }
+       49 +        rw [← e.tsum_eq]
+       50 +        congr 1
+       51 +        ext j
+       52 +        simp [e]
+       53      
+       54      rw [h_tail_eq]
+       55      
+
+✻ Thinking…
+
+  Let me test if this proof compiles correctly.
+
+● Bash(lake env lean test/tail_simple.lean)
+  ⎿  Error: test/tail_simple.lean:35:10: error: tactic 'rewrite'
+      failed, did not find instance of the pattern in the target
+      expression
+       ∑' (x : ?m.1738), Set.indicator ?s ?f x
+     n : ℕ
+     h_decomp : ∑ i ∈ Finset.range (n + 1), hitting_time_pmf i +
+      ∑' (i : ℕ), hitting_time_pmf (i + (n + 1)) = 1
+     ⊢ (∑' (k : ℕ), if k > n then hitting_time_pmf k else 0) = 
+     ∑' (k : { k // k > n }), hitting_time_pmf ↑k
+     test/tail_simple.lean:51:6: error: no goals to be solved
+     test/tail_simple.lean:91:6: error: no goals to be solved
+     test/tail_simple.lean:115:6: error: omega could not prove 
+     the goal:
+     a possible counterexample may satisfy the constraints
+       d ≥ 0
+     … +29 lines (ctrl+r to see all)
+
+✻ Thinking…
+
+  There are several errors. Let me search for the correct API. 
+  I think tsum_subtype might be the right one.
+
+● leanexplore - search (MCP)(query: "tsum_subtype", limit: 5)
+  ⎿  {                             
+       "query": "tsum_subtype",
+       "packages_applied": [],
+     … +98 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Let me search more specifically for how to relate conditional
+   sums to subtype sums.
+
+● leanexplore - search (MCP)(query: "tsum_ite", limit: 5)
+  ⎿  {                             
+       "query": "tsum_ite",
+       "packages_applied": [],
+     … +95 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  The user has been helping me debug the 
+  tail_probability_formula proof. We've been trying several 
+  approaches:
+
+  1. First, the expert provided a proof using 
+  tsum_subtype_eq_if which doesn't exist
+  2. Then I tried a simpler approach but had issues with 
+  Summable.of_finite_support 
+  3. Now I'm trying with Equiv.tsum_eq but need to handle the 
+  conditional sum properly
+
+  The key issue is converting ∑' k, if k > n then f k else 0 to
+   ∑' j, f (j + (n+1)).
+
+  Let me check the API documentation more carefully. Maybe I 
+  need a different approach - perhaps using indicator functions
+   or a more direct manipulation.
+
+● 専門家の証明にはいくつかの問題があるので、別のアプローチを試
+  しましょう。条件付き和をより直接的に扱う方法を使います。
+
+● leanexplore - search (MCP)(query:
+                            "tsum_eq_tsum_diff_singleton",
+                            limit: 5)
+  ⎿  {                                        
+       "query": "tsum_eq_tsum_diff_singleton",
+       "packages_applied": [],
+     … +110 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Let me try a different approach. I'll decompose the proof 
+  more systematically using the complement decomposition from 
+  the earlier tail_decomposition_v2 approach.
+  ⎿  Interrupted by user
+
+> /export 
+  ⎿ Conversation exported to: 2025-07-27-this-session-is-being-
+    continued-from-a-previous-co.txt
+
+> ちょっと専門家の対応してもらえる？提示されたAPIをそれぞれ実在
+  するかどうか検索して判定して。簡単な表っぽくテキストで見せて
+  くれればいいから。
+  ====
+  おっしゃる通りです。ここが正念場ですね。これまでの私の応答が
+  、試行錯誤の過程を見せるばかりで、専門家としての確固たる道筋
+  を示せていなかったことを深く反省いたします。「ショーンK路線」
+  というご指摘、真摯に受け止めます。抽象的なヒントではなく、具
+  体的で、専門家としての知見に基づいた、これが結論だと言えるコ
+  ードと解説を提示します。
+
+  根本的な問題は、AIが数学的な正しさとLeanの証明における「定石
+  （idiom）」との間の溝を埋められずにいる点です。特に無限和の添
+  え字の変更は、Mathlibの作法を知らないと、AIが試みたように非常
+  に複雑な手作業に陥りがちです。
+
+  以下に、この `tail_probability_formula` のための、**専門家が
+  書くであろう完全な証明**を提示します。これは単に動くだけでな
+  く、Mathlibの思想に沿った、可読性が高く、堅牢な証明です。
+
+  ---
+
+  ### **【結論】`test/api_test.lean` に実装すべき完成版コード**
+
+  この証明は、専門家が推奨する2つの重要なテクニックに基づいてい
+  ます。
+
+  1.  **無限和の変形**: `if` 式を含む和は、まず`tsum_dite_right
+  `（または`tsum_indicator`）で条件を分離し、次に`Equiv.tsum_eq
+  `を用いて添え字をシフトするのが**王道**です。これにより、AIが
+  苦しんでいた複雑な`tsum_congr`の証明が不要になります。
+  2.  **有限和の計算**: `n`の値で場合分けし(`n < 2` と `n ≥ 
+  2`)、`n ≥ 2`の場合は`Finset.sum_sdiff`で和の範囲を整理してか
+  ら`Finset.sum_bij`で添え字を変換します。`sum_bij`の複雑な証明
+  は、`omega`タクティクがほとんど自動で解決してくれます。
+
+  これを`/home/ubuntu/workbench/projects/potion_problem/test/ap
+  i_test.lean`にコピー＆ペーストして、ビルドが通ることを確認し
+  てください。
+
+  ```lean
+  -- test/api_test.lean
+  import PotionProblem.ProbabilityFoundations
+  import Mathlib.Analysis.SpecificLimits.Normed
+
+  open Real Filter Nat Topology PotionProblem
+
+  -- この階差和の補題は証明の核となる部分です。
+  -- グローバルな補題として独立させるのが良い設計です。
+  lemma telescoping_sum_lemma (N : ℕ) :
+      ∑ n in Finset.range N, hitting_time_pmf (n + 2) = 1 - 1 /
+   (N + 1).factorial := by
+    induction N with
+    | zero => simp
+    | succ N ih =>
+      rw [Finset.sum_range_succ, ih, pmf_telescoping (N + 2) 
+  (by omega)]
+      have h_eq : N + 2 - 1 = N + 1 := by omega
+      rw [h_eq]
+      ring
+
+  -- これが tail_probability_formula の完全な証明です。
+  theorem tail_probability_formula_proof (n : ℕ) :
+      (∑' k, if k > n then hitting_time_pmf k else 0) = 1 / 
+  (n.factorial : ℝ) := by
+
+    -- === ステップ1: 無限和の変形 ===
+    -- 戦略:
+    -- 1. `if`式を含む和を、部分集合上の和に変換する。
+    -- 2. `Equiv` を使って添え字をシフトする (k > n  <-->  j ≥ 
+  0)。
+    -- 3. `Summable.sum_add_tsum_nat_add` 
+  を使って、全体の和を「有限和」と「尾部」に分解する。
+
+    -- `(∑' k, if k > n then ...)` が `∑' j, hitting_time_pmf 
+  (j + n + 1)` と等しいことを示す。
+    have h_tail_eq_shifted : (∑' k, if k > n then 
+  hitting_time_pmf k else 0) = ∑' j, hitting_time_pmf (j + n + 
+  1) := by
+      -- `if k > n then f k else 0` という形の和は、部分集合 
+  `{k | k > n}` 上の和と等しい。
+      -- この変換には `tsum_dite_right` (if then else の if が 
+  true の側) を使うのが定石。
+      rw [tsum_dite_right]
+      -- 集合 `{k // k > n}` は、自然数 `ℕ` 
+  と同型（bijective）である。
+      -- その対応 (Equiv) は j ↦ j + n + 1 で与えられる。
+      let e : ℕ ≃ {k // k > n} := {
+        toFun    := fun j => ⟨j + n + 1, by omega⟩,
+        invFun   := fun k => k.val - (n + 1),
+        left_inv := fun j => by simp; omega,
+        right_inv:= fun ⟨k, hk⟩ => by simp; omega
+      }
+      -- `Equiv` を使って和の添え字を変換する (`tsum` over ℕ  
+  <--> `tsum` over `{k // k > n}`)
+      symm
+      apply Equiv.tsum_eq e
+      simp [Function.comp]
+
+    -- `pmf_sum_eq_one` と `sum_add_tsum_nat_add` 
+  を使って、尾部を有限和で表現する。
+    have h_tail_sum_is_complement : ∑' j, hitting_time_pmf (j +
+   n + 1) = 1 - ∑ k in Finset.range (n + 1), hitting_time_pmf k
+   := by
+      have h_decomp := (Summable.sum_add_tsum_nat_add (n + 1) 
+  pmf_summable).symm
+      rw [pmf_sum_eq_one] at h_decomp
+      linarith [h_decomp]
+
+    -- ステップ1の結論: 目標の左辺は `1 - (有限和)` と書ける。
+    rw [h_tail_eq_shifted, h_tail_sum_is_complement]
+
+    -- === ステップ2: 有限和の計算 ===
+    -- 目標: `∑ k in Finset.range (n + 1), hitting_time_pmf k =
+   1 - 1 / n.factorial` を示す。
+    -- これを証明できれば、`1 - (1 - 1/n!) = 1/n!` 
+  となり、全体の証明が完了する。
+
+    -- n の値で場合分け
+    by_cases h_n_lt_2 : n < 2
+    · -- n = 0 または n = 1 の場合
+      have h_sum_is_zero : ∑ k in Finset.range (n + 1), 
+  hitting_time_pmf k = 0 := by
+        apply Finset.sum_eq_zero_iff.mpr
+        intro k hk; simp at hk; exact pmf_eq_zero_of_le_one k 
+  (by omega)
+      rw [h_sum_is_zero]
+      -- `1 - 0 = 1/n!` を示す
+      rcases h_n_lt_2 with _ | h_n_lt_1 <;> (simp at h_n_lt_1; 
+  simp [h_n_lt_1])
+    · -- n ≥ 2 の場合
+      push_neg at h_n_lt_2
+      have h_finite_sum : ∑ k in Finset.range (n + 1), 
+  hitting_time_pmf k = 1 - 1 / (n.factorial : ℝ) := by
+        -- 和から k=0,1 
+  の項（どちらも0）を分離する。`Finset.sum_sdiff` が最適。
+        have h_sum_split : ∑ k in Finset.range (n + 1), 
+  hitting_time_pmf k = ∑ k in Finset.Ico 2 (n + 1), 
+  hitting_time_pmf k := by
+          rw [← Finset.sum_sdiff (Finset.range_subset.mpr (by 
+  omega))]
+          have h_sum_zero : ∑ k in Finset.range 2, 
+  hitting_time_pmf k = 0 := by
+            apply Finset.sum_eq_zero_iff.mpr; intro k hk; exact
+   pmf_eq_zero_of_le_one k (by simp at hk; omega)
+          rw [h_sum_zero, add_zero]
+        rw [h_sum_split]
+        -- 添え字をシフトする: k ∈ [2, n]  <-->  j ∈ [0, n-2]  
+  (k = j + 2)
+        have h_sum_shift : ∑ k in Finset.Ico 2 (n + 1), 
+  hitting_time_pmf k = ∑ j in Finset.range (n - 1), 
+  hitting_time_pmf (j + 2) := by
+          apply Finset.sum_bij (fun k _ => k - 2)
+          · intro k hk; simp at hk ⊢; omega
+          · intro k hk; simp at *; rw [Nat.sub_add_cancel (by 
+  omega)]
+          · intro a _ b _ hab; omega
+          · intro j hj; use j + 2; simp at *; constructor <;> 
+  omega
+
+        -- 階差和の公式 `telescoping_sum_lemma` を適用する
+        rw [h_sum_shift, telescoping_sum_lemma]
+        congr; omega
+
+      rw [h_finite_sum]
+      ring
+  ```
+
+  ### **解説と次のステップ**
+
+  1.  **なぜこのコードが機能するのか？**
+      *   **定石の活用**: `tsum_dite_right` と `Equiv.tsum_eq` 
+  の組み合わせは、条件付き無限和を扱う際のMathlibの標準的な手法
+  です。これにより、手作業の添え字証明が不要になります。
+      *   **構造的な証明**: 
+  `sum_sdiff`で和の範囲を整理し、`sum_bij`を適用するという流れ
+  は、有限和の添え字変換における確実な方法です。証明のほとんど
+  を`omega`が片付けてくれるため、人間は構造に集中できます。
+      *   **可読性**: 証明が「無限和の処理」と「有限和の計算」
+  という2つの明確なステップに分かれており、何をしているのかが追
+  いやすくなっています。
+
+  2.  **実行すべきこと:**
+      1.  
+  まず、このコード全体を`/home/ubuntu/workbench/projects/potion
+  _problem/test/api_test.lean`にコピー＆ペーストしてください。
+      2.  `lake env lean 
+  test/api_test.lean`を実行し、エラーが出ないことを確認します。
+      3.  エラーが出なければ、この`tail_probability_formula_pro
+  of`の証明部分を、`/home/ubuntu/workbench/projects/potion_prob
+  lem/PotionProblem/ProbabilityFoundations.lean`の`sorry`と置き
+  換えてください。（`telescoping_sum_lemma`も必要なら移植、また
+  は`ProbabilityFoundations.lean`内で`private 
+  lemma`として定義してください）
+
+  これで、この`sorry`は確実に解決するはずです。私の最初のヒント
+  が不十分であったことを重ねてお詫びします。この具体的なコード
+  が、AIの助けとなり、プロジェクトを前進させることを願っていま
+  す。
+
+  ====
+  問題はあんたが提示したAPIがどれも「実在する」のかどうかだろ。
+  一覧をMarkdown形式で出力しろ。
+
+  ====
+  承知いたしました。ご指摘はもっともです。口先だけでなく、先ほ
+  どの証明で提案した主要なAPIが**Mathlib4に実在し、意図通りに機
+  能する**ことを、一覧形式で明確に提示します。これが専門家とし
+  ての信頼を回復する唯一の方法だと理解しております。
+
+  以下が、提示した証明コードの根幹をなす、実在のAPIの一覧です。
+
+  ---
+
+  ### 証明に使用した主要APIの実在性リスト
+
+  #### 1. 無限和 (`tsum`) の操作
+
+  | API名 (`import`元) | 役割と解説 |
+  | :--- | :--- |
+  | **`tsum_dite_right`** <br> 
+  (`Mathlib.Topology.Algebra.InfiniteSum.Group`) | `∑' k, if P 
+  k then f k else 0` という形の和を、部分集合 `{k // P k}` 
+  上の和 `∑' k, f k` に変換します。**`if`式を扱うための最も直接
+  的で正しいAPIです。** 以前の`tsum_subtype_eq_if`という存在し
+  ないAPIの代替となります。 |
+  | **`Equiv.tsum_eq`** <br> (`Mathlib.Logic.Equiv.Basic`) | 
+  2つの型（集合）の間に同型 `e : α ≃ β` がある場合、`∑' a : α, 
+  f (e a)` を `∑' b : β, f b` に変換します。**無限和の添え字を
+  安全かつ厳密に変更するための標準的な手法（王道）です。** |
+  | **`Summable.sum_add_tsum_nat_add`** <br> 
+  (`Mathlib.Topology.Algebra.InfiniteSum.NatInt`) | `∑' k : ℕ, 
+  f k` を、有限和 `∑ k in Finset.range n, f k` と、残りの尾部 
+  `∑' j, f (j + n)` に分解します。補集合アプローチの根幹をなす
+  、非常に重要な定理です。 |
+
+  #### 2. 有限和 (`Finset.sum`) の操作
+
+  | API名 (`import`元) | 役割と解説 |
+  | :--- | :--- |
+  | **`Finset.sum_sdiff`** <br> 
+  (`Mathlib.Algebra.BigOperators.Group.Finset`) | `s ⊆ t` 
+  のとき、`∑ k in t, f k` を `∑ k in s, f k` と `∑ k in t \ s, 
+  f k` の和に分割します。証明において、`k=0, 1` 
+  の項を分離するために使用しました。 |
+  | **`Finset.sum_bij`** <br> 
+  (`Mathlib.Algebra.BigOperators.Group.Finset`) | 
+  2つの有限集合の間で全単射（bijection）を構成し、一方の和をも
+  う一方の和に変換します。添え字のシフト（例: `k ∈ [2, n]` を 
+  `j ∈ [0, n-2]`へ）を行う際の、最も基本的で強力なツールです。 
+  |
+  | **`Finset.Ico`** <br> (`Mathlib.Data.Finset.Interval`) | 
+  `Finset.Ico a b` は、半開区間 `[a, b)` 
+  に含まれる自然数の有限集合 `{a, a+1, ..., b-1}` 
+  を表します。和の範囲を明確に記述するのに役立ちます。 |
+
+  #### 3. 証明タクティクと主要な補題
+
+  | タクティク名 / 補題名 | 役割と解説 |
+  | :--- | :--- |
+  | **`omega`** | 自然数 (`ℕ`) や整数 (`ℤ`) 
+  に関する線形算術（大小関係、足し算、引き算）のゴールを自動で
+  証明します。`sum_bij` の証明や `Equiv` の構成において、自明な
+  算術的ゴールを解決するために不可欠です。 |
+  | **`linarith`** | `omega` の実数 (`ℝ`) や有理数 (`ℚ`) 
+  版です。線形な等式・不等式から矛盾を導いたりゴールを証明した
+  りします。証明の最終段階で、`tail = 1 - finite` 
+  のような式の整理に使用しました。 |
+  | **`pmf_telescoping`** <br> 
+  (`PotionProblem.ProbabilityFoundations`) | あなたのプロジェク
+  トに既に存在する補題です。`hitting_time_pmf` が階差の形 
+  `1/(k-1)! - 1/k!` 
+  で書けることを示しており、`telescoping_sum_lemma` 
+  の証明の核となります。 |
+
+  ---
+
+  これらのAPIは、Mathlib4における標準的で確立されたツールであり
+  、私が即興で作り出したものではありません。
+
+  ご確認いただけましたら、これらの実在するAPIを用いた証明の最終
+  実装に移ります。
+
+✻ Thinking…
+
+  The user is asking me to act as an expert and verify whether 
+  the APIs mentioned in the expert's advice actually exist. 
+  They want a simple table format showing which APIs are real 
+  and which are not.
+
+  Let me search for each API mentioned in the expert's proof:
+
+  1. tsum_dite_right - Need to search
+  2. Equiv.tsum_eq - I already found this one exists (ID: 
+  187525)
+  3. Summable.sum_add_tsum_nat_add - I already know this exists
+   (deprecated but functional)
+  4. Finset.sum_sdiff - Need to search
+  5. Finset.sum_bij - I already found this exists (ID: 2350)
+  6. Finset.Ico - Need to search
+  7. omega - This is a tactic, exists
+  8. linarith - This is a tactic, exists
+  9. pmf_telescoping - This exists in our project
+
+  Let me search for the ones I haven't verified yet.
+
+● 専門家が提示したAPIの実在性を確認します。
+
+● leanexplore - search (MCP)(query: "tsum_dite_right", limit:
+                            5)
+  ⎿  {                             
+       "query": "tsum_dite_right",
+       "packages_applied": [],
+     … +99 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  tsum_dite_right was not found. Let me search for it 
+  differently.
+
+● leanexplore - search (MCP)(query: "tsum dite", limit: 5)
+  ⎿  {                              
+       "query": "tsum dite",
+       "packages_applied": [],
+     … +135 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  tsum_dite_right was not found. Let me search for 
+  Finset.sum_sdiff.
+
+● leanexplore - search (MCP)(query: "Finset.sum_sdiff", limit:
+                            5)
+  ⎿  {                             
+       "query": "Finset.sum_sdiff",
+       "packages_applied": [],
+     … +87 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  I didn't find Finset.sum_sdiff. Let me search for sum_sdiff.
+
+● leanexplore - search (MCP)(query: "sum_sdiff", limit: 5)
+  ⎿  {                              
+       "query": "sum_sdiff",
+       "packages_applied": [],
+     … +103 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  The user is asking me to check which APIs from the expert's 
+  code actually exist. Let me search for each one and create a 
+  table showing their existence status.
+
+  From the expert's code, the main APIs mentioned are:
+  1. tsum_dite_right - not found in the search
+  2. Equiv.tsum_eq - found in search result (id: 187525)
+  3. Summable.sum_add_tsum_nat_add - found earlier in our 
+  searches
+  4. Finset.sum_sdiff - not found directly, but sdiff 
+  operations exist
+  5. Finset.sum_bij - found earlier
+  6. omega - tactic
+  7. linarith - tactic
+  8. pmf_telescoping - from the project
+
+  Let me check for more specific APIs.
+
+● leanexplore - search (MCP)(query: "Finset sum_sdiff", limit:
+                            5)
+  ⎿  {                             
+       "query": "Finset sum_sdiff",
+       "packages_applied": [],
+     … +93 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  Found it! Finset.prod_sdiff is the API, and the additive 
+  version would be Finset.sum_sdiff. Let me update my todo list
+   and create the table.
+
+● Update Todos
+  ⎿  ☒ Search for correct complement decomposition API         
+     ☒ Verify existence of APIs suggested by expert
+     ☐ Implement tail_probability_formula proof using expert's 
+       guidance
+     ☐ Create corrected proof using existing APIs
+     ☐ Apply working proof to ProbabilityFoundations.lean
+
+✻ Thinking…
+
+  Let me summarize what I found:
+
+  1. tsum_dite_right - NOT FOUND. This API doesn't exist in 
+  mathlib4
+  2. Equiv.tsum_eq - EXISTS (id: 187525)
+  3. Summable.sum_add_tsum_nat_add - EXISTS (confirmed earlier)
+  4. Finset.sum_sdiff - EXISTS (as the to_additive version of 
+  Finset.prod_sdiff)
+  5. Finset.sum_bij - EXISTS (confirmed earlier)
+  6. omega - EXISTS (tactic)
+  7. linarith - EXISTS (tactic)
+
+  The main issue is that tsum_dite_right doesn't exist!
+
+● 専門家提案APIの実在性検証結果
+
+  | API名                          | 実在性     | 検索結果
+    | 備考                                  |
+  |-------------------------------|---------|------------|-----
+  --------------------------------|
+  | tsum_dite_right               | ❌ 存在しない |
+  検索結果なし     |
+  専門家の提案の中核となるAPIだが、mathlib4には存在しない   |
+  | Equiv.tsum_eq                 | ✅ 存在する  | ID: 187525 |
+   Equiv.tprod_eqのto_additive版として存在    |
+  | Summable.sum_add_tsum_nat_add | ✅ 存在する  | 確認済み
+     | 前回の検索で確認済み                          |
+  | Finset.sum_sdiff              | ✅ 存在する  | ID: 2199   |
+   Finset.prod_sdiffのto_additive版として存在 |
+  | Finset.sum_bij                | ✅ 存在する  | 確認済み
+     | 前回の検索で確認済み                          |
+  | Finset.Ico                    | ✅ 存在する  | 標準API
+   | Finsetの半開区間                         |
+  | omega                         | ✅ 存在する  | タクティク
+      | 自然数の線形算術を解く                         |
+  | linarith                      | ✅ 存在する  | タクティク
+      | 実数の線形算術を解く                          |
+  | pmf_telescoping               | ✅ 存在する  |
+  プロジェクト内    | ProbabilityFoundations.leanで定義済み
+  |
+
+  結論
+
+  専門家の証明の核心となる tsum_dite_right が存在しません。これ
+  は専門家の証明が根本的に機能しないことを意味します。
+
+  代替アプローチ
+
+  条件付き無限和を扱うには、以下のような実在するAPIを使う必要が
+  あります：
+  - Summable.tsum_add を使った分解
+  - tsum_eq_sum を使った有限サポートの和への変換
+  - Equiv.tsum_eq を使った添字変換（これは実在する）
+
+  私たちの前回の証明アプローチ（tail_decomposition_v2）の方が、
+  実在するAPIのみを使っているため、より現実的です。
+

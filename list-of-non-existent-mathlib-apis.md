@@ -7,6 +7,14 @@ This file maintains a comprehensive list of APIs that have been confirmed NOT to
 
 This list serves as a safeguard against unnecessary LeanExplore searches. When MCP LeanExplore searches yield no results for an API pattern, it should be added to this list to prevent redundant future searches.
 
+## Recent Discoveries (2025-07-27)
+
+**Expert-Proposed APIs That Don't Exist:**
+- `tsum_dite_right` - Proposed as "the most direct API for handling conditional sums"
+- `tsum_indicator_eq_tsum_subtype` - Proposed in revised version as "the decisive API"
+
+These were confidently presented by an expert as standard Mathlib4 APIs, demonstrating the importance of verification.
+
 ## Format
 
 Each entry follows this pattern:
@@ -164,3 +172,13 @@ The following entries were added when MCP LeanExplore searches yielded no releva
 31. **`tsum_subtype_eq_if`** - Not found in mathlib4
    - **Search context**: Searched on 2025-07-27 - Looking for API to convert subtype sums to if-then-else expressions
    - **Implication**: Use `tsum_subtype_add_tsum_subtype_compl` for decomposition or indicator functions for conditional sums
+
+32. **`tsum_dite_right`** - Not found in mathlib4
+   - **Search context**: Searched on 2025-07-27 - Expert proposed this as core API for handling conditional sums
+   - **Implication**: Use `Set.indicator` with manual proofs, or `Summable.tsum_add` for decomposition
+   - **Note**: This was wrongly suggested by an expert as a standard Mathlib API
+
+33. **`tsum_indicator_eq_tsum_subtype`** - Not found in mathlib4
+   - **Search context**: Searched on 2025-07-27 - Expert's revised proposal for converting indicator sums to subtype sums
+   - **Implication**: Build proof manually using `tsum_subtype` or use alternative decomposition approaches
+   - **Note**: Expert claimed this was in `Mathlib.Topology.Algebra.InfiniteSum.Group` but it doesn't exist
