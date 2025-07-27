@@ -18,7 +18,7 @@
 **Update (2025-07-27 Latest)**: Build successful, sorry count verified
 
 ### ProbabilityFoundations.lean (1 sorry)
-- **Status**: `tail_probability_formula` (line 259) - Strategic retreat documented
+- **Status**: `tail_probability_formula` (line 259)
   - **Mathematical content**: P(τ > n) = 1/n!
   - **Progress**: Case analysis, finite sum computation, and approach identified
   - **Challenges**: Conditional sum manipulation, index transformations, API complexity
@@ -37,7 +37,7 @@
 
 ### 1. Complete tail_probability_formula Elimination (HIGH PRIORITY)
 
-**Current Status**: Single sorry with extensive strategic retreat documentation
+**Current Status**: Single sorry
 
 **Required Work**: Implement finite telescoping sum identity:
 ```lean

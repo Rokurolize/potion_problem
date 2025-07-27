@@ -124,20 +124,6 @@ lake build 2>&1 | grep -E "(error:|Build completed)"
 git add [file] && git commit -m "[specific change]"
 ```
 
-## 🎯 Decision Framework
-
-```
-┌─ Simple Proof Patterns? ──── YES ──→ Use established techniques
-│
-├─ API Available in Library? ── YES ──→ Use pre-verified patterns  
-│
-├─ Mathematical Complexity ─── HIGH ──→ Consider strategic retreat
-│   Manageable?                       │
-│                                     └─ See strategic-retreat-guide.md
-│
-└─ Build Errors Manageable? ── NO ───→ Strategic retreat recommended
-```
-
 ## 📊 Progress Tracking
 
 ### Todo List Management
@@ -175,14 +161,3 @@ echo "Exit code: $?"
 3. ✅ Fix build errors and type mismatches
 4. ✅ Document mathematical framework clearly in comments
 5. ✅ Use LeanExplore wrapper (scripts/lle) for API discovery when needed
-6. ✅ Consider strategic retreat if complexity exceeds session scope
-
-## 🔗 Reference Documents
-
-- **[API Library](api-library.md)** - Pre-verified APIs with usage patterns
-- **[Strategic Retreat Guide](strategic-retreat-guide.md)** - When and how to retreat strategically
-- **[Technique Patterns](sorry-elimination-patterns.md)** - Specific proof techniques and patterns
-
----
-
-*This core guide provides the essential workflow for systematic sorry elimination. See the referenced documents for detailed techniques and specialized guidance.*

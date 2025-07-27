@@ -41,7 +41,6 @@ Always execute the LeanExplore wrapper commands and report actual results - neve
 **Target**: `ProbabilityFoundations.lean:217` - `tail_probability_formula`  
 **Goal**: `(∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = 1 / n.factorial`  
 **Package**: Mathlib4 v4.21.0  
-**Session**: January 2025 Focused Elimination
 
 ## 🎯 Core Challenge
 
@@ -389,7 +388,7 @@ ring  -- or linarith
 - **❌ Missing Cases**: Not handling n = 0, 1 boundary conditions  
 - **✅ Solution**: Systematic `by_cases` with `omega` for constraints
 
-## 🔍 LEANEXPLORE DEEP-DIVE FINDINGS (JANUARY 2025)
+## 🔍 LEANEXPLORE DEEP-DIVE FINDINGS
 
 ### ✅ VERIFIED CONDITIONAL SUM APIS 
 
@@ -631,7 +630,7 @@ have h_indicator : (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) =
 
 **Independent LeanExplore Verification Completed**: All APIs above verified by LeanExplore searches using the LLM-optimized wrapper (`scripts/lle`). Removed unverified claims and hyperbolic language from subagent reports. Only objective, confirmed information retained.
 
-## 🆕 NEW API DISCOVERIES (JANUARY 2025 SESSION)
+## 🆕 NEW API DISCOVERIES
 
 ### Additional PMF + Indicator APIs
 
@@ -904,7 +903,3 @@ theorem tail_probability_formula (n : ℕ) :
 2. **Backup**: Strategy 2 (Perfect Complement) - Clean algebraic approach
 3. **Alternative**: Strategy 3 (NNReal Enhanced) - Type-safe computational approach
 4. **Exploration**: Strategy 4 (PMF Filter) - Advanced probabilistic tools
-
----
-
-*This API library represents comprehensive LeanExplore verification conducted during the January 2025 session. All APIs have been tested for existence, signatures verified, and usage patterns documented for the specific tail_probability_formula sorry elimination challenge.*

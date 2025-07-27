@@ -56,16 +56,6 @@ lake build 2>&1 | grep "declaration uses 'sorry'" | wc -l  # Count remaining sor
 grep -n "sorry" PotionProblem/*.lean                     # Find specific sorries
 ```
 
-### Python Environment Setup
-```bash
-# Initialize Python environment
-uv sync
-
-# Install additional dependencies
-uv sync --extra numerical  # numpy, scipy, matplotlib, sympy, z3
-uv sync --extra dev        # mypy, ruff, pytest
-```
-
 ### CRITICAL: API Search Requirements (MUST READ)
 
 **⚠️ MANDATORY**: You MUST use the LLM-optimized wrapper for ALL API searches:
@@ -90,10 +80,10 @@ scripts/lle dependencies [GROUP_ID] # Find required imports
 ## 🔧 **Sorry Elimination Strategy**
 
 For systematic sorry elimination, refer to the comprehensive guide:
-```bash
+
 # Read the battle-tested sorry elimination guide
-cat docs/sorry-elimination-guide.md
-```
+@/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-guide.md
+
 
 This guide contains:
 - **Proven techniques** from eliminating 10+ sorries
@@ -136,89 +126,31 @@ Basic.lean (31 lines, 0 sorries)
 3. **Sorry Elimination Strategy**: Fix fundamental lemmas first to avoid cascading failures
 4. **Mathematical Correctness**: Verify mathematical validity before implementing proofs
 
-## 🎯 MISSION ACCOUNTABILITY DOCTRINE
-
-### Clear Success/Failure Criteria
-- **SUCCESS**: Objective achieved (0 sorries = SUCCESS, 1+ sorries = FAILURE)
-- **FAILURE**: Objective not achieved, regardless of secondary achievements
-- **NO PARTIAL CREDIT**: "Framework established" with sorries remaining = MISSION FAILED
-
-### Prohibited Euphemistic Language
-**❌ BANNED PHRASES for Mission Failure:**
-- "Framework established" (when sorries remain)
-- "Strategic retreat" (= gave up)
-- "Complexity managed" (= avoided hard work)  
-- "Technical implementation deferred" (= didn't solve it)
-- "Phase X Complete" (when objective unmet)
-
-### Required Reporting Standards
-**✅ MANDATORY for Failed Objectives:**
-- "Mission failed. X sorries remain uneliminated."
-- "Unable to complete objective due to [specific technical reason]."
-- "Requesting guidance on completing elimination of remaining sorries."
-
-**✅ ALLOWED Secondary Reporting (AFTER failure acknowledgment):**
-- Build status
-- Partial progress made
-- Lessons learned
-
 ### Accountability Enforcement
 - **Primary metric**: Sorry count reduction
 - **Secondary metrics**: Build success, documentation (only relevant if primary succeeded)
 - **No credit for**: Incomplete work, partial solutions, or preparation without completion
 
-### TDD-Style Workflow  
-```bash
-# After each change
-lake build 2>&1 | grep -E "(error:|Build completed)"
-# Only commit if build succeeds
-git add [file] && git commit -m "[specific change]"
-```
-
-### Mission Status Verification
-```bash
-# Check actual sorry count (not estimates)
-grep -c "sorry" ./PotionProblem/*.lean
-# Mission success = 0, Mission failure = any number > 0
-# No euphemisms permitted for non-zero results
-```
-
-## Critical Priority Tasks
-
-**Immediate Goal**: Reduce sorry count from 3 to 0
-
-**High Priority (blocking other proofs):**
-- `pmf_sum_eq_one` in ProbabilityFoundations.lean - fundamental PMF validity property
-- `tail_probability_formula` in ProbabilityFoundations.lean - key distributional property
-
-**Medium Priority (supporting theory):**
-- `hitting_time_connection` in IrwinHallTheory.lean - geometric interpretation
-- `irwin_hall_unit_probability` - simplex volume calculation
-- `irwin_hall_support` and `irwin_hall_continuous` - distribution properties
-
 ## API Safety with LLM-Optimized LeanExplore Wrapper
 
-**CRITICAL**: mathlib4 APIs change frequently. ALWAYS verify using ONLY the wrapper:
+**CRITICAL**: mathlib4 APIs change frequently. ALWAYS verify using the wrapper:
 
 ```bash
-# ✅ CORRECT - Before using any mathlib API:
+# ✅ Before using any mathlib API:
 scripts/lle search "[function_name]" --package Mathlib
-
-# ❌ WRONG - NEVER do this:
-# uv run leanexplore search ...  # This wastes tokens and provides poor output
 ```
 
 **Pre-configured Environment**: 
 - `.env` file contains `LEANEXPLORE_API_KEY` for immediate use
 - `lean-explore` dependency included in `pyproject.toml`
-- **ALWAYS use `scripts/lle` wrapper** - never call `uv run leanexplore` directly
+- ALWAYS use `scripts/lle` wrapper
 
 ### Non-Existent APIs Reference
 
 **BEFORE searching for any API**, check the pre-verified non-existent list:
-```bash
-cat list-of-non-existent-mathlib-apis.md
-```
+
+@/home/ubuntu/workbench/projects/potion_problem/list-of-non-existent-mathlib-apis.md
+
 
 This file contains:
 - **28+ documented non-existent APIs** organized by category
@@ -233,8 +165,6 @@ This file contains:
 This prevents redundant searches and saves valuable context.
 
 ### MANDATORY: Use LLM-Optimized Wrapper for ALL API Searches
-
-**REQUIRED**: You MUST use the LLM-optimized wrapper instead of raw LeanExplore:
 
 ```bash
 # Quick search with automatic detail level selection
@@ -257,36 +187,10 @@ scripts/lle dependencies 187626                # Find required imports
 - Removes decorative output for clean, parseable results
 - Reduces token usage while maintaining information quality (critical for LLMs)
 - Located at `scripts/llm_leanexplore.py` with convenient `lle` alias
-- **NEVER use `uv run leanexplore` directly** - it wastes tokens and provides poor LLM experience
 
-### Essential Import Patterns (Verified in mathlib4 v4.21.0)
-```lean
-import Mathlib.Analysis.SpecificLimits.Normed     -- Real.summable_pow_div_factorial
-import Mathlib.Topology.Algebra.InfiniteSum.Basic -- Summable, HasSum
-import Mathlib.Data.Nat.Factorial.Basic           -- Nat.factorial properties
-import Mathlib.Algebra.Order.Field.Basic          -- Field inequalities
-```
+## Important Rule
 
-### Known API Changes (mathlib4 v4.21.0)
-**Deprecated APIs (still functional but discouraged):**
-- `Summable.sum_add_tsum_nat_add` - Deprecated as of 2025-04-12, still exists
-- `Summable.sum_add_tsum_compl` - Deprecated, still exists  
-- Build failures may occur from incorrect usage patterns (accessing as fields vs direct calls)
-
-## Quick Iteration Execution
-
-**When requested to "execute next iteration":**
-
-### Simple Method
-Use Task tool: `Read /home/ubuntu/workbench/projects/potion_problem/docs/state/self-contained-prompt.md and follow its instructions.`
-
-### Post-Execution Verification (MANDATORY)
-```bash
-git status && git log --oneline -3  # Verify actual changes
-lake build                          # Confirm build status
-```
-
-**Critical Rule**: Never trust subagent reports without verification.
+Never trust subagent reports without verification.
 
 ## Mathematical Background
 
@@ -295,41 +199,16 @@ lake build                          # Confirm build status
 2. **PMF Definition**: P(τ = n) = (n-1)/n! for n ≥ 2
 3. **Expected Value**: E[τ] = ∑_{n=1}^∞ n · P(τ = n) = e
 
-**Original Problem Source**: Twitter/@suamax_scp (July 9, 2025)
-- Knight asks: "How many times do I expect to drink the potion?"
-- Mathematical formalization: hitting time for sum of uniform [0,1) variables ≥ 1
+**Original Problem Source**: https://x.com/suamax_scp/status/1942902598203322849
 
-## Important Documents
-
-**State Management:**
-- `docs/state/current-state.md` - Current accurate status
-- `docs/state/iteration-history.md` - Cumulative trial records
-- `docs/state/self-contained-prompt.md` - Self-contained implementation instructions
-
-**Key Guides:**
-- `docs/sorry-elimination-guide.md` - Battle-tested techniques for eliminating sorries
-- `docs/refactoring-instructions.md` - Module restructuring guidance
-- `docs/immediate-action-plan.md` - Current development priorities
+```plaintext
+女騎士「私に何を飲ませた！」
+オーク「飲む前の感度をn倍とした時に、感度をn+m倍(m:[0,1)、毎回の摂取ごとに独立して判定される)まで引き上げる薬だ。通常時の感度を1倍として、お前の感度が2倍になるまでこれを飲ませる」
+女騎士「私が媚薬を飲む回数の期待値はどれくらいになるんだ……？」
+```
 
 ## Configuration Details
 
-**Lean 4 Configuration** (`lakefile.toml`):
-```toml
-[leanOptions]
-pp.unicode.fun = true
-autoImplicit = false
-relaxedAutoImplicit = false
-weak.linter.mathlibStandardSet = true  # Maximum strictness
-maxSynthPendingDepth = 3
-```
+**Lean 4 Configuration**: @/home/ubuntu/workbench/projects/potion_problem/lakefile.toml
 
-**Python Environment** (`pyproject.toml`):
-- **Core**: `lean-explore>=0.3.0` for API verification
-- **Optional**: numerical analysis tools (numpy, scipy, matplotlib, sympy, z3)
-- **Development**: mypy, ruff, pytest for code quality
-
-**Version Control**: Lean 4 v4.21.0, mathlib4 v4.21.0 (pinned in `lean-toolchain`)
-
----
-
-**Note**: This project pursues mathematical rigor through formal verification. The main theorem E[τ] = e is proven; remaining sorries are in supporting infrastructure and do not affect the core result.
+**Version Control**: @/home/ubuntu/workbench/projects/potion_problem/lean-toolchain
