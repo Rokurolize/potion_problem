@@ -66,13 +66,26 @@ uv sync --extra numerical  # numpy, scipy, matplotlib, sympy, z3
 uv sync --extra dev        # mypy, ruff, pytest
 ```
 
-### LeanExplore API Verification (Critical for preventing hallucinations)
+### CRITICAL: API Search Requirements (MUST READ)
+
+**⚠️ MANDATORY**: You MUST use the LLM-optimized wrapper for ALL API searches:
+
 ```bash
-# Search mathlib APIs before using
-uv run leanexplore search "hasSum" --package Mathlib --limit 10
-uv run leanexplore get [GROUP_ID]          # Get exact signature
-uv run leanexplore dependencies [GROUP_ID] # Find required imports
+# CORRECT - Use the wrapper:
+scripts/lle search "hasSum" --package Mathlib --limit 10
+scripts/lle get [GROUP_ID]          # Get exact signature
+scripts/lle dependencies [GROUP_ID] # Find required imports
+
+# WRONG - Never use raw LeanExplore:
+# ❌ uv run leanexplore search ...  # DO NOT USE
 ```
+
+**Why this is REQUIRED**:
+- Raw LeanExplore output wastes precious context with decorative formatting
+- The wrapper automatically adjusts detail level based on results
+- Critical for preventing API hallucinations in Lean 4
+
+**Failure to use the wrapper will result in poor performance and wasted tokens.**
 
 ## 🔧 **Sorry Elimination Strategy**
 
@@ -183,18 +196,49 @@ grep -c "sorry" ./PotionProblem/*.lean
 - `irwin_hall_unit_probability` - simplex volume calculation
 - `irwin_hall_support` and `irwin_hall_continuous` - distribution properties
 
-## API Safety and LeanExplore Integration
+## API Safety with LLM-Optimized LeanExplore Wrapper
 
-**CRITICAL**: mathlib4 APIs change frequently. ALWAYS verify before using:
+**CRITICAL**: mathlib4 APIs change frequently. ALWAYS verify using ONLY the wrapper:
 
 ```bash
-# Before using any mathlib API
-uv run leanexplore search "[function_name]" --package Mathlib
+# ✅ CORRECT - Before using any mathlib API:
+scripts/lle search "[function_name]" --package Mathlib
+
+# ❌ WRONG - NEVER do this:
+# uv run leanexplore search ...  # This wastes tokens and provides poor output
 ```
 
 **Pre-configured Environment**: 
 - `.env` file contains `LEANEXPLORE_API_KEY` for immediate use
 - `lean-explore` dependency included in `pyproject.toml`
+- **ALWAYS use `scripts/lle` wrapper** - never call `uv run leanexplore` directly
+
+### MANDATORY: Use LLM-Optimized Wrapper for ALL API Searches
+
+**REQUIRED**: You MUST use the LLM-optimized wrapper instead of raw LeanExplore:
+
+```bash
+# Quick search with automatic detail level selection
+scripts/lle search "hasSum"                    # Auto-adjusts detail based on result count
+
+# Specific detail levels
+scripts/lle search "factorial" --limit 30 --detail minimal   # Just IDs and names
+scripts/lle search "hasSum" --limit 5 --detail standard      # Balanced view
+scripts/lle search "HasSum" --limit 1 --detail detailed      # Full documentation
+
+# Get exact API details
+scripts/lle get 187626                         # Full details for specific ID
+
+# Check dependencies/imports
+scripts/lle dependencies 187626                # Find required imports
+```
+
+**Why You MUST Use the Wrapper**:
+- Automatically selects detail level: 1 result→detailed, 2-3→standard, 4+→minimal
+- Removes decorative output for clean, parseable results
+- Reduces token usage while maintaining information quality (critical for LLMs)
+- Located at `scripts/llm_leanexplore.py` with convenient `lle` alias
+- **NEVER use `uv run leanexplore` directly** - it wastes tokens and provides poor LLM experience
 
 ### Essential Import Patterns (Verified in mathlib4 v4.21.0)
 ```lean
