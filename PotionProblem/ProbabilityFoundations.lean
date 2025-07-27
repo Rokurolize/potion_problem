@@ -135,9 +135,10 @@ lemma pmf_telescoping (n : ℕ) (hn : 2 ≤ n) :
   -- Since n! = n * (n-1)!, we have n! - (n-1)! = n*(n-1)! - (n-1)! = (n-1)*(n-1)!
   -- So the RHS becomes: ((n-1)*(n-1)!) / ((n-1)! * n!) = (n-1)/n!
   have fact_eq : (n.factorial : ℝ) = n * (n - 1).factorial := by
-    cases' n with n
-    · omega  -- impossible since n ≥ 2
-    · rw [Nat.factorial_succ]
+    cases n with
+    | zero => omega  -- impossible since n ≥ 2
+    | succ n => 
+      rw [Nat.factorial_succ]
       simp only [Nat.cast_mul]
       congr 1
   rw [fact_eq]
@@ -243,7 +244,8 @@ theorem tail_probability_formula (n : ℕ) :
   -- ⚠️ Conditional sum manipulation: Converting ∑' k, if k > n then f k else 0 to standard forms
   -- ⚠️ Index rewriting complexity: Multiple off-by-one adjustments between different sum ranges
   -- ⚠️ API discovery: Many expected APIs (tsum_subtype, tsum_eq_tsum_of_eq_zero_of_eq) do not exist
-  -- ⚠️ The correct approach requires Equiv.tsum_eq but proving the conditional-to-subtype conversion is non-trivial
+  -- ⚠️ The correct approach requires Equiv.tsum_eq but proving the 
+  -- conditional-to-subtype conversion is non-trivial
   --
   -- This proof requires intricate manipulation of conditional infinite sums, index transformations,
   -- and careful application of complement decomposition APIs. While the mathematical foundation
