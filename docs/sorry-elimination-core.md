@@ -28,73 +28,32 @@ Before targeting any sorry:
 
 ### 1. **API Verification**
 
-**Check Pre-Verified APIs**:
-Check [`docs/api-library.md`](api-library.md) for proven patterns
+1. Check [`api-library.md`](api-library.md) for pre-verified APIs
+2. If not found, search using workflow in [`workflow-commands.md`](workflow-commands.md#api-verification-workflow)
+3. Always create test file before using any new API
 
-**LeanExplore Research** (MUST use wrapper):
-```bash
-scripts/lle search "lemma_name" --package Mathlib --limit 5
-scripts/lle get [GROUP_ID]  # Get exact signature
-scripts/lle dependencies [GROUP_ID]  # Get import requirements
-```
-
-### 2. **MANDATORY API Usage Verification**
-Create `test_api.lean` in project root:
-```lean
-import Required.Module.From.Dependencies
-
--- Test the exact usage pattern from LeanExplore
-variable {α : Type} {f : ℕ → α} (hf : Summable f) (k : ℕ)
-#check Summable.sum_add_tsum_nat_add k hf  -- Must compile without errors
-```
-
-**Run verification**:
-```bash
-echo "test_api.lean" >> .gitignore  # Exclude from version control
-lake env lean test_api.lean        # Must succeed before proceeding
-```
-
-### 3. **Check Current Build Status**
+### 2. **Check Current Build Status**
 ```bash
 lake build PotionProblem.ModuleName
 ```
 
-### 4. **Understand the Goal**
+### 3. **Understand the Goal**
 - Read the theorem statement carefully
 - Identify the mathematical strategy needed  
 - Check what lemmas are already available
 
-### 5. **Update Todo List**
-```bash
-# Mark current sorry as "in_progress"
-# This provides accountability and progress tracking
-```
+### 4. **Update Todo List**
+- Mark current sorry as "in_progress"
+- This provides accountability and progress tracking
 
-## ⚠️ CRITICAL: Common API Misuse Patterns (MUST AVOID)
+## ⚠️ CRITICAL: Common API Misuse Patterns
 
-### Field vs Direct Call Confusion
-**❌ WRONG** - Causes "invalid field" errors:
-```lean
-(Summable.hasSum pmf_summable).sum_add_tsum_nat_add
-```
+**Most Common Error**: Field vs Direct Call pattern causes 80% of API failures.
 
-**✅ CORRECT** - Direct namespace access:
-```lean
-Summable.sum_add_tsum_nat_add k pmf_summable
-```
-
-### Argument Order Mistakes
-**❌ WRONG**:
-```lean
-Summable.sum_add_tsum_nat_add summability_proof k  -- Wrong order
-```
-
-**✅ CORRECT**:  
-```lean
-Summable.sum_add_tsum_nat_add k summability_proof  -- k first, proof second
-```
-
-**See [`docs/api-library.md`](api-library.md) for comprehensive API patterns**
+See [`common-errors.md`](common-errors.md) for detailed patterns including:
+- Field access vs direct namespace calls
+- Argument order mistakes
+- Type mismatch patterns
 
 ## 🔄 Build-Driven Development Workflow
 
@@ -117,35 +76,23 @@ have h2 : Q := by sorry
 ```
 
 ### TDD-Style Verification
-```bash
-# After each change
-lake build 2>&1 | grep -E "(error:|Build completed)"
-# Only commit if build succeeds
-git add [file] && git commit -m "[specific change]"
-```
+- Build after each change
+- Only commit if build succeeds
+- See [`workflow-commands.md`](workflow-commands.md#development-workflow) for detailed commands
 
 ## 📊 Progress Tracking
 
 ### Todo List Management
 **Mandatory**: Update TodoWrite after each sorry elimination
-```bash
-# Mark completed sorries as "completed"
-# Update sorry count in main tracking todo
-# Mark next target as "in_progress"
-```
+- Mark completed sorries as "completed"  
+- Update sorry count in main tracking todo
+- Mark next target as "in_progress"
 
 ### Verification Commands
-```bash
-# Check sorry count
-grep -c "sorry" ./PotionProblem/*.lean
-
-# Find specific sorries  
-grep -n "sorry" ./PotionProblem/FileName.lean
-
-# Verify build success
-lake build
-echo "Exit code: $?"
-```
+See [`workflow-commands.md`](workflow-commands.md#progress-monitoring) for:
+- Sorry counting commands
+- Build verification
+- Deprecation checks
 
 ## 🏆 Success Patterns
 

@@ -131,98 +131,23 @@ have h_limit : Tendsto (fun N => f (N + k)) atTop (𝓝 L) := by
 **ID**: 98910  
 **Usage**: Required for safe division by factorials in tail_probability_formula
 
-## ❌ Common API Failure Patterns (AVOID)
+## ❌ Common API Failure Patterns
 
-### Field Access Pattern
-```lean
--- WRONG: Trying to access API as field
-(Summable.hasSum pmf_summable).sum_add_tsum_nat_add
-(some_tendsto_object).api_name
-```
+See [`common-errors.md`](common-errors.md) for detailed API misuse patterns including:
+- Field vs Direct Call errors
+- Argument order mistakes  
+- Type mismatch patterns
 
-### Wrong Argument Order
-```lean
--- WRONG: Proof first, parameter second
-Summable.sum_add_tsum_nat_add summability_proof k
-```
+**Quick reminder**: Always use `Namespace.api_name args`, never `(object).api_name`
 
-### ✅ Correct Direct Call Pattern
-```lean
--- CORRECT: Direct namespace access with proper argument order
-Summable.sum_add_tsum_nat_add k summability_proof
-```
+## 🚨 Deprecated APIs in mathlib4 v4.21.0
 
-## 🚨 Session Warnings & API Issues
+### Recently Deprecated
+- **`tsum_add`** → Use `Summable.tsum_add`
+- **`Finset.not_mem_empty`** → Use `Finset.notMem_empty`  
+- **`cases'` tactic** → Use `obtain`, `rcases`, or `cases`
 
-### New Deprecation Warnings Encountered
-
-#### `tsum_add` Deprecated
-```lean
--- WARNING: `tsum_add` has been deprecated: use `Summable.tsum_add` instead
-rw [← tsum_add pmf_summable.subtype pmf_summable.subtype]  -- DEPRECATED
-```
-**Replacement**: Use `Summable.tsum_add` directly
-**Impact**: Causes build warnings, may be removed in future mathlib versions
-
-#### `Finset.not_mem_empty` Deprecated  
-```lean
--- WARNING: `Finset.not_mem_empty` has been deprecated: use `Finset.notMem_empty` instead
-Finset.not_mem_empty  -- DEPRECATED
-```
-**Replacement**: `Finset.notMem_empty`
-
-#### `cases'` Tactic Discouraged
-```lean
--- WARNING: The `cases'` tactic is discouraged: please strongly consider using `obtain`, `rcases` or `cases` instead
-cases' h_cond with h_neg h_zero_pos  -- DISCOURAGED
-```
-**Replacement**: Use `obtain`, `rcases`, or `cases`
-
-### API Type Mismatch Patterns
-
-#### `if_neg` Argument Type Errors
-```lean
--- ERROR: Application type mismatch in if_neg
-simp only [if_neg h1, if_pos h2] at h_zero
--- where h1 : 0 ≤ x but expected ¬?condition
-```
-**Issue**: `if_neg` expects negation of condition, not the condition itself
-**Solution**: Use proper boolean logic: `if_neg (not_lt.mpr h1)`
-
-#### `conv_lhs` Rewrite Pattern Failures
-```lean
--- ERROR: tactic 'rewrite' failed, did not find instance of the pattern
-conv_lhs => rw [← h_total]
-```
-**Issue**: Pattern matching fails when left-hand side doesn't match expected form
-**Solution**: Use direct rewriting or establish equality first
-
-#### Unknown Identifier Errors
-```lean
--- ERROR: unknown identifier 'zero_lt_zero'
-simp only [zero_lt_zero, false_iff]
-```
-**Issue**: Incorrect assumption about available constants
-**Solution**: Use `lt_irrefl` or explicit `¬(0 < 0)`
-
-### `Summable.subtype` API Complexity
-```lean
--- ERROR: Type mismatch with subtype summability
-exact Summable.tsum_add pmf_summable.subtype pmf_summable.subtype
--- Expected: Summable ?m.4806 but got: ∀ (s : Set ℕ), Summable (hitting_time_pmf ∘ Subtype.val)
-```
-**Issue**: `Summable.subtype` returns a function, not direct summability proof
-**Recommendation**: Use explicit set-based summability or avoid subtype patterns
-
-### Logic Error Cascades
-```lean
--- ERROR: Contradictory hypotheses from case analysis
-h1 : 0 ≤ x
-h2 : x ≥ ↑n  
-h_zero : x < 0  -- Contradiction!
-```
-**Issue**: Case analysis logic errors leading to impossible states
-**Solution**: Careful boolean logic analysis and hypothesis tracking
+For comprehensive error patterns see [`common-errors.md`](common-errors.md)
 
 ## 📝 Contributing New APIs
 
@@ -250,11 +175,7 @@ When adding new verified APIs to this library:
 
 ### Verification Process
 
-1. **LeanExplore Search**: `scripts/lle search "api_name" --package Mathlib` (use wrapper!)
-2. **Test File Creation**: Create `test_api.lean` with exact usage
-3. **Compilation Check**: `lake env lean test_api.lean`
-4. **Proof Context Verification**: Use in actual proof
-5. **Documentation**: Add to this library with template
+See [`workflow-commands.md#api-verification-workflow`](workflow-commands.md#api-verification-workflow) for detailed verification steps.
 
 ## 🎯 APIs for Remaining Sorries (Verified 2025-07-27)
 

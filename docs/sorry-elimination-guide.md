@@ -1,63 +1,56 @@
 # Sorry Elimination Guide
 
-*Systematic approach to eliminating `sorry` statements in Lean 4 formal verification*
+*Complete documentation index for systematic sorry elimination in Lean 4*
 
 **Mission**: Eliminate all `sorry` statements through systematic, build-driven development.
 
 ## 📚 Documentation Structure
 
-This guide is organized into focused, specialized documents:
+### 🚀 Quick Start
+1. **[Common Errors](common-errors.md)** - Start here! Most frequent mistakes and how to avoid them
+2. **[Workflow Commands](workflow-commands.md)** - All build, test, and verification commands
+3. **[Core Principles](sorry-elimination-core.md)** - Essential workflow and decision framework
 
-### Core Workflow
-- Sorry Elimination Core
-@/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-core.md - Essential principles, pre-attack checklist, and decision framework
-- Technique Patterns
-@/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-patterns.md - Proven patterns for specific proof types and mathematical techniques
+### 📖 Detailed Guides
+- **[Technique Patterns](sorry-elimination-patterns.md)** - Proven patterns for specific proof types
+- **[API Library](api-library.md)** - Pre-verified mathlib4 APIs with usage examples
+- **[Success Metrics](success-metrics.md)** - Project progress and historical data
 
-### Specialized Guidance  
-- API Library
-@/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md - Pre-verified mathlib4 APIs with correct usage patterns
+### 🔍 Quick References
+- **[Non-Existent APIs](../list-of-non-existent-mathlib-apis.md)** - Don't search for these
+- **[Main Project Guide](../CLAUDE.md)** - Overall project navigation
 
-### Critical Success Factors
-- ✅ **API Verification First**: Always check pre-verified APIs before LeanExplore
-- ✅ **Build-Driven Development**: Compile after every significant change
-- ✅ **Todo Tracking**: Maintain clear progress visibility
+## ⚡ Most Critical Rule
 
-## 🚨 Critical Anti-Patterns (MUST AVOID)
-
-**❌ Field Access Instead of Direct Calls**:
+**Field vs Direct Call** - This causes 80% of API failures:
 ```lean
-(Summable.hasSum pmf_summable).sum_add_tsum_nat_add  -- WRONG
-Summable.sum_add_tsum_nat_add k pmf_summable         -- CORRECT
+❌ (Summable.hasSum pmf_summable).sum_add_tsum_nat_add  -- WRONG
+✅ Summable.sum_add_tsum_nat_add k pmf_summable         -- CORRECT
 ```
 
-**❌ Skipping API Verification**: Never use mathlib APIs without verification  
-**❌ Immediately after editing the file, without building it, he gives up and tries a simplified alternative approach**: First, output build errors to a file, analyze them, and create a TODO list to address the build issues. Only once the errors are resolved can you reflect on the implementation strategy for Lean 4
-**❌ Build Instability**: Don't commit broken code that affects other modules
+See [common-errors.md](common-errors.md) for details.
 
-## 📊 Success Metrics & Lessons Learned
+## 📊 Current Status
 
-### From PotionProblem Session
-- ✅ **11+ sorries eliminated** using systematic approach
-- ✅ **100% build success** maintained throughout elimination process
-- ✅ **Main theorem complete** (E[τ] = e) with 0 sorries in core proof
+- **3 sorries remaining** (down from 14+)
+- **Main theorem complete** ✅
+- **Build status** ✅
 
-### Session Patterns That Worked
-1. **Dependency-first elimination** - Fundamental lemmas before complex theorems
-2. **Framework documentation** - Clear mathematical reasoning in comments
-3. **API verification workflow** - LeanExplore → test file → compilation → usage
-4. **Incremental progress commits** - Build success before each commit
+See [success-metrics.md](success-metrics.md) for detailed progress tracking.
 
-## 🏆 Key Insights
+## 🎯 Recommended Reading Order
 
-**Mathematical**: The Potion Problem requires mastery of series reindexing, telescoping identities, and the connection between discrete PMFs and continuous distributions.
+1. Start with **[common-errors.md](common-errors.md)** to avoid common pitfalls
+2. Read **[sorry-elimination-core.md](sorry-elimination-core.md)** for workflow
+3. Reference **[api-library.md](api-library.md)** before using any API
+4. Use **[sorry-elimination-patterns.md](sorry-elimination-patterns.md)** for specific techniques
+5. Check **[workflow-commands.md](workflow-commands.md)** for command reference
 
-**Technical**: Lean 4 success depends on precise type handling, correct API usage, and systematic build-driven development.
+## 🏆 Key Success Factors
 
-**Strategic**: Focus on dependency chains and complete one file before moving to another.
+- **API Verification First** - Always test before use
+- **Build-Driven Development** - Compile after every change
+- **Strategic Documentation** - Preserve understanding in retreats
+- **Dependency Order** - Fix fundamental lemmas first
 
-**Framework Philosophy**: Building complete proof infrastructure with embedded sorries is often more valuable than partial proofs. This approach:
-- Demonstrates mathematical understanding
-- Enables incremental progress with stable builds  
-- Facilitates collaboration through clear structure
-- Allows confident commits when meaningful progress is made
+For philosophy and detailed insights, see individual guide documents.

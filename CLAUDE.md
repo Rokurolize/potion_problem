@@ -2,130 +2,85 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Important: File Reference Convention
+
+**Always use @-path syntax for file references, not markdown links:**
+- ✅ CORRECT: `@/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md`
+- ❌ WRONG: `[API Library](docs/api-library.md)`
+
+The @-path syntax ensures files are properly imported into Claude's context. Use full absolute paths starting with `/home/ubuntu/`.
+
+**When updating documentation**: Always maintain this @-path convention. Do not convert @ references back to markdown links.
+
+**Note**: This @-path requirement applies specifically to CLAUDE.md files. Other documentation files may continue using standard markdown links for navigation.
+
 ## Project: Aphrodisiac Problem Lean 4 Formalization
 
 *Also known as the Potion Problem (媚薬問題) - proving E[τ] = e*
 
-## 🎯 **CURRENT STATUS: MISSION FAILED** 
+## 🎯 Current Status
 
-**Mission Objective**: Eliminate all sorries (target: 0)
-**Current Status**: 3 sorries remaining = **MISSION FAILED**
+**Mission**: Eliminate all sorries (3 remaining)
+**Build**: ✅ All modules compile successfully  
+**Main Theorem**: ✅ E[τ] = e proven (Main.lean: 0 sorries)
 
-**Secondary Status** (relevant only after mission completion):
-- **Main theorem**: `PotionProblem.main_theorem : expected_hitting_time = exp 1` ✅
-- **Build status**: ✅ Builds successfully
-- **Mathematical rigor**: Formal verification in progress with Lean 4 and mathlib4 v4.21.0
-- **Active Sorries**: **3** remaining (ProbabilityFoundations: 1, IrwinHallTheory: 2)
-- **Recent progress**: Eliminated `telescoping_partial_sum` sorry using induction
+For detailed metrics see @/home/ubuntu/workbench/projects/potion_problem/docs/success-metrics.md
 
-**Core Result Established**: E[τ] = e (Main.lean has 0 sorries)
-**Mission Status**: Incomplete - 3 sorries remain uneliminated
+## 📚 Documentation Hub
 
-## Essential Development Commands
+### Essential References (Start Here)
+- **Common Errors** @/home/ubuntu/workbench/projects/potion_problem/docs/common-errors.md - Critical API misuse patterns (especially Field vs Direct Call)
+- **Workflow Commands** @/home/ubuntu/workbench/projects/potion_problem/docs/workflow-commands.md - All build, test, and verification commands
+- **API Library** @/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md - Pre-verified mathlib4 APIs with correct usage
 
-```bash
-# Build the entire project
-lake build
+### Sorry Elimination Guides
+- **Sorry Elimination Guide** @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-guide.md - Overview and index
+- **Core Principles** @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-core.md - Systematic approach and workflow
+- **Technique Patterns** @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-patterns.md - Proven elimination techniques
 
-# Build specific components
-lake build PotionProblem.Main
-lake build PotionProblem.ProbabilityFoundations
-
-# Clean build after major changes
-lake clean && lake build
-
-# Monitor progress
-lake build 2>&1 | grep "declaration uses 'sorry'" | wc -l  # Count remaining sorries
-grep -n "sorry" PotionProblem/*.lean                     # Find specific sorries
-```
-
-## ⚠️ MANDATORY: API Search Requirements
-
-**You MUST use the LLM-optimized wrapper for ALL API searches:**
+## 🚀 Quick Start
 
 ```bash
-# CORRECT - Use the wrapper:
-scripts/lle search "hasSum" --package Mathlib --limit 10
-scripts/lle get [GROUP_ID]          # Get exact signature
-scripts/lle dependencies [GROUP_ID] # Find required imports
+# Build and check status
+lake build && grep -c "sorry" PotionProblem/*.lean
 
-# WRONG - Never use raw LeanExplore:
-# ❌ uv run leanexplore search ...  # DO NOT USE
+# Search for API
+scripts/lle search "api_name" --limit 5
 ```
 
-**Why this is REQUIRED**:
-- Raw LeanExplore output wastes precious context with decorative formatting
-- The wrapper automatically adjusts detail level based on results
-- Critical for preventing API hallucinations in Lean 4
-- Failure to use the wrapper will result in poor performance and wasted tokens
+For all commands see @/home/ubuntu/workbench/projects/potion_problem/docs/workflow-commands.md
 
-**Pre-configured Environment**: 
-- `.env` file contains `LEANEXPLORE_API_KEY` for immediate use
-- `lean-explore` dependency included in `pyproject.toml`
-- Located at `scripts/llm_leanexplore.py` with convenient `lle` alias
+## ⚠️ Critical: Most Common Error
 
-### Usage Examples
+**Field vs Direct Call** - This error appears in 80% of failed attempts:
 
-```bash
-# Quick search with automatic detail level selection
-scripts/lle search "hasSum"                    # Auto-adjusts detail based on result count
+```lean
+-- ❌ WRONG (causes "invalid field" error)
+(Summable.hasSum pmf_summable).sum_add_tsum_nat_add
 
-# Specific detail levels
-scripts/lle search "factorial" --limit 30 --detail minimal   # Just IDs and names
-scripts/lle search "hasSum" --limit 5 --detail standard      # Balanced view
-scripts/lle search "HasSum" --limit 1 --detail detailed      # Full documentation
-
-# Get exact API details
-scripts/lle get 187626                         # Full details for specific ID
-
-# Check dependencies/imports
-scripts/lle dependencies 187626                # Find required imports
+-- ✅ CORRECT  
+Summable.sum_add_tsum_nat_add k pmf_summable
 ```
 
-### Non-Existent APIs Reference
+See @/home/ubuntu/workbench/projects/potion_problem/docs/common-errors.md for all error patterns.
 
-**BEFORE searching for any API**, check the pre-verified non-existent list:
+## 🔍 API Search Protocol
 
-@/home/ubuntu/workbench/projects/potion_problem/list-of-non-existent-mathlib-apis.md
+1. Check @/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md for pre-verified APIs
+2. Check @/home/ubuntu/workbench/projects/potion_problem/list-of-non-existent-mathlib-apis.md  
+3. Use wrapper: `scripts/lle search "api_name"`
+4. Never use raw LeanExplore
 
-This file contains:
-- **28+ documented non-existent APIs** organized by category
-- **Automatic additions** by the LLM wrapper when searches yield no relevant results
-- **Alternative approaches** for each non-existent pattern
+Details in @/home/ubuntu/workbench/projects/potion_problem/docs/workflow-commands.md#api-verification-workflow
 
-The wrapper automatically appends to this list when:
-- Search returns 0 candidates
-- Search results have no relevance to the query
-- Multi-word queries have zero overlap with results
+## 📋 Key Development Rules
 
-## Important Rule
+1. **API Verification First** - Always test APIs before use
+2. **Build After Every Change** - Never proceed with errors
+3. **One Sorry at a Time** - Complete elimination before moving on
+4. **Document Strategic Retreats** - Preserve understanding for future
 
-Never trust subagent reports without verification.
-
-## Development Philosophy
-
-### Systematic Approach
-1. **One Change at a Time**: Each fix gets individual verification and commit
-2. **Build Verification**: `lake build` after every change before proceeding
-3. **Sorry Elimination Strategy**: Fix fundamental lemmas first to avoid cascading failures
-4. **Mathematical Correctness**: Verify mathematical validity before implementing proofs
-
-### Accountability Enforcement
-- **Primary metric**: Sorry count reduction
-- **Secondary metrics**: Build success, documentation (only relevant if primary succeeded)
-- **No credit for**: Incomplete work, partial solutions, or preparation without completion
-
-## 🔧 Sorry Elimination Strategy
-
-For systematic sorry elimination, refer to the comprehensive guide:
-
-@/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-guide.md
-
-This guide contains:
-- **Proven techniques** from eliminating 10+ sorries
-- **Specific Lean 4 patterns** with working code examples
-- **Common pitfalls** and their solutions
-- **File-specific strategies** for each module
+See @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-core.md for principles.
 
 ## High-Level Architecture
 

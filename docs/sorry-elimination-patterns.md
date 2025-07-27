@@ -322,18 +322,12 @@ lemma telescoping_result (N : ℕ) : P N := by
 
 ## ❌ Anti-Patterns to Avoid (SESSION LESSONS)
 
-### API Misuse Patterns (CAUSES BUILD FAILURES)
+### API Misuse Patterns
 
-**❌ Accessing APIs as Fields Instead of Direct Calls**:
-- **Wrong**: `(Summable.hasSum pmf_summable).sum_add_tsum_nat_add` 
-- **Error**: "invalid field 'sum_add_tsum_nat_add', the environment does not contain 'HasSum.sum_add_tsum_nat_add'"
-- **Correct**: `Summable.sum_add_tsum_nat_add k pmf_summable`
-
-**❌ Wrong Argument Order**:
-- **Wrong**: `Summable.sum_add_tsum_nat_add summability_proof k`
-- **Correct**: `Summable.sum_add_tsum_nat_add k summability_proof`
-
-**❌ Skipping API Verification**: NEVER use any mathlib API without first creating a test file and verifying it compiles
+See [`common-errors.md`](common-errors.md) for detailed API error patterns including:
+- Field vs Direct Call (causes 80% of failures)
+- Argument order mistakes
+- API verification requirements
 
 ### Complex Proof Anti-Patterns
 
@@ -363,32 +357,14 @@ lemma telescoping_result (N : ℕ) : P N := by
 - **Issue**: Both `continuity` tactic and manual `continuous_if` approaches time out or fail
 - **Solution**: Prove continuity on each piece separately, or use strategic retreat
 
-### January 2025 Session Anti-Patterns
+### Additional Anti-Patterns
 
-**❌ Ignoring Deprecation Warnings**:
-- **Wrong**: Using `tsum_add`, `cases'`, `Finset.not_mem_empty` despite warnings
-- **Issue**: Future mathlib versions may remove deprecated APIs
-- **Solution**: Always replace deprecated APIs immediately
+For comprehensive error patterns including:
+- Deprecation warnings (`tsum_add`, `cases'`, etc.)
+- Boolean logic errors (`if_neg`/`if_pos` confusion)
+- Type mismatches and identifier errors
 
-**❌ `if_neg`/`if_pos` Type Confusion**:
-- **Wrong**: `simp only [if_neg h1]` where `h1 : 0 ≤ x` 
-- **Issue**: `if_neg` expects `¬condition`, not the condition itself
-- **Solution**: Use proper boolean logic: `if_neg (not_lt.mpr h1)`
-
-**❌ Assuming Non-Existent Constants**:
-- **Wrong**: Using `zero_lt_zero` or similar assumed constants
-- **Issue**: "unknown identifier" errors from incorrect assumptions about stdlib
-- **Solution**: Use `#check` to verify existence or use established patterns like `lt_irrefl`
-
-**❌ Complex `conv_lhs` Pattern Matching**:
-- **Wrong**: `conv_lhs => rw [← h_total]` without verifying pattern exists
-- **Issue**: "did not find instance of the pattern" errors
-- **Solution**: Use direct rewriting or establish equality explicitly first
-
-**❌ Case Analysis Logic Errors**:
-- **Wrong**: Creating contradictory hypotheses like `h1 : 0 ≤ x` and `h_zero : x < 0`
-- **Issue**: Impossible proof states from flawed boolean logic
-- **Solution**: Careful case analysis with `omega` for arithmetic constraints
+See [`common-errors.md`](common-errors.md)
 
 **✅ Prefer Simplicity**: When eliminating sorries, choose the most direct path. Complex mathematical arguments often have simple Lean implementations.
 
@@ -429,16 +405,9 @@ sorry
 
 ### API-First Verification Pattern ✅
 
-Always verify APIs before complex proof attempts:
+Always verify APIs before complex proof attempts. 
 
-```bash
-# Pre-implementation verification workflow
-cat docs/api-library/[relevant-category]/verified-apis.md  # Check pre-verified APIs first
-scripts/lle search "api_name" --package Mathlib           # Only if not in library (use wrapper!)
-scripts/lle get [GROUP_ID]                               # Get exact signature (use wrapper!)
-echo "test_api.lean" >> .gitignore                        # Exclude test file
-lake env lean test_api.lean                               # Verify compilation
-```
+See [`workflow-commands.md#api-verification-workflow`](workflow-commands.md#api-verification-workflow) for the complete verification process.
 
 **Success Pattern**: This prevented multiple build failures and API misuse during complex proofs.
 
