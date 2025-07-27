@@ -9,7 +9,8 @@
 ### 🚀 Quick Start
 1. **[Common Errors](common-errors.md)** - Start here! Most frequent mistakes and how to avoid them
 2. **[Workflow Commands](workflow-commands.md)** - All build, test, and verification commands
-3. **[Core Principles](sorry-elimination-core.md)** - Essential workflow and decision framework
+3. **[MCP LeanExplore Workflow](mcp-leanexplore-workflow.md)** - Complete API search guide with real examples
+4. **[Core Principles](sorry-elimination-core.md)** - Essential workflow and decision framework
 
 ### 📖 Detailed Guides
 - **[Technique Patterns](sorry-elimination-patterns.md)** - Proven patterns for specific proof types

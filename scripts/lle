@@ -1,3 +1,0 @@
-#!/bin/bash
-# Shorthand for llm_leanexplore.py
-exec python "$(dirname "$0")/llm_leanexplore.py" "$@"

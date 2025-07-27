@@ -29,7 +29,7 @@ Before targeting any sorry:
 ### 1. **API Verification**
 
 1. Check [`api-library.md`](api-library.md) for pre-verified APIs
-2. If not found, search using workflow in [`workflow-commands.md`](workflow-commands.md#api-verification-workflow)
+2. If not found, search using [`mcp-leanexplore-workflow.md`](mcp-leanexplore-workflow.md)
 3. Always create test file before using any new API
 
 ### 2. **Check Current Build Status**
@@ -107,4 +107,4 @@ See [`workflow-commands.md`](workflow-commands.md#progress-monitoring) for:
 2. ✅ Check pre-verified APIs in api-library.md
 3. ✅ Fix build errors and type mismatches
 4. ✅ Document mathematical framework clearly in comments
-5. ✅ Use LeanExplore wrapper (scripts/lle) for API discovery when needed
+5. ✅ Use MCP LeanExplore for API discovery when needed

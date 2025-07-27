@@ -3,11 +3,9 @@
 This file maintains a comprehensive list of APIs that have been confirmed NOT to exist in mathlib4.
 **IMPORTANT**: Before searching for any API, check this list to avoid redundant searches.
 
-**Last Updated**: 2025-01-27 (based on mathlib4 v4.21.0)
-
 ## Purpose
 
-This list serves as a safeguard against unnecessary LeanExplore searches. When the LLM wrapper (`scripts/lle`) detects that an API doesn't exist (based on search results), it automatically appends the pattern to this list.
+This list serves as a safeguard against unnecessary LeanExplore searches. When MCP LeanExplore searches yield no results for an API pattern, it should be added to this list to prevent redundant future searches.
 
 ## Format
 
@@ -148,9 +146,21 @@ Each entry follows this pattern:
 
 ---
 
-## Automatic Additions
+## Manual Additions
 
-The following entries were automatically added by the LLM wrapper when searches yielded no relevant results:
+The following entries were added when MCP LeanExplore searches yielded no relevant results:
 
-<!-- AUTO-APPEND-START -->
-<!-- New entries will be automatically added below this line by scripts/lle -->
+<!-- APPEND-START -->
+<!-- New entries should be manually added below this line -->
+
+29. **`tsum if then else`** - Not found in mathlib4
+   - **Search context**: Searched on 2025-07-27
+   - **Implication**: Consider alternative approaches or verify the API name
+
+30. **`alternating series`** - Not found in mathlib4
+   - **Search context**: Searched on 2025-07-27
+   - **Implication**: Consider alternative approaches or verify the API name
+
+31. **`tsum_subtype_eq_if`** - Not found in mathlib4
+   - **Search context**: Searched on 2025-07-27 - Looking for API to convert subtype sums to if-then-else expressions
+   - **Implication**: Use `tsum_subtype_add_tsum_subtype_compl` for decomposition or indicator functions for conditional sums

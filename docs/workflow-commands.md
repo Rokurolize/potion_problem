@@ -66,42 +66,28 @@ grep -r "tsum_add\|cases'\|not_mem_empty" PotionProblem/
 
 ## 🔍 API Verification Workflow
 
-### LeanExplore Wrapper Commands (REQUIRED)
-
-```bash
-# Search for APIs - ALWAYS use wrapper
-scripts/lle search "hasSum" --package Mathlib --limit 10
-scripts/lle search "factorial" --limit 30 --detail minimal
-scripts/lle search "HasSum" --limit 5 --detail detailed
-
-# Get exact API signature
-scripts/lle get 187626
-
-# Check dependencies/imports
-scripts/lle dependencies 187626
-
-# NEVER use raw LeanExplore:
-# ❌ uv run leanexplore search ...  # DO NOT USE
-```
+See @/home/ubuntu/workbench/projects/potion_problem/docs/mcp-leanexplore-workflow.md for complete MCP LeanExplore usage.
 
 ### API Testing Workflow
 
-```bash
-# 1. Create test file (always in project root)
-cat > test_api.lean << 'EOF'
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
+After finding an API with MCP LeanExplore, create a test file:
 
-variable {α : Type} {f : ℕ → α} (hf : Summable f) (k : ℕ)
-#check Summable.sum_add_tsum_nat_add k hf
+```bash
+# Create test file in project root
+cat > test_api.lean << 'EOF'
+import Mathlib.Required.Module  # From API details
+
+variable {α : Type*} {f : ℕ → α} (hf : Summable f) (k : ℕ)
+#check API.name args  # Use exact signature
 EOF
 
-# 2. Add to .gitignore if not already there
+# Add to .gitignore if not already there
 echo "test_api.lean" >> .gitignore
 
-# 3. Verify compilation
+# Verify compilation
 lake env lean test_api.lean
 
-# 4. Clean up after verification
+# Clean up after verification
 rm test_api.lean
 ```
 
@@ -164,14 +150,11 @@ git commit -m "[CATEGORY] Description"
 # Build and count sorries
 lake build && grep -c "sorry" PotionProblem/*.lean
 
-# Search API and verify
-scripts/lle search "lemma_name" --limit 5
-echo "test_api.lean" >> .gitignore
-lake env lean test_api.lean
-
 # Build specific file and check errors
 lake build PotionProblem.FileName 2>&1 | grep "error"
 ```
+
+**For API Search**: See [`mcp-leanexplore-workflow.md`](mcp-leanexplore-workflow.md)
 
 ### Emergency Commands
 
@@ -190,5 +173,6 @@ lake build
 ## 🔗 Related Documentation
 
 - For error patterns: [`common-errors.md`](common-errors.md)
-- For API usage: [`api-library.md`](api-library.md)
+- For API search: [`mcp-leanexplore-workflow.md`](mcp-leanexplore-workflow.md)
+- For verified APIs: [`api-library.md`](api-library.md)
 - For success metrics: [`success-metrics.md`](success-metrics.md)

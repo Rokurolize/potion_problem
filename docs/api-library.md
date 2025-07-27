@@ -2,7 +2,7 @@
 
 *A curated collection of verified mathlib4 APIs with correct usage patterns*
 
-**Purpose**: Avoid redundant LeanExplore searches by documenting previously verified APIs with correct usage patterns and common failure modes.
+**Purpose**: Avoid redundant API searches by documenting previously verified APIs with correct usage patterns and common failure modes.
 
 **Version**: mathlib4 v4.21.0  
 
@@ -158,7 +158,7 @@ When adding new verified APIs to this library:
 ```markdown
 ### `api_name`
 **Status**: ✅ Verified / ⚠️ Deprecated / ❌ Broken  
-**Signature**: [exact signature from LeanExplore]  
+**Signature**: [exact signature from MCP LeanExplore]  
 **Import**: `import Required.Module.Path`  
 **Usage Pattern**:
 ```lean
@@ -233,6 +233,7 @@ have h_exp_series := NormedSpace.expSeries_div_hasSum_exp (1 : ℝ)
 **Import**: `import Mathlib.Topology.Algebra.InfiniteSum.Group`  
 **ID**: 187683  
 **Usage**: Extract individual terms from infinite sums - critical for boundary cases
+**Note**: This is an alias of `Summable.tsum_eq_add_tsum_ite`. Use for extracting single values from sums.
 
 ##### `Set.indicator`
 **Status**: ✅ Verified  
@@ -272,14 +273,14 @@ have h_exp_series := NormedSpace.expSeries_div_hasSum_exp (1 : ℝ)
 
 #### `Finset.sum_bij`
 **Status**: ✅ Verified  
-**Signature**: Reorder finite sums via bijection (see detailed signature in ID 2350)  
+**Signature**: `Finset.sum_bij (i : ∀ a ∈ s, κ) (hi : ∀ a ha, i a ha ∈ t) (i_inj : ∀ a₁ ha₁ a₂ ha₂, i a₁ ha₁ = i a₂ ha₂ → a₁ = a₂) (i_surj : ∀ b ∈ t, ∃ a ha, i a ha = b) (h : ∀ a ha, f a = g (i a ha)) : ∑ x ∈ s, f x = ∑ x ∈ t, g x`
 **Import**: `import Mathlib.Algebra.BigOperators.Group.Finset.Defs`  
 **ID**: 2350  
-**Notes**: For inclusion-exclusion rearrangements with dependent bijections
+**Notes**: For inclusion-exclusion rearrangements with dependent bijections. The bijection can depend on membership proof.
 
 #### `Antitone.tendsto_alternating_series_of_tendsto_zero`
 **Status**: ✅ Verified  
-**Signature**: Alternating series test for antitone sequences  
+**Signature**: `Antitone.tendsto_alternating_series_of_tendsto_zero (hfa : Antitone f) (hf0 : Tendsto f atTop (𝓝 0)) : ∃ l, Tendsto (fun n ↦ ∑ i ∈ range n, (-1) ^ i * f i) atTop (𝓝 l)`
 **Import**: `import Mathlib.Analysis.SpecificLimits.Normed`  
 **ID**: 58273  
 **Usage**: Proves convergence of alternating series like `∑ (-1)^i * f(i)` when `f` is antitone and tends to 0
@@ -288,7 +289,7 @@ have h_exp_series := NormedSpace.expSeries_div_hasSum_exp (1 : ℝ)
 
 #### `Continuous.if`
 **Status**: ✅ Verified  
-**Signature**: `Continuous.if` - continuity of piecewise functions via if-then-else  
+**Signature**: `Continuous.if {p : α → Prop} [∀ a, Decidable (p a)] (hp : ∀ a ∈ frontier { x | p x }, f a = g a) (hf : Continuous f) (hg : Continuous g) : Continuous fun a => if p a then f a else g a`
 **Import**: `import Mathlib.Topology.Piecewise`  
 **ID**: 201977  
 **Requirement**: Functions must agree on the frontier of the condition set

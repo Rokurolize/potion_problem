@@ -43,9 +43,6 @@ For detailed metrics see @/home/ubuntu/workbench/projects/potion_problem/docs/su
 ```bash
 # Build and check status
 lake build && grep -c "sorry" PotionProblem/*.lean
-
-# Search for API
-scripts/lle search "api_name" --limit 5
 ```
 
 For all commands see @/home/ubuntu/workbench/projects/potion_problem/docs/workflow-commands.md
@@ -68,10 +65,7 @@ See @/home/ubuntu/workbench/projects/potion_problem/docs/common-errors.md for al
 
 1. Check @/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md for pre-verified APIs
 2. Check @/home/ubuntu/workbench/projects/potion_problem/list-of-non-existent-mathlib-apis.md  
-3. Use wrapper: `scripts/lle search "api_name"`
-4. Never use raw LeanExplore
-
-Details in @/home/ubuntu/workbench/projects/potion_problem/docs/workflow-commands.md#api-verification-workflow
+3. For new API searches: @/home/ubuntu/workbench/projects/potion_problem/docs/mcp-leanexplore-workflow.md
 
 ## 📋 Key Development Rules
 
