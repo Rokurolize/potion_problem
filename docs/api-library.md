@@ -5,7 +5,6 @@
 **Purpose**: Avoid redundant LeanExplore searches by documenting previously verified APIs with correct usage patterns and common failure modes.
 
 **Version**: mathlib4 v4.21.0  
-**Last Updated**: January 2025 (Updated 2025-07-27)
 
 ## 🔍 Quick Reference
 
@@ -153,7 +152,7 @@ Summable.sum_add_tsum_nat_add summability_proof k
 Summable.sum_add_tsum_nat_add k summability_proof
 ```
 
-## 🚨 January 2025 Session Warnings & API Issues
+## 🚨 Session Warnings & API Issues
 
 ### New Deprecation Warnings Encountered
 
@@ -406,19 +405,10 @@ have filtered := PMF.filter hitting_time_pmf {k | k > n} h_support
 -- Extract normalization constant = tail probability
 ```
 
-## 🔄 API Lifecycle Management
+## API Description Management
 
 ### Status Indicators
 - ✅ **Verified**: Confirmed working in mathlib4 v4.21.0
 - ⚠️ **Deprecated**: Still functional but discouraged
 - ❌ **Broken**: No longer works, needs replacement
 - 🔄 **Under Review**: Being investigated for issues
-
-### Version Tracking
-- **Current mathlib4**: v4.21.0
-- **Last Verification**: January 2025
-- **Next Review**: Upon mathlib4 major version update
-
----
-
-*This API library represents battle-tested verification from the PotionProblem formalization project. All APIs have been verified through LeanExplore and confirmed in actual proof contexts.*
