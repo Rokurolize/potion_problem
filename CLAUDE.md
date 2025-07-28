@@ -5,10 +5,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Important: File Reference Convention
 
 **Always use @-path syntax for file references, not markdown links:**
-- ✅ CORRECT: `@/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md`
+- ✅ CORRECT: `@docs/api-library.md`
 - ❌ WRONG: `[API Library](docs/api-library.md)`
 
-The @-path syntax ensures files are properly imported into Claude's context. Use full absolute paths starting with `/home/ubuntu/`.
+The @-path syntax ensures files are properly imported into Claude's context. 
 
 **When updating documentation**: Always maintain this @-path convention. Do not convert @ references back to markdown links.
 
@@ -24,19 +24,19 @@ The @-path syntax ensures files are properly imported into Claude's context. Use
 **Build**: ✅ All modules compile successfully  
 **Main Theorem**: ✅ E[τ] = e proven (Main.lean: 0 sorries)
 
-For detailed metrics see @/home/ubuntu/workbench/projects/potion_problem/docs/success-metrics.md
+For detailed metrics see @docs/success-metrics.md
 
 ## 📚 Documentation Hub
 
 ### Essential References (Start Here)
-- **Common Errors** @/home/ubuntu/workbench/projects/potion_problem/docs/common-errors.md - Critical API misuse patterns (especially Field vs Direct Call)
-- **Workflow Commands** @/home/ubuntu/workbench/projects/potion_problem/docs/workflow-commands.md - All build, test, and verification commands
-- **API Database Workflow** @/home/ubuntu/workbench/projects/potion_problem/docs/api-database-workflow.md - SQLite database + LeanExplore integration (O(1) API lookups)
+- **Common Errors** @docs/common-errors.md - Critical API misuse patterns (especially Field vs Direct Call)
+- **Workflow Commands** @docs/workflow-commands.md - All build, test, and verification commands
+- **API Database Workflow** @docs/api-database-workflow.md - SQLite database + LeanExplore integration (O(1) API lookups)
 
 ### Sorry Elimination Guides
-- **Sorry Elimination Guide** @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-guide.md - Overview and index
-- **Core Principles** @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-core.md - Systematic approach and workflow
-- **Technique Patterns** @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-patterns.md - Proven elimination techniques
+- **Sorry Elimination Guide** @docs/sorry-elimination-guide.md - Overview and index
+- **Core Principles** @docs/sorry-elimination-core.md - Systematic approach and workflow
+- **Technique Patterns** @docs/sorry-elimination-patterns.md - Proven elimination techniques
 
 ## 🚀 Quick Start
 
@@ -45,7 +45,7 @@ For detailed metrics see @/home/ubuntu/workbench/projects/potion_problem/docs/su
 lake build && grep -c "sorry" PotionProblem/*.lean
 ```
 
-For all commands see @/home/ubuntu/workbench/projects/potion_problem/docs/workflow-commands.md
+For all commands see @docs/workflow-commands.md
 
 ## ⚠️ Critical: Most Common Error
 
@@ -59,11 +59,11 @@ For all commands see @/home/ubuntu/workbench/projects/potion_problem/docs/workfl
 Summable.sum_add_tsum_nat_add k pmf_summable
 ```
 
-See @/home/ubuntu/workbench/projects/potion_problem/docs/common-errors.md for all error patterns.
+See @docs/common-errors.md for all error patterns.
 
 ## 🔍 API Search Protocol
 
-**NEW: SQLite Database for O(1) API lookups** - See @/home/ubuntu/workbench/projects/potion_problem/docs/api-database-workflow.md
+**NEW: SQLite Database for O(1) API lookups** - See @docs/api-database-workflow.md
 
 Quick workflow:
 1. Check database first: `./api_database/api_tools.sh api-exists "API.name"`
@@ -71,8 +71,8 @@ Quick workflow:
 3. Update database after verification
 
 Legacy references (now in database):
-- Pre-verified APIs: @/home/ubuntu/workbench/projects/potion_problem/docs/api-reference/verified-apis.md
-- Non-existent APIs: @/home/ubuntu/workbench/projects/potion_problem/docs/api-reference/non-existent-apis.md
+- Pre-verified APIs: @docs/api-reference/verified-apis.md
+- Non-existent APIs: @docs/api-reference/non-existent-apis.md
 
 ## 📋 Key Development Rules
 
@@ -83,7 +83,7 @@ Legacy references (now in database):
 
 - Do not disable the linter; you must follow the linter's instructions properly.
 
-See @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-core.md for principles.
+See @docs/sorry-elimination-core.md for principles.
 
 ## High-Level Architecture
 
@@ -114,9 +114,9 @@ Basic.lean (31 lines, 0 sorries)
 
 ## Configuration Details
 
-**Lean 4 Configuration**: @/home/ubuntu/workbench/projects/potion_problem/lakefile.toml
+**Lean 4 Configuration**: @lakefile.toml
 
-**Version Control**: @/home/ubuntu/workbench/projects/potion_problem/lean-toolchain
+**Version Control**: @lean-toolchain
 
 ## Mathematical Background
 
