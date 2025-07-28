@@ -31,7 +31,7 @@ For detailed metrics see @/home/ubuntu/workbench/projects/potion_problem/docs/su
 ### Essential References (Start Here)
 - **Common Errors** @/home/ubuntu/workbench/projects/potion_problem/docs/common-errors.md - Critical API misuse patterns (especially Field vs Direct Call)
 - **Workflow Commands** @/home/ubuntu/workbench/projects/potion_problem/docs/workflow-commands.md - All build, test, and verification commands
-- **API Library** @/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md - Pre-verified mathlib4 APIs with correct usage
+- **API Database Workflow** @/home/ubuntu/workbench/projects/potion_problem/docs/api-database-workflow.md - SQLite database + LeanExplore integration (O(1) API lookups)
 
 ### Sorry Elimination Guides
 - **Sorry Elimination Guide** @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-guide.md - Overview and index
@@ -63,9 +63,16 @@ See @/home/ubuntu/workbench/projects/potion_problem/docs/common-errors.md for al
 
 ## 🔍 API Search Protocol
 
-1. Check @/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md for pre-verified APIs
-2. Check @/home/ubuntu/workbench/projects/potion_problem/list-of-non-existent-mathlib-apis.md  
-3. For new API searches: @/home/ubuntu/workbench/projects/potion_problem/docs/mcp-leanexplore-workflow.md
+**NEW: SQLite Database for O(1) API lookups** - See @/home/ubuntu/workbench/projects/potion_problem/docs/api-database-workflow.md
+
+Quick workflow:
+1. Check database first: `./api_database/api_tools.sh api-exists "API.name"`
+2. If not found, use LeanExplore (see workflow doc)
+3. Update database after verification
+
+Legacy references (now in database):
+- Pre-verified APIs: @/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md
+- Non-existent APIs: @/home/ubuntu/workbench/projects/potion_problem/list-of-non-existent-mathlib-apis.md
 
 ## 📋 Key Development Rules
 
@@ -73,6 +80,8 @@ See @/home/ubuntu/workbench/projects/potion_problem/docs/common-errors.md for al
 2. **Build After Every Change** - Never proceed with errors
 3. **One Sorry at a Time** - Complete elimination before moving on
 4. **Document Strategic Retreats** - Preserve understanding for future
+
+- Do not disable the linter; you must follow the linter's instructions properly.
 
 See @/home/ubuntu/workbench/projects/potion_problem/docs/sorry-elimination-core.md for principles.
 
