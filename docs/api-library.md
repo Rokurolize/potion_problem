@@ -20,6 +20,8 @@
 | Conditional Sum Conversion | 3 | 3 verified (expert validated) |
 | Finset Decomposition | 3 | 3 verified |
 | Continuity APIs | 3 | 3 verified (1 NEW) |
+| Polynomial Derivative APIs | 4 | 4 verified (NEW 2025-01-28) |
+| Type Conversion APIs | 1 | 1 verified (NEW 2025-01-28) |
 
 ## 📚 Infinite Sum APIs
 
@@ -501,6 +503,71 @@ apply continuous_piecewise
   1. Continuity of functions on specific sets
   2. Agreement on frontier of sets
   3. Decidable set membership
+
+## 🔢 Polynomial Derivative APIs (NEW Section 2025-01-28)
+
+### `Polynomial.iterate_derivative_X_sub_pow_self` ⭐⭐⭐⭐⭐ **CRITICAL**
+**Status**: ✅ Verified (2025-01-28)  
+**Signature**: `theorem iterate_derivative_X_sub_pow_self (n : ℕ) (c : R) : derivative^[n] ((X - C c) ^ n) = n.factorial`  
+**Import**: `import Mathlib.Algebra.Polynomial.Derivative`  
+**ID**: 28743  
+**Mathematical Significance**: The n-th derivative of (X-c)^n equals n!
+**Critical for**: iter_fwdDiff_pow_eq_factorial - Direct proof that n-th derivative yields factorial
+**Usage Pattern**:
+```lean
+-- Direct proof that n-th derivative of (X-c)^n is n!
+have h := Polynomial.iterate_derivative_X_sub_pow_self n c
+-- Special case c=0: derivative^[n] (X^n) = n.factorial
+```
+
+### `Polynomial.iterate_derivative_X_pow_eq_C_mul` ⭐⭐⭐⭐
+**Status**: ✅ Verified (2025-01-28)  
+**Signature**: `theorem iterate_derivative_X_pow_eq_C_mul (n k : ℕ) : derivative^[k] (X ^ n : R[X]) = C (Nat.descFactorial n k : R) * X ^ (n - k)`  
+**Import**: `import Mathlib.Algebra.Polynomial.Derivative`  
+**ID**: 28721  
+**Mathematical Foundation**: k-th derivative of X^n = n^(k) * X^(n-k) where n^(k) is falling factorial
+**Usage Pattern**:
+```lean
+-- When k=n: derivative^[n] (X^n) = n! * X^0 = n!
+have h := Polynomial.iterate_derivative_X_pow_eq_C_mul n n
+-- Note: descFactorial n n = n!
+```
+
+### `Polynomial.iterate_derivative_eq_zero` ⭐⭐⭐⭐
+**Status**: ✅ Verified (2025-01-28)  
+**Signature**: `theorem iterate_derivative_eq_zero {p : R[X]} {x : ℕ} (hx : p.natDegree < x) : Polynomial.derivative^[x] p = 0`  
+**Import**: `import Mathlib.Algebra.Polynomial.Derivative`  
+**ID**: 28688  
+**Mathematical Significance**: Degree reduction property - derivatives beyond polynomial degree are zero
+**Critical for**: Proving Δ^n[x^k](0) = 0 for k < n
+**Usage Pattern**:
+```lean
+-- n-th degree polynomial's (n+1)-th derivative is 0
+have h : derivative^[n+1] p = 0 := iterate_derivative_eq_zero (by omega)
+```
+
+### `Polynomial.iterate_derivative_X_add_pow` ⭐⭐⭐
+**Status**: ✅ Verified (2025-01-28)  
+**Signature**: `theorem iterate_derivative_X_add_pow (n k : ℕ) (c : R) : derivative^[k] ((X + C c) ^ n) = Nat.descFactorial n k • (X + C c) ^ (n - k)`  
+**Import**: `import Mathlib.Algebra.Polynomial.Derivative`  
+**ID**: 28725  
+**Note**: Analogous to fwdDiff patterns - provides connection between polynomial derivatives and forward differences
+
+## 🔄 Type Conversion APIs (NEW Section 2025-01-28)
+
+### `zsmul_eq_mul` ⭐⭐⭐⭐⭐ **CRITICAL**
+**Status**: ✅ Verified (2025-01-28)  
+**Signature**: `@[simp] lemma _root_.zsmul_eq_mul (a : α) : ∀ n : ℤ, n • a = n * a`  
+**Import**: `import Mathlib.Data.Int.Cast.Lemmas`  
+**ID**: 91820  
+**Mathematical Significance**: Integer scalar multiplication equals ordinary multiplication
+**Critical for**: irwin_hall_sum_at_n - Converting ℤ-valued scalar actions from fwdDiff_iter_eq_sum_shift to ℝ multiplication
+**Usage Pattern**:
+```lean
+-- Convert from scalar action to multiplication
+have h : (n : ℤ) • (r : ℝ) = (n : ℝ) * r := zsmul_eq_mul r n
+-- Allows rewriting fwdDiff formulas using ordinary multiplication
+```
 
 ## 🚀 Implementation Strategies
 
