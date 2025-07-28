@@ -1,7 +1,0 @@
-{
-  "env": {
-    "ANTHROPIC_BASE_URL": "https://gateway.ai.cloudflare.com/v1/66a4965dcbf7caf84b9271f3ba008add/potion/anthropic",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-3-5-haiku-20241022"
-  },
-  "model": "opus"
-}
