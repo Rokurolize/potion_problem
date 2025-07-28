@@ -1,8 +1,3 @@
-/-
-Copyright (c) 2025 Potion Problem Team. All rights reserved.
-Released under MIT License as described in the file LICENSE.
-Authors: Potion Problem Team
--/
 import Mathlib.Analysis.SpecificLimits.Normed
 
 set_option linter.style.commandStart false

@@ -1,8 +1,3 @@
-/-
-Copyright (c) 2025 Potion Problem Team. All rights reserved.
-Released under MIT License as described in the file LICENSE.
-Authors: Potion Problem Team
--/
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Analysis.SpecialFunctions.Exponential
 import Mathlib.Analysis.Normed.Algebra.Exponential
