@@ -28,7 +28,7 @@ Before targeting any sorry:
 
 ### 1. **API Verification**
 
-1. Check [`api-library.md`](api-library.md) for pre-verified APIs
+1. Check [`verified-apis.md`](api-reference/verified-apis.md) for pre-verified APIs
 2. If not found, search using [`mcp-leanexplore-workflow.md`](mcp-leanexplore-workflow.md)
 3. Always create test file before using any new API
 
@@ -104,7 +104,7 @@ See [`workflow-commands.md`](workflow-commands.md#progress-monitoring) for:
 
 ### Proven Workflow
 1. ✅ Choose sorry based on dependency analysis
-2. ✅ Check pre-verified APIs in api-library.md
+2. ✅ Check pre-verified APIs in verified-apis.md
 3. ✅ Fix build errors and type mismatches
 4. ✅ Document mathematical framework clearly in comments
 5. ✅ Use MCP LeanExplore for API discovery when needed

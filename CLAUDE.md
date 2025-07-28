@@ -71,8 +71,8 @@ Quick workflow:
 3. Update database after verification
 
 Legacy references (now in database):
-- Pre-verified APIs: @/home/ubuntu/workbench/projects/potion_problem/docs/api-library.md
-- Non-existent APIs: @/home/ubuntu/workbench/projects/potion_problem/list-of-non-existent-mathlib-apis.md
+- Pre-verified APIs: @/home/ubuntu/workbench/projects/potion_problem/docs/api-reference/verified-apis.md
+- Non-existent APIs: @/home/ubuntu/workbench/projects/potion_problem/docs/api-reference/non-existent-apis.md
 
 ## 📋 Key Development Rules
 

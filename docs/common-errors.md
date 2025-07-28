@@ -149,8 +149,8 @@ have h : (n.factorial : ℝ) = n * (n-1).factorial
 ## 📋 Quick Reference Checklist
 
 Before using any mathlib4 API:
-1. ✅ Check if it's in [`api-library.md`](api-library.md) (pre-verified APIs)
-2. ✅ Check if it's in [`list-of-non-existent-mathlib-apis.md`](../list-of-non-existent-mathlib-apis.md)
+1. ✅ Check if it's in [`verified-apis.md`](api-reference/verified-apis.md) (pre-verified APIs)
+2. ✅ Check if it's in [`non-existent-apis.md`](api-reference/non-existent-apis.md)
 3. ✅ Create test file and verify compilation
 4. ✅ Use direct namespace access, not field access
 5. ✅ Verify argument order (indices before proofs)
@@ -158,6 +158,6 @@ Before using any mathlib4 API:
 
 ## 🔗 Related Documentation
 
-- For verified APIs: [`api-library.md`](api-library.md)
+- For verified APIs: [`verified-apis.md`](api-reference/verified-apis.md)
 - For proven techniques: [`sorry-elimination-patterns.md`](sorry-elimination-patterns.md)
 - For workflow commands: [`workflow-commands.md`](workflow-commands.md)

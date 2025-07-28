@@ -14,7 +14,7 @@ cursor = conn.cursor()
 # Sample API entries to demonstrate structure
 # In production, this would parse the actual markdown files
 
-# APIs from api-library.md
+# APIs from docs/api-reference/verified-apis.md
 verified_apis = [
     # Infinite Sum APIs
     {

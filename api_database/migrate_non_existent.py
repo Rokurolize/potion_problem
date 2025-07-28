@@ -10,7 +10,7 @@ db_path = 'mathlib_apis.db'
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
-# Non-existent API patterns from list-of-non-existent-mathlib-apis.md
+# Non-existent API patterns from docs/api-reference/non-existent-apis.md
 non_existent_patterns = [
     # GROUP A: CONDITIONAL INFINITE SUMS
     {

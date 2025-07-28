@@ -174,5 +174,5 @@ lake build
 
 - For error patterns: [`common-errors.md`](common-errors.md)
 - For API search: [`mcp-leanexplore-workflow.md`](mcp-leanexplore-workflow.md)
-- For verified APIs: [`api-library.md`](api-library.md)
+- For verified APIs: [`verified-apis.md`](api-reference/verified-apis.md)
 - For success metrics: [`success-metrics.md`](success-metrics.md)

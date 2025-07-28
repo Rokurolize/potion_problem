@@ -14,11 +14,11 @@
 
 ### 📖 Detailed Guides
 - **[Technique Patterns](sorry-elimination-patterns.md)** - Proven patterns for specific proof types
-- **[API Library](api-library.md)** - Pre-verified mathlib4 APIs with usage examples
+- **[Verified APIs](api-reference/verified-apis.md)** - Pre-verified mathlib4 APIs with usage examples
 - **[Success Metrics](success-metrics.md)** - Project progress and historical data
 
 ### 🔍 Quick References
-- **[Non-Existent APIs](../list-of-non-existent-mathlib-apis.md)** - Don't search for these
+- **[Non-Existent APIs](api-reference/non-existent-apis.md)** - Don't search for these
 - **[Main Project Guide](../CLAUDE.md)** - Overall project navigation
 
 ## ⚡ Most Critical Rule
@@ -43,7 +43,7 @@ See [success-metrics.md](success-metrics.md) for detailed progress tracking.
 
 1. Start with **[common-errors.md](common-errors.md)** to avoid common pitfalls
 2. Read **[sorry-elimination-core.md](sorry-elimination-core.md)** for workflow
-3. Reference **[api-library.md](api-library.md)** before using any API
+3. Reference **[verified-apis.md](api-reference/verified-apis.md)** before using any API
 4. Use **[sorry-elimination-patterns.md](sorry-elimination-patterns.md)** for specific techniques
 5. Check **[workflow-commands.md](workflow-commands.md)** for command reference
 

@@ -84,7 +84,7 @@
 - **Strategic retreat**: 30-60 minutes to document
 
 ### API Discovery Efficiency
-- Pre-verified APIs (in api-library.md): <1 minute to use
+- Pre-verified APIs (in verified-apis.md): <1 minute to use
 - LeanExplore search + verification: 5-15 minutes
 - Trial and error without tools: 30-60 minutes (often fails)
 

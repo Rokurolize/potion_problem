@@ -4,7 +4,7 @@ A SQLite database system for tracking Mathlib4 API existence, usage patterns, an
 
 ## Overview
 
-This database replaces the previous markdown-based system (`api-library.md` and `list-of-non-existent-mathlib-apis.md`) with a structured SQLite database that provides:
+This database replaces the previous markdown-based system (`docs/api-reference/verified-apis.md` and `docs/api-reference/non-existent-apis.md`) with a structured SQLite database that provides:
 
 - **Fast O(1) API lookups** instead of linear search through markdown
 - **Structured data** with proper relationships and indexing
@@ -137,8 +137,8 @@ The SQLite database file is at:
 ## Migration Notes
 
 The database was populated from:
-- `docs/api-library.md` - 41 verified APIs
-- `list-of-non-existent-mathlib-apis.md` - 35 non-existent patterns
+- `docs/api-reference/verified-apis.md` - 41 verified APIs
+- `docs/api-reference/non-existent-apis.md` - 35 non-existent patterns
 
 Original markdown files are preserved for reference but should no longer be updated directly.
 
