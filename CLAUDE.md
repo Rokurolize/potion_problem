@@ -20,11 +20,10 @@ The @-path syntax ensures files are properly imported into Claude's context.
 
 ## 🎯 Current Status
 
-**Mission**: Eliminate all sorries
-**Build**: ✅ All modules compile successfully  
-**Main Theorem**: ✅ E[τ] = e proven (Main.lean: 0 sorries)
+Task: Eliminate all sorries
 
-For detailed metrics see @docs/success-metrics.md
+### Current Task
+@docs\current-status-and-next-steps.md
 
 ## 📚 Documentation Hub
 
@@ -46,6 +45,30 @@ lake build && grep -c "sorry" PotionProblem/*.lean
 ```
 
 For all commands see @docs/workflow-commands.md
+
+### Exporting for Code Review
+
+**Purpose**: Share only essential Lean 4 code for external review, excluding documentation and auxiliary files to minimize reviewer cognitive load.
+
+```bash
+# Export core formalization modules only
+repomix --include "PotionProblem/*.lean,lakefile.toml,lean-toolchain" \
+        --exclude "PotionProblem/ComprehensiveTests.lean,PotionProblem/test_*.lean,PotionProblem/MainOriginal.lean,PotionProblem/FormalExtensions.lean" \
+        --output potion_problem_core.xml
+```
+
+**What's included** (only 9 files):
+- 6 core modules: Basic, FactorialSeries, ProbabilityFoundations, SeriesAnalysis, IrwinHallTheory, Main
+- PotionProblem.lean (library entry point)
+- lakefile.toml (build configuration)
+- lean-toolchain (version specification)
+
+**What's excluded and why**:
+- Test files (*Tests.lean, test_*.lean) - implementation details
+- Documentation (*.md, docs/) - context not needed for code review
+- Tools (api_database/) - development infrastructure
+- MainOriginal.lean - historical backup
+- FormalExtensions.lean - supplementary content
 
 ## ⚠️ Critical: Most Common Error
 
