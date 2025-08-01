@@ -2,7 +2,6 @@ import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 import PotionProblem.ProbabilityFoundations
 import PotionProblem.SeriesAnalysis
-import PotionProblem.IrwinHallTheory
 
 
 /-!
@@ -17,13 +16,17 @@ for independent uniform [0,1) random variables to sum to at least 1 is exactly e
 
 ## Architecture
 
-This file serves as the "executive summary" that imports all the modular components
-and states the main result concisely. The detailed proofs are distributed across:
+This file serves as the "executive summary" that imports the CORE components
+needed for the main theorem and states the result concisely. 
 
+The proof is COMPLETELY SORRY-FREE and depends only on:
+- `Basic`: Core PMF definition  
 - `ProbabilityFoundations`: Basic PMF properties and distributional results
 - `SeriesAnalysis`: Series convergence, reindexing, and telescoping proofs  
-- `IrwinHallTheory`: Geometric interpretation via Irwin-Hall distribution
 - `FactorialSeries`: Factorial series convergence and limits
+
+Note: The geometric interpretation via Irwin-Hall distribution is available
+separately in `IrwinHallTheory` but is NOT required for the main result.
 
 -/
 
@@ -63,11 +66,6 @@ theorem pmf_verification : ∑' n : ℕ, hitting_time_pmf n = 1 :=
 /-- Verification: The expectation series converges -/
 theorem expectation_convergence : Summable (fun n : ℕ => (n : ℝ) * hitting_time_pmf n) := 
   hitting_time_series_summable
-
-/-- Connection to geometric probability via Irwin-Hall distribution -/
-theorem geometric_connection (n : ℕ) :
-  (∑' k : ℕ, if k > n then hitting_time_pmf k else 0) = simplex_volume n :=
-  geometric_interpretation n
 
 /-- Alternative expression: E[τ] = ∑ 1/n! -/
 theorem alternative_expression : 
