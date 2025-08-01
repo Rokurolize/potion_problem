@@ -1,0 +1,35 @@
+{
+  "mcpServers": {
+    "lean-explore-potionassist": {
+      "command": "/home/ubuntu/workbench/projects/lean-explore-potionassist/.venv/bin/python",
+      "args": [
+        "-m",
+        "lean_explore.mcp.server",
+        "--backend",
+        "local"
+      ],
+      "env": {
+        "PYTHONPATH": "/home/ubuntu/workbench/projects/lean-explore-potionassist/src",
+        "LEAN_EXPLORE_OPTIMIZE": "true",
+        "LEAN_EXPLORE_DEFAULT_LIMIT": "10",
+        "LEAN_EXPLORE_EXCLUDE_KEYWORDS": "quantum,physics,telescope,geometry,galois,category,topology,algebraic_geometry,euclidean,harmonic,oscillator,scheme"
+      }
+    },
+    "serena": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "/home/ubuntu/serena",
+        "serena",
+        "start-mcp-server",
+        "--context",
+        "ide-assistant",
+        "--project",
+        "/home/ubuntu/workbench/projects/potion_problem"
+      ],
+      "env": {}
+    }
+  }
+}
