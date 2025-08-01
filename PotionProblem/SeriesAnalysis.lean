@@ -85,7 +85,7 @@ lemma series_reindexing :
       simp only [Finset.sum_range_succ, Finset.sum_range_zero]
       rw [hitting_time_zero 0 (by norm_num : 0 < 2)]
       rw [hitting_time_zero 1 (by norm_num : 1 < 2)]
-      simp only [add_zero, zero_add]
+      simp only [add_zero]
     
     rw [h_finite_zero, zero_add]
     -- Now we need to show ∑' (i : ℕ), ↑(i + 2) * hitting_time_pmf (i + 2) = 

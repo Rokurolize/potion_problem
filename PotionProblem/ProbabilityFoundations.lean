@@ -256,15 +256,16 @@ theorem tail_probability_formula (n : ℕ) :
     · congr 1
       ext k
       by_cases h : k ≤ n
-      · simp [h, le_iff_lt_or_eq]
+      · simp [h]
       · simp [h, not_le.mp h]
     · -- Summability of first part (finite support)
       -- The support is {0, 1, ..., n}, which is finite
-      have h_support : (Function.support (fun k => if k ≤ n then hitting_time_pmf k else 0)).Finite := by
+      have h_support : (Function.support 
+          (fun k => if k ≤ n then hitting_time_pmf k else 0)).Finite := by
         apply Set.Finite.subset (s := (Finset.range (n + 1) : Set ℕ))
         · exact Finset.finite_toSet _
         · intro k hk
-          simp only [Function.support, Function.mem_support, ne_eq] at hk
+          simp only [Function.support, ne_eq] at hk
           simp only [Finset.mem_coe, Finset.mem_range]
           by_cases h : k ≤ n
           · -- If k ≤ n, then k < n + 1
@@ -311,13 +312,13 @@ theorem tail_probability_formula (n : ℕ) :
   -- Step 4: Compute the finite sum
   by_cases h0 : n = 0
   · -- Case n = 0
-    simp [h0, Finset.sum_range_one, prob_tau_eq_zero_one.1]
+    simp [h0, prob_tau_eq_zero_one.1]
     
   by_cases h1 : n = 1
   · -- Case n = 1
     simp [h1]
     rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_zero]
-    simp [prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2, Finset.sum_empty]
+    simp [prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2]
     
   -- Case n ≥ 2
   push_neg at h0 h1
@@ -383,7 +384,6 @@ theorem tail_probability_formula (n : ℕ) :
         rw [h_eq]
         ring
     convert h_general (n - 1)
-    congr
     omega
   exact h_telescoping
 

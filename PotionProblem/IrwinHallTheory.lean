@@ -95,8 +95,8 @@ theorem irwin_hall_unit_probability (n : ℕ) :
       -- We need to show that the sum equals n.factorial
       simp only [Int.floor_one, Int.natAbs_one]
       rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_zero]
-      simp only [add_zero, pow_zero, pow_one, Nat.choose_zero_right, Nat.choose_one_right, 
-                 one_pow, sub_zero, sub_self, Nat.cast_one]
+      simp only [pow_zero, pow_one, Nat.choose_zero_right, Nat.choose_one_right, 
+                 sub_self, Nat.cast_one]
       -- For n ≥ 2, we have 0^n = 0
       have h_n_pos : n ≠ 0 := h0
       have h_zero_pow : (0 : ℝ)^n = 0 := zero_pow h_n_pos
@@ -156,7 +156,7 @@ lemma irwin_hall_support (n : ℕ) (x : ℝ) :
     sorry
   · -- Backward direction: if x < 0 ∨ (x = 0 ∧ n > 0) then irwin_hall_cdf n x = 0
     intro h
-    cases' h with h_neg h_zero
+    rcases h with h_neg | h_zero
     · -- Case x < 0
       unfold irwin_hall_cdf
       simp [h_neg]
@@ -172,9 +172,10 @@ lemma irwin_hall_support (n : ℕ) (x : ℝ) :
       simp only [h_not_neg, h_not_ge, ite_false]
       -- We get (1 / n.factorial) * ∑ k ∈ range (⌊0⌋.natAbs + 1), (-1)^k * C(n,k) * (0 - k)^n
       -- Since ⌊0⌋ = 0, this becomes sum over range 1, which is just k = 0
-      -- So we get (1 / n.factorial) * ((-1)^0 * C(n,0) * (0 - 0)^n) = (1 / n.factorial) * (1 * 1 * 0^n)
+      -- So we get (1 / n.factorial) * ((-1)^0 * C(n,0) * (0 - 0)^n) = 
+      -- (1 / n.factorial) * (1 * 1 * 0^n)
       simp only [Int.floor_zero, Int.natAbs_zero, zero_add, Finset.sum_range_one]
-      simp only [pow_zero, Nat.choose_zero_right, one_mul, sub_self, Nat.cast_one]
+      simp only [pow_zero, Nat.choose_zero_right, one_mul, Nat.cast_one]
       -- Now we have (1 / n.factorial) * 0^n
       -- Since n > 0, we have 0^n = 0
       have h_zero_pow : (0 : ℝ)^n = 0 := zero_pow (Nat.ne_of_gt hn_pos)
@@ -204,8 +205,9 @@ lemma iter_fwdDiff_pow_eq_factorial (n : ℕ) :
     -- Use fwdDiff_iter_eq_sum_shift to expand the forward difference
     rw [fwdDiff_iter_eq_sum_shift]
     -- At y = 0 with h = 1, we get f(k) = k^(n+1)
-    simp only [zero_add, smul_eq_mul, one_smul]
-    -- We need to show: ∑ k ∈ range (n + 2), ((-1)^(n + 1 - k) * (n + 1).choose k) • k^(n + 1) = (n + 1)!
+    simp only [zero_add]
+    -- We need to show: ∑ k ∈ range (n + 2), 
+    -- ((-1)^(n + 1 - k) * (n + 1).choose k) • k^(n + 1) = (n + 1)!
     -- STRATEGIC RETREAT: Enhanced Documentation for Future Sessions
     -- 
     -- MATHEMATICAL FOUNDATION (100% verified):
