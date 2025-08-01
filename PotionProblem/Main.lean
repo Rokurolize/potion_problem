@@ -4,7 +4,6 @@ import PotionProblem.ProbabilityFoundations
 import PotionProblem.SeriesAnalysis
 import PotionProblem.IrwinHallTheory
 
-set_option linter.style.commandStart false
 
 /-!
 # Main Theorem: E[τ] = e

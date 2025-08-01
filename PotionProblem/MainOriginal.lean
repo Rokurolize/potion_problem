@@ -6,7 +6,6 @@ import Mathlib.Topology.Algebra.InfiniteSum.NatInt
 import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 
-set_option linter.style.commandStart false
 
 /-!
 # Main Theorem: E[τ] = e

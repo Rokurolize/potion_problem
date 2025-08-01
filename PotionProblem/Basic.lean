@@ -1,7 +1,6 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.Factorial.Basic
 
-set_option linter.style.commandStart false
 
 /-!
 # Basic Definitions for the Potion Problem

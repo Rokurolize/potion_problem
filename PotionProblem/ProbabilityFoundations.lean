@@ -8,7 +8,6 @@ import Mathlib.Topology.Algebra.Order.Floor
 import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 
-set_option linter.style.commandStart false
 
 /-!
 # Probability Foundations for the Potion Problem

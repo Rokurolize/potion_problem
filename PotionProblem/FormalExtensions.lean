@@ -5,7 +5,6 @@ import PotionProblem.SeriesAnalysis
 import PotionProblem.Main
 import PotionProblem.FactorialSeries
 
-set_option linter.style.commandStart false
 
 /-!
 # Formal Extensions for the Potion Problem

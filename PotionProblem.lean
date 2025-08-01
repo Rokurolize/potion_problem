@@ -6,7 +6,6 @@ import PotionProblem.IrwinHallTheory
 import PotionProblem.Main
 import PotionProblem.FormalExtensions
 
-set_option linter.style.commandStart false
 
 /-!
 # Potion Problem: Expected Hitting Time = e

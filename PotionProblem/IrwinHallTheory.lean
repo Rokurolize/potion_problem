@@ -13,7 +13,6 @@ import PotionProblem.Basic
 import PotionProblem.FactorialSeries
 import PotionProblem.ProbabilityFoundations
 
-set_option linter.style.commandStart false
 
 /-!
 # Irwin-Hall Distribution Theory
