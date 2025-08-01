@@ -62,3 +62,5 @@ CLAUDE.local*.md
 .env
 .env.*
 *.env
+# Serena cache files
+.serena/cache/
