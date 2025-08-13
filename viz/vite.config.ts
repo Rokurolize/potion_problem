@@ -30,14 +30,14 @@ export default defineConfig({
       },
       output: {
         manualChunks: {
-          'math': ['./src/visualization/core/MathEngine.ts'],
-          'renderer': ['./src/visualization/core/WebGLRenderer.ts'],
+          'math': ['./src/core/MathEngine.ts'],
+          'renderer': ['./src/core/WebGLRenderer.ts'],
           'scenes': [
-            './src/visualization/scenes/SimplexVisualization.ts',
-            './src/visualization/scenes/PotionSimulation.ts',
-            './src/visualization/scenes/PMFLandscape.ts',
-            './src/visualization/scenes/TelescopingSeries.ts',
-            './src/visualization/scenes/EmergenceVisualization.ts'
+            './src/scenes/SimplexVisualization.ts',
+            './src/scenes/PotionSimulation.ts',
+            './src/scenes/PMFLandscape.ts',
+            './src/scenes/TelescopingSeries.ts',
+            './src/scenes/EmergenceVisualization.ts'
           ]
         }
       }
