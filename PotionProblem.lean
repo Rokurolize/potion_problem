@@ -4,7 +4,6 @@ import PotionProblem.ProbabilityFoundations
 import PotionProblem.SeriesAnalysis
 import PotionProblem.IrwinHallTheory
 import PotionProblem.Main
-import PotionProblem.FormalExtensions
 
 
 /-!
