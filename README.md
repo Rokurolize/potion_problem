@@ -14,7 +14,17 @@ theorem main_theorem : expected_hitting_time = exp 1
 
 ## 📚 Mathematical Background
 
-The Potion Problem asks: Given a sequence of independent uniform [0,1] random variables X₁, X₂, ..., what is the expected value of the stopping time τ = min{n : X₁ + X₂ + ... + Xₙ > 1}?
+### Original Problem Statement (媚薬問題)
+
+> **女騎士**「私に何を飲ませた！」  
+> **オーク**「飲む前の感度を n 倍とした時に、感度を n+m 倍まで引き上げる薬だ。ここで m ∈ [0,1) は毎回の摂取ごとに独立に判定される。一方、通常時の感度を 1 倍として、お前の感度が 2 倍になるまでこれを飲ませる」  
+> **女騎士**「私が媚薬を飲む回数の期待値はどれくらいになるんだ……？」
+
+Behind this colorful fantasy narrative lies a profound mathematical problem connecting randomness with one of mathematics' most fundamental constants.
+
+### Mathematical Formulation
+
+The Potion Problem asks: Given a sequence of independent uniform [0,1) random variables X₁, X₂, ..., what is the expected value of the stopping time τ = min{n : X₁ + X₂ + ... + Xₙ > 1}?
 
 The elegant answer is **e ≈ 2.718**, proven through:
 1. Establishing the PMF: P(τ = n) = (n-1)/n! for n ≥ 2
@@ -45,7 +55,7 @@ PotionProblem/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/potion_problem.git
+git clone https://github.com/Rokurolize/potion_problem.git
 cd potion_problem
 
 # Build the project
