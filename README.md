@@ -41,6 +41,10 @@ PotionProblem/
 ├── ProbabilityFoundations.lean # PMF properties  
 ├── SeriesAnalysis.lean         # Telescoping series proofs
 ├── IrwinHallTheory.lean        # Geometric insights
+├── KilledPotential.lean        # Killed Poisson-equation certificate
+├── JanossyConfiguration.lean   # Poisson configuration normalization
+├── SolutionZoo.lean            # Six deliberately extreme proof presentations
+├── AudienceLadder.lean         # Sixteen audience-targeted proof presentations
 ├── Main.lean                   # Main theorem
 └── MainWithGeometry.lean       # Extended version with geometry
 ```
@@ -101,6 +105,23 @@ the geometric module provided as an optional extension.
 2. **Summability**: Prove ∑ 1/n! converges using exponential series theory  
 3. **Telescoping Identity**: Show ∑_{k=0}^{n-1} (1/(k+1)! - 1/(k+2)!) = 1 - 1/(n+1)!
 4. **Expectation Calculation**: E[τ] = ∑_{n=2}^∞ n · (n-1)/n! = ∑_{n=0}^∞ 1/n! = e
+
+### Alternative Surprise Proof
+
+See [DeepSolutionSurvey.md](DeepSolutionSurvey.md) for the broad-search verdict and
+[KilledExponentialSolution.md](KilledExponentialSolution.md) for the compact proof.
+See [JanossySolution.md](JanossySolution.md) for the Poisson configuration-space
+normalization proof implemented in
+[PotionProblem/JanossyConfiguration.lean](PotionProblem/JanossyConfiguration.lean).
+See [SolutionZoo.md](SolutionZoo.md) for six deliberately extreme presentations:
+interesting, boring, elegant, short, confusing, and brute-force.
+See [AudienceLadder.md](AudienceLadder.md) for sixteen audience-targeted
+presentations from first intuition through executive metrics.
+Open [visualization.html](visualization.html) for the standalone interactive
+certificate visualization.
+The strongest version is a killed Markov-chain Poisson-equation certificate:
+find `h` with `(I - K) h = 1`; here `h(r) = exp(r)`, so the expected lifetime
+from remaining distance `1` is `e`.
 
 ### Technical Implementation
 - **API Verification**: All mathlib4 APIs verified before use
