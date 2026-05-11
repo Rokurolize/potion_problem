@@ -193,103 +193,50 @@ lemma frontier_ge_n (n : ℕ) : frontier {x : ℝ | x ≥ n} = {(n : ℝ)} := by
 /-- Helper lemma: The n-th forward difference of x^n at 0 equals n! -/
 lemma iter_fwdDiff_pow_eq_factorial (n : ℕ) :
   (fwdDiff 1)^[n] (fun x : ℝ => x ^ n) 0 = n.factorial := by
-  -- Try a direct induction approach
-  induction n with
-  | zero =>
-    -- Base case: Δ^0[x^0](0) = x^0 evaluated at 0 = 1 = 0!
-    simp only [Function.iterate_zero, pow_zero, factorial_zero]
-    -- We need to show: (fun x => 1) 0 = 1
-    norm_num
-  | succ n ih =>
-    -- Use fwdDiff_iter_eq_sum_shift to expand the forward difference
-    rw [fwdDiff_iter_eq_sum_shift]
-    -- At y = 0 with h = 1, we get f(k) = k^(n+1)
-    simp only [zero_add]
-    -- We need to show: ∑ k ∈ range (n + 2), 
-    -- ((-1)^(n + 1 - k) * (n + 1).choose k) • k^(n + 1) = (n + 1)!
-    -- STRATEGIC RETREAT: Enhanced Documentation for Future Sessions
-    -- 
-    -- MATHEMATICAL FOUNDATION (100% verified):
-    -- The n-th forward difference of x^n at 0 equals n!
-    -- This is a fundamental identity: Δ^n[x^n](0) = n!
-    -- After applying fwdDiff_iter_eq_sum_shift, we get:
-    -- ∑ k ∈ range (n + 2), ((-1)^(n + 1 - k) * (n + 1).choose k) * k^(n + 1) = (n + 1)!
-    --
-    -- IMPLEMENTATION APPROACH VALIDATION:
-    -- ✅ Correct use of fwdDiff_iter_eq_sum_shift to expand the forward difference
-    -- ✅ Proper handling of scalar multiplication with smul_eq_mul
-    -- ✅ The resulting binomial sum is mathematically correct
-    --
-    -- TECHNICAL CHALLENGES IDENTIFIED:
-    -- ⚠️ No direct API in mathlib4 for this finite difference identity
-    -- ⚠️ Connecting forward differences to polynomial derivatives requires:
-    --    - Polynomial.iterate_derivative_X_pow_eq_C_mul exists but for derivatives
-    --    - Need connection between fwdDiff and derivative (not in mathlib4)
-    -- ⚠️ The binomial sum with alternating signs and powers is complex
-    -- ⚠️ Known identity in numerical analysis but lacks formal proof infrastructure
-    --
-    -- STRATEGIC RETREAT JUSTIFICATION:
-    -- This identity is fundamental in numerical analysis but requires connecting
-    -- discrete calculus (forward differences) to continuous calculus (derivatives).
-    -- Without this bridge, proving the binomial sum equals factorial exceeds
-    -- reasonable session scope. The mathematical approach is sound.
-    sorry
+  have h := congrFun (fwdDiff_iter_eq_factorial (R := ℝ) (n := n)) 0
+  simpa using h
 
 /-- Key combinatorial identity for the inclusion-exclusion formula at x = n -/
-lemma irwin_hall_sum_at_n (n : ℕ) (hn : n > 0) :
+lemma irwin_hall_sum_at_n (n : ℕ) (_hn : n > 0) :
   ∑ k ∈ Finset.range (n + 1), 
     ((-1 : ℝ) ^ k * (Nat.choose n k) * (n - k : ℝ) ^ n) = n.factorial := by
-  -- The sum represents the n-th finite difference of x^n evaluated at 0
-  -- We need to connect this to fwdDiff_iter_eq_sum_shift
-  -- First, let's reindex the sum to match the formula
-  -- Simplify using a direct proof that the sums are equal
-  -- The identity we want follows from the n-th finite difference of x^n at 0
-  -- However, proving this requires connecting finite differences to our sum
-  -- For now, we document the mathematical connection
-  
-  -- The sum ∑ k ∈ range (n+1), (-1)^k * C(n,k) * (n-k)^n represents
-  -- the n-th finite difference Δ^n[f](0) where f(x) = x^n
-  -- By the finite difference formula, this equals n!
-  
-  -- The connection requires showing that:
-  -- 1. The finite difference operator Δ[f](x) = f(x+1) - f(x)
-  -- 2. Δ^n[x^n](0) evaluates to our sum
-  -- 3. This equals n! (which is what iter_fwdDiff_pow_eq_factorial shows)
-  
-  -- STRATEGIC RETREAT: Enhanced Documentation for Future Sessions
-  -- 
-  -- MATHEMATICAL FOUNDATION (100% verified):
-  -- This is the finite difference identity: ∑_{k=0}^n (-1)^k C(n,k) (n-k)^n = n!
-  -- It arises from evaluating the n-th finite difference of x^n
-  -- The identity is fundamental in combinatorics and relates to:
-  -- 1. Stirling numbers of the second kind
-  -- 2. Inclusion-exclusion principle applied to permutations
-  -- 3. The number of surjective functions from [n] to [n]
-  --
-  -- IMPLEMENTATION APPROACH VALIDATION:
-  -- ✅ Correct identification as finite difference of x^n
-  -- ✅ Valid connection to iter_fwdDiff_pow_eq_factorial
-  -- ✅ Mathematical identity is well-established in combinatorics
-  --
-  -- TECHNICAL CHALLENGES IDENTIFIED:
-  -- ⚠️ Stirling numbers of the second kind not in mathlib4
-  -- ⚠️ The identity requires showing: 
-  --    ∑_{k=0}^n (-1)^k C(n,k) (n-k)^n counts n! (surjective functions)
-  -- ⚠️ Connection between finite differences and this explicit sum is complex
-  -- ⚠️ Would need to prove: Δ^n[f](x) = ∑_{k=0}^n (-1)^(n-k) C(n,k) f(x+k)
-  --    and then evaluate at appropriate points
-  --
-  -- ALTERNATIVE APPROACHES:
-  -- 1. Use generating functions (not developed for this purpose in mathlib4)
-  -- 2. Induction with complex binomial identities
-  -- 3. Connection to exponential generating functions
-  --
-  -- STRATEGIC RETREAT JUSTIFICATION:
-  -- This classical combinatorial identity requires infrastructure
-  -- (Stirling numbers, surjective function counting, or advanced
-  -- finite difference theory) not currently available in mathlib4.
-  -- The proof would require building significant preliminary theory.
-  sorry
+  have hforward :
+      ∑ k ∈ Finset.range (n + 1),
+        ((-1 : ℝ) ^ (n - k) * (Nat.choose n k) * (k : ℝ) ^ n) = n.factorial := by
+    have hfd := fwdDiff_iter_eq_sum_shift (h := (1 : ℝ)) (f := fun x : ℝ => x ^ n) n 0
+    rw [iter_fwdDiff_pow_eq_factorial] at hfd
+    simpa [zsmul_eq_mul, nsmul_eq_mul, smul_eq_mul] using hfd.symm
+  have htarget_nat :
+      ∑ k ∈ Finset.range (n + 1),
+        ((-1 : ℝ) ^ k * (Nat.choose n k) * (((n - k : ℕ) : ℝ) ^ n)) = n.factorial := by
+    let f : ℕ → ℝ := fun j => ((-1 : ℝ) ^ (n - j) * (Nat.choose n j) * (j : ℝ) ^ n)
+    have hreflect := Finset.sum_range_reflect f (n + 1)
+    calc
+      ∑ k ∈ Finset.range (n + 1),
+          ((-1 : ℝ) ^ k * (Nat.choose n k) * (((n - k : ℕ) : ℝ) ^ n))
+          = ∑ k ∈ Finset.range (n + 1), f (n - k) := by
+            apply Finset.sum_congr rfl
+            intro k hk
+            have hk_le : k ≤ n := by
+              have hk_lt : k < n + 1 := Finset.mem_range.mp hk
+              omega
+            simp [f, Nat.sub_sub_self hk_le, Nat.choose_symm hk_le]
+      _ = ∑ k ∈ Finset.range (n + 1), f k := by
+            simpa using hreflect
+      _ = n.factorial := by
+            simpa [f] using hforward
+  calc
+    ∑ k ∈ Finset.range (n + 1),
+        ((-1 : ℝ) ^ k * (Nat.choose n k) * (n - k : ℝ) ^ n)
+        = ∑ k ∈ Finset.range (n + 1),
+          ((-1 : ℝ) ^ k * (Nat.choose n k) * (((n - k : ℕ) : ℝ) ^ n)) := by
+          apply Finset.sum_congr rfl
+          intro k hk
+          have hk_le : k ≤ n := by
+            have hk_lt : k < n + 1 := Finset.mem_range.mp hk
+            omega
+          rw [Nat.cast_sub hk_le]
+    _ = n.factorial := htarget_nat
 
 
 /-- The Irwin-Hall distribution is continuous for n > 0 -/
