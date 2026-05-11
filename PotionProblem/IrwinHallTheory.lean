@@ -58,13 +58,19 @@ theorem simplex_volume_formula (n : ℕ) :
   -- This is true by definition
   rfl
 
-/-- The Irwin-Hall CDF: P(S_n ≤ x) where S_n = sum of n uniform [0,1) variables -/
+/-- The truncated power `(x - k)_+^n` used in the global Irwin-Hall formula. -/
+noncomputable def irwin_hall_truncatedPower (n k : ℕ) (x : ℝ) : ℝ :=
+  if x < (k : ℝ) then 0 else (x - k) ^ n
+
+/-- The Irwin-Hall CDF: P(S_n ≤ x) where S_n = sum of n uniform [0,1) variables.
+
+This is the standard global truncated-power formula.  For `0 ≤ x < n` it reduces
+to the usual sum over `k ≤ ⌊x⌋`; for `x ≥ n`, the finite-difference identity makes
+the value equal to `1`.
+-/
 noncomputable def irwin_hall_cdf (n : ℕ) (x : ℝ) : ℝ :=
-  if x < 0 then 0
-  else if x ≥ n then 1  
-  else -- For 0 ≤ x < n, use the inclusion-exclusion formula
-    (1 / n.factorial) * ∑ k ∈ Finset.range (Int.natAbs ⌊x⌋ + 1), 
-      (-1)^k * (Nat.choose n k) * (x - k)^n
+  (1 / n.factorial) * ∑ k ∈ Finset.range (n + 1),
+    (-1 : ℝ) ^ k * (Nat.choose n k) * irwin_hall_truncatedPower n k x
 
 /-!
 ## Section 2: Connection to Hitting Time
@@ -73,35 +79,24 @@ noncomputable def irwin_hall_cdf (n : ℕ) (x : ℝ) : ℝ :=
 /-- Direct proof that P(S_n < 1) = 1/n! -/
 theorem irwin_hall_unit_probability (n : ℕ) :
   irwin_hall_cdf n 1 = 1 / n.factorial := by
-  -- The probability that n uniform [0,1) variables sum to less than 1
-  -- is exactly the volume of the n-dimensional unit simplex
   unfold irwin_hall_cdf
-  by_cases h0 : n = 0
-  · -- Case n = 0
-    simp [h0]
-  · by_cases h1 : n = 1  
-    · -- Case n = 1
-      simp [h1]
-    · -- Case n ≥ 2
-      have h_ge_2 : n ≥ 2 := by omega
-      -- Simplify the conditionals: 1 ≥ 0 is true, 1 ≥ n is false for n ≥ 2
-      have h_nonneg : ¬(1 : ℝ) < 0 := by norm_num
-      have h_not_ge : ¬(1 : ℝ) ≥ (n : ℝ) := by
-        rw [not_le]
-        exact Nat.one_lt_cast.mpr h_ge_2
-      simp only [h_nonneg, ite_false, h_not_ge, ite_false]
-      -- Now evaluate the inclusion-exclusion formula at x = 1
-      -- We need to show that the sum equals n.factorial
-      simp only [Int.floor_one, Int.natAbs_one]
-      rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_zero]
-      simp only [pow_zero, pow_one, Nat.choose_zero_right, Nat.choose_one_right, 
-                 sub_self, Nat.cast_one]
-      -- For n ≥ 2, we have 0^n = 0
-      have h_n_pos : n ≠ 0 := h0
-      have h_zero_pow : (0 : ℝ)^n = 0 := zero_pow h_n_pos
-      rw [h_zero_pow]
-      -- So the sum is 1 * 1 + (-1) * n * 0 = 1, and (1/n!) * 1 = 1/n!
-      ring
+  have hsum : (∑ k ∈ Finset.range (n + 1),
+      (-1 : ℝ) ^ k * (Nat.choose n k) * irwin_hall_truncatedPower n k 1) = 1 := by
+    by_cases hn : n = 0
+    · simp [hn, irwin_hall_truncatedPower]
+    · rw [Finset.sum_eq_single 0]
+      · simp [irwin_hall_truncatedPower]
+      · intro k _ hk0
+        by_cases hk1 : k = 1
+        · subst hk1
+          simp [irwin_hall_truncatedPower, zero_pow hn]
+        · have hk_ge_two : 2 ≤ k := by omega
+          have hlt : (1 : ℝ) < (k : ℝ) := by exact_mod_cast hk_ge_two
+          simp [irwin_hall_truncatedPower, hlt]
+      · intro h0
+        simp at h0
+  rw [hsum]
+  ring
 
 /-- The key connection: P(τ > n) equals the probability that S_n < 1 -/
 theorem hitting_time_connection (n : ℕ) :
@@ -144,19 +139,19 @@ lemma irwin_hall_cdf_eq_zero_of_left_support (n : ℕ) {x : ℝ}
     (h : x < 0 ∨ (x = 0 ∧ n > 0)) : irwin_hall_cdf n x = 0 := by
   rcases h with h_neg | h_zero
   · unfold irwin_hall_cdf
-    simp [h_neg]
+    have h_all : ∀ k : ℕ, x < (k : ℝ) := fun k => h_neg.trans_le (Nat.cast_nonneg k)
+    simp [irwin_hall_truncatedPower, h_all]
   · obtain ⟨hx_zero, hn_pos⟩ := h_zero
     subst hx_zero
     unfold irwin_hall_cdf
-    have h_not_neg : ¬(0 : ℝ) < 0 := by norm_num
-    have h_not_ge : ¬(0 : ℝ) ≥ (n : ℝ) := by
-      simp only [not_le]
-      exact Nat.cast_pos.mpr hn_pos
-    simp only [h_not_neg, h_not_ge, ite_false]
-    simp only [Int.floor_zero, Int.natAbs_zero, zero_add, Finset.sum_range_one]
-    simp only [pow_zero, Nat.choose_zero_right, one_mul, Nat.cast_one]
-    have h_zero_pow : (0 : ℝ)^n = 0 := zero_pow (Nat.ne_of_gt hn_pos)
-    simp [h_zero_pow]
+    rw [Finset.sum_eq_zero]
+    · simp
+    · intro k _
+      by_cases hk0 : k = 0
+      · subst hk0
+        simp [irwin_hall_truncatedPower, zero_pow (Nat.ne_of_gt hn_pos)]
+      · have hkpos : (0 : ℝ) < (k : ℝ) := by exact_mod_cast Nat.pos_of_ne_zero hk0
+        simp [irwin_hall_truncatedPower, hkpos]
 
 /-- Helper lemma: frontier of {x | x < 0} equals {0} -/
 lemma frontier_lt_zero : frontier {x : ℝ | x < 0} = {0} := by
@@ -217,15 +212,27 @@ lemma irwin_hall_sum_at_n (n : ℕ) (_hn : n > 0) :
     _ = n.factorial := htarget_nat
 
 
-/-- On the negative half-line, the CDF is locally constant and hence continuous. -/
-lemma irwin_hall_continuousAt_of_neg (n : ℕ) {x : ℝ} (hx : x < 0) :
-    ContinuousAt (irwin_hall_cdf n) x := by
-  refine (continuousAt_const : ContinuousAt (fun _ : ℝ => (0 : ℝ)) x).congr_of_eventuallyEq ?_
-  have hnhds : Set.Iio (0 : ℝ) ∈ nhds x :=
-    (isOpen_Iio : IsOpen (Set.Iio (0 : ℝ))).mem_nhds hx
-  filter_upwards [hnhds] with y hy
-  have hylt : y < 0 := hy
-  simp [irwin_hall_cdf, hylt]
+/-- Each truncated power term in the global Irwin-Hall formula is continuous. -/
+lemma irwin_hall_truncatedPower_continuous (n k : ℕ) (hn : 0 < n) :
+    Continuous (irwin_hall_truncatedPower n k) := by
+  unfold irwin_hall_truncatedPower
+  refine Continuous.if ?h continuous_const ((continuous_id.sub continuous_const).pow n)
+  intro a ha
+  have hfront : frontier {x : ℝ | x < (k : ℝ)} = {(k : ℝ)} := by
+    have : {x : ℝ | x < (k : ℝ)} = Set.Iio (k : ℝ) := by rfl
+    rw [this, frontier_Iio]
+  have haeq : a = (k : ℝ) := by
+    rw [hfront] at ha
+    exact Set.mem_singleton_iff.mp ha
+  subst haeq
+  simp [zero_pow (Nat.ne_of_gt hn)]
+
+/-- The Irwin-Hall CDF is continuous for every positive dimension. -/
+lemma irwin_hall_continuous (n : ℕ) (hn : n > 0) :
+    Continuous (irwin_hall_cdf n) := by
+  unfold irwin_hall_cdf
+  exact continuous_const.mul (continuous_finsetSum _ fun k _ =>
+    (continuous_const.mul continuous_const).mul (irwin_hall_truncatedPower_continuous n k hn))
 
 /-- Moment generating function of the Irwin-Hall distribution -/
 noncomputable def irwin_hall_mgf (n : ℕ) (t : ℝ) : ℝ :=
