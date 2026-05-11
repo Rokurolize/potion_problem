@@ -1,5 +1,6 @@
 import PotionProblem.Basic
 import PotionProblem.FactorialSeries
+import PotionProblem.KilledPotential
 import PotionProblem.ProbabilityFoundations
 import PotionProblem.SeriesAnalysis
 import PotionProblem.IrwinHallTheory
