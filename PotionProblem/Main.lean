@@ -19,7 +19,7 @@ for independent uniform [0,1) random variables to sum to at least 1 is exactly e
 This file serves as the "executive summary" that imports the CORE components
 needed for the main theorem and states the result concisely. 
 
-The proof is COMPLETELY SORRY-FREE and depends only on:
+The proof is completely verified and depends only on:
 - `Basic`: Core PMF definition  
 - `ProbabilityFoundations`: Basic PMF properties and distributional results
 - `SeriesAnalysis`: Series convergence, reindexing, and telescoping proofs  

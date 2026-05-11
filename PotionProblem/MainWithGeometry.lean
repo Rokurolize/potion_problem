@@ -7,7 +7,7 @@ import PotionProblem.IrwinHallTheory
 This module extends the main theorem with the geometric interpretation
 via the Irwin-Hall distribution. 
 
-This module imports the sorry-free `IrwinHallTheory` interface and adds optional
+This module imports the fully verified `IrwinHallTheory` interface and adds optional
 geometric viewpoints around the main theorem E[τ] = e. Full measure-theoretic
 survival-integral infrastructure is still outside the scope of this file.
 -/
