@@ -113,7 +113,7 @@ lemma exp_series_connection :
   -- This is the fundamental series representation of e
   -- exp(x) = ∑ x^n/n!, so exp(1) = ∑ 1/n!
   rw [Real.exp_eq_exp_ℝ]
-  rw [NormedSpace.exp_eq_tsum]
+  rw [NormedSpace.exp_eq_tsum ℝ]
   simp only [one_pow, smul_eq_mul, inv_eq_one_div, mul_one]
 
 /-!

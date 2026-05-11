@@ -135,7 +135,7 @@ theorem killedKernel_factorialGreenPolynomial (N : ℕ) (r : ℝ) :
     killedKernel (factorialGreenPolynomial N) r =
       factorialGreenPolynomial (N + 1) r - 1 := by
   unfold killedKernel factorialGreenPolynomial
-  rw [intervalIntegral.integral_finset_sum]
+  rw [intervalIntegral.integral_finsetSum]
   · simp_rw [integral_monomial_div_factorial]
     induction N with
     | zero =>

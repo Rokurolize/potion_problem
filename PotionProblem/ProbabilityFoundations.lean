@@ -59,7 +59,7 @@ lemma prob_tau_pos_iff (n : ℕ) : 0 < hitting_time_pmf n ↔ 2 ≤ n := by
   constructor
   · intro h
     by_contra h_not
-    push_neg at h_not
+    push Not at h_not
     have : n ≤ 1 := by omega
     rw [hitting_time_pmf, if_pos this] at h
     exact lt_irrefl 0 h
@@ -86,7 +86,9 @@ lemma pmf_summable : Summable hitting_time_pmf := by
     ext n
     -- Show (n+1)/(n+1)! = 1/n!
     rw [Nat.factorial_succ]
-    field_simp
+    norm_num
+    field_simp [show (↑n.factorial : ℝ) ≠ 0 by positivity,
+      show ((n : ℝ) + 1) ≠ 0 by positivity]
 
   -- Apply comparison test
   apply Summable.of_nonneg_of_le pmf_nonneg _ h_aux
@@ -96,7 +98,7 @@ lemma pmf_summable : Summable hitting_time_pmf := by
     simp [hitting_time_pmf, if_pos h]
     positivity
   · -- For n ≥ 2, hitting_time_pmf n = (n-1)/n! ≤ n/n!
-    push_neg at h
+    push Not at h
     simp [hitting_time_pmf, if_neg (not_le.mpr h)]
     -- Need to show (n-1)/n! ≤ n/n!
     apply div_le_div_of_nonneg_right
@@ -138,7 +140,6 @@ lemma pmf_telescoping (n : ℕ) (hn : 2 ≤ n) :
   rw [fact_eq]
   -- Now we need to show: (n-1)/n! = (n*(n-1)! - (n-1)!) / ((n-1)! * n*(n-1)!)
   field_simp
-  ring
 
 /-- The PMF sums to 1 (fundamental property of probability distributions) -/
 theorem pmf_sum_eq_one : ∑' n : ℕ, hitting_time_pmf n = 1 := by
@@ -274,7 +275,7 @@ theorem tail_probability_formula (n : ℕ) :
             apply hk
             rw [if_neg h]
       -- Since the function is non-zero only on finitely many points, it's summable
-      exact summable_of_finite_support h_support
+      exact summable_of_hasFiniteSupport h_support
     · -- Summability of second part  
       apply Summable.of_nonneg_of_le
       · intro k
@@ -320,7 +321,7 @@ theorem tail_probability_formula (n : ℕ) :
     simp [prob_tau_eq_zero_one.1, prob_tau_eq_zero_one.2]
     
   -- Case n ≥ 2
-  push_neg at h0 h1
+  push Not at h0 h1
   have h_ge : 2 ≤ n := by omega
   
   -- The finite sum equals 1 - 1/n!
