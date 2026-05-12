@@ -1,0 +1,1 @@
+Evaluate ChainNormalizationSolution.md under author persona v2 and write result.json
