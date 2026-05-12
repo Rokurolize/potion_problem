@@ -54,6 +54,15 @@ Thumbs.db
 # Generated output
 repomix-output.xml
 
+# Codex worker runtime artifacts
+worker-runs/*/logs/
+worker-runs/*/sqlite/
+worker-runs/*/rollout/
+worker-runs/*/stdout.log
+worker-runs/*/stderr.log
+worker-runs/*/last-message.txt
+worker-runs/*/codex-progress-*.tsv
+
 # Local configuration
 *.local.json
 *.local.md

@@ -117,6 +117,9 @@ See [SolutionZoo.md](SolutionZoo.md) for six deliberately extreme presentations:
 interesting, boring, elegant, short, confusing, and brute-force.
 See [AudienceLadder.md](AudienceLadder.md) for sixteen audience-targeted
 presentations from first intuition through executive metrics.
+See [FourOperationsPotionStory.md](FourOperationsPotionStory.md) for a
+dialogue-driven story solution that keeps the computation to the four
+arithmetic operations.
 Open [visualization.html](visualization.html) for the standalone interactive
 certificate visualization.
 The strongest version is a killed Markov-chain Poisson-equation certificate:
