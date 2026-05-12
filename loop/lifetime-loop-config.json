@@ -1,0 +1,13 @@
+{
+  "target_lifetime_count": 1000,
+  "current_persona_file": "author-persona.md",
+  "result_glob": "worker-runs/*/result.json",
+  "counter_script": "scripts/count_lifetime.py",
+  "goal_check_command": "scripts/check_lifetime_goal.sh",
+  "counting_policy": {
+    "unit": "unique candidate solution under the current persona version",
+    "candidate_path_source": "worker brief line: Candidate solution",
+    "lifetime_definition": "would_say_target_line is true and raw_reaction contains the exact target line",
+    "dedupe_policy": "latest result path wins for repeated reviews of the same candidate under the counted persona"
+  }
+}
