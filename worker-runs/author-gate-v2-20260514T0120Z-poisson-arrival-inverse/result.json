@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../PoissonArrivalInverseSolution.md",
+  "candidate_path": "PoissonArrivalInverseSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "元の停止時刻を正しく扱い、停止前prefixの体積和をPoisson配置の全質量から空白因子だけ外して一気に正規化している。個別の1/n!計算の言い換えに留まらず、別解として十分に鮮やか。"
+}
