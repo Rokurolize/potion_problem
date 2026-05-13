@@ -1,0 +1,8 @@
+{
+  "candidate_path": "FiniteDifferenceTailSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "筋はよいが、そこまでではない。",
+  "reason": "停止時刻と尾和を正しく扱い、有限差分からP(S_n <= 1)=1/n!を簡潔に出している。ただし実質はIrwin-Hall公式を境界点で評価する清潔な別解であり、生涯忘れないほどの発見性まではない。"
+}
