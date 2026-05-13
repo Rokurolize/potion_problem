@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../MarkovRewardCapacitySolution.md",
+  "candidate_path": "MarkovRewardCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいし整理もよい。だがこれは残り容量の標準的な再帰をMarkov報酬と言い換えた範囲で、忘れがたい別解とまでは言えない。",
+  "reason": "Correct for the original stopping time and cleanly proved, but essentially the standard residual-capacity dynamic-programming recurrence; the reward framing is helpful, not unforgettable."
+}
