@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ExponentialHorizonDualSolution.md",
+  "candidate_path": "ExponentialHorizonDualSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It handles the original stopping time exactly via renewal mass, computes the exponential-horizon test correctly, and uses a genuine adjoint cancellation to recover the fixed boundary value F(1)=e; this is a mathematically clean and distinct solution rather than a renamed standard count."
+}
