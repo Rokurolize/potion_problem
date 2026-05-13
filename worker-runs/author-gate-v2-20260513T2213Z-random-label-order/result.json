@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../RandomLabelOrderSolution.md",
+  "candidate_path": "RandomLabelOrderSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "元の停止時刻をprefixの指示関数で正しく扱い、P(S_n<=1)を単体積分ではなく独立一様点のラベル順が一致する確率として1/n!に落としている。既知の対称性を使う理由も明確で、短く概念的な別解として十分に強い。"
+}
