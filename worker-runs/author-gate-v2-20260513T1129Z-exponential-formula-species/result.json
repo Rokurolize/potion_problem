@@ -1,0 +1,8 @@
+{
+  "candidate_path": "ExponentialFormulaSpeciesSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "元の停止時刻をprefix数として正しく扱い、到着時刻単体を有限集合の順序付けとして読み替えて1/n!を出し、期待値eを指数公式そのものとして説明している。名前の付け替えではなく、短く発見性のある別解になっている。"
+}
