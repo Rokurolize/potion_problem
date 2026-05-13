@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../GammaNormalizedConeSolution.md",
+  "candidate_path": "GammaNormalizedConeSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しい。停止時刻も期待値への戻し方もきちんとしている。だがこれは正錐の単体体積をGamma積分で正規化して読む解で、忘れがたい別解というより標準的な体積計算のよい整理だ。",
+  "reason": "The solution treats the original stopping time correctly and the Gamma/radial normalization is mathematically sound, but its core is still the familiar simplex-volume normalization in cone coordinates, so it lacks the distinctness required for the target line."
+}
