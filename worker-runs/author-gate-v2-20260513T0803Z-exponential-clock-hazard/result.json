@@ -1,0 +1,8 @@
+{
+  "candidate_path": "ExponentialClockHazardSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "元の停止時刻をprefix個数として正しく捉え、一様密度1を境界方向の出生率としてM'(x)=M(x)へ直結させている。体積和をなぞらず、eを自己増殖するprefix集団の期待個数として見せる別解として十分に強い。"
+}
