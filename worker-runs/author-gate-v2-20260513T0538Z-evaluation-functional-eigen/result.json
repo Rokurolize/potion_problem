@@ -1,0 +1,8 @@
+{
+  "candidate_path": "EvaluationFunctionalEigenSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいし見通しもよい。だが生存確率の積分方程式を作用素で包んだ標準解に近く、生涯忘れない一手とまでは言えない。",
+  "reason": "元の停止時刻を正しく扱い、単調収束で和を閉じる導線も明確。ただし別解としての新規性は中程度で、評価汎関数やResolventという語が主計算を本質的に変えているほどではないため、最大級の称賛には届かない。"
+}
