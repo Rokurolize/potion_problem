@@ -1,0 +1,1 @@
+Evaluate AncestralMassTransportSolution.md against author-persona v2 and write the gate result.
