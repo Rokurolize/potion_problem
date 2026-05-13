@@ -1,0 +1,8 @@
+{
+  "candidate_path": "LocalRenewalKernelGermSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "元の停止時刻を更新測度 R([0,1])=E[tau] として正しく捉え、[0,1] では一様分布の切断が見えず半直線Green核だけが残るという局所的視点で e を導いている。短く、飛躍が少なく、単なる名称変更ではない別解として十分に強い。"
+}
