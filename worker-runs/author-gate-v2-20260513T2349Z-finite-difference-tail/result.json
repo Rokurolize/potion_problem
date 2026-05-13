@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FiniteDifferenceTailSolution.md",
+  "candidate_path": "FiniteDifferenceTailSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "筋はよい。だがこれはIrwin-Hall公式を有限差分で書いて端点で評価した整理で、忘れがたい別解とまでは言わない。",
+  "reason": "元の停止時刻を正しく扱い、P(S_n <= 1) = 1/n!からE[tau] = eへ進む導線も明快。ただし中核は既知のIrwin-Hall公式の有限差分表示であり、境界で項が消える見せ方はきれいだが、作者ペルソナが最大級の称賛を自然に出すほどの発見性や距離はない。"
+}
