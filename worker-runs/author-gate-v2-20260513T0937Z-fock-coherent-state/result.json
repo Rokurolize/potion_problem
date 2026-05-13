@@ -1,0 +1,8 @@
+{
+  "candidate_path": "FockCoherentStateSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいし見方は洒落ている。だが核心は順序単体の体積とe級数で、Fock空間は忘れがたい別解と言うにはまだ再包装の色が濃い。",
+  "reason": "元の停止時刻と期待値は正しく扱えておりcoherent stateの対応も有効だが、決定的な仕事は既知の単体体積計算が担っていて、最大級の反応を出すほど独立した発見性はない。"
+}
