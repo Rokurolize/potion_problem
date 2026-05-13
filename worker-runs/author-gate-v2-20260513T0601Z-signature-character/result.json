@@ -1,0 +1,8 @@
+{
+  "candidate_path": "SignatureCharacterSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "数学は通っている。停止時刻も期待値への導線も正しい。ただ、signatureとcharacterは標準的な生存prefixと単体体積の計算を上から包んだ部分が大きく、これだけで忘れがたい別解とは言えない。",
+  "reason": "Correct and clearly about the original stopping time, but the path-signature character framing mainly renames the usual simplex-volume proof rather than providing a genuinely strong distinct solution."
+}
