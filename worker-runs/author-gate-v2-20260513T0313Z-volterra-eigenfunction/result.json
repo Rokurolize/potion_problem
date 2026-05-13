@@ -1,0 +1,8 @@
+{
+  "candidate_path": "VolterraEigenfunctionSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "筋はよいが、生涯忘れないほどではない。",
+  "reason": "同じ停止時刻を正しくVolterra方程式に落とし、m(1)=eまで無駄なく導いている。ただし内容は標準的な再帰式を作用素で整理した端正な別解であり、数学的内容だけで最大級の称賛を出すほど忘れがたい発見性はない。"
+}
