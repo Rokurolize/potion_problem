@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ResidualFractionCascadeSolution.md",
+  "candidate_path": "ResidualFractionCascadeSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "同じ停止時刻を停止前prefixの総質量として正しく扱い、残量割合への一段分解でJacobianをH(r)=1+int_0^r H(t)dtに閉じている。単体体積列の再名付けではなく、残量から見た自己相似性としてeを出す別解の芯が明確で強い。"
+}
