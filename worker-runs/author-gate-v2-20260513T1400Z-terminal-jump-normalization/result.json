@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../TerminalJumpNormalizationSolution.md",
+  "candidate_path": "TerminalJumpNormalizationSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "停止時刻の扱いとM(x)の導入は正しい。だが終端ジャンプという名前を立てたわりに、核心のM'(x)=M(x)がほとんど一文の直感で済まされている。採れる解ではあるが、生涯忘れないと言うほどの別解ではない。",
+  "reason": "Original stopping time is handled correctly, but the terminal-jump framing leaves the decisive differential step underjustified and not distinct enough for the target reaction."
+}
