@@ -1,0 +1,8 @@
+{
+  "candidate_path": "FockCoherentStateSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "The solution treats the original stopping time exactly, derives E[tau] from the survival-prefix probabilities without hidden assumptions, and gives a genuinely distinct Fock/coherent-state reading where the simplex volume terms are the symmetric tensor normalization and the answer is the coherent-state norm."
+}
