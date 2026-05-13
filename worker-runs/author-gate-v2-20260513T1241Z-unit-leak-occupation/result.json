@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../UnitLeakOccupationSolution.md",
+  "candidate_path": "UnitLeakOccupationSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "正しい停止時刻を占有測度の保存則として捉え、個別の単体体積計算に戻らず、右側占有量が流入密度になる一点からeを出している。数学的に簡潔で別解としての発見性も強い。"
+}
