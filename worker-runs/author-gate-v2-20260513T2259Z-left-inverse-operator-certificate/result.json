@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../LeftInverseOperatorCertificateSolution.md",
+  "candidate_path": "LeftInverseOperatorCertificateSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "元の停止時刻をtail-sumで正しく扱い、prefixを伸ばす積分作用素と左逆の微分作用素で全prefix和をG=1+CGに閉じ込めてG'=Gへ落とす。装飾ではなく証明の圧縮として効いており、別解として十分に強い。"
+}
