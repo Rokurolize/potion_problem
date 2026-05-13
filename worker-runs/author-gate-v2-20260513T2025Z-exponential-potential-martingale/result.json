@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ExponentialPotentialMartingaleSolution.md",
+  "candidate_path": "ExponentialPotentialMartingaleSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "The solution handles the original stopping time directly, proves a valid stopped martingale via an exponential potential whose conditional mean drops by exactly one, and gives a genuinely distinct route to E[tau]=e without merely renaming the standard distribution calculation."
+}
