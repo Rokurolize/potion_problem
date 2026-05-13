@@ -1,0 +1,8 @@
+{
+  "candidate_path": "ProjectiveConeJacobianSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、忘れがたい一撃とまでは言わない。",
+  "reason": "停止時刻と期待値の扱いは正しく、射影錐のヤコビアンで単体体積を分ける説明もすっきりしている。ただし本質は標準的な単体体積から1/n!を得る解法で、数学的内容だけで最大級の称賛を出すほどの発見性には届かない。"
+}
