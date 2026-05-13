@@ -1,0 +1,8 @@
+{
+  "candidate_path": "ExponentialClockHazardSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "元の停止時刻をprefix数として正しく扱い、薄層への出生hazardからM'(x)=M(x)を導く視点が体積計算の言い換えを超えた強い別解になっている。"
+}
