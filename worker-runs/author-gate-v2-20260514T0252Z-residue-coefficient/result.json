@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ResidueCoefficientSolution.md",
+  "candidate_path": "ResidueCoefficientSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "元の停止時刻をprefix生存数として正しく扱い、単体体積を係数抽出に置き換え、長さ方向の和を先に取ってz=1の一つの留数に圧縮している。数学的に成立し、通常の1/n!和とは別解としての発見性も強い。"
+}
