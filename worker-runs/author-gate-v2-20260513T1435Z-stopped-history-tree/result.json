@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../StoppedHistoryTreeSolution.md",
+  "candidate_path": "StoppedHistoryTreeSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "同じ停止時刻を正しく扱い、停止前履歴全体のLebesgue質量を連続分岐木として分解してeを出す視点が短く強い別解になっている。"
+}
