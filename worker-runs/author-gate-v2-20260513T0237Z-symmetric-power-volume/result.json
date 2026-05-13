@@ -1,0 +1,8 @@
+{
+  "candidate_path": "SymmetricPowerVolumeSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "筋はよいが、標準単体解を対称冪の言葉で言い直した色が強い。",
+  "reason": "停止時刻と期待値の扱いは正しく、単体体積からeへ至る導線も明快である。対称冪として見る整理は美しいが、核心の計算は既知の標準単体体積そのもので、数学的内容だけで生涯忘れないほどの別解とまでは言いにくい。"
+}
