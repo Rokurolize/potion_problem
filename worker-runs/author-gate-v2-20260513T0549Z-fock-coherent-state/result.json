@@ -1,0 +1,8 @@
+{
+  "candidate_path": "FockCoherentStateSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It handles the original stopping time exactly, proves E[tau]=sum P(S_n<=1)=sum 1/n!, and turns the ordered-prefix simplex calculation into a genuine symmetric-Fock/coherent-state norm interpretation. The abstraction has proof value and memorability rather than just decorative terminology."
+}
