@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../AdjacencyKernelPathSumSolution.md",
+  "candidate_path": "AdjacencyKernelPathSumSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、連続隣接核のpath-sumという言い方は、既存の重み付きオートマトン解、停止前履歴木解、Kleisliレゾルベント解と同じ全経路resolventである。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the adjacency-kernel path-sum framing is too close to existing weighted automaton, stopped-history tree, and Kleisli resolvent solutions."
+}
