@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../StoppingTreePruningSolution.md",
+  "candidate_path": "StoppingTreePruningSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、刈り込み木の方程式T=1+int Tは既存の容量値関数や分枝過程解とかなり近い。表現差が主である。",
+  "reason": "Correct, but it overlaps with existing capacity value-function and branching/tree equations."
+}
