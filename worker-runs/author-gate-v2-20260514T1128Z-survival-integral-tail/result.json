@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SurvivalIntegralTailSolution.md",
+  "candidate_path": "SurvivalIntegralTailSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、期待値を尾和で書いて各尾を順序単体にするのは基本的で、既存の生存prefix総和・順序単体解とほとんど同じである。強い新味はない。",
+  "reason": "Correct, but it restates the standard survival-tail sum and order-simplex computation."
+}
