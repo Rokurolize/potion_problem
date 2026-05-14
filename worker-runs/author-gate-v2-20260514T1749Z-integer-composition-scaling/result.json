@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../IntegerCompositionScalingSolution.md",
+  "candidate_path": "IntegerCompositionScalingSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It correctly scales integer compositions to the stopping-before simplex and recovers the exact survival probabilities from the leading binomial asymptotic."
+}
