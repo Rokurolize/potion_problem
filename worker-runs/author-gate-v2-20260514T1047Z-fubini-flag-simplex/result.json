@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FubiniFlagSimplexSolution.md",
+  "candidate_path": "FubiniFlagSimplexSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、累積和で順序単体へ移しFubiniで1/n!を積分するのは標準的な単体体積計算に近い。旗という言葉は分かりやすいが、別解としての発見性は弱い。",
+  "reason": "Correct, but essentially the standard ordered-simplex/Fubini computation."
+}
