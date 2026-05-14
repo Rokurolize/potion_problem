@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../UrnProcessTailSolution.md",
+  "candidate_path": "UrnProcessTailSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、壺過程として見ても色や交換性を使わず、連続容量の尾和に戻っている。既存の容量・tail解と近い。",
+  "reason": "Correct, but urn-process framing does not add structure beyond capacity tail sums."
+}
