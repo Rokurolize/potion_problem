@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../JordanChainPrefixSolution.md",
+  "candidate_path": "JordanChainPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、長さ方向のJordan鎖は境界jet伝播やAppell loweringの既存解とかなり近い。線形代数の言葉に直しただけで決定打ではない。",
+  "reason": "Correct, but it restates existing jet/raising-lowering recursions in Jordan-chain language."
+}
