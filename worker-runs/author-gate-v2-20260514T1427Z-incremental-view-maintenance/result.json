@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../IncrementalViewMaintenanceSolution.md",
+  "candidate_path": "IncrementalViewMaintenanceSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、incremental view maintenanceの見方はV_nを一段前から積分更新する既存の単体体積再帰と同じ骨格である。",
+  "reason": "Correct, but view-maintenance framing is another name for the standard recursive simplex-volume update."
+}
