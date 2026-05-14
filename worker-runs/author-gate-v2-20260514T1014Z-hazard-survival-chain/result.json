@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../HazardSurvivalChainSolution.md",
+  "candidate_path": "HazardSurvivalChainSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、条件付き生存率を1/nとして掛ける構成は直前の条件付き生存率積解と同じ芯である。言葉をハザードに替えても、独立した強い別解とは数えにくい。",
+  "reason": "Correct, but substantially duplicates the conditional survival product idea."
+}
