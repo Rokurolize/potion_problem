@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../OptionalStoppingPrefixSolution.md",
+  "candidate_path": "OptionalStoppingPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、optional stoppingの語は実際には尾和と単体体積の正当化に留まる。既存のDoobやstopping tree系と近い。",
+  "reason": "Correct, but optional-stopping terminology is mostly decorative over survival-prefix tail sums."
+}
