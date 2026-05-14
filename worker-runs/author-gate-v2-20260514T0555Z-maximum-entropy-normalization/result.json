@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../MaximumEntropyNormalizationSolution.md",
+  "candidate_path": "MaximumEntropyNormalizationSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、最大エントロピーという言い方はPoisson配置の正規化定数を別名で導入しているだけに近い。数学的には通るが、この問題で生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the maximum-entropy normalization is mostly a repackaging of the existing Poisson configuration/partition-function normalization."
+}
