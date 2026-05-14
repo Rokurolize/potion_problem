@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../YonedaCapacityFunctorSolution.md",
+  "candidate_path": "YonedaCapacityFunctorSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It formulates the stopped-prefix expectation as a capacity functor whose natural extension equation forces F'=F, giving e at capacity one."
+}
