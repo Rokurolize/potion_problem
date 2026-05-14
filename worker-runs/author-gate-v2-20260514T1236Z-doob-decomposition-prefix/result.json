@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../DoobDecompositionPrefixSolution.md",
+  "candidate_path": "DoobDecompositionPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Doob分解と言いながら実質は停止前指示関数の尾和と単体体積である。既存のtail sum系から遠くない。",
+  "reason": "Correct, but the Doob language is mostly decorative over the standard survival-prefix count."
+}
