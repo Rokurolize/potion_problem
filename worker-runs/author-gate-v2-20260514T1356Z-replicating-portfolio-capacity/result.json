@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ReplicatingPortfolioCapacitySolution.md",
+  "candidate_path": "ReplicatingPortfolioCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、複製ポートフォリオという言い方は残り容量の値関数V=1+int Vを金融風に述べただけに近い。",
+  "reason": "Correct, but replicating-portfolio framing adds little beyond the capacity value-function recursion."
+}
