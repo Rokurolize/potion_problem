@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../LyapunovCapacityTailSolution.md",
+  "candidate_path": "LyapunovCapacityTailSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Lyapunov関数V_n=1-S_nは停止前条件の別名であり、尾和と単体体積の既存解から遠くない。",
+  "reason": "Correct, but Lyapunov terminology adds little beyond the survival tail condition."
+}
