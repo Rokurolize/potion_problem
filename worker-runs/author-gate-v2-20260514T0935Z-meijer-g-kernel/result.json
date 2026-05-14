@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../MeijerGKernelSolution.md",
+  "candidate_path": "MeijerGKernelSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Meijer G核という言い方は、既存のMellin単体正規化解、MeijerではないGamma正規化系、Borel変換生存列解と同じGamma因子の別表現である。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Meijer G kernel framing is too close to existing Mellin simplex normalization, Gamma normalization, and Borel transform solutions."
+}
