@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../WaveletLowPassPrefixSolution.md",
+  "candidate_path": "WaveletLowPassPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、wavelet低域成分という説明は一様密度の局所芽だけを見る既存解に近い。Fourier局所芽やTauberian局所窓の言い換えに見える。",
+  "reason": "Correct, but it overlaps with existing local-germ/Fourier/Tauberian boundary-density solutions."
+}
