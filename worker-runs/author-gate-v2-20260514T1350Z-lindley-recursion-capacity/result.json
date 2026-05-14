@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../LindleyRecursionCapacitySolution.md",
+  "candidate_path": "LindleyRecursionCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Lindley再帰の見方は残り容量の値関数V=1+int Vとほぼ同じである。待ち行列としての構造は浅い。",
+  "reason": "Correct, but too close to existing capacity value-function and queue-workload solutions."
+}
