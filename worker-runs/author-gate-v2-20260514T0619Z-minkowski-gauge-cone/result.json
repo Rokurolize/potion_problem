@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../MinkowskiGaugeConeSolution.md",
+  "candidate_path": "MinkowskiGaugeConeSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Minkowskiゲージで正錐を切る説明は、既存の正錐断面解、Gamma正規化錐解、Mellin単体正規化解とほぼ同じ正規化を見ている。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Minkowski-gauge cone framing is too close to existing positive-cone section and Gamma/Mellin normalization solutions."
+}
