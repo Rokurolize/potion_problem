@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../LagrangeInversionDegenerateSolution.md",
+  "candidate_path": "LagrangeInversionDegenerateSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、実体はF'=Fの固定点反復であり、Lagrange反転は退化している。Taylor jetやVolterra反復の既存解と芯が同じで、生涯級の別解とは言いにくい。",
+  "reason": "Correct, but the Lagrange-inversion framing collapses to existing fixed-point/Taylor/Volterra arguments."
+}
