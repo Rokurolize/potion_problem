@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../CardinalSplineFirstPieceSolution.md",
+  "candidate_path": "CardinalSplineFirstPieceSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、cardinal B-splineの先頭片という説明はFourier局所芽解や有限差分の影とかなり近い。分布全体を避ける整理としてはよいが、生涯忘れない別解ではない。",
+  "reason": "The candidate is correct, but its first-piece spline framing is too close to existing Fourier local-germ and finite-difference boundary-shadow solutions."
+}
