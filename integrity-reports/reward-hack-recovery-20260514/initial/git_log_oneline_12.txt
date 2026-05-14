@@ -1,0 +1,12 @@
+0b2431e Add lifetime saturation gate batch
+582afb5 Add Leibniz integral rule gate result
+ec0f36c Add fundamental theorem tail gate result
+47a9dcb Add antiderivative volume gate result
+35b6b2b Add stopped process prefix gate result
+f44b582 Add hitting time volume gate result
+a9fd8f1 Add first passage simplex gate result
+9f6315b Add determinant simplex volume gate result
+0209a4e Add linear functional tail gate result
+adb6732 Add affine change of variables gate result
+02c83a5 Add isometry volume prefix gate result
+e87d014 Add Hilbert space simplex gate result

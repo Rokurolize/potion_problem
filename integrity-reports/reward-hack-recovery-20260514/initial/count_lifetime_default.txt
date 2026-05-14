@@ -1,0 +1,6 @@
+persona_version: v2
+total_alternatives: 1308
+lifetime_alternatives: 1000
+target_lifetime_count: 1000
+target_remaining: 0
+target_reached: true

@@ -1,0 +1,141 @@
+{
+  "summary": {
+    "fixtures": 9,
+    "failed_as_expected": 9
+  },
+  "fixtures": [
+    {
+      "fixture": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/01-saturation-filename",
+      "status": "rejected",
+      "reasons": [
+        "saturation_candidate_filename",
+        "saturation_index_phrase",
+        "deterministic_parent_launch",
+        "deterministic_saturation_brief",
+        "auto_pass_without_persona_review",
+        "missing_candidate_hash_dossier",
+        "missing_correctness_dossier",
+        "missing_novelty_dossier",
+        "missing_skeptical_dossier",
+        "missing_persona_dossier",
+        "missing_candidate_hash",
+        "result_missing_correctness_check_path",
+        "result_missing_novelty_check_path",
+        "result_missing_skeptical_review_path",
+        "result_missing_persona_review_path"
+      ],
+      "passed_negative_check": true
+    },
+    {
+      "fixture": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/02-auto-pass-result",
+      "status": "rejected",
+      "reasons": [
+        "auto_pass_without_persona_review",
+        "missing_candidate_hash_dossier",
+        "missing_correctness_dossier",
+        "missing_novelty_dossier",
+        "missing_skeptical_dossier",
+        "missing_persona_dossier",
+        "missing_candidate_hash",
+        "result_missing_correctness_check_path",
+        "result_missing_novelty_check_path",
+        "result_missing_skeptical_review_path",
+        "result_missing_persona_review_path"
+      ],
+      "passed_negative_check": true
+    },
+    {
+      "fixture": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/03-parent-launch",
+      "status": "rejected",
+      "reasons": [
+        "deterministic_parent_launch",
+        "auto_pass_without_persona_review",
+        "missing_candidate_hash_dossier",
+        "missing_correctness_dossier",
+        "missing_novelty_dossier",
+        "missing_skeptical_dossier",
+        "missing_persona_dossier",
+        "missing_candidate_hash",
+        "result_missing_correctness_check_path",
+        "result_missing_novelty_check_path",
+        "result_missing_skeptical_review_path",
+        "result_missing_persona_review_path"
+      ],
+      "passed_negative_check": true
+    },
+    {
+      "fixture": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/04-renamed-simplex",
+      "status": "rejected",
+      "reasons": [
+        "renamed_simplex_tail_sum_skeleton",
+        "auto_pass_without_persona_review",
+        "missing_candidate_hash_dossier",
+        "missing_correctness_dossier",
+        "missing_novelty_dossier",
+        "missing_skeptical_dossier",
+        "missing_persona_dossier",
+        "missing_candidate_hash",
+        "result_missing_correctness_check_path",
+        "result_missing_novelty_check_path",
+        "result_missing_skeptical_review_path",
+        "result_missing_persona_review_path"
+      ],
+      "passed_negative_check": true
+    },
+    {
+      "fixture": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/05-correct-not-novel",
+      "status": "rejected",
+      "reasons": [
+        "novelty_compares_fewer_than_10_candidates",
+        "novelty_missing_rename_assessment",
+        "candidate_hash_mismatch"
+      ],
+      "passed_negative_check": true
+    },
+    {
+      "fixture": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/06-novel-unsupported",
+      "status": "rejected",
+      "reasons": [
+        "correctness_missing_P(T>n)",
+        "candidate_hash_mismatch"
+      ],
+      "passed_negative_check": true
+    },
+    {
+      "fixture": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/07-missing-hash",
+      "status": "rejected",
+      "reasons": [
+        "missing_candidate_hash_dossier",
+        "missing_candidate_hash"
+      ],
+      "passed_negative_check": true
+    },
+    {
+      "fixture": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/08-hash-mismatch",
+      "status": "rejected",
+      "reasons": [
+        "candidate_hash_mismatch"
+      ],
+      "passed_negative_check": true
+    },
+    {
+      "fixture": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/09-duplicate-existing",
+      "status": "rejected",
+      "reasons": [
+        "duplicate_review_of_existing_candidate",
+        "auto_pass_without_persona_review",
+        "missing_candidate_hash_dossier",
+        "missing_correctness_dossier",
+        "missing_novelty_dossier",
+        "missing_skeptical_dossier",
+        "missing_persona_dossier",
+        "missing_candidate_hash",
+        "result_missing_correctness_check_path",
+        "result_missing_novelty_check_path",
+        "result_missing_skeptical_review_path",
+        "result_missing_persona_review_path"
+      ],
+      "passed_negative_check": true
+    }
+  ]
+}

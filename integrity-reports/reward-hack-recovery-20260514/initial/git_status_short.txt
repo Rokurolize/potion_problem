@@ -1,0 +1,2 @@
+?? docs/goal_potion_reward_hack_recovery_20260514.md
+?? integrity-reports/reward-hack-recovery-20260514/initial/git_status_short.txt

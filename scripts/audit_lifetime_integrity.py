@@ -69,6 +69,9 @@ def resolve_candidate(root: Path, result_path: Path, data: dict[str, Any]) -> Pa
         return candidate
     if str(raw).startswith("../"):
         return (result_path.parent / candidate).resolve()
+    local_candidate = (result_path.parent / candidate).resolve()
+    if local_candidate.exists():
+        return local_candidate
     return (root / candidate).resolve()
 
 
@@ -146,6 +149,10 @@ def audit_one(root: Path, result_path: Path) -> Finding:
         reasons.append("saturation_candidate_filename")
     if "author-gate-v2-saturation" in review_rel:
         reasons.append("saturation_worker_run_path")
+    if "negative-fixtures" in review_rel and not str(data.get("candidate_solution_path") or "").startswith("."):
+        existing_candidate = root / str(data.get("candidate_path") or "")
+        if existing_candidate.exists():
+            reasons.append("duplicate_review_of_existing_candidate")
 
     candidate_text = ""
     candidate_hash: str | None = None
@@ -163,7 +170,10 @@ def audit_one(root: Path, result_path: Path) -> Finding:
             reasons.append("saturation_index_phrase")
         if "domain/lens/role" in candidate_text or "single invariant simplex volume" in candidate_text:
             reasons.append("template_substitution_or_simplex_overlay")
-        if "admissible increment vectors form the simplex" in candidate_text and "only changes the bookkeeping" in candidate_text:
+        if (
+            re.search(r"admissible\s+increment\s+vectors\s+form\s+the\s+simplex", candidate_text)
+            and "only changes the bookkeeping" in candidate_text
+        ):
             reasons.append("renamed_simplex_tail_sum_skeleton")
 
     launch = review_dir / "launch.sh"

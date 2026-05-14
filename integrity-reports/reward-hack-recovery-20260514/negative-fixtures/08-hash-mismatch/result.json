@@ -1,0 +1,14 @@
+{
+  "candidate_solution_path": "HashMismatchSolution.md",
+  "candidate_path": "HashMismatchSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "candidate_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "correctness_check_path": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/08-hash-mismatch/correctness_check.md",
+  "novelty_check_path": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/08-hash-mismatch/novelty_check.md",
+  "skeptical_review_path": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/08-hash-mismatch/skeptical_review.md",
+  "persona_review_path": "integrity-reports/reward-hack-recovery-20260514/negative-fixtures/08-hash-mismatch/persona_review.md",
+  "integrity_status": "valid-countable"
+}
