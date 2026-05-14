@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../LieSymmetryODESolution.md",
+  "candidate_path": "LieSymmetryODESolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Lie対称性という言い方は、既存の境界成長バランス解、境界層輸送解、Cavalieri層積分解で出ているF'=Fを別名で述べている。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Lie-symmetry framing is too close to existing boundary-growth, boundary-layer transport, and Cavalieri layer-cake solutions."
+}
