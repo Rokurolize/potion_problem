@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../OnePlayerGameValueSolution.md",
+  "candidate_path": "OnePlayerGameValueSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、一人ゲーム価値はBellman価値反復やFeynman-Kac占有報酬の既存解と同じ方程式に落ちる。説明は明快だが最大級の別解ではない。",
+  "reason": "Correct, but it overlaps with existing Bellman value and occupation-reward/Feynman-Kac views."
+}
