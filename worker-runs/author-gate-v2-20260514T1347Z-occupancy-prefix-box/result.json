@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../OccupancyPrefixBoxSolution.md",
+  "candidate_path": "OccupancyPrefixBoxSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、occupancy boxの比喩は停止前単体体積を箱に収まる列と呼び直しているだけに近い。別解としての距離は小さい。",
+  "reason": "Correct, but occupancy framing mostly renames standard stopped-prefix simplex volumes."
+}
