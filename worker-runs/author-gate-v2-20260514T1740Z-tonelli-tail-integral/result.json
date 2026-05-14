@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../TonelliTailIntegralSolution.md",
+  "candidate_path": "TonelliTailIntegralSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It uses Tonelli exactly where needed for the nonnegative tail-sum identity and then evaluates each original survival event as a simplex volume."
+}
