@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SteinCertificateSolution.md",
+  "candidate_path": "SteinCertificateSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Stein方程式という名を付けても、中身は既存の殺されるPoisson方程式・指数ポテンシャル・任意停止証明とほぼ同じだ。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly verifies (I-K)exp=1 and telescopes it to the expected stopping time, but it is too close to existing killed Poisson equation, exponential potential, and optional-stopping certificate solutions."
+}
