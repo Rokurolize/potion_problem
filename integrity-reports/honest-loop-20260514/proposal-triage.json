@@ -1,0 +1,31 @@
+{
+  "batch": "honest-loop-20260514",
+  "strict_lifetime_before": 3,
+  "max_accepted": 3,
+  "accepted": [
+    "poisson-clock-normalization",
+    "iterated-safe-kernel-powers"
+  ],
+  "proposals": [
+    {
+      "slug": "poisson-clock-normalization",
+      "filename": "PoissonClockNormalizationSolution.md",
+      "decision": "accept",
+      "novelty_risk": "medium",
+      "expected_author_persona_reaction": "pass"
+    },
+    {
+      "slug": "iterated-safe-kernel-powers",
+      "filename": "IteratedSafeKernelPowerSolution.md",
+      "decision": "accept",
+      "novelty_risk": "medium-high",
+      "expected_author_persona_reaction": "pass if overlap is acknowledged"
+    },
+    {"slug": "beta-endpoint-peeling", "decision": "reject", "reason": "duplicates existing beta candidates"},
+    {"slug": "hazard-martingale-certificate", "decision": "defer", "reason": "needs sharper separation from killed exponential"},
+    {"slug": "renewal-reward-occupation", "decision": "defer", "reason": "too close to previous recovery batch"},
+    {"slug": "order-statistic-probability", "decision": "reject", "reason": "likely renamed simplex volume"},
+    {"slug": "truncated-expectation-limit", "decision": "defer", "reason": "promising but longer than this small batch"},
+    {"slug": "laplace-survival-sequence", "decision": "reject", "reason": "transform does not yet add real work"}
+  ]
+}

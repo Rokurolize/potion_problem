@@ -1,0 +1,16 @@
+{
+  "candidate_path": "IteratedSafeKernelPowerSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "candidate_sha256": "1e4a037330b8a3b56beb66d9363aebd4590366aae50e51a006460e115bbbd823",
+  "correctness_check_path": "worker-runs/author-gate-v2-honest-20260514-iterated-safe-kernel-powers/correctness_check.md",
+  "novelty_check_path": "worker-runs/author-gate-v2-honest-20260514-iterated-safe-kernel-powers/novelty_check.md",
+  "skeptical_review_path": "worker-runs/author-gate-v2-honest-20260514-iterated-safe-kernel-powers/skeptical_review.md",
+  "persona_review_path": "worker-runs/author-gate-v2-honest-20260514-iterated-safe-kernel-powers/persona_review.md",
+  "integrity_status": "valid-countable",
+  "proof_family": "safe-kernel-powers",
+  "novelty_family": "survival-event-as-kernel-power",
+  "reason": "The candidate interprets each survival tail as a power of the killed safe-increment transition kernel and includes full novelty, validity, adversarial, and persona review artifacts."
+}

@@ -1,0 +1,7 @@
+{
+  "candidate_path": "IteratedSafeKernelPowerSolution.md",
+  "candidate_sha256": "1e4a037330b8a3b56beb66d9363aebd4590366aae50e51a006460e115bbbd823",
+  "proof_family": "safe-kernel-powers",
+  "novelty_family": "survival-event-as-kernel-power",
+  "dossier": "worker-runs/author-gate-v2-honest-20260514-iterated-safe-kernel-powers"
+}

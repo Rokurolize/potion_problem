@@ -1,0 +1,16 @@
+{
+  "candidate_path": "PoissonClockNormalizationSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "candidate_sha256": "621a7d112202ce0d24166264d4230407d50797c184bbfde78b88970933077e65",
+  "correctness_check_path": "worker-runs/author-gate-v2-honest-20260514-poisson-clock-normalization/correctness_check.md",
+  "novelty_check_path": "worker-runs/author-gate-v2-honest-20260514-poisson-clock-normalization/novelty_check.md",
+  "skeptical_review_path": "worker-runs/author-gate-v2-honest-20260514-poisson-clock-normalization/skeptical_review.md",
+  "persona_review_path": "worker-runs/author-gate-v2-honest-20260514-poisson-clock-normalization/persona_review.md",
+  "integrity_status": "valid-countable",
+  "proof_family": "poisson-normalized-tail",
+  "novelty_family": "survival-tail-as-poisson-mass",
+  "reason": "The candidate keeps the original stopping time, proves the factorial tail, and evaluates the expectation by normalizing the tail sequence into a unit Poisson distribution rather than bulk-renaming a simplex proof."
+}

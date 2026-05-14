@@ -1,0 +1,7 @@
+{
+  "candidate_path": "PoissonClockNormalizationSolution.md",
+  "candidate_sha256": "621a7d112202ce0d24166264d4230407d50797c184bbfde78b88970933077e65",
+  "proof_family": "poisson-normalized-tail",
+  "novelty_family": "survival-tail-as-poisson-mass",
+  "dossier": "worker-runs/author-gate-v2-honest-20260514-poisson-clock-normalization"
+}
