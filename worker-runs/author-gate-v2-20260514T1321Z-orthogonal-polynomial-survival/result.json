@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../OrthogonalPolynomialSurvivalSolution.md",
+  "candidate_path": "OrthogonalPolynomialSurvivalSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、直交多項式論は実際には使っておらず、Appell型の微分再帰に戻っている。別解としての新味は薄い。",
+  "reason": "Correct, but orthogonal-polynomial terminology is not substantively used and the proof reduces to Appell-style recursion."
+}
