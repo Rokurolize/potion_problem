@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../CouponCollectorCapacitySolution.md",
+  "candidate_path": "CouponCollectorCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、coupon collector風という比喩が数学をあまり短くしていない。実質は尾和と単体体積の既存解である。",
+  "reason": "Correct, but coupon-collector analogy adds little beyond the standard tail-sum simplex argument."
+}
