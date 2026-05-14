@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../TestFunctionPrefixFunctionalSolution.md",
+  "candidate_path": "TestFunctionPrefixFunctionalSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、積分作用素の逆としてF=1+int Fを解く構図は既存のresolventやtest function系と重なる。最大級の反応には届かない。",
+  "reason": "Correct, but overlaps with existing resolvent/test-function formulations of the same integral equation."
+}
