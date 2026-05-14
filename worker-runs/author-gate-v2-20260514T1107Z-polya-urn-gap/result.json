@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../PolyaUrnGapSolution.md",
+  "candidate_path": "PolyaUrnGapSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Pólya壺の対称性は実質的にDirichlet余白と条件付き生存率の言い換えである。壺モデルが証明を短くするわけでもなく、最大級の反応には届かない。",
+  "reason": "Correct, but mostly renames the Dirichlet slack and conditional survival argument."
+}
