@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../UpperTriangularMatrixSolution.md",
+  "candidate_path": "UpperTriangularMatrixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、nilpotentな上三角行列指数はToeplitz Volterra行列や吸収基本行列の既存解に近い。行列表現は自然だが、生涯級の新味ではない。",
+  "reason": "Correct, but it overlaps with existing Volterra/Toeplitz/fundamental-matrix linear algebra solutions."
+}
