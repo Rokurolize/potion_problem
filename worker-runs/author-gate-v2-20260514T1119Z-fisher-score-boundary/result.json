@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FisherScoreBoundarySolution.md",
+  "candidate_path": "FisherScoreBoundarySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、scoreや境界流量の言葉はStein証明書、Malliavin発散、境界流系の既存解と近い。内部scoreが0という説明は自然だが、強い別解ではない。",
+  "reason": "Correct, but overlaps with existing Stein/Malliavin and boundary-flux solutions."
+}
