@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../IncidenceMobiusPrefixSolution.md",
+  "candidate_path": "IncidenceMobiusPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、incidence代数やMöbius反転で有限配置量を読む解は、IncidenceAlgebraZetaやBooleanMobiusVoidの既存解と重なる。prefixへの戻し方も新しい核にはなっていない。",
+  "reason": "Correct, but overlaps with existing incidence-zeta and Boolean Möbius void solutions."
+}
