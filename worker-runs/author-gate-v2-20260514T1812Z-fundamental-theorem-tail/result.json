@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FundamentalTheoremTailSolution.md",
+  "candidate_path": "FundamentalTheoremTailSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It uses the fundamental theorem of calculus to solve the correct remaining-capacity tail recursion, producing 1/n! without changing the stopping rule."
+}
