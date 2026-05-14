@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SnellEnvelopeCapacitySolution.md",
+  "candidate_path": "SnellEnvelopeCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Snell envelopeという名前に対して選択や包絡の構造を実質的に使っていない。容量値関数V=1+int Vの既存解と近い。",
+  "reason": "Correct, but Snell-envelope framing adds little beyond the capacity value-function recursion."
+}
