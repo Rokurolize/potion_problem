@@ -142,6 +142,45 @@ def summarize(root: Path, persona_version: str | None, target: int) -> dict[str,
     }
 
 
+def summarize_strict(
+    root: Path,
+    persona_version: str | None,
+    target: int,
+    require_integrity: bool = False,
+) -> dict[str, Any]:
+    import audit_lifetime_integrity
+
+    summary = summarize(root, persona_version, target)
+    audit_report = audit_lifetime_integrity.audit_root(root)
+    valid_by_result = {
+        item["result_path"]: item
+        for item in audit_report["findings"]
+        if item["status"] == "valid-countable"
+    }
+    strict_alternatives = [
+        item
+        for item in summary["alternatives"]
+        if str(Path(item["result_path"]).resolve().relative_to(root)) in valid_by_result
+        and item["lifetime"]
+    ]
+    summary.update(
+        {
+            "strict": True,
+            "integrity_summary": audit_report["summary"],
+            "total_alternatives_non_strict": summary["total_alternatives"],
+            "lifetime_alternatives_non_strict": summary["lifetime_alternatives"],
+            "total_alternatives": len(strict_alternatives),
+            "lifetime_alternatives": len(strict_alternatives),
+            "target_reached": len(strict_alternatives) >= target,
+            "target_remaining": max(target - len(strict_alternatives), 0),
+            "alternatives": strict_alternatives,
+        }
+    )
+    if require_integrity and audit_report["summary"]["hard_failure_count"] != 0:
+        summary["integrity_required_but_failed"] = True
+    return summary
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path.cwd())
@@ -161,12 +200,26 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         default="json",
         help="Output format.",
     )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Count only candidates that pass the integrity audit.",
+    )
+    parser.add_argument(
+        "--require-integrity",
+        action="store_true",
+        help="With --strict, exit 1 if the integrity audit has hard failures.",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
-    summary = summarize(args.root.resolve(), args.persona_version, args.target)
+    root = args.root.resolve()
+    if args.strict:
+        summary = summarize_strict(root, args.persona_version, args.target, args.require_integrity)
+    else:
+        summary = summarize(root, args.persona_version, args.target)
 
     if args.format == "json":
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
@@ -178,6 +231,8 @@ def main(argv: list[str]) -> int:
         print(f"target_remaining: {summary['target_remaining']}")
         print(f"target_reached: {str(summary['target_reached']).lower()}")
 
+    if args.require_integrity and summary.get("integrity_required_but_failed"):
+        return 1
     if args.require_target and not summary["target_reached"]:
         return 1
     return 0
