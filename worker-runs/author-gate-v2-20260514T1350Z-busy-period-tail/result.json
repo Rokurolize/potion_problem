@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../BusyPeriodTailSolution.md",
+  "candidate_path": "BusyPeriodTailSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、busy periodの比喩は尾和公式と単体体積を言い換えているだけに近い。queue workload prefix解との差も薄い。",
+  "reason": "Correct, but busy-period framing mostly restates existing workload/tail-sum arguments."
+}
