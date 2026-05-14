@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ExteriorTopFormVolumeSolution.md",
+  "candidate_path": "ExteriorTopFormVolumeSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、top formで単体体積を読むだけなら、de Rham単体・Stokes境界・セル鎖体積の既存解とかなり近い。外積記法は整っているが、生涯級の新味ではない。",
+  "reason": "Correct, but it is mostly a differential-form restatement of existing simplex/de Rham/Stokes/cellular volume arguments."
+}
