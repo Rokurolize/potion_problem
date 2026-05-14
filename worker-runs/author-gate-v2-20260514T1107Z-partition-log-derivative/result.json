@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../PartitionLogDerivativeSolution.md",
+  "candidate_path": "PartitionLogDerivativeSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、活動度つき分配関数の対数を使う既存解とほぼ同じ骨格で、対数微分という表記替えに留まる。生涯と言わせるだけの別解性は足りない。",
+  "reason": "Correct, but it is mainly a log-derivative restatement of existing partition/free-energy activity methods."
+}
