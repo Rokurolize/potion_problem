@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../InfectionChainPrefixSolution.md",
+  "candidate_path": "InfectionChainPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、感染連鎖の比喩は停止前単体体積を言い換えているだけに近い。既存のbranchingやcapacity系との差が薄い。",
+  "reason": "Correct, but infection-chain framing mostly renames standard stopped-prefix volume."
+}
