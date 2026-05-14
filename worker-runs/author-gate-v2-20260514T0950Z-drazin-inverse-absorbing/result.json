@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../DrazinInverseAbsorbingSolution.md",
+  "candidate_path": "DrazinInverseAbsorbingSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、吸収連鎖の基本作用素をDrazin逆と呼んでいるだけの比重が大きい。積分方程式への落とし込みは明確だが、Markov rewardやGreen関数系の既存別解を超える驚きはない。",
+  "reason": "Correct, but too close to existing absorbing Markov reward and Green-function fundamental-operator solutions."
+}
