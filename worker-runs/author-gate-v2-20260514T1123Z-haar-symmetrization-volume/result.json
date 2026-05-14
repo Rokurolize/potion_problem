@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../HaarSymmetrizationVolumeSolution.md",
+  "candidate_path": "HaarSymmetrizationVolumeSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、有限対称群の一様平均で順序室を取るだけなら、対称化射影・Coxeter室・順序単体の既存解とほぼ同じである。Haarという語は自然だが新しい芯ではない。",
+  "reason": "Correct, but it overlaps with existing symmetrization/Coxeter/order-simplex arguments."
+}
