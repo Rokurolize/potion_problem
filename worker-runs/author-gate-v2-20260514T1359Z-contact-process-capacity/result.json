@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ContactProcessCapacitySolution.md",
+  "candidate_path": "ContactProcessCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、contact processの空間的構造は使われておらず、残り容量のV=1+int Vに戻っている。新味は限定的である。",
+  "reason": "Correct, but contact-process framing adds little beyond the capacity recursion."
+}
