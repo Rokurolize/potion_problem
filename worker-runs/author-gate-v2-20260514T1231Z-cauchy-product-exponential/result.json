@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../CauchyProductExponentialSolution.md",
+  "candidate_path": "CauchyProductExponentialSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、母関数で指数関数を出す既存解の変奏である。Cauchy積という名前は付いたが、決定的な別解とは言いにくい。",
+  "reason": "Correct, but it is another generating-function/exponential recurrence variant."
+}
