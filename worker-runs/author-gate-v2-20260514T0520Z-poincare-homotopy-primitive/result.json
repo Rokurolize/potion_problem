@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../PoincareHomotopyPrimitiveSolution.md",
+  "candidate_path": "PoincareHomotopyPrimitiveSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Poincareホモトピー作用素で原始形式へ戻す説明は、既存のStokes境界消去解と同じ境界再帰を別名で見ている。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Poincare homotopy primitive is essentially the same boundary-recursion mechanism as the existing Stokes boundary-cancellation solution."
+}
