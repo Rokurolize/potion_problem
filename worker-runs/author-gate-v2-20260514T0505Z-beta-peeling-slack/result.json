@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../BetaPeelingSlackSolution.md",
+  "candidate_path": "BetaPeelingSlackSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、余白を足してBeta積分で剥がす説明はDirichlet余白正規化やGamma正規化錐の近傍にある。計算の整理としてはよいが、生涯忘れない別解ではない。",
+  "reason": "The candidate is mathematically correct, but Beta peeling is essentially another normalization of the slack simplex and is too close to existing Dirichlet/Gamma normalization solutions."
+}
