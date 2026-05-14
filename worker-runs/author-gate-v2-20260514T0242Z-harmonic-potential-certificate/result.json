@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../HarmonicPotentialCertificateSolution.md",
+  "candidate_path": "HarmonicPotentialCertificateSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しい証明書ではあるが、指数ポテンシャルの任意停止解や一単位ポテンシャル消費解とほぼ同じ核を持つ。整理はよいが、生涯忘れない別解とは言えない。",
+  "reason": "The candidate is mathematically correct and uses the original stopping time, but it is essentially a restatement of the existing exponential-potential optional-stopping certificate, so it is not distinct enough for the exact target line."
+}
