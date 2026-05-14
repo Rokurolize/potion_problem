@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../LagrangeMultiplierSaddleSolution.md",
+  "candidate_path": "LagrangeMultiplierSaddleSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Lagrange乗数や鞍点という言い方は、既存のLegendre-Fenchel支持関数解、Minkowskiゲージ錐解、境界層輸送解と同じ一つの和制約を別語彙で読んでいる。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Lagrange multiplier saddle framing is too close to existing Legendre-Fenchel support, Minkowski gauge cone, and boundary-layer transport solutions."
+}
