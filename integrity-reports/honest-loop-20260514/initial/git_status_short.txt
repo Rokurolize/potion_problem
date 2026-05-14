@@ -1,0 +1,4 @@
+?? docs/goal_potion_honest_loop_remote_verify_20260514.md
+?? integrity-reports/honest-loop-20260514/initial/git_branch.txt
+?? integrity-reports/honest-loop-20260514/initial/git_rev_parse_head.txt
+?? integrity-reports/honest-loop-20260514/initial/git_status_short.txt

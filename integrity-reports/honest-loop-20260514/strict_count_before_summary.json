@@ -1,0 +1,24 @@
+{
+  "strict_total_alternatives": 3,
+  "strict_lifetime_alternatives": 3,
+  "target_remaining": 997,
+  "target_reached": false,
+  "rejected_review_count": 538,
+  "valid_countable": 3,
+  "hard_failure_count": 0,
+  "rejection_categories": {
+    "missing_candidate_hash_dossier": 538,
+    "missing_correctness_dossier": 538,
+    "missing_novelty_dossier": 538,
+    "missing_skeptical_dossier": 538,
+    "missing_persona_dossier": 538,
+    "missing_candidate_hash": 538,
+    "result_missing_correctness_check_path": 538,
+    "result_missing_novelty_check_path": 538,
+    "result_missing_skeptical_review_path": 538,
+    "result_missing_persona_review_path": 538,
+    "auto_pass_without_persona_review": 229,
+    "candidate_path_not_regular_file": 55
+  },
+  "previous_saturation_hack_live": false
+}

@@ -1,0 +1,12 @@
+c8e07de Add reward hack recovery validation report
+47a702c Add honest recovery lifetime candidates
+ced0f64 Report existing lifetime candidate integrity
+1025f5b Add reward hack negative fixtures
+3947d74 Add strict lifetime integrity audit
+1c012ed Revert "Add lifetime saturation gate batch"
+0b2431e Add lifetime saturation gate batch
+582afb5 Add Leibniz integral rule gate result
+ec0f36c Add fundamental theorem tail gate result
+47a9dcb Add antiderivative volume gate result
+35b6b2b Add stopped process prefix gate result
+f44b582 Add hitting time volume gate result
