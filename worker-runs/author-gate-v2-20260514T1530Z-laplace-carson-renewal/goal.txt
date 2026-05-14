@@ -1,0 +1,1 @@
+Evaluate LaplaceCarsonRenewalSolution.md against author-persona v2. Read brief.md first, then write result.json only.
