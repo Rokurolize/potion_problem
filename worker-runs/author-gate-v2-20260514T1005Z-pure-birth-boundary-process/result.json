@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../PureBirthBoundaryProcessSolution.md",
+  "candidate_path": "PureBirthBoundaryProcessSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、境界を動かしてM'=Mを得る解は既に境界流、出生率、指数時計系の別解でかなり出ている。純出生過程という表現は自然だが、最大級の反応には届かない。",
+  "reason": "Correct, but overlaps with existing boundary-flow and exponential-clock birth-rate solutions."
+}
