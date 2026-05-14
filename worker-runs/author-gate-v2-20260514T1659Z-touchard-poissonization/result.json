@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../TouchardPoissonizationSolution.md",
+  "candidate_path": "TouchardPoissonizationSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It correctly derives the tail generating function from the simplex probabilities and interprets the factorial normalization as Poissonized labeled-count weighting."
+}
