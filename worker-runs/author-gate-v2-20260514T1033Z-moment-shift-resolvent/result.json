@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../MomentShiftResolventSolution.md",
+  "candidate_path": "MomentShiftResolventSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、積分シフトのresolventで指数関数を返す説明は、Hankelモーメント、Volterra resolvent、Riemann-Liouville半群の既存解とかなり近い。別解としては成立するが最大級ではない。",
+  "reason": "Correct, but overlaps with existing moment/resolvent and integration-semigroup solutions."
+}
