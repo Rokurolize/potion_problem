@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../KoopmanOperatorBoundarySolution.md",
+  "candidate_path": "KoopmanOperatorBoundarySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Koopman作用素という看板を出しても中身は境界容量の微分方程式へ戻っている。作用素側から見る整理としては悪くないが、生涯忘れない別解とは言えない。",
+  "reason": "The proof is correct, but the Koopman framing collapses to the already common boundary-capacity equation F'=F."
+}
