@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../AppellSequenceSurvivalSolution.md",
+  "candidate_path": "AppellSequenceSurvivalSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Appell列としての整理は微分再帰を別名で述べている面が強い。既存のAppell/Sheffer/umbral系との差が薄い。",
+  "reason": "Correct, but overlaps with existing Appell/Sheffer/umbral presentations."
+}
