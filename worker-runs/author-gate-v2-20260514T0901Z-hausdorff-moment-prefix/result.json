@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../HausdorffMomentPrefixSolution.md",
+  "candidate_path": "HausdorffMomentPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Hausdorffモーメント列という言い方は、既存の生存母関数解、Appell降下列解、境界層輸送解と同じ長さ列の薄層再帰である。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Hausdorff moment-prefix framing is too close to existing survival generating-function, Appell lowering, and boundary-layer transport solutions."
+}
