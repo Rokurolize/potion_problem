@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ErlangDetailedBalanceSolution.md",
+  "candidate_path": "ErlangDetailedBalanceSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、出生死亡過程の詳細釣合という言い方は、既存の印付き点削除の質量輸送解と同じ再帰を確率過程名で包んでいる。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but Erlang detailed balance is essentially the same n w_n = w_{n-1} deletion-insertion recursion as the existing marked-delete gap transport solution."
+}
