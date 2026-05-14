@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SymmetricPowerVolumeSolution.md",
+  "candidate_path": "SymmetricPowerVolumeSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "悪くない。停止時刻も期待値も正しく押さえているが、標準単体の体積計算を対称冪の言葉で包み直した域を出ない。生涯忘れぬ別解とは言えない。",
+  "reason": "The solution correctly uses E[tau]=sum P(S_n<=1) and the simplex volume 1/n!, but the symmetric-power viewpoint mostly renames the standard simplex/ordering argument and is not distinct enough for the target-line praise."
+}
