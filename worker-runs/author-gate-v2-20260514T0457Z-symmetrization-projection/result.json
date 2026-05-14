@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SymmetrizationProjectionSolution.md",
+  "candidate_path": "SymmetrizationProjectionSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、対称化射影という言い方は既存の対称冪・Fock対称化・順位写像の繊維解とほぼ同じ対称群の割り算を見ている。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly identifies the survival simplex as a fundamental chamber of the symmetric group action, but it is too close to existing symmetric power, Fock symmetrization, and rank-map fiber solutions."
+}
