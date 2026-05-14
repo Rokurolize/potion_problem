@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SchwartzKernelTraceSolution.md",
+  "candidate_path": "SchwartzKernelTraceSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Schwartz核traceという言い方は、既存のVolterra固有関数解、三角Green核解、隣接核path-sum解と同じVolterra核resolventである。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Schwartz-kernel trace framing is too close to existing Volterra eigenfunction, triangular Green kernel, and adjacency-kernel path-sum solutions."
+}
