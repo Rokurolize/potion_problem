@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../MittagLefflerOrderOneSolution.md",
+  "candidate_path": "MittagLefflerOrderOneSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Mittag-Leffler次数1という言い方は、既存のRiemann-Liouville半群解、分数積分系の読み、Volterra固有関数解と同じ次数1の指数関数である。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Mittag-Leffler order-one framing is too close to existing Riemann-Liouville semigroup, fractional-integral, and Volterra eigenfunction solutions."
+}
