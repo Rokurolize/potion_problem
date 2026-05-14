@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../DegenerateControlPolicySolution.md",
+  "candidate_path": "DegenerateControlPolicySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、選択肢のない制御問題はBellman価値反復やMarkov報酬容量の既存解とほぼ同じである。退化制御という名前以上の差は薄い。",
+  "reason": "Correct, but it collapses to existing Bellman/value and Markov-reward equations."
+}
