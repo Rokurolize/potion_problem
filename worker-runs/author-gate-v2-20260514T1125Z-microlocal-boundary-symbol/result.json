@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../MicrolocalBoundarySymbolSolution.md",
+  "candidate_path": "MicrolocalBoundarySymbolSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、局所記号が定数でF'=Fへ戻る構成は、Fourier局所芽、DistributionalBoundaryCurrent、FisherScoreBoundaryの既存解に近い。microlocalの言葉は大きく効いていない。",
+  "reason": "Correct, but overlaps with existing Fourier/distributional boundary-local arguments."
+}
