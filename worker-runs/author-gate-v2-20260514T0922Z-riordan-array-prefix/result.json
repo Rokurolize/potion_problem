@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../RiordanArrayPrefixSolution.md",
+  "candidate_path": "RiordanArrayPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Riordan配列という言い方は、既存のAppell降下列解、Sheffer差分作用素解、二項変換生存列解と同じ添字シフトの母関数である。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Riordan-array framing is too close to existing Appell lowering, Sheffer delta-operator, and binomial-transform survival solutions."
+}
