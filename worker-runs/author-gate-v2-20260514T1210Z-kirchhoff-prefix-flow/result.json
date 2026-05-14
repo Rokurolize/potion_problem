@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../KirchhoffPrefixFlowSolution.md",
+  "candidate_path": "KirchhoffPrefixFlowSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Kirchhoff収支と言っても境界流F'=Fを別名で書いている。境界電荷・流束保存・境界層輸送の既存解と近い。",
+  "reason": "Correct, but it restates existing boundary-flow/conservation arguments in circuit language."
+}
