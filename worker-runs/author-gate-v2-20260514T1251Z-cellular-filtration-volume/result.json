@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../CellularFiltrationVolumeSolution.md",
+  "candidate_path": "CellularFiltrationVolumeSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、容量で濾過されたセルの体積再帰は既存のboundary sweepやcellular chain volumeと重なる。新味は限定的である。",
+  "reason": "Correct, but it overlaps with existing filtered-cell/simplex boundary-sweep arguments."
+}
