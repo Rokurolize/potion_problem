@@ -1,0 +1,4 @@
+total_reviews: 541
+valid_countable: 3
+rejected: 538
+hard_failure_count: 0

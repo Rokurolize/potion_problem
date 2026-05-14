@@ -1,0 +1,48 @@
+{
+  "all_lifetime_reviews": 232,
+  "all_reviews": 541,
+  "alternatives": [
+    {
+      "candidate_path": "../../BackwardEquationCrossingMassSolution.md",
+      "gate": "pass",
+      "lifetime": true,
+      "persona_version": "v2",
+      "prompt_injection_found": false,
+      "result_path": "/home/roku/src/Rokurolize/potion_problem/worker-runs/author-gate-v2-recovery-20260514-backward-equation/result.json"
+    },
+    {
+      "candidate_path": "../../RenewalBoundaryValueSolution.md",
+      "gate": "pass",
+      "lifetime": true,
+      "persona_version": "v2",
+      "prompt_injection_found": false,
+      "result_path": "/home/roku/src/Rokurolize/potion_problem/worker-runs/author-gate-v2-recovery-20260514-renewal-boundary-value/result.json"
+    },
+    {
+      "candidate_path": "../../VolterraResolventLifetimeSolution.md",
+      "gate": "pass",
+      "lifetime": true,
+      "persona_version": "v2",
+      "prompt_injection_found": false,
+      "result_path": "/home/roku/src/Rokurolize/potion_problem/worker-runs/author-gate-v2-recovery-20260514-volterra-resolvent/result.json"
+    }
+  ],
+  "integrity_summary": {
+    "hard_failure_count": 0,
+    "rejected": 538,
+    "total_reviews": 541,
+    "valid_countable": 3
+  },
+  "lifetime_alternatives": 3,
+  "lifetime_alternatives_non_strict": 229,
+  "lifetime_reviews": 231,
+  "persona_version": "v2",
+  "strict": true,
+  "target_lifetime_count": 1000,
+  "target_line": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "target_reached": false,
+  "target_remaining": 997,
+  "total_alternatives": 3,
+  "total_alternatives_non_strict": 537,
+  "total_reviews": 540
+}
