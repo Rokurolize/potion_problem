@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../WorkConservingQueuePrefixSolution.md",
+  "candidate_path": "WorkConservingQueuePrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、work conservingな判定は累積和が1以下という元の条件の言い換えであり、queue系の既存解と距離が小さい。",
+  "reason": "Correct, but work-conserving queue terminology adds little beyond the original cumulative-capacity condition."
+}
