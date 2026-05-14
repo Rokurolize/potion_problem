@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SymmetricGroupSimplexSolution.md",
+  "candidate_path": "SymmetricGroupSimplexSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It uses the symmetric group's label-order quotient to identify the cumulative-sum simplex volume, then applies the original tail-sum formula."
+}
