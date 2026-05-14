@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../TauberianLocalWindowSolution.md",
+  "candidate_path": "TauberianLocalWindowSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Tauberian局所窓という言い方は、既存の遅延Laplace極解、Fourier局所芽解、境界層輸送解と同じ境界1までの局所再帰を別語彙で述べている。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Tauberian local-window framing is too close to existing delayed Laplace pole, Fourier local germ, and boundary-layer transport solutions."
+}
