@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../RankMapFiberSolution.md",
+  "candidate_path": "RankMapFiberSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、順位写像の繊維という言い方は、既存のランダムラベル順序・順序単体・Poisson順序統計量解とほぼ同じ対称性を見ている。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly identifies the survival simplex as one rank fiber among n! equal fibers, but it is too close to existing random-label-order, order-simplex, and Poisson order-statistic solutions."
+}
