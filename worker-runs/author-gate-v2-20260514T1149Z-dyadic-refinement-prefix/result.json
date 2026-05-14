@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../DyadicRefinementPrefixSolution.md",
+  "candidate_path": "DyadicRefinementPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、dyadic細分で薄層再帰を取り出すだけなら、格子三角極限や境界層輸送の既存解と近い。新しい芯は弱い。",
+  "reason": "Correct, but it overlaps with existing lattice/refinement and boundary-layer recursion arguments."
+}
