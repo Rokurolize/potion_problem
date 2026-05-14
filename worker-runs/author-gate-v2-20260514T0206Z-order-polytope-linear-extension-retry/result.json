@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../OrderPolytopeLinearExtensionSolution.md",
+  "candidate_path": "OrderPolytopeLinearExtensionSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、これは順序単体の体積を順序多面体と線形拡張の言葉で言い換えたものに近い。元問題への対応は明確だが、生涯忘れない別解とまでは言えない。",
+  "reason": "The solution correctly maps survival prefixes to the order polytope of a total order and derives 1/n!, but the viewpoint is very close to the standard ordered-simplex proof and does not add enough distinct mathematical force for the exact target line."
+}
