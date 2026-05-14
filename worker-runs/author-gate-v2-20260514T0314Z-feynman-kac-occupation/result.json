@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FeynmanKacOccupationSolution.md",
+  "candidate_path": "FeynmanKacOccupationSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、殺される残量過程のPoisson方程式やMarkov報酬解をFeynman-Kacと呼び直しただけにかなり近い。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly expresses the expectation as an occupation reward resolvent for the killed residual process, but this is substantially the same as the existing killed jump Poisson equation and Markov reward capacity solutions, so it is not distinct enough for the exact target line."
+}
