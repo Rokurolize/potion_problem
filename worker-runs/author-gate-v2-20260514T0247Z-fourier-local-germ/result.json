@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FourierLocalGermSolution.md",
+  "candidate_path": "FourierLocalGermSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "Fourierの局所芽という見方は悪くないが、実質は因果芽畳み込みやLaplace再生測度の同じ核を記号で書いたものに近い。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly focuses on the local convolution germ before the uniform cutoff matters, but it overlaps strongly with existing causal-germ/Laplace renewal convolution solutions and does not merit the exact target line."
+}
