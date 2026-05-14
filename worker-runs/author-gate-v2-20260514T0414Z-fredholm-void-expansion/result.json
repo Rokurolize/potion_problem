@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FredholmVoidExpansionSolution.md",
+  "candidate_path": "FredholmVoidExpansionSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Fredholm型展開という呼び方をしても、中身は既存のPoisson空白因子・配置測度・Fock正規化解にかなり近い。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly recovers the expectation by removing the Poisson void factor from the finite-configuration expansion, but it is too close to existing Poisson void/configuration and Fock normalization solutions."
+}
