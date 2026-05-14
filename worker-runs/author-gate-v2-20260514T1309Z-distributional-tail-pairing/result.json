@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../DistributionalTailPairingSolution.md",
+  "candidate_path": "DistributionalTailPairingSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、分布とテスト関数のpairingは尾和と密度積分の表記を変えただけに近い。別解としての距離は小さい。",
+  "reason": "Correct, but mostly notation for the standard tail-sum and density integral."
+}
