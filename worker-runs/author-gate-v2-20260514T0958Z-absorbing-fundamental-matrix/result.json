@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../AbsorbingFundamentalMatrixSolution.md",
+  "candidate_path": "AbsorbingFundamentalMatrixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、吸収基本行列から積分方程式へ渡すだけなら、既存の吸収連鎖、Green関数、Drazin逆の解とかなり近い。別解としては成立するが最大級の反応には届かない。",
+  "reason": "Correct, but materially overlaps with existing absorbing-chain and fundamental-operator solutions."
+}
