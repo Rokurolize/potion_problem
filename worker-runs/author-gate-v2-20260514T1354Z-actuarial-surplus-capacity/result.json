@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ActuarialSurplusCapacitySolution.md",
+  "candidate_path": "ActuarialSurplusCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、surplus過程の言葉はS_n<=1の別名であり、証明は既存の尾和と単体体積に戻っている。",
+  "reason": "Correct, but actuarial-surplus framing adds little beyond the original survival-prefix condition."
+}
