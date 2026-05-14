@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../BernoulliDifferentialRecursionSolution.md",
+  "candidate_path": "BernoulliDifferentialRecursionSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It avoids solving each tail probability separately and instead shows that the whole survival-prefix sum is closed under differentiation, forcing the exponential from the original stopping problem."
+}
