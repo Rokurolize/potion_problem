@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../InclusionExclusionVoidSolution.md",
+  "candidate_path": "InclusionExclusionVoidSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Poisson空白因子やFredholm空白展開の既存解とほぼ同じ構造を、包除の符号を外す形で言い直している。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly relates the unsigned finite-configuration sum to the inclusion-exclusion expansion of the Poisson void probability, but it is too close to existing Poisson void and Fredholm void expansion solutions."
+}
