@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../LiouvilleEquationFlowSolution.md",
+  "candidate_path": "LiouvilleEquationFlowSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Liouville方程式という表現は境界を動かす微分方程式の言い換えに近い。流れとしての読みは自然だが、既存の境界フラックスや移動境界微分の別解から大きく離れていない。",
+  "reason": "Correct, but the flow-equation framing is too close to existing boundary-flux and moving-boundary derivative solutions."
+}
