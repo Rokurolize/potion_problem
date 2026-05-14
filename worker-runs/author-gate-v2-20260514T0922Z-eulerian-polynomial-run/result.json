@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../EulerianPolynomialRunSolution.md",
+  "candidate_path": "EulerianPolynomialRunSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Eulerian多項式runという言い方は、既存の初期上昇ラン影解、ランダムラベル順序解、順序単体全単射解と同じ全上昇順序の数え上げである。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Eulerian polynomial run framing is too close to existing ascending-run shadow, random-label order, and order simplex bijection solutions."
+}
