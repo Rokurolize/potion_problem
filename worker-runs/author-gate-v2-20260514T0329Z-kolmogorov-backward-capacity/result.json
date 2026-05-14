@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../KolmogorovBackwardCapacitySolution.md",
+  "candidate_path": "KolmogorovBackwardCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、殺された一様ジャンプ過程のPoisson方程式・Feynman-Kac占有報酬と同じ式を後退方程式と呼んだものに近い。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly solves the original expectation through the backward equation for the killed residual-capacity Markov chain, but it is substantially the same as existing killed jump/Markov reward/Feynman-Kac formulations."
+}
