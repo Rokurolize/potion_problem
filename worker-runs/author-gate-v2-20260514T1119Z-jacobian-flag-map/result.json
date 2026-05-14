@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../JacobianFlagMapSolution.md",
+  "candidate_path": "JacobianFlagMapSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、部分和への三角Jacobianと順序単体の対称分割は、順序単体・旗単体・順序統計量系の既存解と同じ骨格である。名前ほど新しくはない。",
+  "reason": "Correct, but it restates the standard cumulative-sum Jacobian/order-simplex argument under flag-map language."
+}
