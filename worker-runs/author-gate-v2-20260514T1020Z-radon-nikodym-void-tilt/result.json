@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../RadonNikodymVoidTiltSolution.md",
+  "candidate_path": "RadonNikodymVoidTiltSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Poisson配置測度から空白因子を外す解は既に多数あり、Radon-Nikodym密度という表現はその測度論的な言い換えに近い。最大級の反応には届かない。",
+  "reason": "Correct, but mostly a measure-theoretic restatement of existing Poisson void-normalization solutions."
+}
