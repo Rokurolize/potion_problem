@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../KleisliResolventSolution.md",
+  "candidate_path": "KleisliResolventSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Kleisli射やモナドという言い方は、既存のVolterraレゾルベント解、積分作用素レゾルベント解、殺されるジャンプ過程のPoisson方程式解と同じ方程式を圏論語彙で包んでいる。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Kleisli resolvent framing is too close to existing Volterra/integration-operator resolvent and killed Markov-chain Poisson equation solutions."
+}
