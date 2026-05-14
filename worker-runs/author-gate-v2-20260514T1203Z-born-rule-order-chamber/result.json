@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../BornRuleOrderChamberSolution.md",
+  "candidate_path": "BornRuleOrderChamberSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Born則風と言っても順序室の体積を確率として読むだけで、量子shuffle退化や順序単体の既存解と重なる。量子語彙は飾りに近い。",
+  "reason": "Correct, but it is essentially the existing order-chamber probability argument in quantum-measurement language."
+}
