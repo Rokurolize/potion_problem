@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../DeRhamSimplexPrimitiveSolution.md",
+  "candidate_path": "DeRhamSimplexPrimitiveSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、体積形式を原始形式で境界へ押し出す見方はStokes境界消去解にかなり近い。de Rhamの言葉は整理にはなるが、独立した最大級の別解とは言いにくい。",
+  "reason": "Correct, but overlaps materially with the existing Stokes boundary cancellation solution."
+}
