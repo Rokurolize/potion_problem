@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../PermutationIdentityOrderSolution.md",
+  "candidate_path": "PermutationIdentityOrderSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、累積和を順序統計量の一つの室へ送る解は、Coxeter室、順序多面体、ランダムラベル順序の別解とほぼ同じである。恒等順列という説明は明快だが最大級ではない。",
+  "reason": "Correct, but too close to existing order-statistic and permutation-chamber solutions."
+}
