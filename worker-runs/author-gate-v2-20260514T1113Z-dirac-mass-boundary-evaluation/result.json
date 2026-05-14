@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../DiracMassBoundaryEvaluationSolution.md",
+  "candidate_path": "DiracMassBoundaryEvaluationSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Dirac評価という名前を付けても中身は境界値F(1)を読むだけで、境界汎関数や評価汎関数の既存解に近い。新しい力は弱い。",
+  "reason": "Correct, but mostly a boundary-evaluation restatement of existing functional/eigen/evaluation views."
+}
