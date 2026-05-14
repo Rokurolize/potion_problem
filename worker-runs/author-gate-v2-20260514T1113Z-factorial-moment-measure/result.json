@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FactorialMomentMeasureSolution.md",
+  "candidate_path": "FactorialMomentMeasureSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Poisson配置・順序統計量・Janossy系の既存解とかなり近い。階乗モーメント測度という語彙は自然だが、核は単体体積の読み替えである。",
+  "reason": "Correct, but it overlaps with existing Poisson configuration/order-statistic/Janossy solutions."
+}
