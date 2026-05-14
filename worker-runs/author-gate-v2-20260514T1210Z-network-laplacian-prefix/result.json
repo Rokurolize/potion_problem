@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../NetworkLaplacianPrefixSolution.md",
+  "candidate_path": "NetworkLaplacianPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、network Laplacianの収支はGreen関数・Poisson方程式・Markov報酬の既存解と同じ方程式に落ちる。新しい数学的圧縮ではない。",
+  "reason": "Correct, but it overlaps with existing Green/Poisson-equation and Markov-reward formulations."
+}
