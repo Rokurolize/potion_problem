@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../PresheafGluingPrefixSolution.md",
+  "candidate_path": "PresheafGluingPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、境界を動かしてF'=Fを得る構成は、CosheafBoundaryCostalk、Cavalieri層積分、境界流系の既存解と近い。前層の言葉が証明の新しい核にはなっていない。",
+  "reason": "Correct, but overlaps with existing cosheaf/boundary-flow and layer-cake solutions."
+}
