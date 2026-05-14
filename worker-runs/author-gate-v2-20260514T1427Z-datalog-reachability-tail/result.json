@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../DatalogReachabilityTailSolution.md",
+  "candidate_path": "DatalogReachabilityTailSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Datalog到達可能性は停止前prefixの再帰を別記法で書いているに近い。既存のSQL/automaton/relational系から遠くない。",
+  "reason": "Correct, but Datalog reachability mostly repackages existing recursive prefix-volume computation."
+}
