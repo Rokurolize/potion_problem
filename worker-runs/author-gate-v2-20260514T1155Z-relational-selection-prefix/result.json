@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../RelationalSelectionPrefixSolution.md",
+  "candidate_path": "RelationalSelectionPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、関係選択と射影で順序室を読むだけなら、順序単体・Jacobian旗写像・配置空間の既存解と同じ芯である。データベース語彙の新味は薄い。",
+  "reason": "Correct, but it is a relational-algebra restatement of existing order-simplex/Jacobian arguments."
+}
