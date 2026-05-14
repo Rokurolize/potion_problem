@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ContinuedFractionResolventSolution.md",
+  "candidate_path": "ContinuedFractionResolventSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、連分数resolventという言い方は、既存のPadé有限地平線解、割引resolvent解、最小固定点解と同じ有限段resolventの極限である。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the continued-fraction resolvent framing is too close to existing Pade finite-horizon, discounted resolvent, and minimal fixed-point solutions."
+}
