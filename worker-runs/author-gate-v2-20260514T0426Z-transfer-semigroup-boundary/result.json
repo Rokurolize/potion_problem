@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../TransferSemigroupBoundarySolution.md",
+  "candidate_path": "TransferSemigroupBoundarySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、境界層輸送・MovingBoundary・Shift半群の既存解と同じ自己増殖式を、転送半群と言い換えているだけに近い。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly derives M'(r)=M(r) from boundary-layer transfer, but it is too close to existing boundary transport, moving-boundary derivative, and shift-semigroup solutions."
+}
