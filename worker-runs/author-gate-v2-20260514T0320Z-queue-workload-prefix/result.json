@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../QueueWorkloadPrefixSolution.md",
+  "candidate_path": "QueueWorkloadPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、容量を動かして最後の一口を剥がす既存の更新・再帰解を、待ち行列の仕事量という言葉で包み直しただけに近い。生涯忘れない別解とは言えない。",
+  "reason": "The candidate correctly derives the original expectation through a workload-prefix recursion, but the mathematical core is the existing renewal/fixed-point last-jump recursion, so it is not distinct enough for the exact target line."
+}
