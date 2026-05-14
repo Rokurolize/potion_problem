@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../RuinReservePrefixSolution.md",
+  "candidate_path": "RuinReservePrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、破産準備金の比喩は累積和が1以下という条件の言い換えであり、容量・tail sum系の既存解と近い。",
+  "reason": "Correct, but risk-reserve framing mostly renames the original cumulative-capacity tail sum."
+}
