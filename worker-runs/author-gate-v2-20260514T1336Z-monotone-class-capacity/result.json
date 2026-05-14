@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../MonotoneClassCapacitySolution.md",
+  "candidate_path": "MonotoneClassCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、monotone classの役割は境界xの可測性の整理で、実質は容量再帰A_n'=A_{n-1}の既存解と同じである。",
+  "reason": "Correct, but monotone-class framing mostly restates existing capacity derivative recursion."
+}
