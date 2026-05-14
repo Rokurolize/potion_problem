@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SheafGluingCapacitySolution.md",
+  "candidate_path": "SheafGluingCapacitySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、sheafの語は残り容量の再帰を貼り合わせと呼び直しているだけに近い。既存のpresheaf gluingや容量値関数解と重なる。",
+  "reason": "Correct, but too close to existing presheaf/capacity-recursion solutions."
+}
