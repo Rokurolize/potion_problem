@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FeedbackControlSurvivalSolution.md",
+  "candidate_path": "FeedbackControlSurvivalSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、feedback制約は残り容量xで入力範囲が[0,x]になるという既存の容量再帰そのものである。別解としての距離は小さい。",
+  "reason": "Correct, but feedback-control framing restates the capacity recursion."
+}
