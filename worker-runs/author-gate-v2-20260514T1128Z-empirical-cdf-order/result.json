@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../EmpiricalCdfOrderSolution.md",
+  "candidate_path": "EmpiricalCdfOrderSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、経験分布関数という言い方は順序統計量・配置空間・順序単体の既存解と同じ芯である。読み替えとしては自然だが、生涯級の別解ではない。",
+  "reason": "Correct, but it is mainly an empirical-CDF restatement of existing order-statistic/order-simplex arguments."
+}
