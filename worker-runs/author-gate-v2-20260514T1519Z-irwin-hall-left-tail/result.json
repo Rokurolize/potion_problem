@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../IrwinHallLeftTailSolution.md",
+  "candidate_path": "IrwinHallLeftTailSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It uses the original stopping time and observes that only the left tail of the Irwin-Hall density matters, where all upper-bound corrections vanish and the factorials follow cleanly."
+}
