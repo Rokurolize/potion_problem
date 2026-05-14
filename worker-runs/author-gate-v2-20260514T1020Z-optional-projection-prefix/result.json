@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../OptionalProjectionPrefixSolution.md",
+  "candidate_path": "OptionalProjectionPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Tonelliでprefix指示関数を足し、有限次元射影で単体体積へ戻すだけなので、標準解の整理に近い。任意射影という名前は証明の新しい核にはなっていない。",
+  "reason": "Correct, but essentially the standard prefix-count and simplex-volume calculation."
+}
