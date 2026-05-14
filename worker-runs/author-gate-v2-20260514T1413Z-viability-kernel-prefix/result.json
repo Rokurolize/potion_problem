@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ViabilityKernelPrefixSolution.md",
+  "candidate_path": "ViabilityKernelPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、viability kernelという語はS_n<=1の制約集合を呼び直しているだけに近い。容量・単体体積系の既存解との差が薄い。",
+  "reason": "Correct, but viability framing mostly renames the original capacity constraint."
+}
