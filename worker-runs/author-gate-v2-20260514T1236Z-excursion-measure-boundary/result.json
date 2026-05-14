@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ExcursionMeasureBoundarySolution.md",
+  "candidate_path": "ExcursionMeasureBoundarySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、excursion測度という言い方に対して実際の証明は停止前単体の体積総和である。別解としての距離は小さい。",
+  "reason": "Correct, but excursion terminology adds little beyond the standard stopped-path simplex measure."
+}
