@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../PoissonKernelPotentialSolution.md",
+  "candidate_path": "PoissonKernelPotentialSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Poissonポテンシャル方程式として解く構成は、HarmonicPotentialCertificate、Green核、Markov reward系の既存解と近い。核の名前を替えただけの比重が大きい。",
+  "reason": "Correct, but overlaps with existing potential, Green-kernel, and reward-equation solutions."
+}
