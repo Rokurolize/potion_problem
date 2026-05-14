@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../NewtonSeriesBoundarySolution.md",
+  "candidate_path": "NewtonSeriesBoundarySolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Newton級数という言い方は、既存の境界層輸送解、Euler次数prefix解、有限差分系の解と同じ境界差分を別語彙で書いている。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Newton-series framing is too close to existing boundary-layer transport, Euler grading prefix, and finite-difference style solutions."
+}
