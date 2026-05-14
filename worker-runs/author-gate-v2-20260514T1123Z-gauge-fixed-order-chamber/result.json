@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../GaugeFixedOrderChamberSolution.md",
+  "candidate_path": "GaugeFixedOrderChamberSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、gauge固定という言い方をしても、実体は置換群の基本室を選ぶ既存のCoxeter・順序代表の議論である。面白い比喩だが決定打ではない。",
+  "reason": "Correct, but the gauge-fixing language restates the existing permutation fundamental-chamber argument."
+}
