@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../PerronFrobeniusRankOneSolution.md",
+  "candidate_path": "PerronFrobeniusRankOneSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Perron-Frobeniusやランク1正作用素という言い方は、既存のVolterra固有関数解、評価汎関数の固有関係解、境界層輸送解と同じ微分再帰をスペクトル語彙で包んでいる。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Perron-Frobenius rank-one framing is too close to existing Volterra eigenfunction, evaluation-functional eigen, and boundary-layer transport solutions."
+}
