@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../BooleanMobiusVoidSolution.md",
+  "candidate_path": "BooleanMobiusVoidSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Boolean束のMöbius反転という言い方は既存の包除空白反転解とincidence algebraのzeta核解のほぼ中間である。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but Boolean Möbius inversion is too close to existing inclusion-exclusion void inversion and incidence-algebra zeta solutions."
+}
