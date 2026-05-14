@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../StarsAndBarsLimitSolution.md",
+  "candidate_path": "StarsAndBarsLimitSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It correctly obtains the original stopping-before simplex as the normalized limit of stars-and-bars weak compositions and derives the 1/n! tail terms."
+}
