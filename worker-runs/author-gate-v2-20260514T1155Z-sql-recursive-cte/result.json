@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SqlRecursiveCteSolution.md",
+  "candidate_path": "SqlRecursiveCteSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、再帰CTEは文法生成関数やVolterra再帰の既存解とほぼ同じ形である。SQL風の見せ方は面白いが、別解としての強度は低い。",
+  "reason": "Correct, but it overlaps with recursive grammar/generating-function and Volterra equations."
+}
