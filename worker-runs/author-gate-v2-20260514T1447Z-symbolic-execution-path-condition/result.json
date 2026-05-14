@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../SymbolicExecutionPathConditionSolution.md",
+  "candidate_path": "SymbolicExecutionPathConditionSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、path conditionは結局S_n<=1という停止前条件そのものだ。",
+  "reason": "Correct, but symbolic execution only repackages the usual prefix condition and simplex volume."
+}
