@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ClusterCumulantTrivialSolution.md",
+  "candidate_path": "ClusterCumulantTrivialSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Mayerクラスター、圧力自由エネルギー、キュムラント母関数の既存解を重ねた説明に近い。連結寄与が消える観点は自然だが、独立した決定打ではない。",
+  "reason": "Correct, but it overlaps heavily with existing Mayer cluster, pressure/free-energy, and cumulant-generating solutions."
+}
