@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FredholmDeterminantVoidSolution.md",
+  "candidate_path": "FredholmDeterminantVoidSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Fredholm行列式という言い方は既存のFredholm空白展開解やPoisson配置正規化解をさらに作用素名で包んでいる。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Fredholm determinant framing is too close to existing Fredholm void expansion and Poisson configuration normalization solutions."
+}
