@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../KantorovichDualPotentialSolution.md",
+  "candidate_path": "KantorovichDualPotentialSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Kantorovich双対ポテンシャルという言い方は、既存の祖先質量輸送解、随伴テスト関数解、Stein証明書解と同じ双対証明書を輸送語彙で書いている。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Kantorovich dual-potential framing is too close to existing ancestral mass-transport, adjoint test-function, and Stein certificate solutions."
+}
