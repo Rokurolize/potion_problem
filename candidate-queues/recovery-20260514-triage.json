@@ -1,0 +1,47 @@
+{
+  "batch": "recovery-20260514",
+  "write_limit": 5,
+  "selected_to_write": [
+    "renewal-boundary-value",
+    "volterra-resolvent",
+    "backward-equation"
+  ],
+  "proposals": [
+    {
+      "slug": "renewal-boundary-value",
+      "title": "Renewal boundary-value equation",
+      "proof_family": "renewal equation",
+      "novelty": "Expectation is computed directly as a remaining-gap boundary-value problem.",
+      "overlap": "Killed potential and Bellman-style candidates.",
+      "rename_risk": "medium",
+      "decision": "write"
+    },
+    {
+      "slug": "volterra-resolvent",
+      "title": "Volterra resolvent of the killed averaging operator",
+      "proof_family": "operator resolvent",
+      "novelty": "Interprets expected lifetime as a resolvent applied to unit cost.",
+      "overlap": "Compact operator and killed potential candidates.",
+      "rename_risk": "medium",
+      "decision": "write"
+    },
+    {
+      "slug": "backward-equation",
+      "title": "Backward equation from the first safe increment",
+      "proof_family": "backward equation",
+      "novelty": "Keeps the crossing mass explicit in the first-step equation.",
+      "overlap": "Dynamic programming candidates.",
+      "rename_risk": "low-medium",
+      "decision": "write"
+    },
+    {"slug": "boundary-defect", "decision": "defer"},
+    {"slug": "renewal-reward", "decision": "defer"},
+    {"slug": "minimal-solution-comparison", "decision": "reject"},
+    {"slug": "truncated-horizon", "decision": "defer"},
+    {"slug": "distribution-free-volterra", "decision": "defer"},
+    {"slug": "optional-stopping-test-function", "decision": "defer"},
+    {"slug": "capacity-hazard", "decision": "reject"},
+    {"slug": "truncated-generating-function", "decision": "reject"},
+    {"slug": "interval-shrinking-coupling", "decision": "defer"}
+  ]
+}

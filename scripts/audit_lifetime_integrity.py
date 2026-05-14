@@ -98,15 +98,16 @@ def has_required_review_reasoning(review_dir: Path) -> list[str]:
     correctness = (review_dir / "correctness_check.md")
     if correctness.exists():
         text = correctness.read_text(encoding="utf-8")
+        lower_text = text.lower()
         required = [
-            "T=min{n>=1",
+            "t=min{n>=1",
             "independent uniform",
-            "P(T>n)",
+            "p(t>n)",
             "tail-sum",
             "no hidden change",
         ]
         for needle in required:
-            if needle not in text:
+            if needle not in lower_text:
                 reasons.append(f"correctness_missing_{needle}")
 
     novelty = review_dir / "novelty_check.md"
@@ -126,7 +127,8 @@ def has_required_review_reasoning(review_dir: Path) -> list[str]:
     persona = review_dir / "persona_review.md"
     if persona.exists():
         text = persona.read_text(encoding="utf-8")
-        if "author-persona v2" not in text or "decision" not in text.lower():
+        lower_text = text.lower()
+        if "author-persona v2" not in lower_text or "decision" not in lower_text:
             reasons.append("persona_review_missing_decision")
 
     return reasons
