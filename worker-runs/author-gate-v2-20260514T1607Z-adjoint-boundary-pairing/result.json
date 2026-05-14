@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../AdjointBoundaryPairingSolution.md",
+  "candidate_path": "AdjointBoundaryPairingSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "It evaluates the original stopped-prefix ODE by moving endpoint evaluation to an adjoint boundary problem, a concise dual certificate for e."
+}
