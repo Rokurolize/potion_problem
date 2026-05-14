@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../BernsteinOperatorLimitSolution.md",
+  "candidate_path": "BernsteinOperatorLimitSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しい方向ではあるが、Bernstein作用素極限という言い方は、既存の格子三角行列極限解、Padé有限地平線解、境界層輸送解と同じ有限近似からM'=Mへ戻る筋である。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is directionally correct, but the Bernstein operator-limit framing is too close to existing lattice triangular limit, Pade finite-horizon, and boundary-layer transport solutions."
+}
