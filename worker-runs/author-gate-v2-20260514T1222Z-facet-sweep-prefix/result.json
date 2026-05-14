@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../FacetSweepPrefixSolution.md",
+  "candidate_path": "FacetSweepPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、facet掃引でA_n'=A_{n-1}を読むのは境界層輸送・top form体積・セル鎖体積の既存解と近い。新味は限定的である。",
+  "reason": "Correct, but it overlaps with existing boundary-sweep/simplex-volume recursion arguments."
+}
