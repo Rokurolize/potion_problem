@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../WeakGeneratorResolventSolution.md",
+  "candidate_path": "WeakGeneratorResolventSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、弱生成子resolventという言い方は、既存のFeynman-Kac占有解、Kleisliレゾルベント解、随伴テスト関数解と同じresolvent方程式を弱形式で包んでいる。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the weak-generator resolvent framing is too close to existing Feynman-Kac occupation, Kleisli resolvent, and adjoint test-function solutions."
+}
