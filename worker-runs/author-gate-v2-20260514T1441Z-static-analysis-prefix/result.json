@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../StaticAnalysisPrefixSolution.md",
+  "candidate_path": "StaticAnalysisPrefixSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、静的解析の比喩は容量制約を満たすprefix体積を到達可能状態と呼び直しているだけに近い。",
+  "reason": "Correct, but static-analysis framing mostly renames reachable prefix volumes."
+}
