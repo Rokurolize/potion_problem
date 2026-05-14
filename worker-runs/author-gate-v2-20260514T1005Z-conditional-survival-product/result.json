@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../ConditionalSurvivalProductSolution.md",
+  "candidate_path": "ConditionalSurvivalProductSolution.md",
+  "persona_version": "v2",
+  "gate": "pass",
+  "would_say_target_line": true,
+  "raw_reaction": "天晴れだ　生涯貴様を忘れることはないだろう",
+  "reason": "元の停止時刻をprefix数として正しく扱い、各次元の体積を直接計算せず、生存後の余りを含む対称性から次段の条件付き生存率が1/nになることを示している。階乗が条件付き生存率の積として出る見え方は短く、既存の単体体積解と十分に違う。"
+}
