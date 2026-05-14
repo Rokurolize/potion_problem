@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../OrbitQuotientFactorialSolution.md",
+  "candidate_path": "OrbitQuotientFactorialSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、軌道商で1/n!を読むのは配置群oidや対称冪体積の既存解と近い。階乗の由来は明快だが、生涯級の別解性は足りない。",
+  "reason": "Correct, but it is close to existing configuration groupoid and symmetric-power volume solutions."
+}
