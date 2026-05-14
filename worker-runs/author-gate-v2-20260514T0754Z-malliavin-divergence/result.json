@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../MalliavinDivergenceSolution.md",
+  "candidate_path": "MalliavinDivergenceSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Malliavin発散という名前を付けても、中身は既存のStein証明書解、発散定理による放射流解、境界層輸送解と同じ境界流量の再帰である。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Malliavin-divergence certificate is too close to existing Stein certificate, radial divergence, and boundary-layer transport proofs."
+}
