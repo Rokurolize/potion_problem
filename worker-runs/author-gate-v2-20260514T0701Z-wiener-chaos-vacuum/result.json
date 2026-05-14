@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../WienerChaosVacuumSolution.md",
+  "candidate_path": "WienerChaosVacuumSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、Wiener chaosや真空成分という言い方は、既存のFock指数ベクトル解、Fock coherent state解、対称化射影解と同じ対称化正規化を見ている。生涯忘れない別解とは言えない。",
+  "reason": "The candidate is correct, but the Wiener-chaos vacuum framing is too close to existing Fock exponential/coherent-state and symmetrization solutions."
+}
