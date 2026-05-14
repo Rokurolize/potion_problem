@@ -1,0 +1,9 @@
+{
+  "candidate_solution_path": "../../DigitalPayoffTailSolution.md",
+  "candidate_path": "DigitalPayoffTailSolution.md",
+  "persona_version": "v2",
+  "gate": "fail",
+  "would_say_target_line": false,
+  "raw_reaction": "正しいが、digital payoffは停止前指示関数の別名であり、数学的には既存のprefix indicator尾和と同じである。",
+  "reason": "Correct, but digital-payoff language is just survival indicators under another name."
+}
